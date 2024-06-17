@@ -1,0 +1,1245 @@
+[
+    {
+        "id": 134,
+        "version": 2,
+        "name": "Middle La Noscea",
+        "map": 15,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 26.1,
+                "y": 16.4,
+                "name": "Summerford Farms"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 29,
+                "name": "Vogaal ja",
+                "rank": 2,
+                "npcbase": 3201
+            }
+        ]
+    },
+    {
+        "id": 135,
+        "version": 2,
+        "name": "Lower La Noscea",
+        "map": 16,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 24.6,
+                "y": 35.0,
+                "name": "Moraby Drydocks"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 32,
+                "name": "Unktehi",
+                "rank": 2,
+                "npcbase": 3202
+            }
+        ]
+    },
+    {
+        "id": 137,
+        "version": 2,
+        "name": "Eastern La Noscea",
+        "map": 17,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 31.3,
+                "y": 30.8,
+                "name": "Costa del Sol"
+            },
+            {
+                "type": 60453,
+                "x": 21.1,
+                "y": 21.6,
+                "name": "Wineport"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 35,
+                "name": "Hellsclaw",
+                "rank": 2,
+                "npcbase": 3203
+            }
+        ]
+    },
+    {
+        "id": 138,
+        "version": 2,
+        "name": "Western La Noscea",
+        "map": 18,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 34.6,
+                "y": 31.8,
+                "name": "Swiftperch"
+            },
+            {
+                "type": 60453,
+                "x": 26.7,
+                "y": 25.9,
+                "name": "Aleport"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 38,
+                "name": "Nahn",
+                "rank": 2,
+                "npcbase": 3204
+            }
+        ]
+    },
+    {
+        "id": 139,
+        "version": 2,
+        "name": "Upper La Noscea",
+        "map": 19,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 30.3,
+                "y": 23.4,
+                "name": "Camp Bronze Lake"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 41,
+                "name": "Marberry",
+                "rank": 2,
+                "npcbase": 3205
+            }
+        ]
+    },
+    {
+        "id": 140,
+        "version": 2,
+        "name": "Western Thanalan",
+        "map": 20,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 22.9,
+                "y": 16.9,
+                "name": "Horizon"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 14,
+                "name": "Alectryon",
+                "rank": 2,
+                "npcbase": 3196
+            }
+        ]
+    },
+    {
+        "id": 141,
+        "version": 2,
+        "name": "Central Thanalan",
+        "map": 21,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 21.1,
+                "y": 18.2,
+                "name": "Black Brush Station"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 17,
+                "name": "Sabotender bailarina",
+                "rank": 2,
+                "npcbase": 3197
+            }
+        ]
+    },
+    {
+        "id": 145,
+        "version": 2,
+        "name": "Eastern Thanalan",
+        "map": 22,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 13.8,
+                "y": 24.3,
+                "name": "Camp Drybone"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 20,
+                "name": "Maahes",
+                "rank": 2,
+                "npcbase": 3198
+            }
+        ]
+    },
+    {
+        "id": 146,
+        "version": 2,
+        "name": "Southern Thanalan",
+        "map": 23,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 18.3,
+                "y": 13.2,
+                "name": "Little Ala Mhigo"
+            },
+            {
+                "type": 60453,
+                "x": 15.0,
+                "y": 29.6,
+                "name": "Forgotten Springs"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 23,
+                "name": "Zanig'oh",
+                "rank": 2,
+                "npcbase": 3199
+            }
+        ]
+    },
+    {
+        "id": 147,
+        "version": 2,
+        "name": "Northern Thanalan",
+        "map": 24,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 21.9,
+                "y": 30.6,
+                "name": "Camp Bluefog"
+            },
+            {
+                "type": 60453,
+                "x": 21.0,
+                "y": 20.9,
+                "name": "Ceruleum Processing Plant"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 26,
+                "name": "Dalvag's final flame",
+                "rank": 2,
+                "npcbase": 3200
+            }
+        ]
+    },
+    {
+        "id": 148,
+        "version": 2,
+        "name": "Central Shroud",
+        "map": 4,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 21.8,
+                "y": 22.2,
+                "name": "Bentbranch Meadows"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 2,
+                "name": "Forneus",
+                "rank": 2,
+                "npcbase": 3192
+            }
+        ]
+    },
+    {
+        "id": 152,
+        "version": 2,
+        "name": "East Shroud",
+        "map": 5,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 17.8,
+                "y": 27.5,
+                "name": "The Hawthorne Hut"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 5,
+                "name": "Melt",
+                "rank": 2,
+                "npcbase": 3193
+            }
+        ]
+    },
+    {
+        "id": 153,
+        "version": 2,
+        "name": "South Shroud",
+        "map": 6,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 16.9,
+                "y": 28.6,
+                "name": "Camp Tranquil"
+            },
+            {
+                "type": 60453,
+                "x": 25.1,
+                "y": 20.1,
+                "name": "Quarrymill"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 8,
+                "name": "Ghede ti malice",
+                "rank": 2,
+                "npcbase": 3194
+            }
+        ]
+    },
+    {
+        "id": 154,
+        "version": 2,
+        "name": "North Shroud",
+        "map": 7,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 20.6,
+                "y": 26.1,
+                "name": "Fallgourd Float"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 11,
+                "name": "Girtab",
+                "rank": 2,
+                "npcbase": 3195
+            }
+        ]
+    },
+    {
+        "id": 155,
+        "version": 2,
+        "name": "Coerthas Central Highlands",
+        "map": 53,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 26.0,
+                "y": 16.8,
+                "name": "Camp Dragonhead"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 47,
+                "name": "Marraco",
+                "rank": 2,
+                "npcbase": 3207
+            }
+        ]
+    },
+    {
+        "id": 156,
+        "version": 2,
+        "name": "Mor Dhona",
+        "map": 25,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 22.3,
+                "y": 8.1,
+                "name": "Revenant's Toll"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 50,
+                "name": "Kurrea",
+                "rank": 2,
+                "npcbase": 3208
+            }
+        ]
+    },
+    {
+        "id": 180,
+        "version": 2,
+        "name": "Outer La Noscea",
+        "map": 30,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 19.2,
+                "y": 17.2,
+                "name": "Camp Overlook"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 44,
+                "name": "Cornu",
+                "rank": 2,
+                "npcbase": 3206
+            }
+        ]
+    },
+    {
+        "id": 397,
+        "version": 3,
+        "name": "Coerthas Western Highlands",
+        "map": 211,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 32.1,
+                "y": 36.8,
+                "name": "Falcon's Nest"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 54,
+                "name": "Mirka",
+                "rank": 2,
+                "npcbase": 4539
+            },
+            {
+                "id": 55,
+                "name": "Lyuba",
+                "rank": 2,
+                "npcbase": 4540
+            }
+        ]
+    },
+    {
+        "id": 398,
+        "version": 3,
+        "name": "The Dravanian Forelands",
+        "map": 212,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 33.2,
+                "y": 23.2,
+                "name": "Tailfeather"
+            },
+            {
+                "type": 60453,
+                "x": 16.5,
+                "y": 23.3,
+                "name": "Anyx Trine"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 59,
+                "name": "Pylraster",
+                "rank": 2,
+                "npcbase": 4541
+            },
+            {
+                "id": 60,
+                "name": "Lord of the wyverns",
+                "rank": 2,
+                "npcbase": 4542
+            }
+        ]
+    },
+    {
+        "id": 399,
+        "version": 3,
+        "name": "The Dravanian Hinterlands",
+        "map": 213,
+        "aetherytes": [],
+        "mobs": [
+            {
+                "id": 64,
+                "name": "Slipkinx steeljoints",
+                "rank": 2,
+                "npcbase": 4543
+            },
+            {
+                "id": 65,
+                "name": "Stolas",
+                "rank": 2,
+                "npcbase": 4544
+            }
+        ]
+    },
+    {
+        "id": 400,
+        "version": 3,
+        "name": "The Churning Mists",
+        "map": 214,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 10.8,
+                "y": 28.9,
+                "name": "Zenith"
+            },
+            {
+                "type": 60453,
+                "x": 27.9,
+                "y": 34.3,
+                "name": "Moghome"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 69,
+                "name": "Bune",
+                "rank": 2,
+                "npcbase": 4545
+            },
+            {
+                "id": 70,
+                "name": "Agathos",
+                "rank": 2,
+                "npcbase": 4546
+            }
+        ]
+    },
+    {
+        "id": 401,
+        "version": 3,
+        "name": "The Sea of Clouds",
+        "map": 215,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 10.5,
+                "y": 14.2,
+                "name": "Ok' Zundu"
+            },
+            {
+                "type": 60453,
+                "x": 10.3,
+                "y": 33.6,
+                "name": "Camp Cloudtop"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 74,
+                "name": "Enkelados",
+                "rank": 2,
+                "npcbase": 4547
+            },
+            {
+                "id": 75,
+                "name": "Sisiutl",
+                "rank": 2,
+                "npcbase": 4548
+            }
+        ]
+    },
+    {
+        "id": 402,
+        "version": 3,
+        "name": "Azys Lla",
+        "map": 216,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 8.1,
+                "y": 10.6,
+                "name": "Helix"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 79,
+                "name": "Campacti",
+                "rank": 2,
+                "npcbase": 4549
+            },
+            {
+                "id": 80,
+                "name": "Stench blossom",
+                "rank": 2,
+                "npcbase": 4550
+            }
+        ]
+    },
+    {
+        "id": 612,
+        "version": 4,
+        "name": "The Fringes",
+        "map": 367,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 29.8,
+                "y": 26.4,
+                "name": "The Peering Stones"
+            },
+            {
+                "type": 60453,
+                "x": 8.9,
+                "y": 11.3,
+                "name": "Castrum Oriens"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 99,
+                "name": "Orcus",
+                "rank": 2,
+                "npcbase": 6839
+            },
+            {
+                "id": 100,
+                "name": "Erle",
+                "rank": 2,
+                "npcbase": 6840
+            }
+        ]
+    },
+    {
+        "id": 613,
+        "version": 4,
+        "name": "The Ruby Sea",
+        "map": 371,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 28.7,
+                "y": 16.3,
+                "name": "Tamamizu"
+            },
+            {
+                "type": 60453,
+                "x": 23.3,
+                "y": 9.8,
+                "name": "Onokoro"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 84,
+                "name": "Funa yurei",
+                "rank": 2,
+                "npcbase": 6845
+            },
+            {
+                "id": 85,
+                "name": "Oni yumemi",
+                "rank": 2,
+                "npcbase": 6846
+            }
+        ]
+    },
+    {
+        "id": 614,
+        "version": 4,
+        "name": "Yanxia",
+        "map": 354,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 30.2,
+                "y": 19.7,
+                "name": "Namai"
+            },
+            {
+                "type": 60453,
+                "x": 26.4,
+                "y": 13.4,
+                "name": "The House of the Fierce"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 89,
+                "name": "Gajasura",
+                "rank": 2,
+                "npcbase": 6847
+            },
+            {
+                "id": 90,
+                "name": "Angada",
+                "rank": 2,
+                "npcbase": 6848
+            }
+        ]
+    },
+    {
+        "id": 620,
+        "version": 4,
+        "name": "The Peaks",
+        "map": 368,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 23.7,
+                "y": 6.5,
+                "name": "Ala Gannha"
+            },
+            {
+                "type": 60453,
+                "x": 16.1,
+                "y": 36.4,
+                "name": "Ala Ghiri"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 104,
+                "name": "Vochstein",
+                "rank": 2,
+                "npcbase": 6841
+            },
+            {
+                "id": 105,
+                "name": "Aqrabuamelu",
+                "rank": 2,
+                "npcbase": 6842
+            }
+        ]
+    },
+    {
+        "id": 621,
+        "version": 4,
+        "name": "The Lochs",
+        "map": 369,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 8.5,
+                "y": 21.1,
+                "name": "Porta Praetoria"
+            },
+            {
+                "type": 60453,
+                "x": 33.8,
+                "y": 34.5,
+                "name": "The Ala Mhigan Quarter"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 109,
+                "name": "Mahisha",
+                "rank": 2,
+                "npcbase": 6843
+            },
+            {
+                "id": 110,
+                "name": "Luminare",
+                "rank": 2,
+                "npcbase": 6844
+            }
+        ]
+    },
+    {
+        "id": 622,
+        "version": 4,
+        "name": "The Azim Steppe",
+        "map": 372,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 32.6,
+                "y": 28.3,
+                "name": "Reunion"
+            },
+            {
+                "type": 60453,
+                "x": 23.1,
+                "y": 22.2,
+                "name": "The Dawn Throne"
+            },
+            {
+                "type": 60453,
+                "x": 6.4,
+                "y": 23.8,
+                "name": "Dhoro Iloh"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 94,
+                "name": "Girimekhala",
+                "rank": 2,
+                "npcbase": 6849
+            },
+            {
+                "id": 95,
+                "name": "Sum",
+                "rank": 2,
+                "npcbase": 6850
+            }
+        ]
+    },
+    {
+        "id": 813,
+        "version": 5,
+        "name": "Lakeland",
+        "map": 491,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 36.6,
+                "y": 20.9,
+                "name": "Fort Jobb"
+            },
+            {
+                "type": 60453,
+                "x": 6.8,
+                "y": 16.9,
+                "name": "The Ostall Imperative"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 114,
+                "name": "Nuckelavee",
+                "rank": 2,
+                "npcbase": 10383
+            },
+            {
+                "id": 115,
+                "name": "Nariphon",
+                "rank": 2,
+                "npcbase": 10384
+            }
+        ]
+    },
+    {
+        "id": 814,
+        "version": 5,
+        "name": "Kholusia",
+        "map": 492,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 34.9,
+                "y": 27.3,
+                "name": "Stilltide"
+            },
+            {
+                "type": 60453,
+                "x": 16.6,
+                "y": 29.2,
+                "name": "Wright"
+            },
+            {
+                "type": 60453,
+                "x": 13.0,
+                "y": 9.0,
+                "name": "Tomra"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 119,
+                "name": "Li'l murderer",
+                "rank": 2,
+                "npcbase": 10420
+            },
+            {
+                "id": 120,
+                "name": "Huracan",
+                "rank": 2,
+                "npcbase": 10421
+            }
+        ]
+    },
+    {
+        "id": 815,
+        "version": 5,
+        "name": "Amh Araeng",
+        "map": 493,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 26.4,
+                "y": 17.0,
+                "name": "Mord Souq"
+            },
+            {
+                "type": 60453,
+                "x": 29.5,
+                "y": 27.7,
+                "name": "The Inn at Journey's Head"
+            },
+            {
+                "type": 60453,
+                "x": 11.3,
+                "y": 17.2,
+                "name": "Twine"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 124,
+                "name": "Maliktender",
+                "rank": 2,
+                "npcbase": 10356
+            },
+            {
+                "id": 125,
+                "name": "Sugaar",
+                "rank": 2,
+                "npcbase": 10357
+            }
+        ]
+    },
+    {
+        "id": 816,
+        "version": 5,
+        "name": "Il Mheg",
+        "map": 494,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 14.6,
+                "y": 31.7,
+                "name": "Lydha Lran"
+            },
+            {
+                "type": 60453,
+                "x": 20.1,
+                "y": 4.3,
+                "name": "Pla Enni"
+            },
+            {
+                "type": 60453,
+                "x": 29.1,
+                "y": 7.7,
+                "name": "Wolekdorf"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 129,
+                "name": "The mudman",
+                "rank": 2,
+                "npcbase": 10271
+            },
+            {
+                "id": 130,
+                "name": "O poorest pauldia",
+                "rank": 2,
+                "npcbase": 10272
+            }
+        ]
+    },
+    {
+        "id": 817,
+        "version": 5,
+        "name": "The Rak'tika Greatwood",
+        "map": 495,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 19.4,
+                "y": 27.4,
+                "name": "Slitherbough"
+            },
+            {
+                "type": 60453,
+                "x": 29.1,
+                "y": 17.6,
+                "name": "Fanow"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 134,
+                "name": "Supay",
+                "rank": 2,
+                "npcbase": 10297
+            },
+            {
+                "id": 135,
+                "name": "Grassman",
+                "rank": 2,
+                "npcbase": 10298
+            }
+        ]
+    },
+    {
+        "id": 818,
+        "version": 5,
+        "name": "The Tempest",
+        "map": 496,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 32.7,
+                "y": 17.5,
+                "name": "The Ondo Cups"
+            },
+            {
+                "type": 60453,
+                "x": 18.7,
+                "y": 25.9,
+                "name": "The Macarenses Angle"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 139,
+                "name": "Rusalka",
+                "rank": 2,
+                "npcbase": 10323
+            },
+            {
+                "id": 140,
+                "name": "Baal",
+                "rank": 2,
+                "npcbase": 10324
+            }
+        ]
+    },
+    {
+        "id": 956,
+        "version": 6,
+        "name": "Labyrinthos",
+        "map": 695,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 30.4,
+                "y": 11.9,
+                "name": "The Archeion"
+            },
+            {
+                "type": 60453,
+                "x": 21.7,
+                "y": 20.5,
+                "name": "Sharlayan Hamlet"
+            },
+            {
+                "type": 60453,
+                "x": 6.9,
+                "y": 27.5,
+                "name": "Aporia"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 174,
+                "name": "Hulder",
+                "rank": 2,
+                "npcbase": 13789
+            },
+            {
+                "id": 175,
+                "name": "Storsie",
+                "rank": 2,
+                "npcbase": 13790
+            }
+        ]
+    },
+    {
+        "id": 957,
+        "version": 6,
+        "name": "Thavnair",
+        "map": 696,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 25.4,
+                "y": 34.1,
+                "name": "Yedlihmad"
+            },
+            {
+                "type": 60453,
+                "x": 11.0,
+                "y": 22.2,
+                "name": "The Great Work"
+            },
+            {
+                "type": 60453,
+                "x": 29.6,
+                "y": 16.6,
+                "name": "Palaka's Stand"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 184,
+                "name": "Yilan",
+                "rank": 2,
+                "npcbase": 13759
+            },
+            {
+                "id": 185,
+                "name": "Sugriva",
+                "rank": 2,
+                "npcbase": 13820
+            }
+        ]
+    },
+    {
+        "id": 958,
+        "version": 6,
+        "name": "Garlemald",
+        "map": 697,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 13.3,
+                "y": 31.1,
+                "name": "Camp Broken Glass"
+            },
+            {
+                "type": 60453,
+                "x": 31.9,
+                "y": 17.9,
+                "name": "Tertium"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 194,
+                "name": "Minerva",
+                "rank": 2,
+                "npcbase": 13833
+            },
+            {
+                "id": 195,
+                "name": "Aegeiros",
+                "rank": 2,
+                "npcbase": 13937
+            }
+        ]
+    },
+    {
+        "id": 959,
+        "version": 6,
+        "name": "Mare Lamentorum",
+        "map": 698,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 10.1,
+                "y": 34.5,
+                "name": "Sinus Lacrimarum"
+            },
+            {
+                "type": 60453,
+                "x": 21.5,
+                "y": 11.2,
+                "name": "Bestways Burrow"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 204,
+                "name": "Mousse princess",
+                "rank": 2,
+                "npcbase": 13835
+            },
+            {
+                "id": 205,
+                "name": "Lunatender queen",
+                "rank": 2,
+                "npcbase": 13791
+            }
+        ]
+    },
+    {
+        "id": 960,
+        "version": 6,
+        "name": "Ultima Thule",
+        "map": 699,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 10.6,
+                "y": 26.8,
+                "name": "Reah Tahra"
+            },
+            {
+                "type": 60453,
+                "x": 22.7,
+                "y": 8.3,
+                "name": "Abode of the Ea"
+            },
+            {
+                "type": 60453,
+                "x": 31.3,
+                "y": 28.1,
+                "name": "Base Omicron"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 224,
+                "name": "Arch-eta",
+                "rank": 2,
+                "npcbase": 13760
+            },
+            {
+                "id": 225,
+                "name": "Fan ail",
+                "rank": 2,
+                "npcbase": 13761
+            }
+        ]
+    },
+    {
+        "id": 961,
+        "version": 6,
+        "name": "Elpis",
+        "map": 700,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 24.7,
+                "y": 24.0,
+                "name": "Anagnorisis"
+            },
+            {
+                "type": 60453,
+                "x": 8.8,
+                "y": 32.4,
+                "name": "The Twelve Wonders"
+            },
+            {
+                "type": 60453,
+                "x": 10.9,
+                "y": 17.1,
+                "name": "Poieten Oikos"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 214,
+                "name": "Petalodus",
+                "rank": 2,
+                "npcbase": 13819
+            },
+            {
+                "id": 215,
+                "name": "Gurangatch",
+                "rank": 2,
+                "npcbase": 13851
+            }
+        ]
+    }
+]
