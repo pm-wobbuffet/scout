@@ -27,7 +27,7 @@
                             </ol>
                         </div>
                         <div v-for="aetheryte in zone.aetherytes" class="text-white absolute h-[32px] w-[32px] aetheryte"
-                        :style="{'left': convertCoordToPercent(aetheryte.x, zone), 'top': aetheryte.y_norm}" :title="aetheryte.name">
+                        :style="{'left': convertCoordToPercent(aetheryte.x, zone), 'top': convertCoordToPercent(aetheryte.y, zone)}" :data-title="aetheryte.name">
                             
                         </div>
                         <div class="text-right font-semibold text-xl zone-name">
@@ -60,9 +60,9 @@ const setActiveExpac = function(expac_id) {
 }
 
 const convertCoordToPercent = function(coord, zone) {
-    //let c = coord / (42 / zone.size_factor) * 100
-    //c = c.toString() + '%'
-    return coord
+    let c = (coord / (42 / (zone.size_factor / 100))) * 100
+    c = c.toString() + '%'
+    return c
 }
 
 const getMapsForExpansion = function() {

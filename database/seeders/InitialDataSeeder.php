@@ -55,7 +55,7 @@ class InitialDataSeeder extends Seeder
                     'name'              =>  $zone['name'],
                     'map_id'            =>  $zone['map'],
                     'default_instances' =>  1,
-                    'expansion_id'      =>  $zone['version'],
+                    'expansion_id'      =>  intval($zone['version']) + 2,
                     'size_factor'       =>  $zone['size_factor'],
                 ]
             );
