@@ -11,11 +11,11 @@ main.map-main-window {
 }
 
 .map-container-block {
-    @apply w-[512px] h-[512px] border border-slate-200 relative bg-contain select-none;
+    @apply w-[600px] h-[600px] border border-slate-200 relative bg-contain select-none;
     background-image: var(--map-bg-image);
 
     .mob-list {
-        @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] font-bold text-xl rounded-br-lg;
+        @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] text-xl font-bold rounded-br-lg;
 
         .mob-number-0 {
             @apply text-green-300;
@@ -26,8 +26,8 @@ main.map-main-window {
     }
 
     .zone-name {
-        @apply text-slate-900 text-xl font-extrabold pr-4 pt-2;
-        text-shadow: 1px 1px 2px rgba(255, 255, 255, 1);
+        @apply text-slate-900 text-2xl font-extrabold pr-4 pt-2;
+        text-shadow: 1px 1px 1px rgba(255, 255, 255, 1);
     }
 
     .aetheryte {
@@ -36,6 +36,17 @@ main.map-main-window {
     }
 
     button {
-        @apply rounded-full bg-black/50 absolute h-[14px] w-[14px] translate-x-[-50%] translate-y-[-50%];
+        @apply rounded-full bg-black/50 absolute h-[16px] w-[16px] translate-x-[-50%] translate-y-[-50%] ring-2 ring-black ring-opacity-25;
+        @apply hover:ring-2 hover:ring-white hover:ring-opacity-50;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+        line-height: 100%;
+
+        &.point-taken-by-1 {
+            @apply bg-green-300 text-white font-bold text-center !important;
+        }
+
+        &.point-taken-by-2 {
+            @apply bg-blue-300 text-white font-bold text-center !important;
+        }
     }
 }

@@ -18,7 +18,9 @@
         <main class="map-main-window">
             <div class="map-image-list order-2">
                 <template v-for="zone in getMapsForExpansion()" :key="`mapblock-${zone.id}`">
-                    <div class="map-container-block" v-for="i in zone.default_instances" :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`">
+                    <div class="map-container-block" v-for="i in zone.default_instances" 
+                    :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`"
+                    @dblclick.prevent="(e) => dblClickMap(e, zone)">
                         <div class="absolute mob-list">
                             <ol class="block list-decimal pl-4">
                                 <li v-for="(mob, index) in zone.mobs" :class="`mob-number-${index}`">
@@ -30,8 +32,12 @@
                         :style="{'left': convertCoordToPercent(aetheryte.x, zone), 'top': convertCoordToPercent(aetheryte.y, zone)}" :data-title="aetheryte.name">
                         </div>
                         <button v-for="point in zone.spawn_points" class=""
+                        :class="`point-taken-by-${point.taken_by ?? ''}`"
                         :style="{'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone)}"
-                         />
+                        :title="`${point.x},${point.y}`"
+                        @click.stop.prevent="assignMob(zone, point)"
+                        @dblclick.stop.prevent="false"
+                         >{{ point.taken_by ?? '' }}</button>
                         <div class="text-right font-semibold text-xl zone-name">
                             {{ zone.name }}
                             <span v-if="zone.default_instances > 1">{{ i }}</span>
@@ -49,6 +55,7 @@
 
 <script setup>
 import { computed, ref } from "vue";
+import ZoneMap from '../Components/Map/ZoneMap.vue';
 
 const props = defineProps({
     expac: Array,
@@ -57,13 +64,60 @@ const props = defineProps({
 const defaultExp = ref(6)
 const selectedExp = ref(6)
 
+const dblClickMap = function(event,zone)
+{
+    let x = Number(event.offsetX / event.srcElement.clientWidth * zone.max_coord_size + 1).toFixed(1)
+    let y = Number(event.offsetY / event.srcElement.clientHeight * zone.max_coord_size + 1).toFixed(1)
+    zone.spawn_points.push({
+        'x': x,
+        'y': y,
+        'zone_id': zone.id,
+        'id': -1 * Date.now(),
+    })
+    console.log(x, y, zone)
+}
+
+const assignMob = function(zone, point) {
+    //console.log(zone,point)
+    if(point.taken_by && point.taken_by != null) {
+        if(point.taken_by == zone.mobs.length) {
+            point.taken_by = null;
+            zone.mobs[zone.mobs.length - 1].taken_point = null
+            return
+        }
+    }
+    // If this zone only has one mob, go ahead and reassign the active point when they click
+    if (zone.mobs.length == 1 && zone.mobs[0].taken_point && zone.mobs[0].taken_point != null) {
+        let prevPoint = zone.spawn_points.find((el) => el.id == zone.mobs[0].taken_point)
+        point.taken_by = 1
+        zone.mobs[0]['taken_point'] = point.id
+        prevPoint.taken_by = null
+        return
+    }
+    for ( let i = 0; i < zone.mobs.length ; i++) {
+        if( !('taken_point' in zone.mobs[i]) || zone.mobs[i].taken_point == null) {
+            // The mob hasn't yet taken a spot, go ahead and assign it
+            zone.mobs[i]['taken_point'] = point.id
+            point['taken_by'] = i + 1
+            return
+        } else {
+            // The mob is already in a spot.
+            // If it's this one, clear things out
+            if (zone.mobs[i].taken_point == point.id) {
+                zone.mobs[i].taken_point = null
+                point.taken_by = null
+            }
+        }
+    }
+}
+
 const setActiveExpac = function(expac_id) {
     selectedExp.value = expac_id
 }
 
 const convertCoordToPercent = function(coord, zone) {
     //let c = (coord / Math.floor(43 / (zone.size_factor / 100) )) * 100
-    let c = coord / (zone.max_coord_size) * 100
+    let c = (coord - 1) / (zone.max_coord_size) * 100
     c = c.toString() + '%'
     return c
 }
