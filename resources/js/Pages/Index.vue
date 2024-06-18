@@ -28,8 +28,10 @@
                         </div>
                         <div v-for="aetheryte in zone.aetherytes" class="text-white absolute h-[32px] w-[32px] aetheryte"
                         :style="{'left': convertCoordToPercent(aetheryte.x, zone), 'top': convertCoordToPercent(aetheryte.y, zone)}" :data-title="aetheryte.name">
-                            
                         </div>
+                        <button v-for="point in zone.spawn_points" class=""
+                        :style="{'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone)}"
+                         />
                         <div class="text-right font-semibold text-xl zone-name">
                             {{ zone.name }}
                             <span v-if="zone.default_instances > 1">{{ i }}</span>
@@ -60,7 +62,7 @@ const setActiveExpac = function(expac_id) {
 }
 
 const convertCoordToPercent = function(coord, zone) {
-    let c = (coord / (42 / (zone.size_factor / 100))) * 100
+    let c = (coord / (42 / (zone.size_factor / 100) )) * 100
     c = c.toString() + '%'
     return c
 }

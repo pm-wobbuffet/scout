@@ -18,7 +18,7 @@ class Zone extends Model
         return Attribute::make(
             get: function(mixed $value) {
                 if($this->relationLoaded('mobs')) {
-                    return $this->default_instances * $this->mobs()->count();
+                    return $this->default_instances * $this->mobs->count();
                 }
             }
         );
@@ -34,6 +34,11 @@ class Zone extends Model
     public function aetherytes(): HasMany
     {
         return $this->hasMany(Aetheryte::class);
+    }
+
+    public function spawn_points(): HasMany
+    {
+        return $this->hasMany(SpawnPoint::class, 'zone_id', 'id');
     }
 
     /* Private Methods */

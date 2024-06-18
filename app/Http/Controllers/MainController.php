@@ -12,10 +12,11 @@ class MainController extends Controller
     function index()
     {
         $expansions = Expansion::query()
-        ->with(['zones', 'zones.mobs', 'zones.aetherytes'])
+        ->with(['zones', 'zones.mobs', 'zones.aetherytes', 'zones.spawn_points'])
         ->withCount(['zones', 'mobs'])
         ->orderBy('id')
         ->get();
+        //dd($expansions->toArray());
         return Inertia::render('Index', [
             'expac' =>  $expansions,
         ]);
