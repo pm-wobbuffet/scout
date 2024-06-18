@@ -62,7 +62,8 @@ const setActiveExpac = function(expac_id) {
 }
 
 const convertCoordToPercent = function(coord, zone) {
-    let c = (coord / (42 / (zone.size_factor / 100) )) * 100
+    //let c = (coord / Math.floor(43 / (zone.size_factor / 100) )) * 100
+    let c = coord / (zone.max_coord_size) * 100
     c = c.toString() + '%'
     return c
 }

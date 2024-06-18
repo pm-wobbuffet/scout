@@ -49,6 +49,7 @@ class InitialDataSeeder extends Seeder
 
         $p = File::json(resource_path('json/zones.json'));
         foreach($p as $zone) {
+            $mId = intval($zone['map']);
             $z = Zone::updateOrCreate(
                 ['id' => $zone['id']],
                 [
@@ -57,6 +58,7 @@ class InitialDataSeeder extends Seeder
                     'default_instances' =>  1,
                     'expansion_id'      =>  intval($zone['version']) + 2,
                     'size_factor'       =>  $zone['size_factor'],
+                    'max_coord_size'    =>  round( 41 / ($zone['size_factor'] / 100), 1, PHP_ROUND_HALF_DOWN),
                 ]
             );
             foreach($zone['mobs'] as $mob) {
