@@ -1,0 +1,37 @@
+main.map-main-window {
+    @apply flex flex-wrap gap-x-1 py-1;
+}
+
+.map-image-list {
+    @apply flex-grow-[999] flex flex-wrap gap-1;
+    flex-basis: 0px;
+    &.auto {
+
+    }
+}
+
+.map-container-block {
+    @apply w-[512px] h-[512px] border border-slate-200 relative bg-contain select-none;
+    background-image: var(--map-bg-image);
+
+    .mob-list {
+        @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] font-bold text-xl rounded-br-lg;
+
+        .mob-number-0 {
+            @apply text-green-300;
+        }
+        .mob-number-1 {
+            @apply text-blue-300;
+        }
+    }
+
+    .zone-name {
+        @apply text-slate-900 text-2xl font-bold pr-2;
+        text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.9);
+    }
+
+    .aetheryte {
+        @apply translate-x-[-24px] translate-y-[-24px];
+        background-image: url('/60453.png');
+    }
+}

@@ -12,7 +12,7 @@ class MainController extends Controller
     function index()
     {
         $expansions = Expansion::query()
-        ->with(['zones', 'zones.mobs'])
+        ->with(['zones', 'zones.mobs', 'zones.aetherytes'])
         ->withCount(['zones', 'mobs'])
         ->orderBy('id')
         ->get();

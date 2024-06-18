@@ -31,5 +31,10 @@ class Zone extends Model
         return $this->hasMany(Mob::class);
     }
 
+    public function aetherytes(): HasMany
+    {
+        return $this->hasMany(Aetheryte::class);
+    }
+
     /* Private Methods */
 }

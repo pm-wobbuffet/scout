@@ -49,13 +49,14 @@ class InitialDataSeeder extends Seeder
 
         $p = File::json(resource_path('json/zones.json'));
         foreach($p as $zone) {
-            $z = Zone::firstOrCreate(
+            $z = Zone::updateOrCreate(
                 ['id' => $zone['id']],
                 [
                     'name'              =>  $zone['name'],
                     'map_id'            =>  $zone['map'],
                     'default_instances' =>  1,
                     'expansion_id'      =>  $zone['version'],
+                    'size_factor'       =>  $zone['size_factor'],
                 ]
             );
             foreach($zone['mobs'] as $mob) {

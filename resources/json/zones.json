@@ -1,8 +1,9 @@
 [
     {
         "id": 134,
-        "version": 2,
+        "version": 0,
         "name": "Middle La Noscea",
+        "size_factor": 100,
         "map": 15,
         "aetherytes": [
             {
@@ -23,8 +24,9 @@
     },
     {
         "id": 135,
-        "version": 2,
+        "version": 0,
         "name": "Lower La Noscea",
+        "size_factor": 100,
         "map": 16,
         "aetherytes": [
             {
@@ -45,8 +47,9 @@
     },
     {
         "id": 137,
-        "version": 2,
+        "version": 0,
         "name": "Eastern La Noscea",
+        "size_factor": 100,
         "map": 17,
         "aetherytes": [
             {
@@ -73,8 +76,9 @@
     },
     {
         "id": 138,
-        "version": 2,
+        "version": 0,
         "name": "Western La Noscea",
+        "size_factor": 100,
         "map": 18,
         "aetherytes": [
             {
@@ -101,8 +105,9 @@
     },
     {
         "id": 139,
-        "version": 2,
+        "version": 0,
         "name": "Upper La Noscea",
+        "size_factor": 100,
         "map": 19,
         "aetherytes": [
             {
@@ -123,8 +128,9 @@
     },
     {
         "id": 140,
-        "version": 2,
+        "version": 0,
         "name": "Western Thanalan",
+        "size_factor": 100,
         "map": 20,
         "aetherytes": [
             {
@@ -145,8 +151,9 @@
     },
     {
         "id": 141,
-        "version": 2,
+        "version": 0,
         "name": "Central Thanalan",
+        "size_factor": 100,
         "map": 21,
         "aetherytes": [
             {
@@ -167,8 +174,9 @@
     },
     {
         "id": 145,
-        "version": 2,
+        "version": 0,
         "name": "Eastern Thanalan",
+        "size_factor": 100,
         "map": 22,
         "aetherytes": [
             {
@@ -189,8 +197,9 @@
     },
     {
         "id": 146,
-        "version": 2,
+        "version": 0,
         "name": "Southern Thanalan",
+        "size_factor": 100,
         "map": 23,
         "aetherytes": [
             {
@@ -217,8 +226,9 @@
     },
     {
         "id": 147,
-        "version": 2,
+        "version": 0,
         "name": "Northern Thanalan",
+        "size_factor": 100,
         "map": 24,
         "aetherytes": [
             {
@@ -245,8 +255,9 @@
     },
     {
         "id": 148,
-        "version": 2,
+        "version": 0,
         "name": "Central Shroud",
+        "size_factor": 100,
         "map": 4,
         "aetherytes": [
             {
@@ -267,8 +278,9 @@
     },
     {
         "id": 152,
-        "version": 2,
+        "version": 0,
         "name": "East Shroud",
+        "size_factor": 100,
         "map": 5,
         "aetherytes": [
             {
@@ -289,8 +301,9 @@
     },
     {
         "id": 153,
-        "version": 2,
+        "version": 0,
         "name": "South Shroud",
+        "size_factor": 100,
         "map": 6,
         "aetherytes": [
             {
@@ -317,8 +330,9 @@
     },
     {
         "id": 154,
-        "version": 2,
+        "version": 0,
         "name": "North Shroud",
+        "size_factor": 100,
         "map": 7,
         "aetherytes": [
             {
@@ -339,8 +353,9 @@
     },
     {
         "id": 155,
-        "version": 2,
+        "version": 0,
         "name": "Coerthas Central Highlands",
+        "size_factor": 100,
         "map": 53,
         "aetherytes": [
             {
@@ -361,8 +376,9 @@
     },
     {
         "id": 156,
-        "version": 2,
+        "version": 0,
         "name": "Mor Dhona",
+        "size_factor": 100,
         "map": 25,
         "aetherytes": [
             {
@@ -383,8 +399,9 @@
     },
     {
         "id": 180,
-        "version": 2,
+        "version": 0,
         "name": "Outer La Noscea",
+        "size_factor": 100,
         "map": 30,
         "aetherytes": [
             {
@@ -405,8 +422,9 @@
     },
     {
         "id": 397,
-        "version": 3,
+        "version": 1,
         "name": "Coerthas Western Highlands",
+        "size_factor": 95,
         "map": 211,
         "aetherytes": [
             {
@@ -433,8 +451,9 @@
     },
     {
         "id": 398,
-        "version": 3,
+        "version": 1,
         "name": "The Dravanian Forelands",
+        "size_factor": 95,
         "map": 212,
         "aetherytes": [
             {
@@ -467,8 +486,9 @@
     },
     {
         "id": 399,
-        "version": 3,
+        "version": 1,
         "name": "The Dravanian Hinterlands",
+        "size_factor": 95,
         "map": 213,
         "aetherytes": [],
         "mobs": [
@@ -488,8 +508,9 @@
     },
     {
         "id": 400,
-        "version": 3,
+        "version": 1,
         "name": "The Churning Mists",
+        "size_factor": 95,
         "map": 214,
         "aetherytes": [
             {
@@ -522,8 +543,9 @@
     },
     {
         "id": 401,
-        "version": 3,
+        "version": 1,
         "name": "The Sea of Clouds",
+        "size_factor": 95,
         "map": 215,
         "aetherytes": [
             {
@@ -556,8 +578,9 @@
     },
     {
         "id": 402,
-        "version": 3,
+        "version": 1,
         "name": "Azys Lla",
+        "size_factor": 95,
         "map": 216,
         "aetherytes": [
             {
@@ -584,8 +607,9 @@
     },
     {
         "id": 612,
-        "version": 4,
+        "version": 2,
         "name": "The Fringes",
+        "size_factor": 100,
         "map": 367,
         "aetherytes": [
             {
@@ -618,8 +642,9 @@
     },
     {
         "id": 613,
-        "version": 4,
+        "version": 2,
         "name": "The Ruby Sea",
+        "size_factor": 100,
         "map": 371,
         "aetherytes": [
             {
@@ -652,8 +677,9 @@
     },
     {
         "id": 614,
-        "version": 4,
+        "version": 2,
         "name": "Yanxia",
+        "size_factor": 100,
         "map": 354,
         "aetherytes": [
             {
@@ -686,8 +712,9 @@
     },
     {
         "id": 620,
-        "version": 4,
+        "version": 2,
         "name": "The Peaks",
+        "size_factor": 100,
         "map": 368,
         "aetherytes": [
             {
@@ -720,8 +747,9 @@
     },
     {
         "id": 621,
-        "version": 4,
+        "version": 2,
         "name": "The Lochs",
+        "size_factor": 100,
         "map": 369,
         "aetherytes": [
             {
@@ -754,8 +782,9 @@
     },
     {
         "id": 622,
-        "version": 4,
+        "version": 2,
         "name": "The Azim Steppe",
+        "size_factor": 100,
         "map": 372,
         "aetherytes": [
             {
@@ -794,8 +823,9 @@
     },
     {
         "id": 813,
-        "version": 5,
+        "version": 3,
         "name": "Lakeland",
+        "size_factor": 100,
         "map": 491,
         "aetherytes": [
             {
@@ -828,8 +858,9 @@
     },
     {
         "id": 814,
-        "version": 5,
+        "version": 3,
         "name": "Kholusia",
+        "size_factor": 100,
         "map": 492,
         "aetherytes": [
             {
@@ -868,8 +899,9 @@
     },
     {
         "id": 815,
-        "version": 5,
+        "version": 3,
         "name": "Amh Araeng",
+        "size_factor": 100,
         "map": 493,
         "aetherytes": [
             {
@@ -908,8 +940,9 @@
     },
     {
         "id": 816,
-        "version": 5,
+        "version": 3,
         "name": "Il Mheg",
+        "size_factor": 100,
         "map": 494,
         "aetherytes": [
             {
@@ -948,8 +981,9 @@
     },
     {
         "id": 817,
-        "version": 5,
+        "version": 3,
         "name": "The Rak'tika Greatwood",
+        "size_factor": 100,
         "map": 495,
         "aetherytes": [
             {
@@ -982,8 +1016,9 @@
     },
     {
         "id": 818,
-        "version": 5,
+        "version": 3,
         "name": "The Tempest",
+        "size_factor": 100,
         "map": 496,
         "aetherytes": [
             {
@@ -1016,8 +1051,9 @@
     },
     {
         "id": 956,
-        "version": 6,
+        "version": 4,
         "name": "Labyrinthos",
+        "size_factor": 100,
         "map": 695,
         "aetherytes": [
             {
@@ -1056,8 +1092,9 @@
     },
     {
         "id": 957,
-        "version": 6,
+        "version": 4,
         "name": "Thavnair",
+        "size_factor": 100,
         "map": 696,
         "aetherytes": [
             {
@@ -1096,8 +1133,9 @@
     },
     {
         "id": 958,
-        "version": 6,
+        "version": 4,
         "name": "Garlemald",
+        "size_factor": 100,
         "map": 697,
         "aetherytes": [
             {
@@ -1130,8 +1168,9 @@
     },
     {
         "id": 959,
-        "version": 6,
+        "version": 4,
         "name": "Mare Lamentorum",
+        "size_factor": 100,
         "map": 698,
         "aetherytes": [
             {
@@ -1164,8 +1203,9 @@
     },
     {
         "id": 960,
-        "version": 6,
+        "version": 4,
         "name": "Ultima Thule",
+        "size_factor": 100,
         "map": 699,
         "aetherytes": [
             {
@@ -1204,8 +1244,9 @@
     },
     {
         "id": 961,
-        "version": 6,
+        "version": 4,
         "name": "Elpis",
+        "size_factor": 100,
         "map": 700,
         "aetherytes": [
             {
