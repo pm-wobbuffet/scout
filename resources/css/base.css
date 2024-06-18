@@ -1,0 +1,18 @@
+.main-nav {
+    
+    .expac-list {
+        div.expac-list-item {
+            @apply border-r-0 bg-[rgba(0,0,0,0.3)] hover:bg-[rgba(0,0,0,0.1)] cursor-pointer;
+            &.selected-expansion {
+                @apply bg-blue-200/25 !important;
+            }
+        }
+        
+        div.expac-list-item:first-of-type {
+            @apply rounded-l-md;
+        }
+        div.expac-list-item:last-of-type {
+            @apply border-r rounded-r-md;
+        }
+    }
+}

@@ -12,8 +12,8 @@ class MainController extends Controller
     function index()
     {
         $expansions = Expansion::query()
-        ->with(['zones'])
-        ->withCount(['zones'])
+        ->with(['zones', 'zones.mobs'])
+        ->withCount(['zones', 'mobs'])
         ->orderBy('id')
         ->get();
         return Inertia::render('Index', [
