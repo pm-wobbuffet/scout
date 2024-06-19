@@ -47,6 +47,16 @@ class MainController extends Controller
         if($password && $password === $scout->collaborator_password) {
             $scout->makeVisible(['collaborator_password']);
         }
-        return $scout;
+        
+        $expansions = Expansion::query()
+        ->with(['zones', 'zones.mobs', 'zones.aetherytes', 'zones.spawn_points'])
+        ->withCount(['zones', 'mobs'])
+        ->orderBy('id')
+        ->get();
+
+        return Inertia::render('Scout/View',[
+            'expac' =>  $expansions,
+            'scout' =>  $scout,
+        ]);
     }
 }

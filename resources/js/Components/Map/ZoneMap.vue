@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, getCurrentInstance } from "vue"
+import { onMounted, ref, getCurrentInstance, onBeforeMount } from "vue"
 
 // Parent model link
 // Ideally, data structure should look like model[zone][instance] = Array of objects containing point_id and mob_id
@@ -41,7 +41,7 @@ const mobPoints = ref({})
 let mobs = []
 let mobsById = {}
 
-onMounted(() => {
+onBeforeMount(() => {
     mobs = props.zone.mobs
     mobs.forEach((mob) => {
         mobsById[mob.id] = mob
@@ -55,15 +55,15 @@ onMounted(() => {
         model.value[props.zone.id][props.instance] = []
     }
     // Does the instance have data already?
-    let c = model.value[props.zone.id][props.instance]
-    if (c.length > 0) {
-        c.forEach((el) => {
-            assignMobManual(el.point_id, el.mob_id)
-        })
-    }
+    // let c = model.value[props.zone.id][props.instance]
+    // if (c.length > 0) {
+    //     c.forEach((el) => {
+    //         assignMobManual(el.point_id, el.mob_id)
+    //     })
+    // }
     //console.log(model)
-    const instance = getCurrentInstance()
-    instance?.proxy?.$forceUpdate()
+    //const instance = getCurrentInstance()
+    //instance?.proxy?.$forceUpdate()
 
 })
 
@@ -116,9 +116,13 @@ const assignMob = function(point) {
     let validMobs = getValidMobs()
     let curMobOnPoint = getTakenMob(point.id)
 
+    removeMob(point, curMobOnPoint)
+    if(validMobs.length > 0 && curMobOnPoint.mob_index != props.zone.mobs.length) {
+        placeMob(point, validMobs[0])
+    }
+    /*
     if ( curMobOnPoint.mob_index > 0 ) {
         // If this zone has more than 1 A rank, we can cycle to the next valid mob and insert it as the
-        removeMob(point, curMobOnPoint)
         if (curMobOnPoint.mob_index == props.zone.mobs.length) {
             // If they click while on the 2nd mob for a zone, just remove the mob and return
             // so they get a blank free button
@@ -133,11 +137,9 @@ const assignMob = function(point) {
         if ( validMobs.length > 0 ) {
             // Yes, place the first available mob
             placeMob(point, validMobs[0])
-        } else {
-            // Clear out the node
-            removeMob(point, curMobOnPoint)
         }
     } 
+    */
 }
 
 const removeMob = function(point, mob) {
@@ -150,8 +152,12 @@ const removeMob = function(point, mob) {
 const placeMob = function(point, mob) {
     model.value?.[props.zone.id]?.[props.instance].push({
         point_id: point.id,
-        mob_id: mob.id
+        mob_id: mob.id,
+        x: point.x,
+        y: point.y,
+        expansion_id: props.zone.expansion_id,
     })
+    //console.log(model.value?.[props.zone.id]?.[props.instance])
 }
 
 const getValidMobs = function() {

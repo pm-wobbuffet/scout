@@ -37,6 +37,9 @@ class StoreScoutRequest extends FormRequest
             'instance_data.*'               =>  'integer',
             'point_data.*.*.*.point_id'     =>  'numeric',
             'point_data.*.*.*.mob_id'       =>  'numeric',
+            'point_data.*.*.*.x'            =>  'numeric',
+            'point_data.*.*.*.y'            =>  'numeric',
+            'point_data.*.*.*.expansion_id' =>  'integer',
         ];
     }
 }
