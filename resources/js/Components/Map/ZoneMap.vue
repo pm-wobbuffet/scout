@@ -18,6 +18,7 @@
             :class="`point-taken-by-${getTakenMob(point.id) ?? ''}`"
             :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
             :title="`${point.x},${point.y}`" 
+            :disabled="Object.keys(selectedPoints).length >= zone.mobs.length && !selectedPoints[point.id]"
             @click.stop.prevent="assignMob(point)"
             @dblclick.stop.prevent="false">{{ selectedPoints[point.id] ?? '' }}</button>
         <div class="text-right font-semibold text-xl zone-name">

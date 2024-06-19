@@ -36,7 +36,7 @@ main.map-main-window {
     }
 
     button {
-        @apply rounded-full bg-black/50 absolute h-[16px] w-[16px] translate-x-[-50%] translate-y-[-50%] ring-2 ring-black ring-opacity-25;
+        @apply rounded-full bg-black/50 absolute h-[20px] w-[20px] translate-x-[-50%] translate-y-[-50%] ring-2 ring-black;
         @apply hover:ring-2 hover:ring-white hover:ring-opacity-50;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
         line-height: 100%;
@@ -47,6 +47,10 @@ main.map-main-window {
 
         &.point-taken-by-2 {
             @apply bg-blue-300 text-white font-bold text-center !important;
+        }
+
+        &:disabled {
+            @apply bg-black/10 ring-opacity-30 !important;
         }
     }
 }
