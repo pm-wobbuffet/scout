@@ -13,7 +13,8 @@
             :style="{ 'left': convertCoordToPercent(aetheryte.x, zone), 'top': convertCoordToPercent(aetheryte.y, zone) }"
             :data-title="aetheryte.name">
         </div>
-        <button v-for="point in zone.spawn_points" 
+        <button v-for="point in zone.spawn_points"
+            :key="`spawnpoint-${point.id}-${props.instance}`" 
             class="" 
             :class="`point-taken-by-${getTakenMob(point.id) ?? ''}`"
             :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
@@ -81,8 +82,13 @@ const assignMob = function(point) {
     if ( curMobOnPoint > 0 ) {
         // If this zone has more than 1 A rank, we can cycle to the next valid mob and insert it as the
         removeMob(point, curMobOnPoint)
-        // active mob on this point
-        if (validMobs.length > 0 ) {
+        if (curMobOnPoint == props.zone.mobs.length) {
+            // If they click while on the 2nd mob for a zone, just remove the mob and return
+            // so they get a blank free button
+            return
+        }
+        // place the next valid mob on the point
+        if (validMobs.length > 0) {
             placeMob(point, validMobs[0].mob_index)
         }
     } else {

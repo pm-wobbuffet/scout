@@ -8,7 +8,7 @@
                 :class="{'selected-expansion': expansion.id == selectedExp}">
                     <div>{{ expansion.abbreviation }}</div>
                     <div class="text-sm">
-                        0 / {{ mobCount(expansion) }}
+                        {{ getMappedMobsForExpac(expansion) }} / {{ mobCount(expansion) }}
                     </div>
                     
                 </div>
@@ -26,9 +26,19 @@
                     />
                 </template>
             </div>
-            <aside class="sticky border border-gray-400 p-2 self-start order-1">
-                Top | Share
-
+            <aside class="sticky border border-gray-400 ml-1 self-start order-1">
+                <div>Top | Share</div>
+                <div v-for="expac in getActiveExpac()">
+                    <div class="font-bold bg-slate-300 p-1">{{ expac.name }}</div>
+                    <ul>
+                        <template v-for="zone in expac.zones">
+                            <li v-for="i in zone.default_instances"
+                            >{{ zone.name }} 
+                            <span v-if="zone.default_instances > 1">{{ i }}</span>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
             </aside>
         </main>
     </div>
@@ -50,10 +60,8 @@ const form = useForm({
 const defaultExp = ref(6)
 const selectedExp = ref(6)
 
-
 const updateSelections = function(event, zone, instance_number)
 {
-    //console.log(event, zone, instance_number)
     if (! (zone.id in form.selectedPoints) ) {
         form.selectedPoints[zone.id] = {}
     }
@@ -61,43 +69,29 @@ const updateSelections = function(event, zone, instance_number)
         form.selectedPoints[zone.id][instance_number] = []
     }
     form.selectedPoints[zone.id][instance_number] = event
-    //console.log(form.selectedPoints)
 }
 
-const assignMob = function(zone, point) {
-    //console.log(zone,point)
-    if(point.taken_by && point.taken_by != null) {
-        if(point.taken_by == zone.mobs.length) {
-            point.taken_by = null;
-            zone.mobs[zone.mobs.length - 1].taken_point = null
-            return
-        }
-    }
-    // If this zone only has one mob, go ahead and reassign the active point when they click
-    if (zone.mobs.length == 1 && zone.mobs[0].taken_point && zone.mobs[0].taken_point != null) {
-        let prevPoint = zone.spawn_points.find((el) => el.id == zone.mobs[0].taken_point)
-        point.taken_by = 1
-        zone.mobs[0]['taken_point'] = point.id
-        prevPoint.taken_by = null
-        return
-    }
-    for ( let i = 0; i < zone.mobs.length ; i++) {
-        if( !('taken_point' in zone.mobs[i]) || zone.mobs[i].taken_point == null) {
-            // The mob hasn't yet taken a spot, go ahead and assign it
-            zone.mobs[i]['taken_point'] = point.id
-            point['taken_by'] = i + 1
-            return
-        } else {
-            // The mob is already in a spot.
-            // If it's this one, clear things out
-            if (zone.mobs[i].taken_point == point.id) {
-                zone.mobs[i].taken_point = null
-                point.taken_by = null
+const getMobsForZone = function(zone, instance_number) {
+
+}
+
+const getMappedMobsForExpac = function(expac) {
+    return 0
+    let totalSeen = 0
+    for( let i = 0; i < expac.zones.length; i++ ) {
+        let z = expac.zones[i]
+        for ( let j = 1; j <= z.default_instances; j++) {
+            if(form.selectedPoints[z.id] && j in form.selectedPoints[z.id]) {
+                totalSeen += Object.keys(form.selectedPoints[z.id][j]).length
             }
         }
     }
+    return totalSeen
 }
 
+const getActiveExpac = function() {
+    return [props.expac.find((el) => el.id == selectedExp.value)]
+}
 const setActiveExpac = function(expac_id) {
     selectedExp.value = expac_id
 }
