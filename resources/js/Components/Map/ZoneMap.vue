@@ -131,38 +131,27 @@ const assignMob = function(point) {
     } else {
         // No mob on this spot yet, are there available mobs?
         if ( validMobs.length > 0 ) {
-            console.log('Placing mob')
-            // Yes
+            // Yes, place the first available mob
             placeMob(point, validMobs[0])
         } else {
             // Clear out the node
             removeMob(point, curMobOnPoint)
         }
-    }
-    
+    } 
 }
 
 const removeMob = function(point, mob) {
-    //console.log('Received', mob, ' to remove')
     const index = model.value[props.zone.id][props.instance].findIndex((el) => el.mob_id == mob.id)
     if (index > -1) {
         model.value[props.zone.id][props.instance].splice(index, 1)
     }
-    /*
-    model.value[props.zone.id][props.instance] = model.value?.[props.zone.id]?.[props.instance].filter(function(pointObj) {
-        // keep any point that has a different mob id
-        return pointObj.mob_id != mob.id
-    })
-    */
 }
 
 const placeMob = function(point, mob) {
-    //console.log(`Placing indexed-mob ${mob.mob_index} on `, point)
     model.value?.[props.zone.id]?.[props.instance].push({
         point_id: point.id,
         mob_id: mob.id
     })
-    
 }
 
 const getValidMobs = function() {

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('scouts', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->unique();
+            $table->string('slug')->unique()->nullable()->default(null);
             $table->string('collaborator_password')->nullable()->default(null);
             $table->json('instance_data')->nullable()->default(null);
             $table->json('point_data')->nullable()->default(null);

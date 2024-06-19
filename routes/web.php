@@ -7,7 +7,8 @@ use Inertia\Inertia;
 
 Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
     Route::get('/', 'MainController@index')->name('main');
-    Route::post('/', 'MainController@store')->name('map.store');
+    Route::post('/', 'MainController@store')->name('scout.store');
+    Route::get('/scout/{scout:slug}/{password?}', 'MainController@view')->name('scout.view');
 });
 
 /*

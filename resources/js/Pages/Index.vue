@@ -21,7 +21,7 @@
             <div class="map-image-list order-2">
                 <template v-for="zone in getMapsForExpansion()">
                     <ZoneMap v-for="i in zone.default_instances" :id="`zonemap-${zone.id}-${i}`"
-                        :key="`zonemap-${zone.id}-${i}`" :zone="zone" :instance="i" v-model="form.selectedPoints" />
+                        :key="`zonemap-${zone.id}-${i}`" :zone="zone" :instance="i" v-model="form.point_data" />
                 </template>
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1">
@@ -55,7 +55,7 @@ const props = defineProps({
 })
 
 const form = useForm({
-    selectedPoints: {},
+    point_data: {},
 })
 
 const defaultExp = ref(6)
@@ -65,9 +65,9 @@ const printForm = function () {
     form
         .transform((data) => ({
             ...data,
-            instanceData: getInstanceCounts(),
+            instance_data: getInstanceCounts(),
         }))
-        .post(route('map.store'))
+        .post(route('scout.store'))
 }
 
 const getInstanceCounts = function () {
@@ -81,7 +81,7 @@ const getInstanceCounts = function () {
 }
 
 const getFoundMobCount = function (zone, instance_number) {
-    return form.selectedPoints?.[zone]?.[instance_number].length ?? 0
+    return form.point_data?.[zone]?.[instance_number].length ?? 0
 }
 
 const getMappedMobsForExpac = function (expac) {
@@ -89,7 +89,7 @@ const getMappedMobsForExpac = function (expac) {
     for (let i = 0; i < expac.zones.length; i++) {
         let z = expac.zones[i]
         for (let j = 1; j <= z.default_instances; j++) {
-            totalSeen += form.selectedPoints?.[z.id]?.[j].length ?? 0
+            totalSeen += form.point_data?.[z.id]?.[j].length ?? 0
         }
     }
     return totalSeen
