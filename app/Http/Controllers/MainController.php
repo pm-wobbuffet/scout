@@ -21,4 +21,9 @@ class MainController extends Controller
             'expac' =>  $expansions,
         ]);
     }
+
+    function store(Request $request)
+    {
+        dd($request->all());
+    }
 }

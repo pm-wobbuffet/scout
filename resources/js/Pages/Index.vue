@@ -21,23 +21,26 @@
             <div class="map-image-list order-2">
                 <template v-for="zone in getMapsForExpansion()">
                     <ZoneMap v-for="i in zone.default_instances"
+                        :id="`zonemap-${zone.id}-${i}`"
                         :key="`zonemap-${zone.id}-${i}`" 
                         :zone="zone"
                         :instance="i"
                         v-model="form.selectedPoints"
-                        @selections-updated="(ev) => updateSelections(ev, zone, i)"
                     />
                 </template>
             </div>
-            <aside class="sticky border border-gray-400 ml-1 self-start order-1">
+            <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1">
                 <div>Top | Share</div>
                 <div v-for="expac in getActiveExpac()">
                     <div class="font-bold bg-slate-300 p-1">{{ expac.name }}</div>
                     <ul>
                         <template v-for="zone in expac.zones">
-                            <li v-for="i in zone.default_instances"
-                            >{{ zone.name }} 
-                            <span v-if="zone.default_instances > 1">{{ i }}</span>
+                            <li v-for="i in zone.default_instances" class="hover:bg-slate-200"
+                            ><a class="text-blue-500" :href="`#zonemap-${zone.id}-${i}`">{{ zone.name }}</a>
+                            <span class="ml-1 font-bold text-blue-800" v-if="zone.default_instances > 1">{{ i }}</span>
+                                <i class="text-sm ml-2"
+                                >{{ getFoundMobCount(zone.id, i) }}/{{ zone.mobs.length }}
+                            </i>
                             </li>
                         </template>
                     </ul>
@@ -64,33 +67,20 @@ const defaultExp = ref(6)
 const selectedExp = ref(6)
 
 const printForm = function() {
+    form.post(route('map.store'))
     console.log(form.selectedPoints)
 }
 
-const updateSelections = function(event, zone, instance_number)
-{
-    if (! (zone.id in form.selectedPoints) ) {
-        form.selectedPoints[zone.id] = {}
-    }
-    if(! (instance_number in form.selectedPoints[zone.id])) {
-        form.selectedPoints[zone.id][instance_number] = []
-    }
-    form.selectedPoints[zone.id][instance_number] = event
-}
-
-const getMobsForZone = function(zone, instance_number) {
-
+const getFoundMobCount = function(zone, instance_number) {
+    return form.selectedPoints?.[zone]?.[instance_number].length ?? 0
 }
 
 const getMappedMobsForExpac = function(expac) {
-    return 0
     let totalSeen = 0
     for( let i = 0; i < expac.zones.length; i++ ) {
         let z = expac.zones[i]
         for ( let j = 1; j <= z.default_instances; j++) {
-            if(form.selectedPoints[z.id] && j in form.selectedPoints[z.id]) {
-                totalSeen += Object.keys(form.selectedPoints[z.id][j]).length
-            }
+            totalSeen += form.selectedPoints?.[z.id]?.[j].length ?? 0
         }
     }
     return totalSeen

@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
-    Route::get('/', 'MainController@index');
+    Route::get('/', 'MainController@index')->name('main');
+    Route::post('/', 'MainController@store')->name('map.store');
 });
 
 /*
