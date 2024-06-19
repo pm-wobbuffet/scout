@@ -17,7 +17,15 @@
         </nav>
         <main class="map-main-window">
             <div class="map-image-list order-2">
-                <template v-for="zone in getMapsForExpansion()" :key="`mapblock-${zone.id}`">
+                <template v-for="zone in getMapsForExpansion()">
+                    <ZoneMap v-for="i in zone.default_instances"
+                        :key="`zonemap-${zone.id}-${i}`" 
+                        :zone="zone"
+                        :instance="i"
+                        @selections-updated="(ev) => updateSelections(ev, zone, i)"
+                    />
+                </template>
+                <!-- <template v-for="zone in getMapsForExpansion()" :key="`mapblock-${zone.id}`">
                     <div class="map-container-block" v-for="i in zone.default_instances" 
                     :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`"
                     @dblclick.prevent="(e) => dblClickMap(e, zone)">
@@ -43,7 +51,7 @@
                             <span v-if="zone.default_instances > 1">{{ i }}</span>
                         </div>
                     </div>
-                </template>
+                </template> -->
             </div>
             <aside class="sticky border border-gray-400 p-2 self-start order-1">
                 Top | Share
@@ -56,25 +64,31 @@
 <script setup>
 import { computed, ref } from "vue";
 import ZoneMap from '../Components/Map/ZoneMap.vue';
+import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
     expac: Array,
 })
 
+const form = useForm({
+    selectedPoints: {},
+})
+
 const defaultExp = ref(6)
 const selectedExp = ref(6)
 
-const dblClickMap = function(event,zone)
+
+const updateSelections = function(event, zone, instance_number)
 {
-    let x = Number(event.offsetX / event.srcElement.clientWidth * zone.max_coord_size + 1).toFixed(1)
-    let y = Number(event.offsetY / event.srcElement.clientHeight * zone.max_coord_size + 1).toFixed(1)
-    zone.spawn_points.push({
-        'x': x,
-        'y': y,
-        'zone_id': zone.id,
-        'id': -1 * Date.now(),
-    })
-    console.log(x, y, zone)
+    //console.log(event, zone, instance_number)
+    if (! (zone.id in form.selectedPoints) ) {
+        form.selectedPoints[zone.id] = {}
+    }
+    if(! (instance_number in form.selectedPoints[zone.id])) {
+        form.selectedPoints[zone.id][instance_number] = []
+    }
+    form.selectedPoints[zone.id][instance_number] = event
+    //console.log(form.selectedPoints)
 }
 
 const assignMob = function(zone, point) {

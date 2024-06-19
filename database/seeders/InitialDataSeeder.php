@@ -69,6 +69,7 @@ class InitialDataSeeder extends Seeder
                         'bNpcBase'      =>  $mob['npcbase'],
                         'rank'          =>  $mob['rank'],
                         'zone_id'       =>  $z->id,
+                        'mob_index'     =>  $mob['mob_index'],
                     ]
                 );
             }

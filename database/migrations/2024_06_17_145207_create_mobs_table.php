@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedInteger('rank')->default(2);
             $table->unsignedInteger('bNpcBase')->default(0);
+            $table->unsignedInteger('mob_index')->default(1);
             $table->foreignId('zone_id');
             $table->timestamps();
         });
