@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue"
+import { onMounted, ref, watch } from "vue"
 
 const emit = defineEmits(['selectionsUpdated'])
 
@@ -42,9 +42,8 @@ const props = defineProps({
 })
 
 watch(selectedPoints, function(newVal, oldVal) {
-    //console.log('watch fired')
     emit('selectionsUpdated', selectedPoints.value)
-},{deep: true})
+}, {deep: true})
 
 const getTakenMob = function(id) {
     if(id in selectedPoints.value) {
@@ -52,45 +51,19 @@ const getTakenMob = function(id) {
     }
     return ''
 }
-const assignMob = function(point) {
-    let validMobs = getValidMobs()
-    let curSelection = selectedPoints.value[point.id] ?? 0
-
-    console.log('Valid mobs', validMobs, 'Cur Selection', curSelection)
-    if(validMobs.length == 0 && props.zone.mobs.length == 1)
-    {
-        console.log('current mobPoints: ', mobPoints.value[1])
-        // There's only one mob for this zone, so we should let the user
-        // go ahead and re-assign its spot to the new one
-        delete(mobPoints.value[getTakenMob(mobPoints.value[1].id)])
-        delete(selectedPoints.value[point.id])
-        //curSelection = 0
-        return
-    }
-
-    if(curSelection == props.zone.mobs.length) {
-        // They reached the end of the mob list, so cycle back to resetting the node
-        delete(mobPoints.value[getTakenMob(point.id)])
-        delete(selectedPoints.value[point.id])
-        return
-    }
-    
-    if(getTakenMob(point.id) > 0) {
-        // They already had this mob picked, so we need to clear that
-        // before assigning the new mob
-        delete(mobPoints.value[getTakenMob(point.id)])
-        delete(selectedPoints.value[point.id])
-    }
-    if (validMobs.length > 0) {
-        // There are still unassigned mobs available to place
-        let mob = validMobs[0]
-        mobPoints.value[mob.mob_index] = point
-        selectedPoints.value[point.id] = mob.mob_index
-    }
+const removeMob = function(point, mob_index) {
+    //console.log('Removing', mob_index, 'from', mobPoints)
+    delete mobPoints.value[mob_index]
+    delete selectedPoints.value[point.id]
 }
-
+const placeMob = function(point, mob_index) {
+    //console.log(`Placing indexed-mob ${mob_index} on `, point)
+    selectedPoints.value[point.id] = mob_index
+    mobPoints.value[mob_index] = point
+}
 const getValidMobs = function() {
     let ret = []
+    //console.log('Getting valid mobs, current mobPoints', mobPoints)
     for( let i = 0; i < props.zone.mobs.length; i++ ) {
         let mob = props.zone.mobs[i]
         if( !(mob.mob_index in mobPoints.value) ) {
@@ -98,6 +71,30 @@ const getValidMobs = function() {
         }
     }
     return ret
+}
+
+const assignMob = function(point) {
+    let validMobs = getValidMobs()
+    let curMobOnPoint = getTakenMob(point.id)
+
+    // Is this point already occupied?
+    if ( curMobOnPoint > 0 ) {
+        // If this zone has more than 1 A rank, we can cycle to the next valid mob and insert it as the
+        removeMob(point, curMobOnPoint)
+        // active mob on this point
+        if (validMobs.length > 0 ) {
+            placeMob(point, validMobs[0].mob_index)
+        }
+    } else {
+        // No mob on this spot yet, are there available mobs?
+        if ( validMobs.length > 0 ) {
+            // Yes
+            placeMob(point, validMobs[0].mob_index)
+        } else {
+            // Clear out the node
+            removeMob(point, curMobOnPoint)
+        }
+    }
 }
 
 const convertCoordToPercent = function(coord, zone) {
@@ -127,39 +124,5 @@ const dblClickMap = function(event,zone)
     // Assign a mob to this point since they're creating it for a reason
     assignMob(zone.spawn_points[lastEl - 1])
 }
-
-// const assignMob = function(zone, point) {
-//     //console.log(zone,point)
-//     if(point.taken_by && point.taken_by != null) {
-//         if(point.taken_by == zone.mobs.length) {
-//             point.taken_by = null;
-//             zone.mobs[zone.mobs.length - 1].taken_point = null
-//             return
-//         }
-//     }
-//     // If this zone only has one mob, go ahead and reassign the active point when they click
-//     if (zone.mobs.length == 1 && zone.mobs[0].taken_point && zone.mobs[0].taken_point != null) {
-//         let prevPoint = zone.spawn_points.find((el) => el.id == zone.mobs[0].taken_point)
-//         point.taken_by = 1
-//         zone.mobs[0]['taken_point'] = point.id
-//         prevPoint.taken_by = null
-//         return
-//     }
-//     for ( let i = 0; i < zone.mobs.length ; i++) {
-//         if( !('taken_point' in zone.mobs[i]) || zone.mobs[i].taken_point == null) {
-//             // The mob hasn't yet taken a spot, go ahead and assign it
-//             zone.mobs[i]['taken_point'] = point.id
-//             point['taken_by'] = i + 1
-//             return
-//         } else {
-//             // The mob is already in a spot.
-//             // If it's this one, clear things out
-//             if (zone.mobs[i].taken_point == point.id) {
-//                 zone.mobs[i].taken_point = null
-//                 point.taken_by = null
-//             }
-//         }
-//     }
-// }
 
 </script>

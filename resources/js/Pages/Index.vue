@@ -25,33 +25,6 @@
                         @selections-updated="(ev) => updateSelections(ev, zone, i)"
                     />
                 </template>
-                <!-- <template v-for="zone in getMapsForExpansion()" :key="`mapblock-${zone.id}`">
-                    <div class="map-container-block" v-for="i in zone.default_instances" 
-                    :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`"
-                    @dblclick.prevent="(e) => dblClickMap(e, zone)">
-                        <div class="absolute mob-list">
-                            <ol class="block list-decimal pl-4">
-                                <li v-for="(mob, index) in zone.mobs" :class="`mob-number-${index}`">
-                                    {{ mob.name }}
-                                </li>
-                            </ol>
-                        </div>
-                        <div v-for="aetheryte in zone.aetherytes" class="text-white absolute h-[32px] w-[32px] aetheryte"
-                        :style="{'left': convertCoordToPercent(aetheryte.x, zone), 'top': convertCoordToPercent(aetheryte.y, zone)}" :data-title="aetheryte.name">
-                        </div>
-                        <button v-for="point in zone.spawn_points" class=""
-                        :class="`point-taken-by-${point.taken_by ?? ''}`"
-                        :style="{'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone)}"
-                        :title="`${point.x},${point.y}`"
-                        @click.stop.prevent="assignMob(zone, point)"
-                        @dblclick.stop.prevent="false"
-                         >{{ point.taken_by ?? '' }}</button>
-                        <div class="text-right font-semibold text-xl zone-name">
-                            {{ zone.name }}
-                            <span v-if="zone.default_instances > 1">{{ i }}</span>
-                        </div>
-                    </div>
-                </template> -->
             </div>
             <aside class="sticky border border-gray-400 p-2 self-start order-1">
                 Top | Share
