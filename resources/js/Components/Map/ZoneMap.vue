@@ -33,15 +33,67 @@
 import { onMounted, ref, watch } from "vue"
 
 const emit = defineEmits(['selectionsUpdated'])
+// Parent model link
+// Ideally, data structure should look like model[zone][instance] = Array of objects containing point_id and mob_id
+const model = defineModel({type: Object})
 
 const selectedPoints = ref({})
 const mobPoints = ref({})
+let mobs = []
+
+onMounted(() => {
+    mobs = props.zone.mobs
+    // If we're not tracking this zone already, add an entry for it
+    if(! (props.zone.id in model.value) ) {
+        model.value[props.zone.id] = {}
+        model.value[props.zone.id][props.instance] = []
+    }
+    if(! (props.instance in model.value[props.zone.id]) ) {
+        model.value[props.zone.id][props.instance] = []
+    }
+    // Does the instance exist yet?
+})
 
 const props = defineProps({
     zone: Object,
     instance: Number,
 })
 
+const getMobIndex = function(mob_id) {
+    let a = mobs.find((el) => el.id == mob_id)
+    return a.mob_index ?? ''
+}
+
+const convertCoordToPercent = function(coord, zone) {
+    let c = (coord - 1) / (zone.max_coord_size) * 100
+    c = c.toString() + '%'
+    return c
+}
+const getTakenMob = function(point_id) {
+    let pts = model.value?.[props.zone.id]?.[props.instance] ?? []
+    if(pts.length == 0) {
+        return ''
+    }
+    let mob = pts.find( (el) => el.point_id == point_id)
+    if(mob.length > 0) {
+        return mob.mob_index
+    } else {
+        return ''
+    }
+    /*
+    if(point_id in selectedPoints.value) {
+        return selectedPoints.value[point_id]
+    }
+    return ''
+    */
+}
+
+const assignMob = function(point) {
+    let validMobs = getValidMobs()
+    let curMobOnPoint = getTakenMob(point.id)
+}
+
+/*
 watch(selectedPoints, function(newVal, oldVal) {
     emit('selectionsUpdated', selectedPoints.value)
 }, {deep: true})
@@ -130,5 +182,5 @@ const dblClickMap = function(event,zone)
     // Assign a mob to this point since they're creating it for a reason
     assignMob(zone.spawn_points[lastEl - 1])
 }
-
+*/
 </script>

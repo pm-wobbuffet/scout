@@ -13,7 +13,9 @@
                     
                 </div>
             </div>
-            <div>Share</div>
+            <div>
+                <a href="#" @click.stop.prevent="printForm()">Shhh</a>
+            </div>
         </nav>
         <main class="map-main-window">
             <div class="map-image-list order-2">
@@ -22,6 +24,7 @@
                         :key="`zonemap-${zone.id}-${i}`" 
                         :zone="zone"
                         :instance="i"
+                        v-model="form.selectedPoints"
                         @selections-updated="(ev) => updateSelections(ev, zone, i)"
                     />
                 </template>
@@ -45,7 +48,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import ZoneMap from '../Components/Map/ZoneMap.vue';
 import { useForm } from "@inertiajs/vue3";
 
@@ -59,6 +62,10 @@ const form = useForm({
 
 const defaultExp = ref(6)
 const selectedExp = ref(6)
+
+const printForm = function() {
+    console.log(form.selectedPoints)
+}
 
 const updateSelections = function(event, zone, instance_number)
 {
