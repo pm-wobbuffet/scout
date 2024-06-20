@@ -36,6 +36,8 @@ import { onMounted, ref, getCurrentInstance, onBeforeMount } from "vue"
 // Ideally, data structure should look like model[zone][instance] = Array of objects containing point_id and mob_id
 const model = defineModel()
 
+const emit = defineEmits(['mapUpdated', 'pointUpdated'])
+
 const selectedPoints = ref({})
 const mobPoints = ref({})
 let mobs = []
@@ -54,17 +56,6 @@ onBeforeMount(() => {
     if(! (props.instance in model.value[props.zone.id]) ) {
         model.value[props.zone.id][props.instance] = []
     }
-    // Does the instance have data already?
-    // let c = model.value[props.zone.id][props.instance]
-    // if (c.length > 0) {
-    //     c.forEach((el) => {
-    //         assignMobManual(el.point_id, el.mob_id)
-    //     })
-    // }
-    //console.log(model)
-    //const instance = getCurrentInstance()
-    //instance?.proxy?.$forceUpdate()
-
 })
 
 const props = defineProps({
@@ -117,29 +108,14 @@ const assignMob = function(point) {
     let curMobOnPoint = getTakenMob(point.id)
 
     removeMob(point, curMobOnPoint)
+    // If there's a valid mob left, cycle to it
+    // If the current mob is the last of the valid mobs for a zone,
+    // cycle back to the blank state
     if(validMobs.length > 0 && curMobOnPoint.mob_index != props.zone.mobs.length) {
         placeMob(point, validMobs[0])
     }
-    /*
-    if ( curMobOnPoint.mob_index > 0 ) {
-        // If this zone has more than 1 A rank, we can cycle to the next valid mob and insert it as the
-        if (curMobOnPoint.mob_index == props.zone.mobs.length) {
-            // If they click while on the 2nd mob for a zone, just remove the mob and return
-            // so they get a blank free button
-            return
-        }
-        // place the next valid mob on the point
-        if (validMobs.length > 0) {
-            placeMob(point, validMobs[0])
-        }
-    } else {
-        // No mob on this spot yet, are there available mobs?
-        if ( validMobs.length > 0 ) {
-            // Yes, place the first available mob
-            placeMob(point, validMobs[0])
-        }
-    } 
-    */
+    emit('pointUpdated', point, getTakenMob(point.id))
+    //emit('mapUpdated')
 }
 
 const removeMob = function(point, mob) {

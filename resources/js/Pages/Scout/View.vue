@@ -3,6 +3,7 @@
     :expac="props.expac"
     :scout="props.scout"
     @mapUpdated="handleMapUpdate"
+    @pointUpdated="handlePointUpdate"
     />
 </template>
 
@@ -17,5 +18,9 @@ const props = defineProps({
 
 const handleMapUpdate = function(point_data, instance_data) {
     console.log(point_data, instance_data)
+}
+
+const handlePointUpdate = function(point, mob) {
+    console.log(point, mob)
 }
 </script>

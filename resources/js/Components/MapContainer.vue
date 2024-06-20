@@ -22,7 +22,10 @@
             <div class="map-image-list order-2">
                 <template v-for="zone in getMapsForExpansion()">
                     <ZoneMap v-for="i in zone.default_instances" :id="`zonemap-${zone.id}-${i}`"
-                        :key="`zonemap-${zone.id}-${i}`" :zone="zone" :instance="i" v-model="form.point_data" />
+                        :key="`zonemap-${zone.id}-${i}`" :zone="zone" :instance="i" v-model="form.point_data"
+                        @mapUpdated="handleMapUpdated"
+                        @pointUpdated="handlePointUpdated"
+                        />
                 </template>
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white">
@@ -47,11 +50,12 @@
 </template>
 
 <script setup>
+//  instance 1, 2, 3 icons for later
 import { computed, onBeforeMount, onMounted, ref, watch } from "vue";
 import ZoneMap from '@/Components/Map/ZoneMap.vue';
 import { useForm } from "@inertiajs/vue3";
 
-const emit = defineEmits(['mapUpdated'])
+const emit = defineEmits(['mapUpdated', 'pointUpdated'])
 
 const props = defineProps({
     expac: Array,
@@ -64,6 +68,15 @@ const selectedExp = ref(6)
 const form = useForm({
     point_data: {},
 })
+
+
+const handlePointUpdated = function(point, mob) {
+    emit('pointUpdated', point, mob)
+}
+
+const handleMapUpdated = function() {
+    emit('mapUpdated', form.point_data, getInstanceCounts())
+}
 
 // watch(form, () => {
 //     emit('mapUpdated', form.point_data, getInstanceCounts())
