@@ -71,7 +71,7 @@ const form = useForm({
 
 
 const handlePointUpdated = function(point, mob) {
-    emit('pointUpdated', point, mob)
+    emit('pointUpdated', point, mob, form.point_data, getInstanceCounts())
 }
 
 const handleMapUpdated = function() {
