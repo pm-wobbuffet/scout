@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Broadcast;
 //     return (int) $user->id === (int) $id;
 // });
 
-Broadcast::channel('Scout.{scout_id}.{collaborator_password}', function(User $user, int $scout_id, string $collab) {
-    $scout = Scout::where('id', $scout_id);
-    if($scout->collaborator_password === $collab) {
-        return true;
-    }
-    return false;
-});
+// Broadcast::channel('Scout.{scout_id}.{collaborator_password}', function(User $user, int $scout_id, string $collab) {
+//     $scout = Scout::where('id', $scout_id);
+//     if($scout->collaborator_password === $collab) {
+//         return true;
+//     }
+//     return false;
+// });

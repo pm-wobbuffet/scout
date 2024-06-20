@@ -3,7 +3,7 @@
         <nav
             class="flex flex-wrap w-full items-center justify-between bg-slate-500 text-slate-100 p-2 min-h-[3rem] main-nav flex-grow-1">
             <div>
-                <img src="/turtleknife.png" height="40" width="90" class="inline" alt="The turtle says to murder" />
+                <Link href="/"><img src="/turtleknife.png" height="40" width="90" class="inline" alt="The turtle says to murder" /></Link>
             </div>
             <div class="flex expac-list place-self-center">
                 <div v-for="expansion in expac" :key="expansion.id" class="text-center border p-1 px-4 expac-list-item"
@@ -38,8 +38,11 @@
                     <a href="#" class="rounded-md bg-blue-400 px-3 text-white py-1 mr-1 font-bold"
                     ><ArrowUpIcon /> Top</a>
                     <a href="#" class="rounded-md bg-blue-700 px-3 text-white py-1 font-bold"
+                    v-if="props.scout"
                     @click.prevent="showShareDialog"
                     ><ExportIcon /> Share</a>
+                    <a href="#" class="rounded-md bg-blue-700 px-3 text-white py-1 font-bold" v-else
+                    @click.prevent="submitForm"><ExportIcon /> Share</a>
                 </div>
                 <div v-for="expac in getActiveExpac()">
                     <div class="font-bold bg-slate-300 p-1">
@@ -60,7 +63,7 @@
                 </div>
             </aside>
         </main>
-        <dialog id="shareModal" class="relative">
+        <dialog id="shareModal" class="relative" v-if="scout">
             <h1 class="font-bold text-2xl mb-4">Share View-Only Map</h1>
             <p class="text-sm">This link provides a view only copy of the map. Users cannot submit changes to the map.</p>
             <div class="bg-blue-500 text-white p-4 mb-4 relative cursor-pointer"
@@ -86,7 +89,7 @@
 //  instance 1, 2, 3 icons for later
 import { computed, onBeforeMount, onMounted, ref, watch } from "vue";
 import ZoneMap from '@/Components/Map/ZoneMap.vue';
-import { useForm } from "@inertiajs/vue3";
+import { useForm, Link } from "@inertiajs/vue3";
 import ArrowUpIcon from "vue-material-design-icons/ArrowUp.vue";
 import ExportIcon from "vue-material-design-icons/Export.vue";
 import ContentCopyIcon from "vue-material-design-icons/ContentCopy.vue";
@@ -141,7 +144,8 @@ const handleMapUpdated = function() {
 
 onMounted(() => {
     const dialog = document.getElementById('shareModal')
-    dialog.addEventListener("click", function(event) {
+    if(dialog) {
+        dialog.addEventListener("click", function(event) {
         const rect = dialog.getBoundingClientRect();
         const isInDialog = (
             rect.top <= event.clientY &&
@@ -153,6 +157,8 @@ onMounted(() => {
             dialog.close();
         }
     });
+    }
+    
     //document.getElementById('shareModal').showModal()
 })
 
@@ -210,6 +216,17 @@ const addCustomSpawnPoint = function(point_data, mapId, instanceId) {
         })
     }
     
+}
+
+const submitForm = function() {
+    if(props.editmode || props.editmode == true && !props.scout) {
+        form
+        .transform((data) => ({
+            ...data,
+            instance_data: getInstanceCounts(),
+        }))
+        .post(route('scout.store'))
+    }
 }
 
 const printForm = function () {

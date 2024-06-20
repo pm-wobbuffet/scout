@@ -81,7 +81,4 @@ onMounted(() => {
         setTimeout(pollUpdates, refreshTime)
     }
 })
-onUnmounted(() => {
-    AbortController.abort()
-})
 </script>

@@ -42,8 +42,9 @@ class MainController extends Controller
             'collaborator_password' =>  str(bin2hex(random_bytes(4))),
         ]);
         
-        return Inertia::location(route('scout.view', [$s->slug, $s->collaborator_password]));
-        //return redirect()->route('scout.view',[$s->slug, $s->collaborator_password]);
+        //return Inertia::location(route('scout.view', [$s->slug, $s->collaborator_password]));
+        return redirect()->route('scout.view',[$s->slug, $s->collaborator_password])
+        ->with(['newly_created' => true]);
     }
 
     public function view(Scout $scout, string $password = '') 
