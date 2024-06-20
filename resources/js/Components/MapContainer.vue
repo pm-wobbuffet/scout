@@ -60,19 +60,24 @@
                 </div>
             </aside>
         </main>
-        <dialog id="shareModal">
+        <dialog id="shareModal" class="relative">
             <h1 class="font-bold text-2xl mb-4">Share View-Only Map</h1>
             <p class="text-sm">This link provides a view only copy of the map. Users cannot submit changes to the map.</p>
-            <div class="bg-blue-500 text-white p-4 mb-4">
+            <div class="bg-blue-500 text-white p-4 mb-4 relative cursor-pointer"
+            @click="copyLink(route('scout.view', {scout: props.scout.slug}))">
                 <span
                 >{{ route('scout.view', {scout: props.scout.slug}) }}</span>
+                <div class="absolute bottom-0 right-0.5"><ContentCopyIcon /></div>
             </div>
             <h1 class="font-bold text-2xl mb-4">Share Editable Map</h1>
             <p class="text-sm">This link will allow users to edit/add points to the map, so only give it to trusted users.</p>
-            <div class="bg-blue-500 text-white p-4 mb-4">
+            <div class="bg-blue-500 text-white p-4 mb-4 relative cursor-pointer"
+            @click="copyLink(route('scout.view', {scout: props.scout.slug, password: props.scout.collaborator_password}))">
                 <span
                 >{{ route('scout.view', {scout: props.scout.slug, password: props.scout.collaborator_password}) }}</span>
+                <div class="absolute bottom-0 right-0.5"><ContentCopyIcon /></div>
             </div>
+            <div class="absolute bottom-0 font-bold opacity-0 transition-opacity duration-300 w-[90%] text-center" id="copied-msg">Copied to clipboard!</div>
         </dialog>
     </div>
 </template>
@@ -109,6 +114,18 @@ const form = useForm({
     point_data: {},
 })
 
+
+const copyLink = async function(linkText) {
+    try {
+        await navigator.clipboard.writeText(linkText)
+        document.getElementById('copied-msg').classList.remove('opacity-0')
+        setTimeout(() => {
+            document.getElementById('copied-msg').classList.add('opacity-0')
+        }, 2000)
+    } catch (err) {
+        // Silently fail
+    }
+}
 
 const showShareDialog = function() {
     document.getElementById('shareModal').showModal()
