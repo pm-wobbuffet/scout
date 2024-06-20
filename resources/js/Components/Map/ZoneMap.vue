@@ -1,7 +1,7 @@
 <template>
     <div class="map-container-block"
         :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`"
-        @mousemove="handleMouseOver"
+        @mousemove.self="handleMouseOver"
         @mouseout="handleMouseOut" 
         @dblclick.prevent="(e) => dblClickMap(e, zone)">
         <div class="absolute mob-list">
@@ -21,7 +21,7 @@
             :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
             :data-title="`${point.x},${point.y}`" 
             :disabled="isPointDisabled(point.id)"
-            :data-coords="`${point.x}, ${point.y}`"
+            :data-coords="`${point.x}, ${point.y} id:${point.id}`"
             @click.stop.prevent="assignMob(point)"
             @dblclick.stop.prevent="false">{{ getTakenMob(point.id)?.mob_index ?? '' }}</button>
         <div class="text-right font-semibold text-xl zone-name">
