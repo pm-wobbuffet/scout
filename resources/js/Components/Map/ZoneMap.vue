@@ -13,13 +13,13 @@
             :style="{ 'left': convertCoordToPercent(aetheryte.x, zone), 'top': convertCoordToPercent(aetheryte.y, zone) }"
             :data-title="aetheryte.name">
         </div>
-        <button v-for="point in zone.spawn_points"
-            
+        <button v-for="point in zone.spawn_points"  
             class="" 
             :class="`point-taken-by-${getTakenMob(point.id)?.mob_index}`"
             :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
             :title="`${point.x},${point.y}`" 
             :disabled="isPointDisabled(point.id)"
+            :data-coords="`${point.x}, ${point.y}`"
             @click.stop.prevent="assignMob(point)"
             @dblclick.stop.prevent="false">{{ getTakenMob(point.id)?.mob_index ?? '' }}</button>
         <div class="text-right font-semibold text-xl zone-name">
@@ -61,6 +61,7 @@ onBeforeMount(() => {
 const props = defineProps({
     zone: Object,
     instance: Number,
+    editmode: Boolean,
 })
 
 const getMobIndex = function(mob_id) {
@@ -69,6 +70,9 @@ const getMobIndex = function(mob_id) {
 }
 
 const isPointDisabled = function(point_id) {
+    if(!props.editmode && !isPointSelected(point_id)) {
+        return true
+    }
     let pts = model.value?.[props.zone.id]?.[props.instance] ?? []
     if (pts.length >= props.zone.mobs.length ) {
         if (isPointSelected(point_id)) {
@@ -114,7 +118,7 @@ const assignMob = function(point) {
     if(validMobs.length > 0 && curMobOnPoint.mob_index != props.zone.mobs.length) {
         placeMob(point, validMobs[0])
     }
-    emit('pointUpdated', point, getTakenMob(point.id))
+    emit('pointUpdated', point, getTakenMob(point.id), props.zone.id, props.instance)
     //emit('mapUpdated')
 }
 

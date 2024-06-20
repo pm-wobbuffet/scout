@@ -11,7 +11,7 @@ main.map-main-window {
 }
 
 .map-container-block {
-    @apply w-[600px] h-[600px] border border-slate-200 relative bg-contain select-none;
+    @apply border border-slate-200 relative bg-contain select-none w-[600px] h-[600px] max-w-[100%] scale-75 md:scale-100;
     background-image: var(--map-bg-image);
 
     .mob-list {
@@ -52,5 +52,17 @@ main.map-main-window {
         &:disabled {
             @apply bg-black/10 ring-opacity-30 !important;
         }
+    }
+
+    .button-mob-marker {
+        @apply absolute h-[20px] w-[20px] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center text-white;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+        line-height: 100%; 
+    }
+
+    button::after {
+        content: attr(data-coords);
+        @apply hidden hover:block absolute top-[-1.5rem] text-xs text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
     }
 }

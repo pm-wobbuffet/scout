@@ -2,8 +2,10 @@
     <div class="w-full min-h-[100vh]">
         <nav
             class="flex flex-wrap w-full items-center justify-between bg-slate-500 text-slate-100 p-2 min-h-[3rem] main-nav flex-grow-1">
-            <div>Logo</div>
-            <div class="flex expac-list">
+            <div>
+                <img src="/turtleknife.png" height="40" width="90" class="inline" alt="The turtle says to murder" />
+            </div>
+            <div class="flex expac-list place-self-center">
                 <div v-for="expansion in expac" :key="expansion.id" class="text-center border p-1 px-4 expac-list-item"
                     @click="setActiveExpac(expansion.id)"
                     :class="{ 'selected-expansion': expansion.id == selectedExp }">
@@ -11,27 +13,39 @@
                     <div class="text-sm">
                         {{ getMappedMobsForExpac(expansion) }} / {{ mobCount(expansion) }}
                     </div>
-
                 </div>
             </div>
-            <div>
-                <a href="#" @click.stop.prevent="printForm()">Shhh</a>
+            <div class="flex">
+                <a href="#" @click.stop.prevent="printForm()" class="w-[90px]"> </a>
             </div>
         </nav>
         <main class="map-main-window">
             <div class="map-image-list order-2">
                 <template v-for="zone in getMapsForExpansion()">
                     <ZoneMap v-for="i in zone.default_instances" :id="`zonemap-${zone.id}-${i}`"
-                        :key="`zonemap-${zone.id}-${i}`" :zone="zone" :instance="i" v-model="form.point_data"
+                        :key="`zonemap-${zone.id}-${i}`" 
+                        :zone="zone" 
+                        :instance="i" 
+                        :editmode="props.editmode"
+                        v-model="form.point_data"
                         @mapUpdated="handleMapUpdated"
                         @pointUpdated="handlePointUpdated"
                         />
                 </template>
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white">
-                <div>Top | Share</div>
+                <div class="p-2">
+                    <a href="#" class="rounded-md bg-blue-400 px-3 text-white py-1 mr-1 font-bold"
+                    ><ArrowUpIcon /> Top</a>
+                    <a href="#" class="rounded-md bg-blue-700 px-3 text-white py-1 font-bold"
+                    @click.prevent="showShareDialog"
+                    ><ExportIcon /> Share</a>
+                </div>
                 <div v-for="expac in getActiveExpac()">
-                    <div class="font-bold bg-slate-300 p-1">{{ expac.name }}</div>
+                    <div class="font-bold bg-slate-300 p-1">
+                        {{ expac.name }}
+                        <div class="italic text-sm inline-block">{{ getMappedMobsForExpac(expac) }}/{{ mobCount(expac) }}</div>
+                    </div>
                     <ul>
                         <template v-for="zone in expac.zones">
                             <li v-for="i in zone.default_instances" class="hover:bg-slate-200 ml-2 pr-2"><a class="text-blue-500"
@@ -46,6 +60,20 @@
                 </div>
             </aside>
         </main>
+        <dialog id="shareModal">
+            <h1 class="font-bold text-2xl mb-4">Share View-Only Map</h1>
+            <p class="text-sm">This link provides a view only copy of the map. Users cannot submit changes to the map.</p>
+            <div class="bg-blue-500 text-white p-4 mb-4">
+                <span
+                >{{ route('scout.view', {scout: props.scout.slug}) }}</span>
+            </div>
+            <h1 class="font-bold text-2xl mb-4">Share Editable Map</h1>
+            <p class="text-sm">This link will allow users to edit/add points to the map, so only give it to trusted users.</p>
+            <div class="bg-blue-500 text-white p-4 mb-4">
+                <span
+                >{{ route('scout.view', {scout: props.scout.slug, password: props.scout.collaborator_password}) }}</span>
+            </div>
+        </dialog>
     </div>
 </template>
 
@@ -54,12 +82,24 @@
 import { computed, onBeforeMount, onMounted, ref, watch } from "vue";
 import ZoneMap from '@/Components/Map/ZoneMap.vue';
 import { useForm } from "@inertiajs/vue3";
+import ArrowUpIcon from "vue-material-design-icons/ArrowUp.vue";
+import ExportIcon from "vue-material-design-icons/Export.vue";
+import ContentCopyIcon from "vue-material-design-icons/ContentCopy.vue";
 
 const emit = defineEmits(['mapUpdated', 'pointUpdated'])
+const processUpdate = function(payload) {
+    if('point_data' in payload) {
+        props.scout.point_data = payload.point_data
+    }
+}
+defineExpose({
+    processUpdate
+})
 
 const props = defineProps({
     expac: Array,
     scout: Object,
+    editmode: Boolean,
 })
 
 const defaultExp = ref(6)
@@ -70,18 +110,34 @@ const form = useForm({
 })
 
 
-const handlePointUpdated = function(point, mob) {
-    emit('pointUpdated', point, mob, form.point_data, getInstanceCounts())
+const showShareDialog = function() {
+    document.getElementById('shareModal').showModal()
+}
+
+const handlePointUpdated = function(point, mob, zone_id, instance_number) {
+    emit('pointUpdated', point, mob, form.point_data, getInstanceCounts(), zone_id, instance_number)
 }
 
 const handleMapUpdated = function() {
     emit('mapUpdated', form.point_data, getInstanceCounts())
 }
 
-// watch(form, () => {
-//     emit('mapUpdated', form.point_data, getInstanceCounts())
-// },{
-// })
+onMounted(() => {
+    const dialog = document.getElementById('shareModal')
+    dialog.addEventListener("click", function(event) {
+        const rect = dialog.getBoundingClientRect();
+        const isInDialog = (
+            rect.top <= event.clientY &&
+            event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX &&
+            event.clientX <= rect.left + rect.width
+        );
+        if (!isInDialog) {
+            dialog.close();
+        }
+    });
+    //document.getElementById('shareModal').showModal()
+})
 
 onBeforeMount(() => {
     if (props?.scout?.instance_data) {
@@ -101,17 +157,25 @@ onBeforeMount(() => {
         //console.log(props.scout.point_data)
         for( let mapId in props.scout.point_data ) {
             for( let instanceId in props.scout.point_data[mapId] ) {
-                props.scout.point_data[mapId][instanceId].forEach((el) => {
-                    if(el.point_id < 0) {
-                        // Custom id, we need to add it to the zone's list of points
-                        addCustomSpawnPoint(el, mapId, instanceId)
-                    }
-                    
-                })
+                if(props.scout.point_data[mapId][instanceId]?.length > 0) {
+                    props.scout.point_data[mapId][instanceId].forEach((el) => {
+                        if(el.point_id < 0) {
+                            // Custom id, we need to add it to the zone's list of points
+                            addCustomSpawnPoint(el, mapId, instanceId)
+                        }
+                    })
+                }
             }
         }
         form.point_data = props.scout.point_data
     }
+    // Should we update the default displayed expansion?
+    // Cycle through expacs and if there are any mapped mobs for it, set that tab to be the active
+    props.expac.forEach((expansion) => {
+        if (getMappedMobsForExpac(expansion) > 0) {
+            selectedExp.value = expansion.id
+        }
+    })
 })
 
 const addCustomSpawnPoint = function(point_data, mapId, instanceId) {
