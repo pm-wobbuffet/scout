@@ -1,6 +1,8 @@
 <template>
     <div class="map-container-block"
-        :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`" 
+        :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`"
+        @mousemove="handleMouseOver"
+        @mouseout="handleMouseOut" 
         @dblclick.prevent="(e) => dblClickMap(e, zone)">
         <div class="absolute mob-list">
             <ol class="block list-decimal pl-4">
@@ -17,7 +19,7 @@
             class="" 
             :class="`point-taken-by-${getTakenMob(point.id)?.mob_index}`"
             :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
-            :title="`${point.x},${point.y}`" 
+            :data-title="`${point.x},${point.y}`" 
             :disabled="isPointDisabled(point.id)"
             :data-coords="`${point.x}, ${point.y}`"
             @click.stop.prevent="assignMob(point)"
@@ -25,6 +27,7 @@
         <div class="text-right font-semibold text-xl zone-name">
             {{ zone.name }}
             <span v-if="zone.default_instances > 1">{{ instance }}</span>
+            <div v-if="is_hovered">({{ x_hover }},{{ y_hover }})</div>
         </div>
     </div>
 </template>
@@ -40,6 +43,9 @@ const emit = defineEmits(['mapUpdated', 'pointUpdated'])
 
 const selectedPoints = ref({})
 const mobPoints = ref({})
+const x_hover = ref(0)
+const y_hover = ref(0)
+const is_hovered = ref(false)
 let mobs = []
 let mobsById = {}
 
@@ -63,6 +69,37 @@ const props = defineProps({
     instance: Number,
     editmode: Boolean,
 })
+
+/* Events and things */
+const handleMouseOver = function(event){
+    is_hovered.value = true
+    let {x, y} = getXYForEvent(event)
+    x_hover.value = x
+    y_hover.value = y
+}
+
+const handleMouseOut = function(event) {
+    is_hovered.value = false
+}
+const dblClickMap = function(event, zone)
+{
+    let x = Number(event.offsetX / event.srcElement.clientWidth * zone.max_coord_size + 1).toFixed(1)
+    let y = Number(event.offsetY / event.srcElement.clientHeight * zone.max_coord_size + 1).toFixed(1)
+    let lastEl = zone.spawn_points.push({
+        'x': x,
+        'y': y,
+        'zone_id': zone.id,
+        'id': -1 * Date.now(),
+    })
+    // Assign a mob to this point since they're creating it for a reason
+    assignMob(zone.spawn_points[lastEl - 1])
+}
+
+const getXYForEvent = function(event) {
+    let x = Number(event.offsetX / event.srcElement.clientWidth * props.zone.max_coord_size + 1).toFixed(1)
+    let y = Number(event.offsetY / event.srcElement.clientHeight * props.zone.max_coord_size + 1).toFixed(1)
+    return {'x': x, 'y': y}
+}
 
 const getMobIndex = function(mob_id) {
     let a = mobs.find((el) => el.id == mob_id)
@@ -155,17 +192,5 @@ const getValidMobs = function() {
     return ret
 }
 
-const dblClickMap = function(event,zone)
-{
-    let x = Number(event.offsetX / event.srcElement.clientWidth * zone.max_coord_size + 1).toFixed(1)
-    let y = Number(event.offsetY / event.srcElement.clientHeight * zone.max_coord_size + 1).toFixed(1)
-    let lastEl = zone.spawn_points.push({
-        'x': x,
-        'y': y,
-        'zone_id': zone.id,
-        'id': -1 * Date.now(),
-    })
-    // Assign a mob to this point since they're creating it for a reason
-    assignMob(zone.spawn_points[lastEl - 1])
-}
+
 </script>

@@ -62,7 +62,7 @@ main.map-main-window {
 
     button::after {
         content: attr(data-coords);
-        @apply hidden hover:block absolute top-[-1.5rem] text-xs text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full;
+        @apply z-[-1] hidden hover:block absolute top-[-1.5rem] text-sm font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none;
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
     }
 }
