@@ -3,7 +3,7 @@
         <nav
             class="flex flex-wrap w-full items-center justify-between bg-slate-500 text-slate-100 p-2 min-h-[3rem] main-nav flex-grow-1">
             <div>
-                <Link href="/"><img src="/turtleknife.png" height="40" width="90" class="inline" alt="The turtle says to murder" /></Link>
+                <Link href="/" :preserve-state="false"><img src="/turtleknife.png" height="40" width="90" class="inline" alt="The turtle says to murder" /></Link>
             </div>
             <div class="flex expac-list place-self-center">
                 <div v-for="expansion in expac" :key="expansion.id" class="text-center border p-1 px-4 expac-list-item"
