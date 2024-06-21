@@ -32,15 +32,6 @@ class MainController extends Controller
     public function store(StoreScoutRequest $request)
     {
         $s = Scout::create($request->safe()->all());
-        //$s->collaborator_password = str(bin2hex(random_bytes(4)));
-        //$s->save();   
-        // Create an ID generator for the submission
-        $sqids = new Sqids(minLength: 10, alphabet: env('SQID_ALPHABET'));
-        $stub = $sqids->encode([$s->id]);
-        $s->update([
-            'slug'                  =>  $stub,
-            'collaborator_password' =>  str(bin2hex(random_bytes(4))),
-        ]);
         
         //return Inertia::location(route('scout.view', [$s->slug, $s->collaborator_password]));
         return redirect()->route('scout.view',[$s->slug, $s->collaborator_password])

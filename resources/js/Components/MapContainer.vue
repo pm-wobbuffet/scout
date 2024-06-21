@@ -117,6 +117,7 @@ const props = defineProps({
     expac: Array,
     scout: Object,
     editmode: Boolean,
+    newlyCreated: Boolean,
 })
 
 const defaultExp = ref(6)
@@ -155,17 +156,20 @@ onMounted(() => {
     const dialog = document.getElementById('shareModal')
     if(dialog) {
         dialog.addEventListener("click", function(event) {
-        const rect = dialog.getBoundingClientRect();
-        const isInDialog = (
-            rect.top <= event.clientY &&
-            event.clientY <= rect.top + rect.height &&
-            rect.left <= event.clientX &&
-            event.clientX <= rect.left + rect.width
-        );
-        if (!isInDialog) {
-            dialog.close();
-        }
-    });
+            const rect = dialog.getBoundingClientRect();
+            const isInDialog = (
+                rect.top <= event.clientY &&
+                event.clientY <= rect.top + rect.height &&
+                rect.left <= event.clientX &&
+                event.clientX <= rect.left + rect.width
+            );
+            if (!isInDialog) {
+                dialog.close();
+            }
+        });
+    }
+    if(props?.newlyCreated == true) {
+        showShareDialog()
     }
     
     //document.getElementById('shareModal').showModal()
@@ -209,6 +213,8 @@ onBeforeMount(() => {
         }
     })
 })
+
+
 
 const getClosestSpawnPoint = function(zone, x, y, mob) {
     const d = function(pointOne, pointTwo) {
@@ -305,7 +311,7 @@ const getMappedMobsForExpac = function (expac) {
     for (let i = 0; i < expac.zones.length; i++) {
         let z = expac.zones[i]
         for (let j = 1; j <= z.default_instances; j++) {
-            totalSeen += form.point_data?.[z.id]?.[j].length ?? 0
+            totalSeen += form.point_data?.[z.id]?.[j]?.length ?? 0
         }
     }
     return totalSeen

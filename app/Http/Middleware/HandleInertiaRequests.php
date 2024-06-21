@@ -35,10 +35,24 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'flash' => $this->getInterestedFlashValues($request),
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
         ];
+        
+    }
+
+    private function getInterestedFlashValues(Request $request): array
+    {
+        $ret = [];
+        if($request->session()->has('message')) {
+            $ret['message'] = $request->session()->get('message');
+        }
+        if($request->session()->has('newly_created')) {
+            $ret['newly_created'] = $request->session()->get('newly_created');
+        }
+        return $ret;
     }
 }

@@ -7,6 +7,7 @@
         @mapUpdated="handleMapUpdate"
         @pointUpdated="handlePointUpdate"
         :editmode="props.scout.collaborator_password != null"
+        :newly-created="props.flash?.newly_created"
         ref="mapRef"
         />
     </div>
@@ -21,6 +22,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 const props = defineProps({
     expac: Array,
     scout: Object,
+    flash: Object,
 })
 
 const mapRef = ref(null)
@@ -68,12 +70,6 @@ const pollUpdates = function() {
 }
 
 onMounted(() => {
-    // if(props.scout.collaborator_password) {
-    //     Echo.private(`Scout.${props.scout.id}.${props.scout.collaborator_password}`)
-    //     .listen('OrderShipmentStatusUpdated', (e) => {
-    //         console.log(e.order);
-    //     });
-    // }
     if(props.scout.updates_max_id) {
         maxUpdateId.value = props.scout.updates_max_id
     }

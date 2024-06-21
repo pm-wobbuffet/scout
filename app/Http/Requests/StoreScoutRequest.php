@@ -14,7 +14,7 @@ class StoreScoutRequest extends FormRequest
         return true;
     }
 
-    protected function passedValidation(): void 
+    protected function prepareForValidation(): void
     {
         $this->merge([
             'collaborator_password' =>  str(bin2hex(random_bytes(4))),
@@ -32,14 +32,15 @@ class StoreScoutRequest extends FormRequest
         // Make sure they're only submitting numerics so they can't do silly things
         // if they manually mess with any inputs in JS
         return [
-            'point_data'                    =>  'required|array',
+            'point_data'                    =>  'array',
             'instance_data'                 =>  'array',
-            'instance_data.*'               =>  'integer',
-            'point_data.*.*.*.point_id'     =>  'numeric',
-            'point_data.*.*.*.mob_id'       =>  'numeric',
-            'point_data.*.*.*.x'            =>  'numeric',
-            'point_data.*.*.*.y'            =>  'numeric',
-            'point_data.*.*.*.expansion_id' =>  'integer',
+            'instance_data.*'               =>  'integer|nullable',
+            'point_data.*.*.*.point_id'     =>  'numeric|nullable',
+            'point_data.*.*.*.mob_id'       =>  'numeric|nullable',
+            'point_data.*.*.*.x'            =>  'numeric|nullable',
+            'point_data.*.*.*.y'            =>  'numeric|nullable',
+            'point_data.*.*.*.expansion_id' =>  'integer|nullable',
+            'collaborator_password'         =>  'required',
         ];
     }
 }
