@@ -34,6 +34,7 @@ class UpdateScoutRequest extends FormRequest
             'point_data.*.*'                =>  'array',
             'point'                         =>  'array',
             'mob'                           =>  'required',
+            'custom_points'                 =>  'array',
             'instance_number'               =>  'integer',
             'zone_id'                       =>  'integer',
         ];

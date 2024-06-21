@@ -17,7 +17,7 @@
 import MapContainer from '@/Components/MapContainer.vue';
 import { useForm, Head } from '@inertiajs/vue3';
 import axios from 'axios';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, onBeforeMount } from 'vue';
 
 const props = defineProps({
     expac: Array,
@@ -27,31 +27,31 @@ const props = defineProps({
 
 const mapRef = ref(null)
 const maxUpdateId = ref(0)
-const abortContoller = new AbortController()
+let updateTimeout = ref(null)
 const refreshTime = 20000
 
 const handleMapUpdate = function(point_data, instance_data) {
     //console.log(point_data, instance_data)
 }
 
-const handlePointUpdate = function(point, mob, point_data, instance_data, zone_id, instance_number) {
+const handlePointUpdate = function(point, mob, point_data, instance_data, zone_id, instance_number, custom_points) {
+    //console.log('Point Update Called')
     if(!props.scout?.collaborator_password || props.scout.collaborator_password == '') return
     // Stop any get update requests that are pending
-    if(abortContoller.abort) {
-        abortContoller.abort()
-    }
+    clearTimeout(updateTimeout)
     axios.post(route('scout.update', {scout: props.scout, password: props.scout.collaborator_password}),{
         point_data: point_data,
         instance_data: instance_data,
         point: point,
         mob: mob,
         zone_id: zone_id,
-        instance_number: instance_number    
+        instance_number: instance_number,
+        custom_points: custom_points, 
     })
     .then((response) => {
         //console.log(response.data)
         mapRef.value.processUpdate(response.data)
-        setTimeout(pollUpdates, refreshTime)
+        updateTimeout = setTimeout(pollUpdates, refreshTime)
     })
 }
 
@@ -61,21 +61,19 @@ const pollUpdates = function() {
         scout: props.scout.slug, 
         password: props.scout.collaborator_password,
         last_id: maxUpdateId.value,
-    }),{
-        signal: abortContoller.value
-    })
+    }))
     .then((response) => {
         mapRef.value.processUpdate(response.data)
-        setTimeout(pollUpdates, refreshTime)
+        clearTimeout(updateTimeout)
+        updateTimeout = setTimeout(pollUpdates, refreshTime)
     })
 }
-
 onMounted(() => {
     if(props.scout.updates_max_id) {
         maxUpdateId.value = props.scout.updates_max_id
     }
     if(props.scout.collaborator_password) {
-        setTimeout(pollUpdates, refreshTime)
+        updateTimeout = setTimeout(pollUpdates, refreshTime)
     }
 })
 </script>

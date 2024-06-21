@@ -94,11 +94,20 @@ class MainController extends Controller
         if(!$password || $password !== $scout->collaborator_password) {
             abort('403', 'Method not allowed');
         }
+
+        if($this->mobAlreadyExists($request, $scout)) {
+            // Prevent collisions by multiple users submitting the same mob
+            return [
+                'point_data' => $scout->point_data,
+                'custom_points' => $scout->custom_points,
+            ];
+        }
         
         // Store the update sent
         $up = new ScoutUpdate($request->safe()->all());
         $up->previous_instance_data = $scout->instance_data;
         $up->previous_point_data = $scout->point_data;
+        $up->previous_custom_points = $scout->custom_points;
         $up->scout_id = $scout->id;
         $up->x = $request->input('point')['x'];
         $up->y = $request->input('point')['y'];
@@ -134,11 +143,18 @@ class MainController extends Controller
         }
         $points[$request->input('zone_id')][$request->input('instance_number')] = $s;
         $scout->point_data = $points;
-        $scout->point_data[$request->input('zone_id')][$request->input('instance_number')];
+        //$scout->point_data[$request->input('zone_id')][$request->input('instance_number')];
+
+        // Make sure any custom points we have in the DB but the client didn't submit are sent back to them
+        // since another user submitted a point in a different window
+        $custom_points = (new Collection($scout->custom_points))->concat($request->safe()->input('custom_points'))
+        ->unique('id')->values()->all();
+        $scout->custom_points = $custom_points;
         $scout->save();
 
         return [
             'point_data' => $scout->point_data,
+            'custom_points' => $scout->custom_points,
         ];
     }
 
@@ -188,5 +204,23 @@ class MainController extends Controller
             }
         }
         return $ret;
+    }
+
+    private function mobAlreadyExists(UpdateScoutRequest $request, Scout $scout)
+    {
+        if($request->mob['mob_index'] == '') {
+            // They're clearing out a point
+            return false;
+        }
+        $z = $scout->point_data[$request->zone_id][$request->instance_number] ?? null;
+        if(!$z) {
+            return false;
+        }
+        foreach($z as $mob_point) {
+            if($mob_point['mob_id'] == $request->mob['id']) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -30,7 +30,7 @@
                         :zone="zone" 
                         :instance="i" 
                         :editmode="props.editmode"
-                        v-model="form.point_data"
+                        v-model="form"
                         @mapUpdated="handleMapUpdated"
                         @pointUpdated="handlePointUpdated"
                         />
@@ -62,7 +62,8 @@
                     </div>
                     <ul>
                         <template v-for="zone in expac.zones">
-                            <li v-for="i in zone.default_instances" class="hover:bg-slate-200 ml-2 pr-2"><a class="text-blue-500"
+                            <li v-for="i in zone.default_instances" class="hover:bg-slate-200 ml-2 pr-2"
+                            :class="{'line-through': getFoundMobCount(zone.id, i) == zone.mobs.length}"><a class="text-blue-500"
                                     :href="`#zonemap-${zone.id}-${i}`">{{ zone.name }}</a>
                                 <span class="ml-1 font-bold text-blue-800" v-if="zone.default_instances > 1">{{ i
                                     }}</span>
@@ -112,8 +113,11 @@ const emit = defineEmits(['mapUpdated', 'pointUpdated'])
 
 const processUpdate = function(payload) {
     if('point_data' in payload) {
-        props.scout.point_data = payload.point_data
-        // form.point_data = payload.point_data
+        //props.scout.point_data = payload.point_data
+        form.point_data = payload.point_data
+    }
+    if('custom_points' in payload) {
+        form.custom_points = payload.custom_points
     }
 }
 defineExpose({
@@ -133,6 +137,7 @@ const cacheBusterAppend = ref(1)
 
 const form = useForm({
     point_data: {},
+    custom_points: [],
 })
 
 
@@ -154,7 +159,7 @@ const showShareDialog = function() {
 }
 
 const handlePointUpdated = function(point, mob, zone_id, instance_number) {
-    emit('pointUpdated', point, mob, form.point_data, getInstanceCounts(), zone_id, instance_number)
+    emit('pointUpdated', point, mob, form.point_data, getInstanceCounts(), zone_id, instance_number, form.custom_points)
 }
 
 const handleMapUpdated = function() {
@@ -216,6 +221,7 @@ onBeforeMount(() => {
             }
         }
         form.point_data = props.scout.point_data
+        form.custom_points = props.scout.custom_points
     }
     // Should we update the default displayed expansion?
     // Cycle through expacs and if there are any mapped mobs for it, set that tab to be the active
@@ -243,6 +249,7 @@ const addCustomSpawnPoint = function(point_data, mapId, instanceId) {
     let ex = getExpacById(point_data.expansion_id)
     if(!ex) return
     let sMap = ex.zones.find((el) => el.id == mapId)
+    /*
     if(sMap && sMap.spawn_points && !sMap.spawn_points.find((z) => z.id == point_data.point_id)) {
         sMap.spawn_points.push({
             'x': point_data.x,
@@ -251,6 +258,7 @@ const addCustomSpawnPoint = function(point_data, mapId, instanceId) {
             'id': point_data.point_id
         })
     }
+        */
     
 }
 

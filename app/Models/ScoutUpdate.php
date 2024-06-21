@@ -16,6 +16,7 @@ class ScoutUpdate extends Model
         return [
             'previous_instance_data' =>  'array',
             'previous_point_data'    =>  'array',
+            'previous_custom_points' =>  'array',
         ];
     }
 }

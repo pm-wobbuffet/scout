@@ -27,6 +27,7 @@ class Scout extends Model
         return [
             'instance_data' =>  'array',
             'point_data'    =>  'array',
+            'custom_points' =>  'array',
         ];
     }
 
