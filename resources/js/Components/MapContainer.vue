@@ -16,7 +16,10 @@
                 </div>
             </div>
             <div class="flex">
-                <a href="#" @click.stop.prevent="printForm()" class="w-[90px]"> </a>
+                <Link as="button" method="post" :href="route('scout.clone', scout)" :preserve-state="false" 
+                v-if="scout?.id && !props.editmode" class="bg-blue-400 p-2 rounded-md text-slate-100"
+                ><ContentCopyIcon/> Duplicate
+                </Link>
             </div>
         </nav>
         <main class="map-main-window">
@@ -80,14 +83,16 @@
                 >{{ route('scout.view', {scout: props.scout.slug}) }}?{{ cacheBusterAppend }}</span>
                 <div class="absolute bottom-0 right-0.5"><ContentCopyIcon /></div>
             </div>
-            <h1 class="font-bold text-2xl mb-4">Share Editable Map</h1>
-            <p class="text-sm">This link will allow users to edit/add points to the map, so only give it to trusted users.</p>
-            <div class="bg-blue-500 text-white p-4 mb-4 relative cursor-pointer"
-            @click="copyLink(route('scout.view', {scout: props.scout.slug, password: props.scout.collaborator_password}))">
-                <span
-                >{{ route('scout.view', {scout: props.scout.slug, password: props.scout.collaborator_password}) }}</span>
-                <div class="absolute bottom-0 right-0.5"><ContentCopyIcon /></div>
-            </div>
+            <template v-if="scout.collaborator_password">
+                <h1 class="font-bold text-2xl mb-4">Share Editable Map</h1>
+                <p class="text-sm">This link will allow users to edit/add points to the map, so only give it to trusted users.</p>
+                <div class="bg-blue-500 text-white p-4 mb-4 relative cursor-pointer"
+                @click="copyLink(route('scout.view', {scout: props.scout.slug, password: props.scout.collaborator_password}))">
+                    <span
+                    >{{ route('scout.view', {scout: props.scout.slug, password: props.scout.collaborator_password}) }}</span>
+                    <div class="absolute bottom-0 right-0.5"><ContentCopyIcon /></div>
+                </div>
+            </template>
             <div class="absolute bottom-0 font-bold opacity-0 transition-opacity duration-300 w-[90%] text-center" id="copied-msg">Copied to clipboard!</div>
         </dialog>
     </div>

@@ -11,6 +11,7 @@ Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
     Route::get('/scout/{scout:slug}/{password?}', 'MainController@view')->name('scout.view');
     Route::post('/scout/{scout:slug}/{password?}', 'MainController@update')->name('scout.update');
     Route::get('/scoutupdates/{scout:slug}/{password?}', 'MainController@getUpdates')->name('scout.updatelist');
+    Route::post('/clone/{scout:slug}', 'MainController@clone')->name('scout.clone');
 });
 
 /*

@@ -25,7 +25,7 @@
             @click.stop.prevent="assignMob(point)"
             @dblclick.stop.prevent="false">{{ getTakenMob(point.id)?.mob_index ?? '' }}</button>
         <div class="absolute flex items-center bottom-1 left-4 text-center text-xs bg-slate-300 font-bold"
-        v-if="props.zone.allow_custom_points"
+        v-if="props.zone.allow_custom_points && props.editmode"
         >
             <AlertOutlineIcon class="text-yellow-800 font-bold text-xl" />
             <span>Spawn points unknown. Custom spawn points can be added by double clicking.</span>

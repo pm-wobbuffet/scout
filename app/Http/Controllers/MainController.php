@@ -9,6 +9,7 @@ use App\Models\Scout;
 use App\Models\ScoutUpdate;
 use App\Models\Zone;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
@@ -17,7 +18,12 @@ use Sqids\Sqids;
 class MainController extends Controller
 {
     
-    function index()
+    /**
+     * Show a blank map for the user to start their scouting journey
+     *
+     * @return \Inertia\Response
+     */
+    function index(): \Inertia\Response
     {
         $expansions = Expansion::query()
         ->with(['zones', 'zones.mobs', 'zones.aetherytes', 'zones.spawn_points'])
@@ -30,7 +36,13 @@ class MainController extends Controller
         ]);
     }
 
-    public function store(StoreScoutRequest $request)
+    /**
+     * Store a new scout map and send the user to the new map, with options for sharing
+     *
+     * @param StoreScoutRequest $request
+     * @return RedirectResponse
+     */
+    public function store(StoreScoutRequest $request): RedirectResponse
     {
         $s = Scout::create($request->safe()->all());
         
@@ -39,7 +51,15 @@ class MainController extends Controller
         ->with(['newly_created' => true]);
     }
 
-    public function view(Scout $scout, string $password = '') 
+    /**
+     * Show a single scout instance
+     * If the user specified the proper collaborator password, allow editing
+     *
+     * @param Scout $scout
+     * @param string $password
+     * @return \Inertia\Response
+     */
+    public function view(Scout $scout, string $password = ''): \Inertia\Response
     {
         $scout->load(['updates']);
         $scout->loadMax('updates', 'id');
@@ -61,7 +81,15 @@ class MainController extends Controller
         ]);
     }
 
-    public function update(UpdateScoutRequest $request, Scout $scout, string $password = '')
+    /**
+     * Process a mob update request
+     *
+     * @param UpdateScoutRequest $request
+     * @param Scout $scout
+     * @param string $password
+     * @return array - updated point_data to replace current in View
+     */
+    public function update(UpdateScoutRequest $request, Scout $scout, string $password = ''): array
     {
         if(!$password || $password !== $scout->collaborator_password) {
             abort('403', 'Method not allowed');
@@ -112,6 +140,20 @@ class MainController extends Controller
         return [
             'point_data' => $scout->point_data,
         ];
+    }
+
+    public function clone(Request $request, Scout $scout)
+    {
+        $sc = Scout::create([
+            'instance_data' =>  $scout->instance_data,
+            'point_data'    =>  $scout->point_data,
+            'collaborator_password' => str(bin2hex(random_bytes(4))),
+        ]);
+        if($sc) {
+            return redirect()->route('scout.view',[$sc->slug, $sc->collaborator_password])
+                ->with(['newly_created' => true]);
+        }
+
     }
 
     public function getUpdates(Request $request, Scout $scout, string $password = '')
