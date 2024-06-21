@@ -30,6 +30,8 @@ class UpdateScoutRequest extends FormRequest
             'point_data.*.*.*.x'            =>  'numeric|nullable',
             'point_data.*.*.*.y'            =>  'numeric|nullable',
             'point_data.*.*.*.expansion_id' =>  'integer|nullable',
+            'point_data.*'                  =>  'array',
+            'point_data.*.*'                =>  'array',
             'point'                         =>  'array',
             'mob'                           =>  'required',
             'instance_number'               =>  'integer',

@@ -113,6 +113,7 @@ const emit = defineEmits(['mapUpdated', 'pointUpdated'])
 const processUpdate = function(payload) {
     if('point_data' in payload) {
         props.scout.point_data = payload.point_data
+        // form.point_data = payload.point_data
     }
 }
 defineExpose({
@@ -161,6 +162,7 @@ const handleMapUpdated = function() {
 }
 
 onMounted(() => {
+    
     const dialog = document.getElementById('shareModal')
     // This bit of code lets you click outside of the Share modal in the backdrop area and have it
     // close the page

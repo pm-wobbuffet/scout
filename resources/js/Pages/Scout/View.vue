@@ -28,7 +28,7 @@ const props = defineProps({
 const mapRef = ref(null)
 const maxUpdateId = ref(0)
 const abortContoller = new AbortController()
-const refreshTime = 3000
+const refreshTime = 20000
 
 const handleMapUpdate = function(point_data, instance_data) {
     //console.log(point_data, instance_data)
@@ -56,6 +56,7 @@ const handlePointUpdate = function(point, mob, point_data, instance_data, zone_i
 }
 
 const pollUpdates = function() {
+    // return
     axios.get(route('scout.updatelist', {
         scout: props.scout.slug, 
         password: props.scout.collaborator_password,
