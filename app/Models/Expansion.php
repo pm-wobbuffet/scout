@@ -20,6 +20,7 @@ class Expansion extends Model
 
     public function zones(): HasMany
     {
-        return $this->hasMany(Zone::class);
+        return $this->hasMany(Zone::class)
+        ->orderBy('sort_priority');
     }
 }

@@ -48,7 +48,9 @@ class InitialDataSeeder extends Seeder
         ]);
 
         $p = File::json(resource_path('json/zones.json'));
+        $zone_number = 0; // Used for assigning priority based on json file order
         foreach($p as $zone) {
+            $zone_number++;
             $mId = intval($zone['map']);
             $z = Zone::updateOrCreate(
                 ['id' => $zone['id']],
@@ -59,6 +61,7 @@ class InitialDataSeeder extends Seeder
                     'expansion_id'      =>  intval($zone['version']) + 2,
                     'size_factor'       =>  $zone['size_factor'],
                     'max_coord_size'    =>  round( 41 / ($zone['size_factor'] / 100), 1, PHP_ROUND_HALF_DOWN),
+                    'sort_priority'     =>  $zone_number * 10,
                 ]
             );
             foreach($zone['mobs'] as $mob) {

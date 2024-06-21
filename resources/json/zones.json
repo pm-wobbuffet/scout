@@ -132,6 +132,132 @@
         ]
     },
     {
+        "id": 180,
+        "version": 0,
+        "name": "Outer La Noscea",
+        "size_factor": 100,
+        "map": 30,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 19.2,
+                "y": 17.2,
+                "name": "Camp Overlook"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 44,
+                "name": "Cornu",
+                "rank": 2,
+                "npcbase": 3206,
+                "mob_index": 1
+            }
+        ]
+    },
+    {
+        "id": 148,
+        "version": 0,
+        "name": "Central Shroud",
+        "size_factor": 100,
+        "map": 4,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 21.8,
+                "y": 22.2,
+                "name": "Bentbranch Meadows"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 2,
+                "name": "Forneus",
+                "rank": 2,
+                "npcbase": 3192,
+                "mob_index": 1
+            }
+        ]
+    },
+    {
+        "id": 152,
+        "version": 0,
+        "name": "East Shroud",
+        "size_factor": 100,
+        "map": 5,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 17.8,
+                "y": 27.5,
+                "name": "The Hawthorne Hut"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 5,
+                "name": "Melt",
+                "rank": 2,
+                "npcbase": 3193,
+                "mob_index": 1
+            }
+        ]
+    },
+    {
+        "id": 153,
+        "version": 0,
+        "name": "South Shroud",
+        "size_factor": 100,
+        "map": 6,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 16.9,
+                "y": 28.6,
+                "name": "Camp Tranquil"
+            },
+            {
+                "type": 60453,
+                "x": 25.1,
+                "y": 20.1,
+                "name": "Quarrymill"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 8,
+                "name": "Ghede ti malice",
+                "rank": 2,
+                "npcbase": 3194,
+                "mob_index": 1
+            }
+        ]
+    },
+    {
+        "id": 154,
+        "version": 0,
+        "name": "North Shroud",
+        "size_factor": 100,
+        "map": 7,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 20.6,
+                "y": 26.1,
+                "name": "Fallgourd Float"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 11,
+                "name": "Girtab",
+                "rank": 2,
+                "npcbase": 3195,
+                "mob_index": 1
+            }
+        ]
+    },
+    {
         "id": 140,
         "version": 0,
         "name": "Western Thanalan",
@@ -264,108 +390,6 @@
         ]
     },
     {
-        "id": 148,
-        "version": 0,
-        "name": "Central Shroud",
-        "size_factor": 100,
-        "map": 4,
-        "aetherytes": [
-            {
-                "type": 60453,
-                "x": 21.8,
-                "y": 22.2,
-                "name": "Bentbranch Meadows"
-            }
-        ],
-        "mobs": [
-            {
-                "id": 2,
-                "name": "Forneus",
-                "rank": 2,
-                "npcbase": 3192,
-                "mob_index": 1
-            }
-        ]
-    },
-    {
-        "id": 152,
-        "version": 0,
-        "name": "East Shroud",
-        "size_factor": 100,
-        "map": 5,
-        "aetherytes": [
-            {
-                "type": 60453,
-                "x": 17.8,
-                "y": 27.5,
-                "name": "The Hawthorne Hut"
-            }
-        ],
-        "mobs": [
-            {
-                "id": 5,
-                "name": "Melt",
-                "rank": 2,
-                "npcbase": 3193,
-                "mob_index": 1
-            }
-        ]
-    },
-    {
-        "id": 153,
-        "version": 0,
-        "name": "South Shroud",
-        "size_factor": 100,
-        "map": 6,
-        "aetherytes": [
-            {
-                "type": 60453,
-                "x": 16.9,
-                "y": 28.6,
-                "name": "Camp Tranquil"
-            },
-            {
-                "type": 60453,
-                "x": 25.1,
-                "y": 20.1,
-                "name": "Quarrymill"
-            }
-        ],
-        "mobs": [
-            {
-                "id": 8,
-                "name": "Ghede ti malice",
-                "rank": 2,
-                "npcbase": 3194,
-                "mob_index": 1
-            }
-        ]
-    },
-    {
-        "id": 154,
-        "version": 0,
-        "name": "North Shroud",
-        "size_factor": 100,
-        "map": 7,
-        "aetherytes": [
-            {
-                "type": 60453,
-                "x": 20.6,
-                "y": 26.1,
-                "name": "Fallgourd Float"
-            }
-        ],
-        "mobs": [
-            {
-                "id": 11,
-                "name": "Girtab",
-                "rank": 2,
-                "npcbase": 3195,
-                "mob_index": 1
-            }
-        ]
-    },
-    {
         "id": 155,
         "version": 0,
         "name": "Coerthas Central Highlands",
@@ -385,54 +409,6 @@
                 "name": "Marraco",
                 "rank": 2,
                 "npcbase": 3207,
-                "mob_index": 1
-            }
-        ]
-    },
-    {
-        "id": 156,
-        "version": 0,
-        "name": "Mor Dhona",
-        "size_factor": 100,
-        "map": 25,
-        "aetherytes": [
-            {
-                "type": 60453,
-                "x": 22.3,
-                "y": 8.1,
-                "name": "Revenant's Toll"
-            }
-        ],
-        "mobs": [
-            {
-                "id": 50,
-                "name": "Kurrea",
-                "rank": 2,
-                "npcbase": 3208,
-                "mob_index": 1
-            }
-        ]
-    },
-    {
-        "id": 180,
-        "version": 0,
-        "name": "Outer La Noscea",
-        "size_factor": 100,
-        "map": 30,
-        "aetherytes": [
-            {
-                "type": 60453,
-                "x": 19.2,
-                "y": 17.2,
-                "name": "Camp Overlook"
-            }
-        ],
-        "mobs": [
-            {
-                "id": 44,
-                "name": "Cornu",
-                "rank": 2,
-                "npcbase": 3206,
                 "mob_index": 1
             }
         ]
@@ -464,6 +440,98 @@
                 "name": "Lyuba",
                 "rank": 2,
                 "npcbase": 4540,
+                "mob_index": 2
+            }
+        ]
+    },
+    {
+        "id": 156,
+        "version": 0,
+        "name": "Mor Dhona",
+        "size_factor": 100,
+        "map": 25,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 22.3,
+                "y": 8.1,
+                "name": "Revenant's Toll"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 50,
+                "name": "Kurrea",
+                "rank": 2,
+                "npcbase": 3208,
+                "mob_index": 1
+            }
+        ]
+    },
+    {
+        "id": 401,
+        "version": 1,
+        "name": "The Sea of Clouds",
+        "size_factor": 95,
+        "map": 215,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 10.5,
+                "y": 14.2,
+                "name": "Ok' Zundu"
+            },
+            {
+                "type": 60453,
+                "x": 10.3,
+                "y": 33.6,
+                "name": "Camp Cloudtop"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 74,
+                "name": "Enkelados",
+                "rank": 2,
+                "npcbase": 4547,
+                "mob_index": 1
+            },
+            {
+                "id": 75,
+                "name": "Sisiutl",
+                "rank": 2,
+                "npcbase": 4548,
+                "mob_index": 2
+            }
+        ]
+    },
+    {
+        "id": 402,
+        "version": 1,
+        "name": "Azys Lla",
+        "size_factor": 95,
+        "map": 216,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 8.1,
+                "y": 10.6,
+                "name": "Helix"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 79,
+                "name": "Campacti",
+                "rank": 2,
+                "npcbase": 4549,
+                "mob_index": 1
+            },
+            {
+                "id": 80,
+                "name": "Stench blossom",
+                "rank": 2,
+                "npcbase": 4550,
                 "mob_index": 2
             }
         ]
@@ -567,74 +635,6 @@
         ]
     },
     {
-        "id": 401,
-        "version": 1,
-        "name": "The Sea of Clouds",
-        "size_factor": 95,
-        "map": 215,
-        "aetherytes": [
-            {
-                "type": 60453,
-                "x": 10.5,
-                "y": 14.2,
-                "name": "Ok' Zundu"
-            },
-            {
-                "type": 60453,
-                "x": 10.3,
-                "y": 33.6,
-                "name": "Camp Cloudtop"
-            }
-        ],
-        "mobs": [
-            {
-                "id": 74,
-                "name": "Enkelados",
-                "rank": 2,
-                "npcbase": 4547,
-                "mob_index": 1
-            },
-            {
-                "id": 75,
-                "name": "Sisiutl",
-                "rank": 2,
-                "npcbase": 4548,
-                "mob_index": 2
-            }
-        ]
-    },
-    {
-        "id": 402,
-        "version": 1,
-        "name": "Azys Lla",
-        "size_factor": 95,
-        "map": 216,
-        "aetherytes": [
-            {
-                "type": 60453,
-                "x": 8.1,
-                "y": 10.6,
-                "name": "Helix"
-            }
-        ],
-        "mobs": [
-            {
-                "id": 79,
-                "name": "Campacti",
-                "rank": 2,
-                "npcbase": 4549,
-                "mob_index": 1
-            },
-            {
-                "id": 80,
-                "name": "Stench blossom",
-                "rank": 2,
-                "npcbase": 4550,
-                "mob_index": 2
-            }
-        ]
-    },
-    {
         "id": 612,
         "version": 2,
         "name": "The Fringes",
@@ -667,80 +667,6 @@
                 "name": "Erle",
                 "rank": 2,
                 "npcbase": 6840,
-                "mob_index": 2
-            }
-        ]
-    },
-    {
-        "id": 613,
-        "version": 2,
-        "name": "The Ruby Sea",
-        "size_factor": 100,
-        "map": 371,
-        "aetherytes": [
-            {
-                "type": 60453,
-                "x": 28.7,
-                "y": 16.3,
-                "name": "Tamamizu"
-            },
-            {
-                "type": 60453,
-                "x": 23.3,
-                "y": 9.8,
-                "name": "Onokoro"
-            }
-        ],
-        "mobs": [
-            {
-                "id": 84,
-                "name": "Funa yurei",
-                "rank": 2,
-                "npcbase": 6845,
-                "mob_index": 1
-            },
-            {
-                "id": 85,
-                "name": "Oni yumemi",
-                "rank": 2,
-                "npcbase": 6846,
-                "mob_index": 2
-            }
-        ]
-    },
-    {
-        "id": 614,
-        "version": 2,
-        "name": "Yanxia",
-        "size_factor": 100,
-        "map": 354,
-        "aetherytes": [
-            {
-                "type": 60453,
-                "x": 30.2,
-                "y": 19.7,
-                "name": "Namai"
-            },
-            {
-                "type": 60453,
-                "x": 26.4,
-                "y": 13.4,
-                "name": "The House of the Fierce"
-            }
-        ],
-        "mobs": [
-            {
-                "id": 89,
-                "name": "Gajasura",
-                "rank": 2,
-                "npcbase": 6847,
-                "mob_index": 1
-            },
-            {
-                "id": 90,
-                "name": "Angada",
-                "rank": 2,
-                "npcbase": 6848,
                 "mob_index": 2
             }
         ]
@@ -815,6 +741,80 @@
                 "name": "Luminare",
                 "rank": 2,
                 "npcbase": 6844,
+                "mob_index": 2
+            }
+        ]
+    },
+    {
+        "id": 613,
+        "version": 2,
+        "name": "The Ruby Sea",
+        "size_factor": 100,
+        "map": 371,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 28.7,
+                "y": 16.3,
+                "name": "Tamamizu"
+            },
+            {
+                "type": 60453,
+                "x": 23.3,
+                "y": 9.8,
+                "name": "Onokoro"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 84,
+                "name": "Funa yurei",
+                "rank": 2,
+                "npcbase": 6845,
+                "mob_index": 1
+            },
+            {
+                "id": 85,
+                "name": "Oni yumemi",
+                "rank": 2,
+                "npcbase": 6846,
+                "mob_index": 2
+            }
+        ]
+    },
+    {
+        "id": 614,
+        "version": 2,
+        "name": "Yanxia",
+        "size_factor": 100,
+        "map": 354,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 30.2,
+                "y": 19.7,
+                "name": "Namai"
+            },
+            {
+                "type": 60453,
+                "x": 26.4,
+                "y": 13.4,
+                "name": "The House of the Fierce"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 89,
+                "name": "Gajasura",
+                "rank": 2,
+                "npcbase": 6847,
+                "mob_index": 1
+            },
+            {
+                "id": 90,
+                "name": "Angada",
+                "rank": 2,
+                "npcbase": 6848,
                 "mob_index": 2
             }
         ]
