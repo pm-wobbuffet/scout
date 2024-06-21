@@ -28,7 +28,7 @@ const props = defineProps({
 const mapRef = ref(null)
 const maxUpdateId = ref(0)
 const abortContoller = new AbortController()
-const refreshTime = 10000
+const refreshTime = 3000
 
 const handleMapUpdate = function(point_data, instance_data) {
     //console.log(point_data, instance_data)

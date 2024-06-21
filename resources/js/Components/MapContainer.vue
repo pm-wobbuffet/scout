@@ -112,7 +112,7 @@ const emit = defineEmits(['mapUpdated', 'pointUpdated'])
 
 const processUpdate = function(payload) {
     if('point_data' in payload) {
-        props.scout.point_data = payload.point_data
+        form.point_data = payload.point_data
     }
 }
 defineExpose({
@@ -274,7 +274,7 @@ const getInstanceCounts = function () {
 }
 
 const getFoundMobCount = function (zone, instance_number) {
-    return form.point_data?.[zone]?.[instance_number].length ?? 0
+    return form.point_data?.[zone]?.[instance_number]?.length ?? 0
 }
 
 const getMappedMobsForExpac = function (expac) {
