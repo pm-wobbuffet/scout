@@ -44,6 +44,12 @@
                     <a href="#" class="rounded-md bg-blue-700 px-3 text-white py-1 font-bold" v-else
                     @click.prevent="submitForm"><ExportIcon /> Share</a>
                 </div>
+                <div class="p-2 text-center">
+                    <a href="#" class="rounded-md bg-slate-400 px-3 text-white py-1 font-bold">
+                        <ContentCopyIcon />
+                        Import
+                    </a>
+                </div>
                 <div v-for="expac in getActiveExpac()">
                     <div class="font-bold bg-slate-300 p-1">
                         {{ expac.name }}
@@ -93,6 +99,26 @@ import { useForm, Link } from "@inertiajs/vue3";
 import ArrowUpIcon from "vue-material-design-icons/ArrowUp.vue";
 import ExportIcon from "vue-material-design-icons/Export.vue";
 import ContentCopyIcon from "vue-material-design-icons/ContentCopy.vue";
+import ClipboardArrowUpOutlineIcon from "vue-material-design-icons/ClipboardArrowUpOutline.vue";
+
+const copiedText = `
+FOUND: Nariphon @ Lakeland ( 26.6  , 37.5 ) ---  A-Rank  --  100%
+FOUND: Coquecigrue @ Kholusia ( 31.5  , 19.9 ) ---  B-Rank  --  100%
+FOUND: Indomitable @ Kholusia ( 29.8  , 29.8 ) ---  B-Rank  --  100%
+FOUND: Maliktender @ Amh Araeng ( 33.2  , 21.9 ) ---  A-Rank  --  100%
+FOUND: Juggler Hecatomb @ Amh Araeng ( 28.5  , 26.0 ) ---  B-Rank  --  100%
+FOUND: Sugaar @ Amh Araeng ( 19.2  , 24.9 ) ---  A-Rank  --  100%
+FOUND: Vulpangue @ Il Mheg ( 19.7  , 8.9 ) ---  B-Rank  --  100%
+FOUND: The Mudman @ Il Mheg ( 29.1  , 5.3 ) ---  A-Rank  --  100%
+FOUND: Domovoi @ Il Mheg ( 19.6  , 27.5 ) ---  B-Rank  --  100%
+FOUND: O Poorest Pauldia @ Il Mheg ( 19.7  , 34.7 ) ---  A-Rank  --  100%
+FOUND: Supay @ The Rak'tika Greatwood ( 17.1  , 24.3 ) ---  A-Rank  --  100%
+FOUND: Deacon @ The Tempest ( 25.1  , 25.2 ) ---  B-Rank  --  100%
+FOUND: Gilshs Aath Swiftclaw @ The Tempest ( 18.5  , 13.5 ) ---  B-Rank  --  100%
+FOUND: Petalodus @ Elpis ( 17.9  , 30.3 ) ---  A-Rank  --  100%
+FOUND: Yilan @ Thavnair ( 27.0  , 21.2 ) ---  A-Rank  --  100%
+FOUND: Sugriva @ Thavnair ( 14.7  , 12.6 ) ---  A-Rank  --  100%
+`
 
 const emit = defineEmits(['mapUpdated', 'pointUpdated'])
 const processUpdate = function(payload) {
@@ -143,6 +169,36 @@ const handleMapUpdated = function() {
 }
 
 onMounted(() => {
+
+    // Create a mapping of Unicode characters to their numeric instance number
+    const instanceToIntMapping = {
+        "": 1,
+        "": 2,
+        "": 3,
+    }
+    // \uE0B1 = Instance 1 , \uE0B2 = 2 , \uE0B3 = 3 
+    const re = /[\uE0BB]([^\uE0B1-\uE0B3]*)([\uE0B1-\uE0B3]?) \( ([0-9\.]+)\W+,\W+([0-9\.]+)\W+\).*/
+    const linesArr = copiedText.split(/\r?\n/);
+    linesArr.forEach((line) => {
+        let found = line.match(re)
+        let instance = 1
+        if(found) {
+            let zoneName = found[1]
+            let x = parseFloat(found[3])
+            let y = parseFloat(found[4])
+            let zone = getZoneByName(zoneName)
+            if(found[2]) {
+                instance = instanceToIntMapping[found[2]] ?? 1
+            }
+            let mob = zone.mobs.find((el) => line.includes(el.name))
+            //console.log(found[0], zone, x, y, instance, mob)
+            if(mob && zone && x && y) {
+                console.log('Mob found ', mob)
+                let point  = getClosestSpawnPoint(zone, x, y, mob.name)
+            }
+        }
+    })
+
     const dialog = document.getElementById('shareModal')
     if(dialog) {
         dialog.addEventListener("click", function(event) {
@@ -200,6 +256,43 @@ onBeforeMount(() => {
         }
     })
 })
+
+const getClosestSpawnPoint = function(zone, x, y, mob) {
+    const d = function(pointOne, pointTwo) {
+        return Math.sqrt(Math.pow(pointTwo.x - pointOne.x, 2) + Math.pow(pointTwo.y - pointOne.y, 2))
+    }
+    const closest = zone.spawn_points.sort((a, b) => {
+        return d(a, b)
+    })
+    console.log(zone, x, y, mob, closest.slice(0, 1))
+    /*
+    function d(point) {
+        return Math.pow(parseFloat(point.x), 2) + Math.pow(parseFloat(point.y), 2);
+    }
+
+    function trueDistance(pointOne, pointTwo) {
+        return Math.sqrt(Math.pow(pointTwo.x - pointOne.x, 2) + Math.pow(pointTwo.y - pointOne.y, 2))
+    }
+
+    let spawnpoints = [{x: x, y: y}, ...zone.spawn_points]
+    let closest = spawnpoints.slice(1).reduce(function (min, p) {
+        if (d(p) < min.d) min.point = p;
+            return min;
+        }, { point: spawnpoints[0], d: d(spawnpoints[0]) })
+    console.log(x, y, closest, trueDistance(spawnpoints[0], closest.point, mob))
+    */
+}
+
+const getZoneByName = function(zoneName) {
+    for(let i = 0; i < props.expac.length; i++) {
+        for(let j = 0; j < props.expac[i].zones.length; j++) {
+            let z = props.expac[i].zones[j]
+            if(z.name == zoneName) {
+                return z
+            }
+        }
+    }
+}
 
 const addCustomSpawnPoint = function(point_data, mapId, instanceId) {
     // Does the point already exist
