@@ -6,7 +6,7 @@ import path from 'path';
 export default defineConfig({
     plugins: [
         laravel({
-            input: 'resources/js/app.js',
+            input: ['resources/js/app.js', 'resources/css/app.css'],
             ssr: 'resources/js/ssr.js',
             refresh: true,
         }),
