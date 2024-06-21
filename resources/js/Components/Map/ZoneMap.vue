@@ -153,6 +153,7 @@ const assignMobManual = function(point, mob) {
 }
 
 const assignMob = function(point) {
+    if(!props.editmode) return
     let validMobs = getValidMobs()
     let curMobOnPoint = getTakenMob(point.id)
 
