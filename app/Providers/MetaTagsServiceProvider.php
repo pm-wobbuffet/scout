@@ -40,6 +40,7 @@ class MetaTagsServiceProvider extends ServiceProvider
             $og = new \Butschster\Head\Packages\Entities\OpenGraphPackage('Scouter_OG');
             $og->setType('website')
                 ->setSiteName('PocketMonsters.net')
+                ->addImage('https://scout.wobbuffet.net/turtleknife.png')
                 ->setUrl(Request::url());
 
             $meta->registerPackage($og);

@@ -75,9 +75,9 @@
             <h1 class="font-bold text-2xl mb-4">Share View-Only Map</h1>
             <p class="text-sm">This link provides a view only copy of the map. Users cannot submit changes to the map.</p>
             <div class="bg-blue-500 text-white p-4 mb-4 relative cursor-pointer"
-            @click="copyLink(route('scout.view', {scout: props.scout.slug}))">
+            @click="copyLink(route('scout.view', {scout: props.scout.slug})+cacheBusterAppend)">
                 <span
-                >{{ route('scout.view', {scout: props.scout.slug}) }}</span>
+                >{{ route('scout.view', {scout: props.scout.slug}) }}?{{ cacheBusterAppend }}</span>
                 <div class="absolute bottom-0 right-0.5"><ContentCopyIcon /></div>
             </div>
             <h1 class="font-bold text-2xl mb-4">Share Editable Map</h1>
@@ -123,6 +123,7 @@ const props = defineProps({
 
 const defaultExp = ref(6)
 const selectedExp = ref(6)
+const cacheBusterAppend = ref(1)
 
 const form = useForm({
     point_data: {},
@@ -142,6 +143,7 @@ const copyLink = async function(linkText) {
 }
 
 const showShareDialog = function() {
+    cacheBusterAppend.value += 1
     document.getElementById('shareModal').showModal()
 }
 

@@ -8,6 +8,7 @@ use App\Models\Expansion;
 use App\Models\Scout;
 use App\Models\ScoutUpdate;
 use App\Models\Zone;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
@@ -52,6 +53,8 @@ class MainController extends Controller
         ->orderBy('id')
         ->get();
 
+        $exp_totals = $this->calculateExpTotals($expansions, $scout);
+        $this->setOGTitle(implode(', ', $exp_totals));
         return Inertia::render('Scout/View',[
             'expac' =>  $expansions,
             'scout' =>  $scout,
@@ -116,16 +119,22 @@ class MainController extends Controller
         if($password && $password !== $scout->collaborator_password) {
             abort('403', 'Method not allowed');
         }
-        // $updates = ScoutUpdate::query()
-        // ->where('scout_id', $scout->id)
-        // ->when($request->input('last_id'), function($query, $lastid) {
-        //     $query->where('id', '>', $lastid);
-        // })
-        // ->orderBy('id', 'asc')
-        // ->get()
-        // ;
-
-        // return $updates;
         return $scout;
+    }
+
+    private function calculateExpTotals(EloquentCollection $expansions, Scout $scout): array
+    {
+        $ret = [];
+        foreach($expansions as $expac) {
+            $total_mobs = $seen_mobs = 0;
+            $expac->zones->each(function($item) use(&$total_mobs, &$seen_mobs, $scout) {
+                $total_mobs += $item->total_mobs;
+                $seen_mobs += count($scout['point_data'][$item->id] ?? []) ?? 0;
+            });
+            if($seen_mobs > 0) {
+                $ret[] = "{$expac->abbreviation}: {$seen_mobs}/{$total_mobs}";
+            }
+        }
+        return $ret;
     }
 }
