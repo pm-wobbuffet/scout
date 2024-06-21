@@ -167,6 +167,7 @@ const assignMob = function(point) {
     let validMobs = getValidMobs()
     let curMobOnPoint = getTakenMob(point.id)
 
+    //console.log(curMobOnPoint)
     if(curMobOnPoint.mob_index != '') {
         removeMob(point, curMobOnPoint)
     }
@@ -182,7 +183,7 @@ const assignMob = function(point) {
 
 const removeMob = function(point, mob) {
     const index = model.value.point_data?.[props.zone.id]?.[props.instance].findIndex((el) => el.mob_id == mob.id) ?? -1
-    if (index && index > -1) {
+    if (index != undefined && index > -1) {
         model.value.point_data[props.zone.id][props.instance].splice(index, 1)
     }
 }
