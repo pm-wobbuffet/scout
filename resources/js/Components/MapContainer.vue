@@ -112,7 +112,7 @@ const emit = defineEmits(['mapUpdated', 'pointUpdated'])
 
 const processUpdate = function(payload) {
     if('point_data' in payload) {
-        form.point_data = payload.point_data
+        props.scout.point_data = payload.point_data
     }
 }
 defineExpose({
