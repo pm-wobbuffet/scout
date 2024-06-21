@@ -24,6 +24,12 @@
             :data-coords="`${point.x}, ${point.y} id:${point.id}`"
             @click.stop.prevent="assignMob(point)"
             @dblclick.stop.prevent="false">{{ getTakenMob(point.id)?.mob_index ?? '' }}</button>
+        <div class="absolute flex items-center bottom-1 left-0 w-[calc(100% - 3rem)] mx-12 text-center text-xs bg-slate-300 font-bold"
+        v-if="props.zone.allow_custom_points"
+        >
+            <AlertOutlineIcon class="text-yellow-800 font-bold text-xl" />
+            <span>This map is not finalized. Custom spawn points can be added by double clicking.</span>
+        </div>
         <div class="text-right font-semibold text-xl zone-name">
             {{ zone.name }}
             <span v-if="zone.default_instances > 1">{{ instance }}</span>
@@ -34,6 +40,7 @@
 
 <script setup>
 import { onMounted, ref, getCurrentInstance, onBeforeMount } from "vue"
+import AlertOutlineIcon from "vue-material-design-icons/AlertOutline.vue";
 
 // Parent model link
 // Ideally, data structure should look like model[zone][instance] = Array of objects containing point_id and mob_id
@@ -83,6 +90,7 @@ const handleMouseOut = function(event) {
 }
 const dblClickMap = function(event, zone)
 {
+    if(!zone.allow_custom_points) return
     let x = Number(event.offsetX / event.srcElement.clientWidth * zone.max_coord_size + 1).toFixed(1)
     let y = Number(event.offsetY / event.srcElement.clientHeight * zone.max_coord_size + 1).toFixed(1)
     let lastEl = zone.spawn_points.push({

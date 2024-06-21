@@ -26,3 +26,10 @@ dialog::backdrop {
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(1px);
 }
+
+footer {
+    @apply bg-slate-800 text-slate-200 p-4;
+    a {
+        @apply underline;
+    }
+}

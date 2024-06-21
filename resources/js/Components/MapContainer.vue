@@ -104,6 +104,7 @@ import ContentCopyIcon from "vue-material-design-icons/ContentCopy.vue";
 import ClipboardArrowUpOutlineIcon from "vue-material-design-icons/ClipboardArrowUpOutline.vue";
 
 const emit = defineEmits(['mapUpdated', 'pointUpdated'])
+
 const processUpdate = function(payload) {
     if('point_data' in payload) {
         props.scout.point_data = payload.point_data
@@ -154,6 +155,8 @@ const handleMapUpdated = function() {
 
 onMounted(() => {
     const dialog = document.getElementById('shareModal')
+    // This bit of code lets you click outside of the Share modal in the backdrop area and have it
+    // close the page
     if(dialog) {
         dialog.addEventListener("click", function(event) {
             const rect = dialog.getBoundingClientRect();
@@ -168,11 +171,11 @@ onMounted(() => {
             }
         });
     }
+    // If they are being redirected from the main page after creating a new "Share" link
+    // show them the Share modal
     if(props?.newlyCreated == true) {
         showShareDialog()
     }
-    
-    //document.getElementById('shareModal').showModal()
 })
 
 onBeforeMount(() => {
@@ -214,34 +217,6 @@ onBeforeMount(() => {
     })
 })
 
-
-
-const getClosestSpawnPoint = function(zone, x, y, mob) {
-    const d = function(pointOne, pointTwo) {
-        return Math.sqrt(Math.pow(pointTwo.x - pointOne.x, 2) + Math.pow(pointTwo.y - pointOne.y, 2))
-    }
-    const closest = zone.spawn_points.sort((a, b) => {
-        return d(a, b)
-    })
-    console.log(zone, x, y, mob, closest.slice(0, 1))
-    /*
-    function d(point) {
-        return Math.pow(parseFloat(point.x), 2) + Math.pow(parseFloat(point.y), 2);
-    }
-
-    function trueDistance(pointOne, pointTwo) {
-        return Math.sqrt(Math.pow(pointTwo.x - pointOne.x, 2) + Math.pow(pointTwo.y - pointOne.y, 2))
-    }
-
-    let spawnpoints = [{x: x, y: y}, ...zone.spawn_points]
-    let closest = spawnpoints.slice(1).reduce(function (min, p) {
-        if (d(p) < min.d) min.point = p;
-            return min;
-        }, { point: spawnpoints[0], d: d(spawnpoints[0]) })
-    console.log(x, y, closest, trueDistance(spawnpoints[0], closest.point, mob))
-    */
-}
-
 const getZoneByName = function(zoneName) {
     for(let i = 0; i < props.expac.length; i++) {
         for(let j = 0; j < props.expac[i].zones.length; j++) {
@@ -281,15 +256,6 @@ const submitForm = function() {
     }
 }
 
-const printForm = function () {
-    form
-        .transform((data) => ({
-            ...data,
-            instance_data: getInstanceCounts(),
-        }))
-        .post(route('scout.store'))
-}
-
 const getInstanceCounts = function () {
     let arr = {}
     props.expac.forEach((expac) => {
@@ -305,8 +271,6 @@ const getFoundMobCount = function (zone, instance_number) {
 }
 
 const getMappedMobsForExpac = function (expac) {
-    //console.log(expac);
-
     let totalSeen = 0
     for (let i = 0; i < expac.zones.length; i++) {
         let z = expac.zones[i]
