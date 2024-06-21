@@ -24,11 +24,11 @@
             :data-coords="`${point.x}, ${point.y} id:${point.id}`"
             @click.stop.prevent="assignMob(point)"
             @dblclick.stop.prevent="false">{{ getTakenMob(point.id)?.mob_index ?? '' }}</button>
-        <div class="absolute flex items-center bottom-1 left-0 w-[calc(100% - 3rem)] mx-12 text-center text-xs bg-slate-300 font-bold"
+        <div class="absolute flex items-center bottom-1 left-4 text-center text-xs bg-slate-300 font-bold"
         v-if="props.zone.allow_custom_points"
         >
             <AlertOutlineIcon class="text-yellow-800 font-bold text-xl" />
-            <span>This map is not finalized. Custom spawn points can be added by double clicking.</span>
+            <span>Spawn points unknown. Custom spawn points can be added by double clicking.</span>
         </div>
         <div class="text-right font-semibold text-xl zone-name">
             {{ zone.name }}
