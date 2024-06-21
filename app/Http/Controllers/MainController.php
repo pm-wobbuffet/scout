@@ -125,11 +125,21 @@ class MainController extends Controller
     private function calculateExpTotals(EloquentCollection $expansions, Scout $scout): array
     {
         $ret = [];
+        //dd($expansions->toArray(), $scout->toArray());
+        $instances = $scout->instance_data;
         foreach($expansions as $expac) {
-            $total_mobs = $seen_mobs = 0;
-            $expac->zones->each(function($item) use(&$total_mobs, &$seen_mobs, $scout) {
-                $total_mobs += $item->total_mobs;
-                $seen_mobs += count($scout['point_data'][$item->id] ?? []) ?? 0;
+            $total_mobs = 0;
+            $seen_mobs = 0;
+            $expac->zones->each(function($item) use(&$total_mobs, &$seen_mobs, $scout, $instances) {
+                //$total_mobs += $item->total_mobs;
+                $total_mobs += $item->mobs->count() * $instances[$item->id];
+                //$seen_mobs += count($scout['point_data'][$item->id] ?? []) ?? 0;
+                if(isset($scout->point_data[$item->id])) {
+                    // There are scouted instances
+                    foreach($scout->point_data[$item->id] as $instance => $moblist) {
+                        $seen_mobs += count($moblist);
+                    }
+                }
             });
             if($seen_mobs > 0) {
                 $ret[] = "{$expac->abbreviation}: {$seen_mobs}/{$total_mobs}";
