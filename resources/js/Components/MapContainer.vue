@@ -75,7 +75,7 @@
             <h1 class="font-bold text-2xl mb-4">Share View-Only Map</h1>
             <p class="text-sm">This link provides a view only copy of the map. Users cannot submit changes to the map.</p>
             <div class="bg-blue-500 text-white p-4 mb-4 relative cursor-pointer"
-            @click="copyLink(route('scout.view', {scout: props.scout.slug})+cacheBusterAppend)">
+            @click="copyLink(route('scout.view', {scout: props.scout.slug})+'?'+cacheBusterAppend)">
                 <span
                 >{{ route('scout.view', {scout: props.scout.slug}) }}?{{ cacheBusterAppend }}</span>
                 <div class="absolute bottom-0 right-0.5"><ContentCopyIcon /></div>
