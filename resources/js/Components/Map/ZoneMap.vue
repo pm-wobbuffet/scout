@@ -189,6 +189,9 @@ const removeMob = function(point, mob) {
 }
 
 const placeMob = function(point, mob) {
+    if(! (props.zone.id in model.value.point_data)) {
+        model.value.point_data[props.zone.id] = {}
+    }
     if(! (props.instance in model.value.point_data?.[props.zone.id])) {
         model.value.point_data[props.zone.id][props.instance] = []
     }

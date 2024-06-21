@@ -4,3 +4,4 @@
 @import "components.css";
 @import "tailwindcss/utilities";
 
+@import "vue-toastification/dist/index.css";

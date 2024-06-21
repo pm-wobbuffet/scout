@@ -5,6 +5,7 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import Toast from "vue-toastification";
 import ScoutLayout from './Layouts/ScoutLayout.vue';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Scouter';
@@ -23,6 +24,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(Toast,{})
             .mount(el);
     },
     progress: {

@@ -18,6 +18,7 @@ import MapContainer from '@/Components/MapContainer.vue';
 import { useForm, Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import { onMounted, onUnmounted, ref, onBeforeMount } from 'vue';
+import { useToast } from "vue-toastification";
 
 const props = defineProps({
     expac: Array,
@@ -29,6 +30,7 @@ const mapRef = ref(null)
 const maxUpdateId = ref(0)
 let updateTimeout = ref(null)
 const refreshTime = 20000
+const toast = useToast()
 
 const handleMapUpdate = function(point_data, instance_data) {
     //console.log(point_data, instance_data)
@@ -51,8 +53,14 @@ const handlePointUpdate = function(point, mob, point_data, instance_data, zone_i
     .then((response) => {
         //console.log(response.data)
         mapRef.value.processUpdate(response.data)
+        if(response.data.collision) {
+            toast.error("Another user has already positioned that mob. Your data has been refreshed.")
+        }
         updateTimeout = setTimeout(pollUpdates, refreshTime)
     })
+    .catch(function (error) {
+        console.log(error);
+    });
 }
 
 const pollUpdates = function() {

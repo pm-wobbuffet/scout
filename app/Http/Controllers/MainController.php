@@ -100,6 +100,7 @@ class MainController extends Controller
             return [
                 'point_data' => $scout->point_data,
                 'custom_points' => $scout->custom_points,
+                'collision'     => true,
             ];
         }
         
