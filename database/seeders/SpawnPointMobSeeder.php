@@ -49,5 +49,10 @@ class SpawnPointMobSeeder extends Seeder
                 }
             }
         }
+
+        // Soft delete any spawn points with no valid mobs
+        SpawnPoint::query()
+        ->whereDoesntHave('valid_mobs')
+        ->delete();
     }
 }
