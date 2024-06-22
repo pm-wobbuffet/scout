@@ -78,7 +78,7 @@ onBeforeMount(() => {
         props.zone.spawn_points.forEach((point) => {
             if(model.value.point_data[props.zone.id][props.instance].length > 0) {
                 model.value.point_data[props.zone.id][props.instance].forEach((mob) => {
-                    console.log(`Placing mob ${mob.mob_id} on point ${mob.point_id}`)
+                    //console.log(`Placing mob ${mob.mob_id} on point ${mob.point_id}`)
                     mobPoints.value[mob.mob_id] = mob.point_id
                 })
             }
@@ -147,6 +147,8 @@ const isPointDisabled = function(point_id) {
             return true
         }
         return false
+    } else {
+        console.log(`${point_id} not found`)
     }
     return false
 }
@@ -163,7 +165,8 @@ const convertCoordToPercent = function(coord, zone) {
 }
 
 const getSpawnPointById = function(id) {
-    return props.zone.spawn_points.find((el) => el.id == id)
+    return props.zone.spawn_points.concat(getCustomSpawnPoints()).find((el) => el.id == id)
+    //return props.zone.spawn_points.find((el) => el.id == id)
 }
 
 const getTakenMob = function(point_id) {
