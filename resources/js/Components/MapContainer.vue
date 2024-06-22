@@ -167,7 +167,7 @@ const props = defineProps({
 const defaultExp = ref(6)
 const selectedExp = ref(6)
 const cacheBusterAppend = ref(1)
-const showMarkOverlay = ref(true)
+const showMarkOverlay = ref(false)
 
 const form = useForm({
     point_data: {},
