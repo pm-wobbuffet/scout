@@ -31,7 +31,6 @@
                         :instance="i" 
                         :editmode="props.editmode"
                         v-model="form"
-                        @mapUpdated="handleMapUpdated"
                         @pointUpdated="handlePointUpdated"
                         />
                 </template>
@@ -109,7 +108,7 @@ import ExportIcon from "vue-material-design-icons/Export.vue";
 import ContentCopyIcon from "vue-material-design-icons/ContentCopy.vue";
 import ClipboardArrowUpOutlineIcon from "vue-material-design-icons/ClipboardArrowUpOutline.vue";
 
-const emit = defineEmits(['mapUpdated', 'pointUpdated'])
+const emit = defineEmits(['pointUpdated'])
 
 const processUpdate = function(payload) {
     if('point_data' in payload) {
@@ -160,10 +159,6 @@ const showShareDialog = function() {
 
 const handlePointUpdated = function(point, mob, zone_id, instance_number) {
     emit('pointUpdated', point, mob, form.point_data, getInstanceCounts(), zone_id, instance_number, form.custom_points)
-}
-
-const handleMapUpdated = function() {
-    emit('mapUpdated', form.point_data, getInstanceCounts())
 }
 
 onMounted(() => {

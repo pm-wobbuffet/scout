@@ -20,19 +20,10 @@
             :class="`point-taken-by-${getTakenMob(point.id)?.mob_index}`"
             :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
             :data-title="`${point.x},${point.y}`" 
-            :disabled="isPointDisabled(point.id)"
+            :disabled="isPointDisabled(point.id) && !isPointSelected(point.id)"
             :data-coords="`${point.x}, ${point.y} id:${point.id}`"
             @click.stop.prevent="assignMob(point)"
             @dblclick.stop.prevent="false">{{ getTakenMob(point.id)?.mob_index ?? '' }}</button>
-        <!-- <button v-for="point in getCustomSpawnPoints()"  
-            class="" 
-            :class="`point-taken-by-${getTakenMob(point.id)?.mob_index}`"
-            :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
-            :data-title="`${point.x},${point.y}`" 
-            :disabled="isPointDisabled(point.id)"
-            :data-coords="`${point.x}, ${point.y} id:${point.id}`"
-            @click.stop.prevent="assignMob(point)"
-            @dblclick.stop.prevent="false">{{ getTakenMob(point.id)?.mob_index ?? '' }}</button> -->
         <div class="absolute flex items-center bottom-1 left-4 text-center text-xs bg-slate-300 font-bold"
         v-if="props.zone.allow_custom_points && props.editmode == true"
         >
@@ -81,6 +72,18 @@ onBeforeMount(() => {
     if(! (props.instance in model.value.point_data[props.zone.id]) ) {
         model.value.point_data[props.zone.id][props.instance] = []
     }
+
+    // If there are already mobs assigned to this zone, fill out the mobPoints dictionary
+    if(props.zone.spawn_points?.length > 0) {
+        props.zone.spawn_points.forEach((point) => {
+            if(model.value.point_data[props.zone.id][props.instance].length > 0) {
+                model.value.point_data[props.zone.id][props.instance].forEach((mob) => {
+                    console.log(`Placing mob ${mob.mob_id} on point ${mob.point_id}`)
+                    mobPoints.value[mob.mob_id] = mob.point_id
+                })
+            }
+        })
+    }
     
 })
 
@@ -104,17 +107,15 @@ const dblClickMap = function(event, zone)
     if(!zone.allow_custom_points) return
     let x = Number(event.offsetX / event.srcElement.clientWidth * zone.max_coord_size + 1).toFixed(1)
     let y = Number(event.offsetY / event.srcElement.clientHeight * zone.max_coord_size + 1).toFixed(1)
-    //let lastEl = zone.spawn_points.push({
     let lastEl = model.value.custom_points.push({
         'x': x,
         'y': y,
         'zone_id': zone.id,
         'id': -1 * Date.now(),
+        'valid_mobs': props.zone.mobs,
     })
-    //console.log(model.value.custom_points)
-    // Assign a mob to this point since they're creating it for a reason
-    //assignMob(zone.spawn_points[lastEl - 1])
     assignMob(model.value.custom_points[lastEl - 1])
+
 }
 
 const getXYForEvent = function(event) {
@@ -129,15 +130,23 @@ const getMobIndex = function(mob_id) {
 }
 
 const isPointDisabled = function(point_id) {
+    // Short circut and prevent point from being used in View only mode
     if(!props.editmode && !isPointSelected(point_id)) {
         return true
     }
-    let pts = model.value.point_data?.[props.zone.id]?.[props.instance] ?? []
-    if (pts.length >= props.zone.mobs.length ) {
-        if (isPointSelected(point_id)) {
-            return false
+    let spawnPoint = getSpawnPointById(point_id)
+    if(spawnPoint) {
+        // Check if it's one of the spots that's B or S rank only
+        // But if we don't have finalized data yet, keep it open just in case
+        if(spawnPoint?.valid_mobs?.length === 0 && !props.zone.allow_custom_points) {
+            return true
         }
-        return true
+        let remainingAvailableMobs = spawnPoint.valid_mobs.filter((el) => !(el.id in mobPoints.value))
+        // If there are no overall zone mobs available, don't bother with further logic
+        if (remainingAvailableMobs.length === 0) {
+            return true
+        }
+        return false
     }
     return false
 }
@@ -152,6 +161,11 @@ const convertCoordToPercent = function(coord, zone) {
     c = c.toString() + '%'
     return c
 }
+
+const getSpawnPointById = function(id) {
+    return props.zone.spawn_points.find((el) => el.id == id)
+}
+
 const getTakenMob = function(point_id) {
     let pts = model.value.point_data?.[props.zone.id]?.[props.instance] ?? []
     if(pts.length == 0) {
@@ -163,11 +177,11 @@ const getTakenMob = function(point_id) {
 }
 
 const assignMob = function(point) {
+    // Short circuit and prevent changing things in View mode
     if(!props.editmode) return
-    let validMobs = getValidMobs()
     let curMobOnPoint = getTakenMob(point.id)
+    let validMobs = getValidMobsForPoint(point)
 
-    //console.log(curMobOnPoint)
     if(curMobOnPoint.mob_index != '') {
         removeMob(point, curMobOnPoint)
     }
@@ -178,13 +192,13 @@ const assignMob = function(point) {
         placeMob(point, validMobs[0])
     }
     emit('pointUpdated', point, getTakenMob(point.id), props.zone.id, props.instance)
-    //emit('mapUpdated')
 }
 
 const removeMob = function(point, mob) {
     const index = model.value.point_data?.[props.zone.id]?.[props.instance].findIndex((el) => el.mob_id == mob.id) ?? -1
     if (index != undefined && index > -1) {
         model.value.point_data[props.zone.id][props.instance].splice(index, 1)
+        delete mobPoints.value[mob.id]
     }
 }
 
@@ -202,23 +216,29 @@ const placeMob = function(point, mob) {
         y: point.y,
         expansion_id: props.zone.expansion_id,
     })
-    //console.log(model.value.point_data?.[props.zone.id]?.[props.instance])
+    mobPoints.value[mob.id] = point.id
 }
 
-const getValidMobs = function() {
-    let pts = model.value.point_data?.[props.zone.id]?.[props.instance] ?? []
-    let ret = mobs.filter(function(mob) {
-        let shouldKeep = true
-        pts.forEach((el) => {
-            if(el.mob_id == mob.id) {
-                // Mob has already been assigned
-                shouldKeep = false
-            }
-        })
-        return shouldKeep
+const getValidMobsForPoint = function(point) {
+    return point.valid_mobs.filter(function(el) {
+        return ! (el.id in mobPoints.value)
     })
-    return ret
 }
 
-const emit = defineEmits(['mapUpdated', 'pointUpdated'])
+// const getValidMobs = function() {
+//     let pts = model.value.point_data?.[props.zone.id]?.[props.instance] ?? []
+//     let ret = mobs.filter(function(mob) {
+//         let shouldKeep = true
+//         pts.forEach((el) => {
+//             if(el.mob_id == mob.id) {
+//                 // Mob has already been assigned
+//                 shouldKeep = false
+//             }
+//         })
+//         return shouldKeep
+//     })
+//     return ret
+// }
+
+const emit = defineEmits(['pointUpdated'])
 </script>

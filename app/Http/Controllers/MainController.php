@@ -25,12 +25,7 @@ class MainController extends Controller
      */
     function index(): \Inertia\Response
     {
-        $expansions = Expansion::query()
-        ->with(['zones', 'zones.mobs', 'zones.aetherytes', 'zones.spawn_points'])
-        ->withCount(['zones', 'mobs'])
-        ->orderBy('id')
-        ->get();
-        //dd($expansions->toArray());
+        $expansions = $this->getExpansionsData();
         return Inertia::render('Index', [
             'expac' =>  $expansions,
         ]);
@@ -67,11 +62,7 @@ class MainController extends Controller
             $scout->makeVisible(['collaborator_password']);
         }
         
-        $expansions = Expansion::query()
-        ->with(['zones', 'zones.mobs', 'zones.aetherytes', 'zones.spawn_points'])
-        ->withCount(['zones', 'mobs'])
-        ->orderBy('id')
-        ->get();
+        $expansions = $this->getExpansionsData();
 
         $exp_totals = $this->calculateExpTotals($expansions, $scout);
         $this->setOGTitle(implode(', ', $exp_totals));
@@ -223,5 +214,14 @@ class MainController extends Controller
             }
         }
         return false;
+    }
+
+    private function getExpansionsData()
+    {
+        return Expansion::query()
+        ->with(['zones', 'zones.mobs', 'zones.aetherytes', 'zones.spawn_points', 'zones.spawn_points.valid_mobs'])
+        ->withCount(['zones', 'mobs'])
+        ->orderBy('id')
+        ->get();
     }
 }

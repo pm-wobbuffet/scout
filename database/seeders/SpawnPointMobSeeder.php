@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\SpawnPoint;
 use App\Models\Zone;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -40,7 +41,10 @@ class SpawnPointMobSeeder extends Seeder
                     foreach($pieces as $p) {
                         $mobs[] = $zonemap[$zId][$p];
                     }
-                    Zone::where('id', $zId)
+                    SpawnPoint::where('x', $x)
+                    ->where('y', $y)
+                    ->where('zone_id', $zId)
+                    ->first()
                     ->valid_mobs()->sync($mobs);
                 }
             }

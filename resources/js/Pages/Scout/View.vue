@@ -4,7 +4,6 @@
         <MapContainer
         :expac="props.expac"
         :scout="props.scout"
-        @mapUpdated="handleMapUpdate"
         @pointUpdated="handlePointUpdate"
         :editmode="props.scout.collaborator_password != null"
         :newly-created="props.flash?.newly_created"
@@ -31,10 +30,6 @@ const maxUpdateId = ref(0)
 let updateTimeout = ref(null)
 const refreshTime = 20000
 const toast = useToast()
-
-const handleMapUpdate = function(point_data, instance_data) {
-    //console.log(point_data, instance_data)
-}
 
 const handlePointUpdate = function(point, mob, point_data, instance_data, zone_id, instance_number, custom_points) {
     //console.log('Point Update Called')

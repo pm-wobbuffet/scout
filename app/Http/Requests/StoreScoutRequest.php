@@ -39,7 +39,10 @@ class StoreScoutRequest extends FormRequest
             'point_data.*.*.*.mob_id'       =>  'numeric|nullable',
             'point_data.*.*.*.x'            =>  'numeric|nullable',
             'point_data.*.*.*.y'            =>  'numeric|nullable',
+            'point_data.*.*.*.valid_mobs'   =>  'array|nullable',
             'point_data.*.*.*.expansion_id' =>  'integer|nullable',
+            'point_data.*'                  =>  'array',
+            'point_data.*.*'                =>  'array',
             'custom_points'                 =>  'array',  
             'collaborator_password'         =>  'required',
         ];

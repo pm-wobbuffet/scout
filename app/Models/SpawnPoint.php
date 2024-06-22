@@ -12,6 +12,7 @@ class SpawnPoint extends Model
 
     public function valid_mobs(): BelongsToMany
     {
-        return $this->belongsToMany(Mob::class, 'mobs_spawn_points');
+        return $this->belongsToMany(Mob::class, 'mobs_spawn_points')
+        ->withTimestamps();
     }
 }
