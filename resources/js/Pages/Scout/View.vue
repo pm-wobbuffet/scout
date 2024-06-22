@@ -28,7 +28,8 @@ const props = defineProps({
 const mapRef = ref(null)
 const maxUpdateId = ref(0)
 let updateTimeout = ref(null)
-const refreshTime = 20000
+// Number of seconds to wait between update pings
+const refreshTime = 5000
 const toast = useToast()
 
 const handlePointUpdate = function(point, mob, point_data, instance_data, zone_id, instance_number, custom_points) {
