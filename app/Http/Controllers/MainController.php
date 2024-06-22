@@ -155,6 +155,7 @@ class MainController extends Controller
         $sc = Scout::create([
             'instance_data' =>  $scout->instance_data,
             'point_data'    =>  $scout->point_data,
+            'custom_points' =>  $scout->custom_points,
             'collaborator_password' => str(bin2hex(random_bytes(4))),
         ]);
         if($sc) {
