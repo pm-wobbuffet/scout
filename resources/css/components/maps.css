@@ -66,3 +66,26 @@ main.map-main-window {
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
     }
 }
+
+.mark-summary-overlay {
+    @apply fixed top-0 left-0 bg-black/75 w-full h-full overflow-hidden z-10;
+    backdrop-filter: blur(1px);
+
+    .mark-summary-panel {
+        @apply bg-gray-400 absolute right-0 top-0 h-full min-w-[20%] p-2 overflow-y-scroll;
+
+        h1 {
+            @apply text-2xl font-bold;
+        }
+        h2 {
+            @apply text-2xl font-bold;
+        }
+
+        fieldset {
+            @apply border border-black mb-4 rounded-md p-1 pl-2;
+        }
+        legend {
+            @apply ml-4 font-bold;
+        }
+    }
+}

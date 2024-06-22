@@ -16,6 +16,10 @@
                 </div>
             </div>
             <div class="flex">
+                <button class="mr-2 bg-slate-600 p-2 rounded-md text-slate-100" @click.prevent="showMarkOverlay=true">
+                    <NoteMultipleOutline />
+                    Summary
+                </button>
                 <Link as="button" method="post" :href="route('scout.clone', scout)" :preserve-state="false" 
                 v-if="scout?.id && !props.editmode" class="bg-blue-400 p-2 rounded-md text-slate-100"
                 ><ContentCopyIcon/> Duplicate
@@ -95,6 +99,35 @@
             </template>
             <div class="absolute bottom-0 font-bold opacity-0 transition-opacity duration-300 w-[90%] text-center" id="copied-msg">Copied to clipboard!</div>
         </dialog>
+        <div class="mark-summary-overlay" id="MarkSummaryPanel" v-if="showMarkOverlay">
+            <div class="mark-summary-panel">
+                <div class="flex w-full justify-between mb-8">
+                    <h1>Mark Summary</h1>
+                    <button class="border rounded-md px-2 bg-slate-400 font-bold text-sm" @click.prevent="closeMarkOverlay()">Close</button>
+                </div>
+                <div v-for="expansion in expac.toReversed()" :key="expansion.id">
+                    <template v-if="getMappedMobsForExpac(expansion) > 0">
+                        <h2>{{ expansion.name }}</h2>
+                        <template v-for="zone in expansion.zones">
+                            <template v-for="i in zone.default_instances">
+                                <fieldset v-if="getFoundMobCount(zone.id, i) > 0">
+                                    <legend>{{ zone.name }}
+                                        <span v-if="zone.default_instances > 1">{{ i }}</span>
+                                    </legend>
+                                    <div v-for="mob in form.point_data[zone.id][i]">
+                                        <div>
+                                            {{ zone.mobs.find((el) => el.id == mob.mob_id).name }}
+                                            ({{ mob.x }}, 
+                                            {{ mob.y }})
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </template>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -107,6 +140,7 @@ import ArrowUpIcon from "vue-material-design-icons/ArrowUp.vue";
 import ExportIcon from "vue-material-design-icons/Export.vue";
 import ContentCopyIcon from "vue-material-design-icons/ContentCopy.vue";
 import ClipboardArrowUpOutlineIcon from "vue-material-design-icons/ClipboardArrowUpOutline.vue";
+import NoteMultipleOutline from "vue-material-design-icons/NoteMultipleOutline.vue";
 
 const emit = defineEmits(['pointUpdated'])
 
@@ -133,12 +167,17 @@ const props = defineProps({
 const defaultExp = ref(6)
 const selectedExp = ref(6)
 const cacheBusterAppend = ref(1)
+const showMarkOverlay = ref(true)
 
 const form = useForm({
     point_data: {},
     custom_points: [],
 })
 
+
+const closeMarkOverlay = function(event) {
+    showMarkOverlay.value = false
+}
 
 const copyLink = async function(linkText) {
     try {
