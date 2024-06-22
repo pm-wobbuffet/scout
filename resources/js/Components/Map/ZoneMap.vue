@@ -225,20 +225,5 @@ const getValidMobsForPoint = function(point) {
     })
 }
 
-// const getValidMobs = function() {
-//     let pts = model.value.point_data?.[props.zone.id]?.[props.instance] ?? []
-//     let ret = mobs.filter(function(mob) {
-//         let shouldKeep = true
-//         pts.forEach((el) => {
-//             if(el.mob_id == mob.id) {
-//                 // Mob has already been assigned
-//                 shouldKeep = false
-//             }
-//         })
-//         return shouldKeep
-//     })
-//     return ret
-// }
-
 const emit = defineEmits(['pointUpdated'])
 </script>
