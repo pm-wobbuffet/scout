@@ -5,7 +5,8 @@
         :expac="props.expac"
         :scout="props.scout"
         @pointUpdated="handlePointUpdate"
-        :editmode="props.scout.collaborator_password != null"
+        @mapFinalized="handleMapFinalized"
+        :editmode="props.scout.collaborator_password != null && !props.scout.finalized_at"
         :newly-created="props.flash?.newly_created"
         ref="mapRef"
         />
@@ -14,7 +15,7 @@
 
 <script setup>
 import MapContainer from '@/Components/MapContainer.vue';
-import { useForm, Head } from '@inertiajs/vue3';
+import { useForm, Head, router } from '@inertiajs/vue3';
 import axios from 'axios';
 import { onMounted, onUnmounted, ref, onBeforeMount } from 'vue';
 import { useToast } from "vue-toastification";
@@ -31,6 +32,12 @@ let updateTimeout = ref(null)
 // Number of seconds to wait between update pings
 const refreshTime = 5000
 const toast = useToast()
+
+const handleMapFinalized = function()
+{
+    router.post(route('scout.finalize',
+    {scout: props.scout, password: props.scout.collaborator_password} ))
+}
 
 const handlePointUpdate = function(point, mob, point_data, instance_data, zone_id, instance_number, custom_points) {
     //console.log('Point Update Called')
@@ -69,14 +76,21 @@ const pollUpdates = function() {
     .then((response) => {
         mapRef.value.processUpdate(response.data)
         clearTimeout(updateTimeout)
-        updateTimeout = setTimeout(pollUpdates, refreshTime)
+        // As long the map isn't finalized, keep on polling for updates
+        if(!response.data.finalized_at) {
+            updateTimeout = setTimeout(pollUpdates, refreshTime)
+        } else {
+            router.get(route('scout.view',{scout: props.scout, password: props.scout.collaborator_password}), {
+                preserveScroll:true
+            })
+        }
     })
 }
 onMounted(() => {
     if(props.scout.updates_max_id) {
         maxUpdateId.value = props.scout.updates_max_id
     }
-    if(props.scout.collaborator_password) {
+    if(props.scout.collaborator_password && !props.scout.finalized_at) {
         updateTimeout = setTimeout(pollUpdates, refreshTime)
     }
 })

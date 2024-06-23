@@ -8,6 +8,7 @@ use App\Models\Expansion;
 use App\Models\Scout;
 use App\Models\ScoutUpdate;
 use App\Models\Zone;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -147,6 +148,7 @@ class MainController extends Controller
         return [
             'point_data' => $scout->point_data,
             'custom_points' => $scout->custom_points,
+            'finalized_at'  => $scout->finalized_at,
         ];
     }
 
@@ -172,6 +174,22 @@ class MainController extends Controller
         }
         return $scout;
     }
+
+    public function finalize(Scout $scout, string $password = '')
+    {
+        if($password && $password !== $scout->collaborator_password) {
+            abort('403', 'Method not allowed');
+        }
+        $scout->update([
+            'finalized_at'  =>  Carbon::now(),
+        ]);
+
+        return to_route('scout.view',[$scout, $password]);
+        //return $scout;
+    }
+
+
+    /* Private utility methods */
 
     private function calculateExpTotals(EloquentCollection $expansions, Scout $scout): array
     {

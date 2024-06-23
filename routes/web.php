@@ -12,6 +12,7 @@ Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
     Route::post('/scout/{scout:slug}/{password?}', 'MainController@update')->name('scout.update');
     Route::get('/scoutupdates/{scout:slug}/{password?}', 'MainController@getUpdates')->name('scout.updatelist');
     Route::post('/clone/{scout:slug}', 'MainController@clone')->name('scout.clone');
+    Route::post('/finalize/{scout:slug}/{password?}', 'MainController@finalize')->name('scout.finalize');
 });
 
 /*

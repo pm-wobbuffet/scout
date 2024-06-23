@@ -28,6 +28,7 @@ class Scout extends Model
             'instance_data' =>  'array',
             'point_data'    =>  'array',
             'custom_points' =>  'array',
+            'finalized_at'  =>  'datetime',
         ];
     }
 

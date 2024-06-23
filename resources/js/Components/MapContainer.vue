@@ -40,7 +40,7 @@
                 </template>
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white">
-                <div class="p-2">
+                <div class="p-1 text-center">
                     <a href="#" class="rounded-md bg-blue-400 px-3 text-white py-1 mr-1 font-bold"
                     ><ArrowUpIcon /> Top</a>
                     <a href="#" class="rounded-md bg-blue-700 px-3 text-white py-1 font-bold"
@@ -50,14 +50,13 @@
                     <a href="#" class="rounded-md bg-blue-700 px-3 text-white py-1 font-bold" v-else
                     @click.prevent="submitForm"><ExportIcon /> Share</a>
                 </div>
-                <!--
-                <div class="p-2 text-center">
-                    <a href="#" class="rounded-md bg-slate-400 px-3 text-white py-1 font-bold">
-                        <ContentCopyIcon />
-                        Import
-                    </a>
+                <div class="p-1 text-center" v-if="props.scout && !props.scout.finalized_at">
+                    <a href="#" class="rounded-md bg-red-400 py-1 font-bold px-3 text-white"
+                    title="Finalize/lock this scouting report. No further edits can be made after"
+                    @click.prevent="handleFinalizeClick"
+                    ><FileLockOutlineIcon />
+                        Finalize</a>
                 </div>
-                -->
                 <div v-for="expac in getActiveExpac()">
                     <div class="font-bold bg-slate-300 p-1">
                         {{ expac.name }}
@@ -141,8 +140,9 @@ import ExportIcon from "vue-material-design-icons/Export.vue";
 import ContentCopyIcon from "vue-material-design-icons/ContentCopy.vue";
 import ClipboardArrowUpOutlineIcon from "vue-material-design-icons/ClipboardArrowUpOutline.vue";
 import NoteMultipleOutline from "vue-material-design-icons/NoteMultipleOutline.vue";
+import FileLockOutlineIcon from "vue-material-design-icons/FileLockOutline.vue";
 
-const emit = defineEmits(['pointUpdated'])
+const emit = defineEmits(['pointUpdated', 'mapFinalized'])
 
 const processUpdate = function(payload) {
     if('point_data' in payload) {
@@ -194,6 +194,12 @@ const copyLink = async function(linkText) {
 const showShareDialog = function() {
     cacheBusterAppend.value += 1
     document.getElementById('shareModal').showModal()
+}
+
+const handleFinalizeClick = function() {
+    if(confirm('Do you really wish to finalize this scouting report? No further edits can be made afterwards.')) {
+        emit('mapFinalized')
+    }
 }
 
 const handlePointUpdated = function(point, mob, zone_id, instance_number) {
