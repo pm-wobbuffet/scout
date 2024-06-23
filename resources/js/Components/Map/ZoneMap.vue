@@ -70,14 +70,6 @@ onBeforeMount(() => {
     mobs.forEach((mob) => {
         mobsById[mob.id] = mob
     })
-    // If we're not tracking this zone already, add an entry for it
-    if(! (props.zone.id in model.value.point_data) ) {
-        model.value.point_data[props.zone.id] = {}
-        model.value.point_data[props.zone.id][props.instance] = []
-    }
-    if(! (props.instance in model.value.point_data[props.zone.id]) ) {
-        model.value.point_data[props.zone.id][props.instance] = []
-    }
 
     // If there are already mobs assigned to this zone, fill out the mobPoints dictionary
     updateMobSpawnAssignments()
@@ -90,6 +82,13 @@ onBeforeMount(() => {
 
 // Remap mobs that are positioned to the mobPoints reactive element
 const updateMobSpawnAssignments = function() {
+    if(! (props.zone.id in model.value.point_data) ) {
+        model.value.point_data[props.zone.id] = {}
+        model.value.point_data[props.zone.id][props.instance] = []
+    }
+    if(! (props.instance in model.value.point_data[props.zone.id]) ) {
+        model.value.point_data[props.zone.id][props.instance] = []
+    }
     if(props.zone.spawn_points?.length > 0) {
         props.zone.spawn_points.forEach((point) => {
             if(model.value.point_data[props.zone.id][props.instance].length > 0) {
