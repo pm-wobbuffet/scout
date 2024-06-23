@@ -309,7 +309,7 @@ const submitForm = function() {
             ...data,
             instance_data: getInstanceCounts(),
         }))
-        .post(route('scout.store'))
+        .post(route('scout.store'),{preserveState:false})
     }
 }
 

@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, getCurrentInstance, onBeforeMount } from "vue"
+import { onMounted, ref, getCurrentInstance, onBeforeMount, watch } from "vue"
 import AlertOutlineIcon from "vue-material-design-icons/AlertOutline.vue";
 
 // Parent model link
@@ -60,6 +60,11 @@ const props = defineProps({
     editmode: Boolean,
 })
 
+watch(() => model.value, function() {
+    //.log("Model Changed")
+    updateMobSpawnAssignments()
+},{deep:true})
+
 onBeforeMount(() => {
     mobs = props.zone.mobs
     mobs.forEach((mob) => {
@@ -75,6 +80,16 @@ onBeforeMount(() => {
     }
 
     // If there are already mobs assigned to this zone, fill out the mobPoints dictionary
+    updateMobSpawnAssignments()
+
+    if(props.editmode) {
+        editMode.value = props.editmode
+    }
+    
+})
+
+// Remap mobs that are positioned to the mobPoints reactive element
+const updateMobSpawnAssignments = function() {
     if(props.zone.spawn_points?.length > 0) {
         props.zone.spawn_points.forEach((point) => {
             if(model.value.point_data[props.zone.id][props.instance].length > 0) {
@@ -85,12 +100,7 @@ onBeforeMount(() => {
             }
         })
     }
-
-    if(props.editmode) {
-        editMode.value = props.editmode
-    }
-    
-})
+}
 
 const getCustomSpawnPoints = function() {
     return model.value.custom_points.filter((el) => el.zone_id == props.zone.id) ?? [];
@@ -179,6 +189,7 @@ const getTakenMob = function(point_id) {
     if(pts.length == 0) {
         return {'mob_index' : ''}
     }
+
     let mob = pts.find( (el) => el.point_id == point_id)
     
     return mobsById?.[mob?.mob_id] ?? {'mob_index': ''}

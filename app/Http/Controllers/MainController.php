@@ -115,12 +115,14 @@ class MainController extends Controller
         $s = $points[$request->input('zone_id')][$request->input('instance_number')] ?? [];
         if(sizeof($s) > 0) {
             // Points already exist, need to filter out this point and we can fill it with a new mob if necessary
-            $s = array_filter($s, function($value) use ($request) {
+            // Use array values to keep it from fucking up if a mob is deleted
+            // since array_filter preserves keys by default
+            $s = array_values(array_filter($s, function($value) use ($request) {
                 if($value['point_id'] == $request->input('point')['id']) {
                     return false;
                 }
                 return true;
-            });
+            }));
         }
         if( !is_null($request->input('mob')['mob_index']) ) 
         {
@@ -146,7 +148,7 @@ class MainController extends Controller
         $scout->save();
 
         return [
-            'point_data' => $scout->point_data,
+            'point_data'    => $scout->point_data,
             'custom_points' => $scout->custom_points,
             'finalized_at'  => $scout->finalized_at,
         ];
