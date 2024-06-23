@@ -80,7 +80,7 @@ const pollUpdates = function() {
         if(!response.data.finalized_at) {
             updateTimeout = setTimeout(pollUpdates, refreshTime)
         } else {
-            router.get(route('scout.view',{scout: props.scout, password: props.scout.collaborator_password}), {
+            router.get(route('scout.view',{scout: props.scout, password: props.scout.collaborator_password}),{}, {
                 preserveScroll:true
             })
         }
