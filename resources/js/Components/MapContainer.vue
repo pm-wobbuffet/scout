@@ -227,15 +227,11 @@ const copyLink = async function(linkText) {
 const changeZoneSort = function(expac_id,first_idx, second_idx) {
     let zOne = getExpacById(expac_id).zones[first_idx]
     let zTwo = getExpacById(expac_id).zones[second_idx]
-    //console.log('Originals', zOne, zTwo, sortOrders.value)
     // Swap out the values that are in the zones' sort_priority field
     if(zOne && zTwo) {
         let origFirstVal = sortOrders.value[zOne.id]
-        //zOne.sort_priority = zTwo.sort_priority
         sortOrders.value[zOne.id] = sortOrders.value[zTwo.id]
-        //zTwo.sort_priority = origFirstVal
         sortOrders.value[zTwo.id] = origFirstVal
-        //console.log('New', sortOrders.value)
         localStorage.setItem('sortOrders', JSON.stringify(sortOrders.value))
     }
 }
@@ -321,10 +317,8 @@ onBeforeMount(() => {
         }
         // Initialize sort order array
         let userSort = JSON.parse(localStorage.getItem('sortOrders') ?? '{}')
-        console.log(userSort)
 
         expansion.zones.forEach((zone) => {
-            //console.log(`Assigning ${zone.sort_priority} to ${zone.id}`)
             if(zone.id in userSort) {
                 sortOrders.value[zone.id] = userSort[zone.id]
             } else {
