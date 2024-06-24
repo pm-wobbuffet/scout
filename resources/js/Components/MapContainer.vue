@@ -45,12 +45,12 @@
             ><CogIcon /></button> -->
             
             <div class="flex shrink">
-                <button class="mr-2 flex gap-x-2 bg-slate-600 p-2 rounded-md text-slate-100" @click.prevent="showMarkOverlay=true">
+                <button class="mr-2 flex items-center gap-x-2 bg-slate-600 p-2 rounded-md text-slate-100" @click.prevent="showMarkOverlay=true">
                     <NoteMultipleOutline class="inline-block" />
                     Summary
                 </button>
                 <Link as="button" method="post" :href="route('scout.clone', scout)" :preserve-state="false" 
-                v-if="scout?.id && !props.editmode" class="bg-blue-400 p-2 rounded-md text-slate-100"
+                v-if="scout?.id && !props.editmode" class="bg-blue-400 p-2 rounded-md text-slate-100 flex items-center gap-x-1"
                 ><ContentCopyIcon class="inline-block" /> Duplicate
                 </Link>
             </div>
