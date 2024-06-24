@@ -23,16 +23,21 @@
                         <div class="text-center border-b font-bold text-xl mb-2">Sort Order</div>
                         <div class="grid gap-2 items-center" style="grid-template-columns: 1fr auto;">
                             <template v-for="expac in getActiveExpac()">
-                                <template v-for="zone in expac.zones" :key="`zone-sort-row-${zone.id}`">
+                                <template v-for="(zone, index) in expac.zones" :key="`zone-sort-row-${zone.id}`">
                                     <div class="text-md font-bold">{{ zone.name }}</div>
-                                    <div>
-                                        <NumberInput v-model="sortOrders[zone.id]" class="max-w-[100px]"
-                                        @update:modelValue="(newVal) => sortOrders[zone.id] = newVal" />
+                                    <div class="zone-sort-buttons">
+                                        <button
+                                        :disabled="index == expac.zones.length - 1"
+                                        @click="changeZoneSort(expac.id, index, index+1)"
+                                        ><ArrowDownIcon /></button>
+                                        <button
+                                        @click="changeZoneSort(expac.id, index, index-1)"
+                                        :disabled="index == 0"
+                                        ><ArrowUpIcon /></button>
                                     </div>
                                 </template>
                             </template>
                         </div>
-                        Lower # = sorted higher
                     </PopoverPanel>
                 </Popover>
             </div>
@@ -167,7 +172,7 @@ import ClipboardArrowUpOutlineIcon from "vue-material-design-icons/ClipboardArro
 import NoteMultipleOutline from "vue-material-design-icons/NoteMultipleOutline.vue";
 import FileLockOutlineIcon from "vue-material-design-icons/FileLockOutline.vue";
 import SortIcon from "vue-material-design-icons/Sort.vue";
-import NumberInput from "./NumberInput.vue";
+import ArrowDownIcon from "vue-material-design-icons/ArrowDown.vue"
 
 const emit = defineEmits(['pointUpdated', 'mapFinalized'])
 
@@ -216,6 +221,22 @@ const copyLink = async function(linkText) {
         }, 2000)
     } catch (err) {
         // Silently fail
+    }
+}
+
+const changeZoneSort = function(expac_id,first_idx, second_idx) {
+    let zOne = getExpacById(expac_id).zones[first_idx]
+    let zTwo = getExpacById(expac_id).zones[second_idx]
+    //console.log('Originals', zOne, zTwo, sortOrders.value)
+    // Swap out the values that are in the zones' sort_priority field
+    if(zOne && zTwo) {
+        let origFirstVal = sortOrders.value[zOne.id]
+        //zOne.sort_priority = zTwo.sort_priority
+        sortOrders.value[zOne.id] = sortOrders.value[zTwo.id]
+        //zTwo.sort_priority = origFirstVal
+        sortOrders.value[zTwo.id] = origFirstVal
+        //console.log('New', sortOrders.value)
+        localStorage.setItem('sortOrders', JSON.stringify(sortOrders.value))
     }
 }
 
@@ -299,9 +320,16 @@ onBeforeMount(() => {
             selectedExp.value = expansion.id
         }
         // Initialize sort order array
+        let userSort = JSON.parse(localStorage.getItem('sortOrders') ?? '{}')
+        console.log(userSort)
+
         expansion.zones.forEach((zone) => {
             //console.log(`Assigning ${zone.sort_priority} to ${zone.id}`)
-            sortOrders.value[zone.id] = zone.sort_priority
+            if(zone.id in userSort) {
+                sortOrders.value[zone.id] = userSort[zone.id]
+            } else {
+                sortOrders.value[zone.id] = zone.sort_priority
+            }
         })
     })
 })

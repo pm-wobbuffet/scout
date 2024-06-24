@@ -89,3 +89,12 @@ main.map-main-window {
         }
     }
 }
+
+.zone-sort-buttons {
+    button {
+        @apply border;
+    }
+    button:disabled {
+        @apply opacity-25 cursor-not-allowed;
+    }
+}
