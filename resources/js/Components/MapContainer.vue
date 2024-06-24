@@ -2,27 +2,51 @@
     <div class="w-full min-h-[100vh]">
         <nav
             class="flex flex-wrap w-full items-center justify-between bg-slate-500 text-slate-100 p-2 min-h-[3rem] main-nav flex-grow-1">
-            <div>
+            <div class="shrink">
                 <a href="/"><img src="/turtleknife.png" height="40" width="90" class="inline" alt="The turtle says to murder" /></a>
             </div>
-            <div class="flex expac-list place-self-center">
-                <div v-for="expansion in expac" :key="expansion.id" class="text-center border p-1 px-4 expac-list-item"
-                    @click="setActiveExpac(expansion.id)"
-                    :class="{ 'selected-expansion': expansion.id == selectedExp }">
-                    <div>{{ expansion.abbreviation }}</div>
-                    <div class="text-sm">
-                        {{ getMappedMobsForExpac(expansion) }} / {{ mobCount(expansion) }}
+            <div class="flex flex-row expac-list place-self-center m-auto">
+                <div class="expansion-list-container flex">
+                    <div v-for="expansion in expac" :key="expansion.id" class="text-center border p-1 px-4 expac-list-item"
+                        @click="setActiveExpac(expansion.id)"
+                        :class="{ 'selected-expansion': expansion.id == selectedExp }">
+                        <div>{{ expansion.abbreviation }}</div>
+                        <div class="text-sm">
+                            {{ getMappedMobsForExpac(expansion) }} / {{ mobCount(expansion) }}
+                        </div>
                     </div>
                 </div>
+                <Popover class="self-center mr-auto basis-0 shrink ml-2 relative">
+                    <PopoverButton class="border flex items-center justify-center text-2xl bg-slate-400 rounded-sm"
+                    ><SortIcon /></PopoverButton>
+                    <PopoverPanel class="absolute min-w-max mt-1 z-50 text-sm left-1/2 -translate-x-1/2 bg-white border border-black p-4 text-black">
+                        <div class="text-center border-b font-bold text-xl mb-2">Sort Order</div>
+                        <div class="grid gap-2 items-center" style="grid-template-columns: 1fr auto;">
+                            <template v-for="expac in getActiveExpac()">
+                                <template v-for="zone in expac.zones">
+                                    <div class="text-md font-bold">{{ zone.name }}</div>
+                                    <div>
+                                        <NumberInput v-model="sortOrders[zone.id]" class="max-w-[100px]"
+                                        @update:modelValue="(newVal) => sortOrders[zone.id] = newVal" />
+                                    </div>
+                                </template>
+                            </template>
+                        </div>
+                        Lower # = sorted higher
+                    </PopoverPanel>
+                </Popover>
             </div>
-            <div class="flex">
-                <button class="mr-2 bg-slate-600 p-2 rounded-md text-slate-100" @click.prevent="showMarkOverlay=true">
-                    <NoteMultipleOutline />
+            <!-- <button title="Settings" class="bg-slate-600 ml-2 rounded-md border flex justify-center items-center mr-auto text-2xl pb-[5px] px-1"
+            ><CogIcon /></button> -->
+            
+            <div class="flex shrink">
+                <button class="mr-2 flex gap-x-2 bg-slate-600 p-2 rounded-md text-slate-100" @click.prevent="showMarkOverlay=true">
+                    <NoteMultipleOutline class="inline-block" />
                     Summary
                 </button>
                 <Link as="button" method="post" :href="route('scout.clone', scout)" :preserve-state="false" 
                 v-if="scout?.id && !props.editmode" class="bg-blue-400 p-2 rounded-md text-slate-100"
-                ><ContentCopyIcon/> Duplicate
+                ><ContentCopyIcon class="inline-block" /> Duplicate
                 </Link>
             </div>
         </nav>
@@ -41,17 +65,17 @@
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white">
                 <div class="p-1 text-center">
-                    <a href="#" class="rounded-md bg-blue-400 px-3 text-white py-1 mr-1 font-bold"
+                    <a href="#" class="inline-flex rounded-md bg-blue-400 px-3 text-white py-1 mr-1 font-bold"
                     ><ArrowUpIcon /> Top</a>
-                    <a href="#" class="rounded-md bg-blue-700 px-3 text-white py-1 font-bold"
+                    <a href="#" class="inline-flex rounded-md bg-blue-700 px-3 text-white py-1 font-bold"
                     v-if="props.scout"
                     @click.prevent="showShareDialog"
                     ><ExportIcon /> Share</a>
-                    <a href="#" class="rounded-md bg-blue-700 px-3 text-white py-1 font-bold" v-else
+                    <a href="#" class="inline-flex rounded-md bg-blue-700 px-3 text-white py-1 font-bold" v-else
                     @click.prevent="submitForm"><ExportIcon /> Share</a>
                 </div>
                 <div class="p-1 text-center" v-if="props.scout && !props.scout.finalized_at">
-                    <a href="#" class="rounded-md bg-red-400 py-1 font-bold px-3 text-white"
+                    <a href="#" class="inline-flex rounded-md bg-red-400 py-1 font-bold px-3 text-white"
                     title="Finalize/lock this scouting report. No further edits can be made after"
                     @click.prevent="handleFinalizeClick"
                     ><FileLockOutlineIcon />
@@ -62,7 +86,7 @@
                         {{ expac.name }}
                         <div class="italic text-sm inline-block">{{ getMappedMobsForExpac(expac) }}/{{ mobCount(expac) }}</div>
                     </div>
-                    <ul>
+                    <ul class="text-sm">
                         <template v-for="zone in expac.zones">
                             <li v-for="i in zone.default_instances" class="hover:bg-slate-200 ml-2 pr-2"
                             :class="{'line-through': getFoundMobCount(zone.id, i) == zone.mobs.length}"><a class="text-blue-500"
@@ -135,12 +159,15 @@
 import { computed, onBeforeMount, onMounted, ref, watch } from "vue";
 import ZoneMap from '@/Components/Map/ZoneMap.vue';
 import { useForm, Link } from "@inertiajs/vue3";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import ArrowUpIcon from "vue-material-design-icons/ArrowUp.vue";
 import ExportIcon from "vue-material-design-icons/Export.vue";
 import ContentCopyIcon from "vue-material-design-icons/ContentCopy.vue";
 import ClipboardArrowUpOutlineIcon from "vue-material-design-icons/ClipboardArrowUpOutline.vue";
 import NoteMultipleOutline from "vue-material-design-icons/NoteMultipleOutline.vue";
 import FileLockOutlineIcon from "vue-material-design-icons/FileLockOutline.vue";
+import SortIcon from "vue-material-design-icons/Sort.vue";
+import NumberInput from "./NumberInput.vue";
 
 const emit = defineEmits(['pointUpdated', 'mapFinalized'])
 
@@ -168,6 +195,7 @@ const defaultExp = ref(6)
 const selectedExp = ref(6)
 const cacheBusterAppend = ref(1)
 const showMarkOverlay = ref(false)
+const sortOrders = ref({})
 
 const form = useForm({
     point_data: {},
@@ -263,14 +291,24 @@ onBeforeMount(() => {
         form.point_data = props.scout.point_data
         form.custom_points = props.scout.custom_points
     }
-    // Should we update the default displayed expansion?
-    // Cycle through expacs and if there are any mapped mobs for it, set that tab to be the active
+    
     props.expac.forEach((expansion) => {
+        // Should we update the default displayed expansion?
+        // Cycle through expacs and if there are any mapped mobs for it, set that tab to be the active
         if (getMappedMobsForExpac(expansion) > 0) {
             selectedExp.value = expansion.id
         }
+        // Initialize sort order array
+        expansion.zones.forEach((zone) => {
+            //console.log(`Assigning ${zone.sort_priority} to ${zone.id}`)
+            sortOrders.value[zone.id] = zone.sort_priority
+        })
     })
 })
+
+const zoneSortFunction = function(a, b) {
+    return (sortOrders.value[a.id] - sortOrders.value[b.id])
+}
 
 const getZoneByName = function(zoneName) {
     for(let i = 0; i < props.expac.length; i++) {
@@ -361,7 +399,7 @@ const getMapsForExpansion = function () {
     let curExpac = props.expac.find((el) => el.id == selectedExp.value)
     //console.log(props.expac)
     if (curExpac.zones && curExpac.zones.length > 0) {
-        return curExpac.zones
+        return curExpac.zones.sort(zoneSortFunction)
     }
     return []
 }
