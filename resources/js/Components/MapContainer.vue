@@ -23,7 +23,7 @@
                         <div class="text-center border-b font-bold text-xl mb-2">Sort Order</div>
                         <div class="grid gap-2 items-center" style="grid-template-columns: 1fr auto;">
                             <template v-for="expac in getActiveExpac()">
-                                <template v-for="zone in expac.zones">
+                                <template v-for="zone in expac.zones" :key="`zone-sort-row-${zone.id}`">
                                     <div class="text-md font-bold">{{ zone.name }}</div>
                                     <div>
                                         <NumberInput v-model="sortOrders[zone.id]" class="max-w-[100px]"
