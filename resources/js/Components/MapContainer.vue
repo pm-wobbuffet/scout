@@ -63,6 +63,7 @@
                         :zone="zone" 
                         :instance="i" 
                         :editmode="props.editmode"
+                        :ref="el => {zoneMaps[zone.id+'-'+i] = el}"
                         v-model="form"
                         @pointUpdated="handlePointUpdated"
                         />
@@ -176,6 +177,29 @@ import ArrowDownIcon from "vue-material-design-icons/ArrowDown.vue"
 
 const emit = defineEmits(['pointUpdated', 'mapFinalized'])
 
+// const copiedText = `FOUND: Maliktender @ Amh Araeng ( 33.2  , 21.9 ) ---  A-Rank  --  100%`
+
+
+const copiedText = ''
+// const copiedText = `
+// FOUND: Nariphon @ Lakeland ( 26.6  , 37.5 ) ---  A-Rank  --  100%
+// FOUND: Coquecigrue @ Kholusia ( 31.5  , 19.9 ) ---  B-Rank  --  100%
+// FOUND: Indomitable @ Kholusia ( 29.8  , 29.8 ) ---  B-Rank  --  100%
+// FOUND: Maliktender @ Amh Araeng ( 33.2  , 21.9 ) ---  A-Rank  --  100%
+// FOUND: Juggler Hecatomb @ Amh Araeng ( 28.5  , 26.0 ) ---  B-Rank  --  100%
+// FOUND: Sugaar @ Amh Araeng ( 19.2  , 24.9 ) ---  A-Rank  --  100%
+// FOUND: Vulpangue @ Il Mheg ( 19.7  , 8.9 ) ---  B-Rank  --  100%
+// FOUND: The Mudman @ Il Mheg ( 29.1  , 5.3 ) ---  A-Rank  --  100%
+// FOUND: Domovoi @ Il Mheg ( 19.6  , 27.5 ) ---  B-Rank  --  100%
+// FOUND: O Poorest Pauldia @ Il Mheg ( 19.7  , 34.7 ) ---  A-Rank  --  100%
+// FOUND: Supay @ The Rak'tika Greatwood ( 17.1  , 24.3 ) ---  A-Rank  --  100%
+// FOUND: Deacon @ The Tempest ( 25.1  , 25.2 ) ---  B-Rank  --  100%
+// FOUND: Gilshs Aath Swiftclaw @ The Tempest ( 18.5  , 13.5 ) ---  B-Rank  --  100%
+// FOUND: Petalodus @ Elpis ( 17.9  , 30.3 ) ---  A-Rank  --  100%
+// FOUND: Yilan @ Thavnair ( 27.0  , 21.2 ) ---  A-Rank  --  100%
+// FOUND: Sugriva @ Thavnair ( 14.7  , 12.6 ) ---  A-Rank  --  100%
+// `
+
 const processUpdate = function(payload) {
     if('point_data' in payload) {
         //props.scout.point_data = payload.point_data
@@ -201,6 +225,7 @@ const selectedExp = ref(6)
 const cacheBusterAppend = ref(1)
 const showMarkOverlay = ref(false)
 const sortOrders = ref({})
+const zoneMaps = ref({})
 
 const form = useForm({
     point_data: {},
@@ -251,7 +276,57 @@ const handlePointUpdated = function(point, mob, zone_id, instance_number) {
     emit('pointUpdated', point, mob, form.point_data, getInstanceCounts(), zone_id, instance_number, form.custom_points)
 }
 
+const getClosestSpawnPoint = function(zone, x, y, mob) {
+    function d(point) {
+        return Math.pow(point.x - x, 2) + Math.pow(point.y - y, 2)
+    }
+
+    function trueDistance(pointOne, pointTwo) {
+        return Math.sqrt(Math.pow(pointTwo.x - pointOne.x, 2) + Math.pow(pointTwo.y - pointOne.y, 2))
+    }
+
+    let closest = zone.spawn_points.reduce((a, b) => {
+        return d(a) < d(b) ? a : b
+    })
+    let distance = trueDistance({x: x, y: y}, closest)
+
+    if(distance < 1) {
+        return closest
+    } else {
+        // custom point here?
+    }
+    //console.log(x, y, closest, distance )
+    
+}
+
 onMounted(() => {
+
+    //console.log(zoneMaps.value)
+    const instanceToIntMapping = {
+        "": 1,
+        "": 2,
+        "": 3,
+    }
+    // \uE0B1 = Instance 1 , \uE0B2 = 2 , \uE0B3 = 3 
+    const re = /[\uE0BB]([^\uE0B1-\uE0B3]*)([\uE0B1-\uE0B3]?) \( ([0-9\.]+)\W+,\W+([0-9\.]+)\W+\).*/
+    const linesArr = copiedText.split(/\r?\n/);
+    linesArr.forEach((line) => {
+        let found = line.match(re)
+        let instance = 1
+        if(found) {
+            let zoneName = found[1]
+            let x = parseFloat(found[3])
+            let y = parseFloat(found[4])
+            let zone = getZoneByName(zoneName)
+            if(found[2]) {
+                instance = instanceToIntMapping[found[2]] ?? 1
+            }
+            let mob = zone.mobs.find((el) => line.includes(el.name))
+            if(mob && zone && x && y) {
+                let point = getClosestSpawnPoint(zone, x, y, mob.name)
+            }
+        }
+    })
     
     const dialog = document.getElementById('shareModal')
     // This bit of code lets you click outside of the Share modal in the backdrop area and have it

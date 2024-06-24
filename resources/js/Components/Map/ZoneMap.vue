@@ -243,5 +243,12 @@ const getValidMobsForPoint = function(point) {
     })
 }
 
+const processImportLine = function(line) {
+    console.log('Called for line import')
+}
+
 const emit = defineEmits(['pointUpdated'])
+defineExpose({
+    processImportLine
+})
 </script>
