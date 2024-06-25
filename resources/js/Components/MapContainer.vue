@@ -373,8 +373,8 @@ const getClosestSpawnPoint = function (zone, x, y, mob) {
             return d(a) < d(b) ? a : b
         })
         let distance = trueDistance({ x: x, y: y }, closest)
-        if (distance < 1) {
-            console.log(closest)
+        if (distance < 1.25) {
+            //console.log(closest)
             return closest
         } else {
             if (zone.allow_custom_points) {
