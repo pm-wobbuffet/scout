@@ -28,6 +28,8 @@ class ImportPointsRequest extends FormRequest
             'custom_points.*.id'                        =>  'required|numeric',
             'custom_points.*.mob_index'                 => 'string',
             'custom_points.*.zone_id'                   => 'numeric',
+            'custom_points.*.x'                         => 'numeric',
+            'custom_points.*.y'                         => 'numeric',
             'custom_points.*.valid_mobs'                => 'array',
             'custom_points.*.valid_mobs.*.id'           => 'numeric',
             'custom_points.*.valid_mobs.*.mob_index'    => 'numeric',

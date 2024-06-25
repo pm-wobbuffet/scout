@@ -98,19 +98,22 @@
                     </a>
                 </div>
                 <div class="p-1 text-center">
-                    <button class="inline-flex rounded-md bg-slate-200 py-1 px-3 font-bold text-black"
+                    <button class="inline-flex rounded-md bg-slate-200 py-1 px-3 font-bold text-black mr-1"
+                        v-if="props.editmode && !props.scout?.finalized_at"
                         @click.prevent="showImportDialog">
                         <ClipboardTextMultipleOutlineIcon />Import
                     </button>
-                </div>
-                <div class="p-1 text-center" v-if="props.scout && !props.scout.finalized_at">
                     <a href="#"
                         class="inline-flex rounded-md bg-red-400 dark:bg-red-800 py-1 font-bold px-3 text-white dark:text-slate-300"
                         title="Finalize/lock this scouting report. No further edits can be made after"
+                        v-if="props.scout && !props.scout.finalized_at"
                         @click.prevent="handleFinalizeClick">
                         <FileLockOutlineIcon />
-                        Finalize
+                        Finish
                     </a>
+                </div>
+                <div class="p-1 text-center" v-if="props.scout && !props.scout.finalized_at">
+                    
                 </div>
                 <div v-for="expac in getActiveExpac()">
                     <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
@@ -146,7 +149,7 @@
                     <ContentCopyIcon />
                 </div>
             </div>
-            <template v-if="scout.collaborator_password">
+            <template v-if="scout.collaborator_password && !scout?.finalized_at">
                 <h1 class="font-bold text-2xl mb-4">Share Editable Map</h1>
                 <p class="text-sm">This link will allow users to edit/add points to the map, so only give it to trusted
                     users.</p>
@@ -213,12 +216,12 @@
                 <textarea name="pastedLog" id="pastedLog" class="w-full" rows="6"></textarea>
                 <button type="button"
                     @click.prevent="parsePastedLog()"
+                    :disabled="processingImport"
                     class="bg-blue-300 dark:bg-slate-800 p-2 border-black rounded-md font-bold">Import</button>
-                <div class="text-sm" v-if="outputTextFromImport != ''">
+                <div class="text-sm font-mono" v-if="outputTextFromImport != ''">
                     <div v-html="outputTextFromImport"></div>
                 </div>
             </div>
-
         </dialog>
     </div>
 </template>
@@ -252,6 +255,7 @@ const processUpdate = function (payload) {
     if ('custom_points' in payload) {
         form.custom_points = payload.custom_points
     }
+    processingImport.value = false
 }
 defineExpose({
     processUpdate
@@ -273,6 +277,7 @@ const zoneMaps = ref({})
 const lightDarkMode = ref('light')
 const defaultLanguage = ref('en')
 const outputTextFromImport = ref('')
+const processingImport = ref(false)
 let lastPointAddTime = -1 * Date.now()
 
 const form = useForm({
@@ -289,6 +294,7 @@ const getCustomSpawnPoints = function (zone_id) {
 }
 
 const showImportDialog = function (event) {
+    outputTextFromImport.value = ''
     document.getElementById('pasteMarks').showModal()
 }
 
@@ -368,6 +374,7 @@ const getClosestSpawnPoint = function (zone, x, y, mob) {
         })
         let distance = trueDistance({ x: x, y: y }, closest)
         if (distance < 1) {
+            console.log(closest)
             return closest
         } else {
             if (zone.allow_custom_points) {
@@ -405,14 +412,14 @@ const manualAssignMob = function (zone, instance, point, mob) {
     if (!(instance in form.point_data?.[zone.id])) {
         form.point_data[zone.id][instance] = []
     }
-    console.log("Manual Assign Mob Called", zone, instance, point, mob)
+    //console.log("Manual Assign Mob Called", zone, instance, point, mob, form.point_data[zone.id][instance])
     // See if the mob is already assigned in this zone
     let mobArrayIdx = form.point_data[zone.id][instance].findIndex((el) => {
         return el.mob_id == mob.id
     })
-    console.log(`Found ${mobArrayIdx} for ${mob.name} in ${zone.name} and instance ${instance} `)
+    //console.log(`Found ${mobArrayIdx} for ${mob.name} in ${zone.name} and instance ${instance} `)
     if (mobArrayIdx > -1) {
-        form.point_data[zone.id][instance] = form.point_data[zone.id][instance].splice(mobArrayIdx, 1)
+        form.point_data[zone.id][instance].splice(mobArrayIdx, 1)
     }
     form.point_data[zone.id][instance].push({
         point_id: point.id,
@@ -425,6 +432,7 @@ const manualAssignMob = function (zone, instance, point, mob) {
 
 const parsePastedLog = function () {
     const txtArea = document.getElementById('pastedLog')
+    processingImport.value = true
     outputTextFromImport.value = ''
 
     // Store the list of things we did
@@ -454,9 +462,18 @@ const parsePastedLog = function () {
                 instance = instanceToIntMapping[found[2]] ?? 1
             }
             let instOverride = line.match(instanceCheck)
-
             if (instOverride) {
                 instance = Number(instOverride[2])
+            }
+            // If the zone expects instances, but we don't get an instance marker in the line
+            // it's safer to *not* assume instance 1 so we don't break any existing points
+            // on accident
+            if(!found[2] && !instOverride && zone.default_instances > 1) {
+                assignments.fail.push({
+                    'line': line,
+                    'reason': 'No instance number found - cannot determine correct instance'
+                })
+                return false
             }
             if(instance > zone.default_instances) {
                 assignments.fail.push({
@@ -510,6 +527,10 @@ const parsePastedLog = function () {
         }
     }
     emit('clipboardImport', assignments, form.point_data, form.custom_points, getInstanceCounts())
+    if(!props.scout) {
+        processingImport.value = false
+        txtArea.value = ''
+    }
     return assignments
 }
 
@@ -520,7 +541,7 @@ onMounted(() => {
     if ('defaultLanguage' in localStorage) {
         defaultLanguage.value = localStorage.getItem('defaultLanguage')
     }
-    showImportDialog()
+    //showImportDialog()
 
     //const dialog = document.getElementById('shareModal')
     const dialogs = document.querySelectorAll('dialog')

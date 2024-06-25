@@ -175,10 +175,10 @@ class MainController extends Controller
             abort('403', 'Method not allowed');
         }
         $scout->instance_data = $request->safe()->input('instance_data');
-        //dd($request->all(), $request->safe()->all());
-        dd($request->safe()->all(), $request->all());
+        //dd($request->safe()->all(), $request->all());
         //Cycle through the existing custom points and make sure they're not added to the array twice
         $existing = (new Collection($scout->custom_points))->keyBy('id');
+        //dd($existing);
         foreach($request->safe()->input('custom_points') as $point) {
             if(!isset($existing[$point['id']])) {
                 $existing[$point['id']] = $point;
@@ -187,20 +187,34 @@ class MainController extends Controller
         $scout->custom_points = $existing->values()->toArray();
 
         // Now we need to go through the points array and make sure we prevent any collisions
-        //$s = $points[$request->input('zone_id')][$request->input('instance_number')] ?? [];
-        
+        $s = $scout->point_data;
         foreach($request->safe()->input('point_data') as $zone_id => $instances) {
             foreach($instances as $instance => $mobs) {
                 $mobById = (new Collection($mobs))->keyBy('mob_id');
                 // Filter out any existing mobs from this group that are already assigned to a point
-                $scout->point_data[$zone_id][$instance] = array_filter($scout->point_data[$zone_id][$instance],function($item) {
+                $subs = $s[$zone_id][$instance] ?? [];
+                $s[$zone_id][$instance] = array_filter($subs,function($item) use($mobById) {
                     if(isset($mobById[$item['mob_id']])) {
                         return false;
                     }
                     return true;
                 });
+                // Add new mobs
+                foreach($mobs as $mob) {
+                    $s[$zone_id][$instance][] = $mob;
+                }
             }
         }
+        $scout->point_data = $s;
+        //dd($scout->point_data, $s);
+        $scout->save();
+        return [
+            'point_data'    => $scout->point_data,
+            'custom_points' => $scout->custom_points,
+            'instance_data' => $scout->instance_data,
+            'finalized_at'  => $scout->finalized_at,
+        ];
+
         //dd($scout->custom_points->merge($request->safe()->input('custom_points')));
     }
 

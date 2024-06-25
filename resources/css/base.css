@@ -41,5 +41,8 @@ footer {
     }
 }
 textarea {
-    @apply bg-white dark:bg-slate-500 text-black;
+    @apply bg-white dark:bg-slate-500 text-black font-mono;
+}
+button:disabled {
+    @apply cursor-not-allowed;
 }

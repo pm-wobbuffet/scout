@@ -45,7 +45,9 @@ const handleClipboardImport = function(assignments, point_data, custom_points, i
         custom_points: custom_points,
         instance_data: instance_data
     }).then((response) => {
-        console.log(response)
+        mapRef.value.processUpdate(response.data)
+        updateTimeout = setTimeout(pollUpdates, refreshTime)
+        processUpdates.value = true
     }).catch(function (error) {
         console.log(error);
     });
