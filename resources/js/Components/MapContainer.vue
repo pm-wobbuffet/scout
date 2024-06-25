@@ -3,12 +3,13 @@
         <nav
             class="flex flex-wrap w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] main-nav flex-grow-1">
             <div class="shrink">
-                <a href="/"><img src="/turtleknife.png" height="40" width="90" class="inline" alt="The turtle says to murder" /></a>
+                <a href="/"><img src="/turtleknife.png" height="40" width="90" class="inline"
+                        alt="The turtle says to murder" /></a>
             </div>
             <div class="flex flex-row expac-list place-self-center m-auto">
                 <div class="expansion-list-container flex">
-                    <div v-for="expansion in expac" :key="expansion.id" class="text-center border p-1 px-4 expac-list-item"
-                        @click="setActiveExpac(expansion.id)"
+                    <div v-for="expansion in expac" :key="expansion.id"
+                        class="text-center border p-1 px-4 expac-list-item" @click="setActiveExpac(expansion.id)"
                         :class="{ 'selected-expansion': expansion.id == selectedExp }">
                         <div>{{ expansion.abbreviation }}</div>
                         <div class="text-sm">
@@ -17,50 +18,56 @@
                     </div>
                 </div>
                 <Popover class="self-center mr-auto basis-0 shrink ml-2 relative">
-                    <PopoverButton class="border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 dark:border-slate-500 rounded-sm"
-                    title="Change the sort order of zones"
-                    ><SortIcon /></PopoverButton>
-                    <PopoverPanel class="absolute min-w-max mt-1 z-50 text-sm left-1/2 -translate-x-1/2 bg-white dark:bg-slate-700 dark:text-slate-300 border border-black p-4 text-black">
+                    <PopoverButton
+                        class="border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 dark:border-slate-500 rounded-sm"
+                        title="Change the sort order of zones">
+                        <SortIcon />
+                    </PopoverButton>
+                    <PopoverPanel
+                        class="absolute min-w-max mt-1 z-50 text-sm left-1/2 -translate-x-1/2 bg-white dark:bg-slate-700 dark:text-slate-300 border border-black p-4 text-black">
                         <div class="text-center border-b font-bold text-xl mb-2">Sort Order</div>
                         <div class="grid gap-2 items-center" style="grid-template-columns: 1fr auto;">
                             <template v-for="expac in getActiveExpac()">
                                 <template v-for="(zone, index) in expac.zones" :key="`zone-sort-row-${zone.id}`">
                                     <div class="text-md font-bold">{{ getDisplayName(zone, defaultLanguage) }}</div>
                                     <div class="zone-sort-buttons">
-                                        <button
-                                        :disabled="index == expac.zones.length - 1"
-                                        @click="changeZoneSort(expac.id, index, index+1)"
-                                        ><ArrowDownIcon /></button>
-                                        <button
-                                        @click="changeZoneSort(expac.id, index, index-1)"
-                                        :disabled="index == 0"
-                                        ><ArrowUpIcon /></button>
+                                        <button :disabled="index == expac.zones.length - 1"
+                                            @click="changeZoneSort(expac.id, index, index + 1)">
+                                            <ArrowDownIcon />
+                                        </button>
+                                        <button @click="changeZoneSort(expac.id, index, index - 1)"
+                                            :disabled="index == 0">
+                                            <ArrowUpIcon />
+                                        </button>
                                     </div>
                                 </template>
                             </template>
                         </div>
                     </PopoverPanel>
                 </Popover>
-                <button class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
-                title="Toggle display mode between dark/light"
-                ><WeatherNightIcon v-if="lightDarkMode == 'dark'" @click="toggleDarkMode('light')" />
-                <WeatherSunnyIcon v-else-if="lightDarkMode == 'light'" @click="toggleDarkMode('dark')" />    
+                <button
+                    class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
+                    title="Toggle display mode between dark/light">
+                    <WeatherNightIcon v-if="lightDarkMode == 'dark'" @click="toggleDarkMode('light')" />
+                    <WeatherSunnyIcon v-else-if="lightDarkMode == 'light'" @click="toggleDarkMode('dark')" />
                 </button>
-                <button class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
-                title="Cycle through available display languages (English, Japanese, French, German)"
-                @click="cycleLanguage()">{{ defaultLanguage.toUpperCase() }}</button>
+                <button
+                    class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
+                    title="Cycle through available display languages (English, Japanese, French, German)"
+                    @click="cycleLanguage()">{{
+                        defaultLanguage.toUpperCase() }}</button>
             </div>
-            <!-- <button title="Settings" class="bg-slate-600 ml-2 rounded-md border flex justify-center items-center mr-auto text-2xl pb-[5px] px-1"
-            ><CogIcon /></button> -->
-            
             <div class="flex shrink">
-                <button class="mr-2 flex items-center gap-x-2 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300" @click.prevent="showMarkOverlay=true">
+                <button
+                    class="mr-2 flex items-center gap-x-2 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300"
+                    @click.prevent="showMarkOverlay = true">
                     <NoteMultipleOutline class="inline-block" />
                     Summary
                 </button>
-                <Link as="button" method="post" :href="route('scout.clone', scout)" :preserve-state="false" 
-                v-if="scout?.id && !props.editmode" class="bg-blue-400 p-2 rounded-md text-slate-100 flex items-center gap-x-1"
-                ><ContentCopyIcon class="inline-block" /> Duplicate
+                <Link as="button" method="post" :href="route('scout.clone', scout)" :preserve-state="false"
+                    v-if="scout?.id && !props.editmode"
+                    class="bg-blue-400 p-2 rounded-md text-slate-100 flex items-center gap-x-1">
+                <ContentCopyIcon class="inline-block" /> Duplicate
                 </Link>
             </div>
         </nav>
@@ -68,48 +75,59 @@
             <div class="map-image-list order-2">
                 <template v-for="zone in getMapsForExpansion()">
                     <ZoneMap v-for="i in zone.default_instances" :id="`zonemap-${zone.id}-${i}`"
-                        :key="`zonemap-${zone.id}-${i}`" 
-                        :zone="zone" 
-                        :instance="i" 
-                        :editmode="props.editmode"
-                        :language="defaultLanguage"
-                        :ref="el => {zoneMaps[zone.id+'-'+i] = el}"
-                        v-model="form"
-                        @pointUpdated="handlePointUpdated"
-                        />
+                        :key="`zonemap-${zone.id}-${i}`" :zone="zone" :instance="i" :editmode="props.editmode"
+                        :language="defaultLanguage" :ref="el => { zoneMaps[zone.id + '-' + i] = el }" v-model="form"
+                        @pointUpdated="handlePointUpdated" />
                 </template>
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800">
                 <div class="p-1 text-center">
-                    <a href="#" class="inline-flex rounded-md bg-blue-400 dark:bg-blue-900 px-3 text-white dark:text-slate-300 py-1 mr-1 font-bold"
-                    ><ArrowUpIcon /> Top</a>
-                    <a href="#" class="inline-flex rounded-md bg-blue-700 dark:bg-blue-800 px-3 text-white dark:text-slate-300 py-1 font-bold"
-                    v-if="props.scout"
-                    @click.prevent="showShareDialog"
-                    ><ExportIcon /> Share</a>
-                    <a href="#" class="inline-flex rounded-md bg-blue-700 px-3 dark:bg-blue-800 text-white dark:text-slate-300 py-1 font-bold" v-else
-                    @click.prevent="submitForm"><ExportIcon /> Share</a>
+                    <a href="#"
+                        class="inline-flex rounded-md bg-blue-400 dark:bg-blue-900 px-3 text-white dark:text-slate-300 py-1 mr-1 font-bold">
+                        <ArrowUpIcon /> Top
+                    </a>
+                    <a href="#"
+                        class="inline-flex rounded-md bg-blue-700 dark:bg-blue-800 px-3 text-white dark:text-slate-300 py-1 font-bold"
+                        v-if="props.scout" @click.prevent="showShareDialog">
+                        <ExportIcon /> Share
+                    </a>
+                    <a href="#"
+                        class="inline-flex rounded-md bg-blue-700 px-3 dark:bg-blue-800 text-white dark:text-slate-300 py-1 font-bold"
+                        v-else @click.prevent="submitForm">
+                        <ExportIcon /> Share
+                    </a>
+                </div>
+                <div class="p-1 text-center">
+                    <button class="inline-flex rounded-md bg-slate-200 py-1 px-3 font-bold text-black"
+                        @click.prevent="showImportDialog">
+                        <ClipboardTextMultipleOutlineIcon />Import
+                    </button>
                 </div>
                 <div class="p-1 text-center" v-if="props.scout && !props.scout.finalized_at">
-                    <a href="#" class="inline-flex rounded-md bg-red-400 dark:bg-red-800 py-1 font-bold px-3 text-white dark:text-slate-300"
-                    title="Finalize/lock this scouting report. No further edits can be made after"
-                    @click.prevent="handleFinalizeClick"
-                    ><FileLockOutlineIcon />
-                        Finalize</a>
+                    <a href="#"
+                        class="inline-flex rounded-md bg-red-400 dark:bg-red-800 py-1 font-bold px-3 text-white dark:text-slate-300"
+                        title="Finalize/lock this scouting report. No further edits can be made after"
+                        @click.prevent="handleFinalizeClick">
+                        <FileLockOutlineIcon />
+                        Finalize
+                    </a>
                 </div>
                 <div v-for="expac in getActiveExpac()">
                     <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
                         {{ getDisplayName(expac, defaultLanguage) }}
-                        <div class="italic text-sm inline-block">{{ getMappedMobsForExpac(expac) }}/{{ mobCount(expac) }}</div>
+                        <div class="italic text-sm inline-block">{{ getMappedMobsForExpac(expac) }}/{{ mobCount(expac)
+                            }}</div>
                     </div>
                     <ul class="text-sm">
                         <template v-for="zone in expac.zones">
                             <li v-for="i in zone.default_instances" class="hover:bg-slate-200 ml-2 pr-2"
-                            :class="{'line-through': getFoundMobCount(zone.id, i) == zone.mobs.length}"><a class="text-blue-500"
-                                    :href="`#zonemap-${zone.id}-${i}`">{{ getDisplayName(zone, defaultLanguage) }}</a>
+                                :class="{ 'line-through': getFoundMobCount(zone.id, i) == zone.mobs.length }"><a
+                                    class="text-blue-500" :href="`#zonemap-${zone.id}-${i}`">{{ getDisplayName(zone,
+                                        defaultLanguage) }}</a>
                                 <span class="ml-1 font-bold text-blue-800" v-if="zone.default_instances > 1">{{ i
                                     }}</span>
-                                <i class="text-sm ml-2 text-black dark:text-slate-200">{{ getFoundMobCount(zone.id, i) }}/{{ zone.mobs.length }}
+                                <i class="text-sm ml-2 text-black dark:text-slate-200">{{ getFoundMobCount(zone.id, i)
+                                    }}/{{ zone.mobs.length }}
                                 </i>
                             </li>
                         </template>
@@ -119,30 +137,39 @@
         </main>
         <dialog id="shareModal" class="relative" v-if="scout">
             <h1 class="font-bold text-2xl mb-4">Share View-Only Map</h1>
-            <p class="text-sm">This link provides a view only copy of the map. Users cannot submit changes to the map.</p>
+            <p class="text-sm">This link provides a view only copy of the map. Users cannot submit changes to the map.
+            </p>
             <div class="bg-blue-500 text-white p-4 mb-4 relative cursor-pointer"
-            @click="copyLink(route('scout.view', {scout: props.scout.slug})+'?'+cacheBusterAppend)">
-                <span
-                >{{ route('scout.view', {scout: props.scout.slug}) }}?{{ cacheBusterAppend }}</span>
-                <div class="absolute bottom-0 right-0.5"><ContentCopyIcon /></div>
+                @click="copyLink(route('scout.view', { scout: props.scout.slug }) + '?' + cacheBusterAppend)">
+                <span>{{ route('scout.view', { scout: props.scout.slug }) }}?{{ cacheBusterAppend }}</span>
+                <div class="absolute bottom-0 right-0.5">
+                    <ContentCopyIcon />
+                </div>
             </div>
             <template v-if="scout.collaborator_password">
                 <h1 class="font-bold text-2xl mb-4">Share Editable Map</h1>
-                <p class="text-sm">This link will allow users to edit/add points to the map, so only give it to trusted users.</p>
+                <p class="text-sm">This link will allow users to edit/add points to the map, so only give it to trusted
+                    users.</p>
                 <div class="bg-blue-500 text-white p-4 mb-4 relative cursor-pointer"
-                @click="copyLink(route('scout.view', {scout: props.scout.slug, password: props.scout.collaborator_password}))">
-                    <span
-                    >{{ route('scout.view', {scout: props.scout.slug, password: props.scout.collaborator_password}) }}</span>
-                    <div class="absolute bottom-0 right-0.5"><ContentCopyIcon /></div>
+                    @click="copyLink(route('scout.view', { scout: props.scout.slug, password: props.scout.collaborator_password }))">
+                    <span>{{ route('scout.view', {
+                        scout: props.scout.slug, password: props.scout.collaborator_password
+                    })
+                        }}</span>
+                    <div class="absolute bottom-0 right-0.5">
+                        <ContentCopyIcon />
+                    </div>
                 </div>
             </template>
-            <div class="absolute bottom-0 font-bold opacity-0 transition-opacity duration-300 w-[90%] text-center" id="copied-msg">Copied to clipboard!</div>
+            <div class="absolute bottom-0 font-bold opacity-0 transition-opacity duration-300 w-[90%] text-center"
+                id="copied-msg">Copied to clipboard!</div>
         </dialog>
         <div class="mark-summary-overlay" id="MarkSummaryPanel" v-if="showMarkOverlay">
             <div class="mark-summary-panel">
                 <div class="flex w-full justify-between mb-8">
                     <h1>Mark Summary</h1>
-                    <button class="border rounded-md px-2 bg-slate-400 font-bold text-sm" @click.prevent="closeMarkOverlay()">Close</button>
+                    <button class="border rounded-md px-2 bg-slate-400 font-bold text-sm"
+                        @click.prevent="closeMarkOverlay()">Close</button>
                 </div>
                 <div v-for="expansion in expac.toReversed()" :key="expansion.id">
                     <template v-if="getMappedMobsForExpac(expansion) > 0">
@@ -156,7 +183,7 @@
                                     <div v-for="mob in form.point_data[zone.id][i]">
                                         <div>
                                             {{ zone.mobs.find((el) => el.id == mob.mob_id).name }}
-                                            ({{ mob.x }}, 
+                                            ({{ mob.x }},
                                             {{ mob.y }})
                                         </div>
                                     </div>
@@ -167,6 +194,32 @@
                 </div>
             </div>
         </div>
+        <dialog id="pasteMarks" class="relative">
+            <h2 class="text-xl font-bold">Import Marks From Clipboard</h2>
+            <p class="text-sm">
+                Paste the output from your echo log into the box below and click the Import button.
+                <br>
+                The script will do its best to identify instances and proper zones by looking for the in-game instance
+                character.
+                <br>
+                You can <i>override</i> this by including "Instance 2" or "i3" (etc), so you can use echo macros to
+                re-order
+                your flags
+                <br>
+                Example: <b>Nariphon Lakeland ( 35.5 , 27.2 ) Z: 0.3 INSTANCE 3</b> would be parsed as being in instance
+                3
+            </p>
+            <div>
+                <textarea name="pastedLog" id="pastedLog" class="w-full" rows="6"></textarea>
+                <button type="button"
+                    @click.prevent="parsePastedLog()"
+                    class="bg-blue-300 dark:bg-slate-800 p-2 border-black rounded-md font-bold">Import</button>
+                <div class="text-sm" v-if="outputTextFromImport != ''">
+                    <div v-html="outputTextFromImport"></div>
+                </div>
+            </div>
+
+        </dialog>
     </div>
 </template>
 
@@ -186,37 +239,17 @@ import SortIcon from "vue-material-design-icons/Sort.vue";
 import ArrowDownIcon from "vue-material-design-icons/ArrowDown.vue"
 import WeatherSunnyIcon from 'vue-material-design-icons/WeatherSunny.vue';
 import WeatherNightIcon from "vue-material-design-icons/WeatherNight.vue";
+import ClipboardTextMultipleOutlineIcon from "vue-material-design-icons/ClipboardTextMultipleOutline.vue";
 import { getDisplayName, languages } from "@/helpers";
 
-const emit = defineEmits(['pointUpdated', 'mapFinalized'])
+const emit = defineEmits(['pointUpdated', 'mapFinalized', 'clipboardImport'])
 
-// const copiedText = `FOUND: Maliktender @ Amh Araeng ( 33.2  , 21.9 ) ---  A-Rank  --  100%`
-
-const copiedText = `
-FOUND: Nariphon @ Lakeland ( 26.6  , 37.5 ) ---  A-Rank  --  100%
-FOUND: Coquecigrue @ Kholusia ( 31.5  , 19.9 ) ---  B-Rank  --  100%
-FOUND: Indomitable @ Kholusia ( 29.8  , 29.8 ) ---  B-Rank  --  100%
-FOUND: Maliktender @ Amh Araeng ( 33.2  , 21.9 ) ---  A-Rank  --  100%
-FOUND: Juggler Hecatomb @ Amh Araeng ( 28.5  , 26.0 ) ---  B-Rank  --  100%
-FOUND: Sugaar @ Amh Araeng ( 19.2  , 24.9 ) ---  A-Rank  --  100%
-FOUND: Vulpangue @ Il Mheg ( 19.7  , 8.9 ) ---  B-Rank  --  100%
-FOUND: The Mudman @ Il Mheg ( 29.1  , 5.3 ) ---  A-Rank  --  100%
-FOUND: Domovoi @ Il Mheg ( 19.6  , 27.5 ) ---  B-Rank  --  100%
-FOUND: O Poorest Pauldia @ Il Mheg ( 19.7  , 34.7 ) ---  A-Rank  --  100%
-FOUND: Supay @ The Rak'tika Greatwood ( 17.1  , 24.3 ) ---  A-Rank  --  100%
-FOUND: Deacon @ The Tempest ( 25.1  , 25.2 ) ---  B-Rank  --  100%
-FOUND: Gilshs Aath Swiftclaw @ The Tempest ( 18.5  , 13.5 ) ---  B-Rank  --  100%
-FOUND: Petalodus @ Elpis ( 17.9  , 30.3 ) ---  A-Rank  --  100%
-FOUND: Yilan @ Thavnair ( 27.0  , 21.2 ) ---  A-Rank  --  100%
-FOUND: Sugriva @ Thavnair ( 14.7  , 12.6 ) ---  A-Rank  --  100%
-`
-
-const processUpdate = function(payload) {
-    if('point_data' in payload) {
+const processUpdate = function (payload) {
+    if ('point_data' in payload) {
         //props.scout.point_data = payload.point_data
         form.point_data = payload.point_data
     }
-    if('custom_points' in payload) {
+    if ('custom_points' in payload) {
         form.custom_points = payload.custom_points
     }
 }
@@ -232,13 +265,15 @@ const props = defineProps({
 })
 
 const defaultExp = ref(6)
-const selectedExp = ref(6)
+const selectedExp = ref(5)
 const cacheBusterAppend = ref(1)
 const showMarkOverlay = ref(false)
 const sortOrders = ref({})
 const zoneMaps = ref({})
 const lightDarkMode = ref('light')
 const defaultLanguage = ref('en')
+const outputTextFromImport = ref('')
+let lastPointAddTime = -1 * Date.now()
 
 const form = useForm({
     point_data: {},
@@ -246,33 +281,39 @@ const form = useForm({
 })
 
 
-const closeMarkOverlay = function(event) {
+const closeMarkOverlay = function (event) {
     showMarkOverlay.value = false
 }
+const getCustomSpawnPoints = function (zone_id) {
+    return form.custom_points.filter((el) => el.zone_id == zone_id) ?? [];
+}
 
-const cycleLanguage = function()
-{
+const showImportDialog = function (event) {
+    document.getElementById('pasteMarks').showModal()
+}
+
+const cycleLanguage = function () {
     let curIndex = languages.findIndex((el) => el.abbrev == defaultLanguage.value)
-    if(curIndex < 0 || curIndex == languages.length - 1) {
+    if (curIndex < 0 || curIndex == languages.length - 1) {
         // If no match or on last lang, cycle back to the first
         defaultLanguage.value = languages[0].abbrev
     } else {
-        defaultLanguage.value = languages[curIndex+1].abbrev
+        defaultLanguage.value = languages[curIndex + 1].abbrev
     }
     localStorage.setItem('defaultLanguage', defaultLanguage.value)
 }
 
-const toggleDarkMode = function(newMode) {
+const toggleDarkMode = function (newMode) {
     lightDarkMode.value = newMode
     localStorage.setItem('theme', newMode)
-    if(newMode === 'light') {
+    if (newMode === 'light') {
         document.documentElement.classList.remove('dark')
     } else {
         document.documentElement.classList.add('dark')
     }
 }
 
-const copyLink = async function(linkText) {
+const copyLink = async function (linkText) {
     try {
         await navigator.clipboard.writeText(linkText)
         document.getElementById('copied-msg').classList.remove('opacity-0')
@@ -284,11 +325,11 @@ const copyLink = async function(linkText) {
     }
 }
 
-const changeZoneSort = function(expac_id,first_idx, second_idx) {
+const changeZoneSort = function (expac_id, first_idx, second_idx) {
     let zOne = getExpacById(expac_id).zones[first_idx]
     let zTwo = getExpacById(expac_id).zones[second_idx]
     // Swap out the values that are in the zones' sort_priority field
-    if(zOne && zTwo) {
+    if (zOne && zTwo) {
         let origFirstVal = sortOrders.value[zOne.id]
         sortOrders.value[zOne.id] = sortOrders.value[zTwo.id]
         sortOrders.value[zTwo.id] = origFirstVal
@@ -296,106 +337,212 @@ const changeZoneSort = function(expac_id,first_idx, second_idx) {
     }
 }
 
-const showShareDialog = function() {
+const showShareDialog = function () {
     cacheBusterAppend.value += 1
     document.getElementById('shareModal').showModal()
 }
 
-const handleFinalizeClick = function() {
-    if(confirm('Do you really wish to finalize this scouting report? No further edits can be made afterwards.')) {
+const handleFinalizeClick = function () {
+    if (confirm('Do you really wish to finalize this scouting report? No further edits can be made afterwards.')) {
         emit('mapFinalized')
     }
 }
 
-const handlePointUpdated = function(point, mob, zone_id, instance_number) {
+const handlePointUpdated = function (point, mob, zone_id, instance_number) {
     emit('pointUpdated', point, mob, form.point_data, getInstanceCounts(), zone_id, instance_number, form.custom_points)
 }
 
-const getClosestSpawnPoint = function(zone, x, y, mob) {
+const getClosestSpawnPoint = function (zone, x, y, mob) {
+
     function d(point) {
         return Math.pow(point.x - x, 2) + Math.pow(point.y - y, 2)
     }
-
     function trueDistance(pointOne, pointTwo) {
         return Math.sqrt(Math.pow(pointTwo.x - pointOne.x, 2) + Math.pow(pointTwo.y - pointOne.y, 2))
     }
 
-    let closest = zone.spawn_points.reduce((a, b) => {
-        return d(a) < d(b) ? a : b
-    })
-    let distance = trueDistance({x: x, y: y}, closest)
-
-    if(distance < 1) {
-        console.log(x, y, closest, distance, zone, mob)
-        return closest
+    let spawnPts = zone.spawn_points.concat(getCustomSpawnPoints(zone.id))
+    if (spawnPts.length > 0) {
+        let closest = spawnPts.reduce((a, b) => {
+            return d(a) < d(b) ? a : b
+        })
+        let distance = trueDistance({ x: x, y: y }, closest)
+        if (distance < 1) {
+            return closest
+        } else {
+            if (zone.allow_custom_points) {
+                let lastEl = form.custom_points.push({
+                    'x': x,
+                    'y': y,
+                    'zone_id': zone.id,
+                    'id': --lastPointAddTime,
+                    'valid_mobs': zone.mobs,
+                })
+                return form.custom_points[lastEl - 1]
+            }
+        }
     } else {
-        console.log(x, y, closest, distance, zone, mob)
-        // custom point here?
+        if (zone.allow_custom_points) {
+            let lastEl = form.custom_points.push({
+                'x': x,
+                'y': y,
+                'zone_id': zone.id,
+                'id': --lastPointAddTime,
+                'valid_mobs': zone.mobs,
+            })
+            return form.custom_points[lastEl - 1]
+        }
     }
-    //console.log(x, y, closest, distance )
     return false
-    
+}
+
+const manualAssignMob = function (zone, instance, point, mob) {
+    if (!props.editmode) return
+    //console.log(point, mob)
+    if (!(zone.id in form.point_data)) {
+        form.point_data[zone.id] = {}
+    }
+    if (!(instance in form.point_data?.[zone.id])) {
+        form.point_data[zone.id][instance] = []
+    }
+    // See if the mob is already assigned in this zone
+    let mobArrayIdx = form.point_data[zone.id][instance].findIndex((el) => {
+        return el.mob_id == mob.id
+    })
+    if (mobArrayIdx > -1) {
+        form.point_data[zone.id][instance] = form.point_data[zone.id][instance].splice(mobArrayIdx, 1)
+    }
+    form.point_data[zone.id][instance].push({
+        point_id: point.id,
+        mob_id: mob.id,
+        x: point.x,
+        y: point.y,
+        expansion_id: zone.expansion_id,
+    })
+}
+
+const parsePastedLog = function () {
+    const txtArea = document.getElementById('pastedLog')
+    outputTextFromImport.value = ''
+
+    // Store the list of things we did
+    let assignments = {
+        'fail': [],
+        'success': [],
+    }
+
+    const instanceToIntMapping = {
+        "": 1,
+        "": 2,
+        "": 3,
+    }
+    //\uE0B1 = Instance 1 , \uE0B2 = 2 , \uE0B3 = 3  \uE0BB = start of flag marker
+    const re = /[\uE0BB]([^\uE0B1-\uE0B3]*)([\uE0B1-\uE0B3]?) \( ([0-9\.]+)\W+,\W+([0-9\.]+)\W+\).*/
+    const instanceCheck = /(instance.|i)([1|2|3])/i
+    const linesArr = txtArea.value.split(/\r?\n/);
+    linesArr.forEach((line) => {
+        let found = line.match(re)
+        let instance = 1
+        if (found) {
+            let zoneName = found[1]
+            let x = parseFloat(found[3])
+            let y = parseFloat(found[4])
+            let zone = getZoneByName(zoneName)
+            if (found[2]) {
+                instance = instanceToIntMapping[found[2]] ?? 1
+            }
+            let instOverride = line.match(instanceCheck)
+
+            if (instOverride) {
+                instance = Number(instOverride[2])
+            }
+            if(instance > zone.default_instances) {
+                assignments.fail.push({
+                    'line': line,
+                    'reason': 'Invalid instance number detected.'
+                })
+                return false
+            }
+            let mob = zone.mobs.find((el) => {
+                let lc = line.toLowerCase()
+                if (lc.includes(el.name.toLowerCase())) {
+                    return true
+                }
+                for (let lang in el.names) {
+                    if (lc.includes(el.names[lang].toLowerCase())) {
+                        return true
+                    }
+                }
+                return false
+            })
+            if (mob && zone && x && y) {
+                // console.log(`Trying ${zone.name} with ${mob.name} at ${x}, ${y}`)
+                let point = getClosestSpawnPoint(zone, x, y, mob.name)
+                // console.log('FOund point', point)
+                if (point) {
+                    manualAssignMob(zone, instance, point, mob)
+                    assignments.success.push({
+                        zone: zone,
+                        instance: instance,
+                        mob: mob,
+                        point: point,
+                    })
+                }
+            } else {
+                assignments.fail.push({
+                    'line': line,
+                    'reason': 'Could not detect a proper mob or point'
+                })
+            }
+        }
+    })
+    //txtArea.value = ''
+    if(assignments) {
+        outputTextFromImport.value = `Imported ${assignments.success.length ?? 0} lines successfully.`
+        if(assignments.fail.length > 0) {
+            outputTextFromImport.value += '<br>Failures:<br>'
+            assignments.fail.forEach((fail) => {
+                outputTextFromImport.value += `<b>${fail.line}</b> - ${fail.reason}<br>`
+            })
+        }
+    }
+    emit('clipboardImport', assignments, form.point_data, form.custom_points, getInstanceCounts())
+    return assignments
 }
 
 onMounted(() => {
-    if(displayMode) {
+    if (displayMode) {
         lightDarkMode.value = displayMode
     }
-    if('defaultLanguage' in localStorage) {
-        //console.log(`Registered old default language ${localStorage.getItem('defaultLanguage')}`)
+    if ('defaultLanguage' in localStorage) {
         defaultLanguage.value = localStorage.getItem('defaultLanguage')
     }
-    //console.log(zoneMaps.value)
-    
-    // const instanceToIntMapping = {
-    //     "": 1,
-    //     "": 2,
-    //     "": 3,
-    // }
-    // \uE0B1 = Instance 1 , \uE0B2 = 2 , \uE0B3 = 3 
-    // const re = /[\uE0BB]([^\uE0B1-\uE0B3]*)([\uE0B1-\uE0B3]?) \( ([0-9\.]+)\W+,\W+([0-9\.]+)\W+\).*/
-    // const linesArr = copiedText.split(/\r?\n/);
-    // linesArr.forEach((line) => {
-    //     let found = line.match(re)
-    //     let instance = 1
-    //     if(found) {
-    //         let zoneName = found[1]
-    //         let x = parseFloat(found[3])
-    //         let y = parseFloat(found[4])
-    //         let zone = getZoneByName(zoneName)
-    //         if(found[2]) {
-    //             instance = instanceToIntMapping[found[2]] ?? 1
-    //         }
-    //         let mob = zone.mobs.find((el) => line.includes(el.name))
-    //         if(mob && zone && x && y) {
-    //             let point = getClosestSpawnPoint(zone, x, y, mob.name)
-    //             if(point) {
-    //                 manualAssignMob(zone, instance, point, mob )
-    //             }
-    //         }
-    //     }
-    // })
-    
-    const dialog = document.getElementById('shareModal')
+    showImportDialog()
+
+    //const dialog = document.getElementById('shareModal')
+    const dialogs = document.querySelectorAll('dialog')
     // This bit of code lets you click outside of the Share modal in the backdrop area and have it
     // close the page
-    if(dialog) {
-        dialog.addEventListener("click", function(event) {
-            const rect = dialog.getBoundingClientRect();
-            const isInDialog = (
-                rect.top <= event.clientY &&
-                event.clientY <= rect.top + rect.height &&
-                rect.left <= event.clientX &&
-                event.clientX <= rect.left + rect.width
-            );
-            if (!isInDialog) {
-                dialog.close();
-            }
-        });
+    if (dialogs) {
+        dialogs.forEach((el) => {
+            el.addEventListener("click", function (event) {
+                const rect = el.getBoundingClientRect();
+                const isInDialog = (
+                    rect.top <= event.clientY &&
+                    event.clientY <= rect.top + rect.height &&
+                    rect.left <= event.clientX &&
+                    event.clientX <= rect.left + rect.width
+                );
+                if (!isInDialog) {
+                    el.close();
+                }
+            });
+        })
+
     }
     // If they are being redirected from the main page after creating a new "Share" link
     // show them the Share modal
-    if(props?.newlyCreated == true) {
+    if (props?.newlyCreated == true) {
         showShareDialog()
     }
 })
@@ -413,14 +560,14 @@ onBeforeMount(() => {
             }
         }
     }
-    if(props?.scout?.point_data) {
+    if (props?.scout?.point_data) {
         // Need to add custom points if they exist in the data
         //console.log(props.scout.point_data)
-        for( let mapId in props.scout.point_data ) {
-            for( let instanceId in props.scout.point_data[mapId] ) {
-                if(props.scout.point_data[mapId][instanceId]?.length > 0) {
+        for (let mapId in props.scout.point_data) {
+            for (let instanceId in props.scout.point_data[mapId]) {
+                if (props.scout.point_data[mapId][instanceId]?.length > 0) {
                     props.scout.point_data[mapId][instanceId].forEach((el) => {
-                        if(el.point_id < 0) {
+                        if (el.point_id < 0) {
                             // Custom id, we need to add it to the zone's list of points
                             addCustomSpawnPoint(el, mapId, instanceId)
                         }
@@ -431,7 +578,7 @@ onBeforeMount(() => {
         form.point_data = props.scout.point_data
         form.custom_points = props.scout.custom_points
     }
-    
+
     props.expac.forEach((expansion) => {
         // Should we update the default displayed expansion?
         // Cycle through expacs and if there are any mapped mobs for it, set that tab to be the active
@@ -442,7 +589,7 @@ onBeforeMount(() => {
         let userSort = JSON.parse(localStorage.getItem('sortOrders') ?? '{}')
 
         expansion.zones.forEach((zone) => {
-            if(zone.id in userSort) {
+            if (zone.id in userSort) {
                 sortOrders.value[zone.id] = userSort[zone.id]
             } else {
                 sortOrders.value[zone.id] = zone.sort_priority
@@ -451,26 +598,26 @@ onBeforeMount(() => {
     })
 })
 
-const zoneSortFunction = function(a, b) {
+const zoneSortFunction = function (a, b) {
     return (sortOrders.value[a.id] - sortOrders.value[b.id])
 }
 
-const getZoneByName = function(zoneName) {
-    for(let i = 0; i < props.expac.length; i++) {
-        for(let j = 0; j < props.expac[i].zones.length; j++) {
+const getZoneByName = function (zoneName) {
+    for (let i = 0; i < props.expac.length; i++) {
+        for (let j = 0; j < props.expac[i].zones.length; j++) {
             let z = props.expac[i].zones[j]
-            if(z.name == zoneName) {
+            if (z.name == zoneName) {
                 return z
             }
         }
     }
 }
 
-const addCustomSpawnPoint = function(point_data, mapId, instanceId) {
+const addCustomSpawnPoint = function (point_data, mapId, instanceId) {
     // Does the point already exist
     // point_data includes expansion_id for convenience from the DB
     let ex = getExpacById(point_data.expansion_id)
-    if(!ex) return
+    if (!ex) return
     let sMap = ex.zones.find((el) => el.id == mapId)
     /*
     if(sMap && sMap.spawn_points && !sMap.spawn_points.find((z) => z.id == point_data.point_id)) {
@@ -482,17 +629,17 @@ const addCustomSpawnPoint = function(point_data, mapId, instanceId) {
         })
     }
         */
-    
+
 }
 
-const submitForm = function() {
-    if(props.editmode || props.editmode == true && !props.scout) {
+const submitForm = function () {
+    if (props.editmode || props.editmode == true && !props.scout) {
         form
-        .transform((data) => ({
-            ...data,
-            instance_data: getInstanceCounts(),
-        }))
-        .post(route('scout.store'),{preserveState:false})
+            .transform((data) => ({
+                ...data,
+                instance_data: getInstanceCounts(),
+            }))
+            .post(route('scout.store'), { preserveState: false })
     }
 }
 
@@ -521,7 +668,7 @@ const getMappedMobsForExpac = function (expac) {
     return totalSeen
 }
 
-const getExpacById = function(searchValue) {
+const getExpacById = function (searchValue) {
     return props.expac.find((el) => el.id == searchValue)
 }
 const getActiveExpac = function () {

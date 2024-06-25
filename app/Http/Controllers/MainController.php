@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ImportPointsRequest;
 use App\Http\Requests\StoreScoutRequest;
 use App\Http\Requests\UpdateScoutRequest;
 use App\Models\Expansion;
@@ -169,6 +170,24 @@ class MainController extends Controller
 
     }
 
+    public function import(ImportPointsRequest $request, Scout $scout, string $password = '') {
+        if(!$password || $password !== $scout->collaborator_password) {
+            abort('403', 'Method not allowed');
+        }
+        $scout->instance_data = $request->safe()->input('instance_data');
+        dd($request->all(), $request->safe()->all());
+        //Cycle through the existing custom points and make sure they're not added to the array twice
+        $existing = (new Collection($scout->custom_points))->keyBy('id');
+        foreach($request->safe()->input('custom_points') as $point) {
+            if(!isset($existing[$point['id']])) {
+                $existing[$point['id']] = $point;
+            }
+        }
+        $scout->custom_points = $existing->values()->toArray();
+        dd($scout->toArray());
+        //dd($scout->custom_points->merge($request->safe()->input('custom_points')));
+    }
+
     public function getUpdates(Request $request, Scout $scout, string $password = '')
     {
         if($password && $password !== $scout->collaborator_password) {
@@ -240,7 +259,16 @@ class MainController extends Controller
     private function getExpansionsData()
     {
         return Expansion::query()
-        ->with(['zones', 'zones.mobs', 'zones.aetherytes', 'zones.spawn_points', 'zones.spawn_points.valid_mobs'])
+        ->with([
+            'zones', 
+            'zones.mobs' => function($query) {
+                $query->select(['id', 'name', 'rank', 'mob_index', 'zone_id', 'names']);
+            }, 
+            'zones.aetherytes', 
+            'zones.spawn_points', 
+            'zones.spawn_points.valid_mobs' => function($query) {
+                $query->select(['mobs.id', 'name', 'mob_index', 'zone_id']);
+            }])
         ->withCount(['zones', 'mobs'])
         ->orderBy('id')
         ->get();

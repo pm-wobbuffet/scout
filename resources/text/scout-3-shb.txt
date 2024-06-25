@@ -1,0 +1,12 @@
+Nariphon Lakeland ( 35.5  , 27.2 ) Z: 0.3
+Nuckelavee Lakeland ( 23.1  , 29.5 ) Z: 0.2
+Huracan Kholusia ( 17.0  , 7.1 ) Z: 4.7
+Li'l Murderer Kholusia ( 14.8  , 15.8 ) Z: 3.7
+Maliktender Amh Araeng ( 30.4  , 34.9 ) Z: 0.5
+Sugaar Amh Araeng ( 19.0  , 24.6 ) Z: 1.0
+O Poorest Pauldia Il Mheg ( 19.7  , 34.6 ) Z: 0.3
+The Mudman Il Mheg ( 8.3  , 26.6 ) Z: 0.5
+Supay The Rak'tika Greatwood ( 25.0  , 30.1 ) Z: -0.1
+Grassman The Rak'tika Greatwood ( 33.2  , 22.7 ) Z: 0.3
+Rusalka The Tempest ( 33.6  , 21.6 ) Z: -1.6
+Baal The Tempest ( 11.5  , 4.8 ) Z: -1.5

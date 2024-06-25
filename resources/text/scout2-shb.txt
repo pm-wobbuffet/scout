@@ -1,0 +1,13 @@
+FOUND: Nariphon @ Lakeland ( 26.6  , 37.5 ) ---  A-Rank  --  100%
+FOUND: Coquecigrue @ Kholusia ( 31.5  , 19.9 ) ---  B-Rank  --  100%
+FOUND: Indomitable @ Kholusia ( 29.8  , 29.8 ) ---  B-Rank  --  100%
+FOUND: Maliktender @ Amh Araeng ( 33.2  , 21.9 ) ---  A-Rank  --  100%
+FOUND: Juggler Hecatomb @ Amh Araeng ( 28.5  , 26.0 ) ---  B-Rank  --  100%
+FOUND: Sugaar @ Amh Araeng ( 19.2  , 24.9 ) ---  A-Rank  --  100%
+FOUND: Vulpangue @ Il Mheg ( 19.7  , 8.9 ) ---  B-Rank  --  100%
+FOUND: The Mudman @ Il Mheg ( 29.1  , 5.3 ) ---  A-Rank  --  100%
+FOUND: Domovoi @ Il Mheg ( 19.6  , 27.5 ) ---  B-Rank  --  100%
+FOUND: O Poorest Pauldia @ Il Mheg ( 19.7  , 34.7 ) ---  A-Rank  --  100%
+FOUND: Supay @ The Rak'tika Greatwood ( 17.1  , 24.3 ) ---  A-Rank  --  100%
+FOUND: Deacon @ The Tempest ( 25.1  , 25.2 ) ---  B-Rank  --  100%
+FOUND: Gilshs Aath Swiftclaw @ The Tempest ( 18.5  , 13.5 ) ---  B-Rank  --  100%

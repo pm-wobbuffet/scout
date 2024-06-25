@@ -6,6 +6,7 @@
         :scout="props.scout"
         @pointUpdated="handlePointUpdate"
         @mapFinalized="handleMapFinalized"
+        @clipboardImport="handleClipboardImport"
         :editmode="props.scout.collaborator_password != null && !props.scout.finalized_at"
         :newly-created="props.flash?.newly_created"
         ref="mapRef"
@@ -27,11 +28,28 @@ const props = defineProps({
 })
 
 const mapRef = ref(null)
+const processUpdates = ref(true)
 const maxUpdateId = ref(0)
 let updateTimeout = ref(null)
 // Number of seconds to wait between update pings
 const refreshTime = 5000
 const toast = useToast()
+
+const handleClipboardImport = function(assignments, point_data, custom_points, instance_data) {
+    if(!props.scout?.collaborator_password || props.scout.collaborator_password == '') return
+    clearTimeout(updateTimeout)
+    processUpdates.value = false
+    //console.log(assignments, point_data, custom_points)
+    axios.post(route('scout.import', {scout: props.scout, password: props.scout.collaborator_password}),{
+        point_data: point_data,
+        custom_points: custom_points,
+        instance_data: instance_data
+    }).then((response) => {
+        console.log(response)
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
 
 const handleMapFinalized = function()
 {
@@ -74,8 +92,11 @@ const pollUpdates = function() {
         last_id: maxUpdateId.value,
     }))
     .then((response) => {
-        mapRef.value.processUpdate(response.data)
-        clearTimeout(updateTimeout)
+        if(processUpdates.value == true) {
+            mapRef.value.processUpdate(response.data)
+            clearTimeout(updateTimeout)
+        }
+        
         // As long the map isn't finalized, keep on polling for updates
         if(!response.data.finalized_at) {
             updateTimeout = setTimeout(pollUpdates, refreshTime)

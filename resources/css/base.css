@@ -27,7 +27,7 @@
 
 
 dialog {
-    @apply p-4 rounded-lg border-2 border-black;
+    @apply p-4 rounded-lg border-2 border-black bg-white dark:bg-slate-700 text-black dark:text-slate-300;
 }
 dialog::backdrop {
     background: rgba(0, 0, 0, 0.8);
@@ -39,4 +39,7 @@ footer {
     a {
         @apply underline;
     }
+}
+textarea {
+    @apply bg-white dark:bg-slate-500 text-black;
 }
