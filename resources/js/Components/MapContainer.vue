@@ -238,7 +238,7 @@ const showMarkOverlay = ref(false)
 const sortOrders = ref({})
 const zoneMaps = ref({})
 const lightDarkMode = ref('light')
-const defaultLanguage = ref('ja')
+const defaultLanguage = ref('en')
 
 const form = useForm({
     point_data: {},
