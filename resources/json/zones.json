@@ -3,6 +3,9 @@
         "id": 134,
         "version": 0,
         "name": "Middle La Noscea",
+        "name_fr": "Noscea centrale",
+        "name_ja": "中央ラノシア",
+        "name_de": "Zentrales La Noscea",
         "size_factor": 100,
         "map": 15,
         "aetherytes": [
@@ -10,13 +13,19 @@
                 "type": 60453,
                 "x": 26.1,
                 "y": 16.4,
-                "name": "Summerford Farms"
+                "name": "Summerford Farms",
+                "name_fr": "Vergers d'Estival",
+                "name_ja": "サマーフォード庄",
+                "name_de": "Sommerfurt-Höfe"
             }
         ],
         "mobs": [
             {
                 "id": 29,
                 "name": "Vogaal ja",
+                "name_fr": "Vogaal ja",
+                "name_ja": "醜男のヴォガージャ",
+                "name_de": "Vogaal ja",
                 "rank": 2,
                 "npcbase": 3201,
                 "mob_index": 1
@@ -27,6 +36,9 @@
         "id": 135,
         "version": 0,
         "name": "Lower La Noscea",
+        "name_fr": "Basse-Noscea",
+        "name_ja": "低地ラノシア",
+        "name_de": "Unteres La Noscea",
         "size_factor": 100,
         "map": 16,
         "aetherytes": [
@@ -34,13 +46,19 @@
                 "type": 60453,
                 "x": 24.6,
                 "y": 35.0,
-                "name": "Moraby Drydocks"
+                "name": "Moraby Drydocks",
+                "name_fr": "Chantier naval de Moraby",
+                "name_ja": "モラビー造船廠",
+                "name_de": "Moraby-Trockendocks"
             }
         ],
         "mobs": [
             {
                 "id": 32,
                 "name": "Unktehi",
+                "name_fr": "Unktehi",
+                "name_ja": "ウンクテヒ",
+                "name_de": "Unktehi",
                 "rank": 2,
                 "npcbase": 3202,
                 "mob_index": 1
@@ -51,6 +69,9 @@
         "id": 137,
         "version": 0,
         "name": "Eastern La Noscea",
+        "name_fr": "Noscea orientale",
+        "name_ja": "東ラノシア",
+        "name_de": "Östliches La Noscea",
         "size_factor": 100,
         "map": 17,
         "aetherytes": [
@@ -58,19 +79,28 @@
                 "type": 60453,
                 "x": 31.3,
                 "y": 30.8,
-                "name": "Costa del Sol"
+                "name": "Costa del Sol",
+                "name_fr": "Costa del Sol",
+                "name_ja": "コスタ・デル・ソル",
+                "name_de": "Sonnenküste"
             },
             {
                 "type": 60453,
                 "x": 21.1,
                 "y": 21.6,
-                "name": "Wineport"
+                "name": "Wineport",
+                "name_fr": "Port-aux-Vins",
+                "name_ja": "ワインポート",
+                "name_de": "Weinhafen"
             }
         ],
         "mobs": [
             {
                 "id": 35,
                 "name": "Hellsclaw",
+                "name_fr": "Griffe des enfers magitek",
+                "name_ja": "魔導ヘルズクロー",
+                "name_de": "Höllenklaue",
                 "rank": 2,
                 "npcbase": 3203,
                 "mob_index": 1
@@ -81,6 +111,9 @@
         "id": 138,
         "version": 0,
         "name": "Western La Noscea",
+        "name_fr": "Noscea occidentale",
+        "name_ja": "西ラノシア",
+        "name_de": "Westliches La Noscea",
         "size_factor": 100,
         "map": 18,
         "aetherytes": [
@@ -88,19 +121,28 @@
                 "type": 60453,
                 "x": 34.6,
                 "y": 31.8,
-                "name": "Swiftperch"
+                "name": "Swiftperch",
+                "name_fr": "Le Martinet",
+                "name_ja": "スウィフトパーチ入植地",
+                "name_de": "Tölpelturm-Siedlung"
             },
             {
                 "type": 60453,
                 "x": 26.7,
                 "y": 25.9,
-                "name": "Aleport"
+                "name": "Aleport",
+                "name_fr": "Port-aux-Ales",
+                "name_ja": "エールポート",
+                "name_de": "Bierhafen"
             }
         ],
         "mobs": [
             {
                 "id": 38,
                 "name": "Nahn",
+                "name_fr": "Nahn",
+                "name_ja": "ナン",
+                "name_de": "Nahn",
                 "rank": 2,
                 "npcbase": 3204,
                 "mob_index": 1
@@ -111,6 +153,9 @@
         "id": 139,
         "version": 0,
         "name": "Upper La Noscea",
+        "name_fr": "Haute-Noscea",
+        "name_ja": "高地ラノシア",
+        "name_de": "Oberes La Noscea",
         "size_factor": 100,
         "map": 19,
         "aetherytes": [
@@ -118,13 +163,19 @@
                 "type": 60453,
                 "x": 30.3,
                 "y": 23.4,
-                "name": "Camp Bronze Lake"
+                "name": "Camp Bronze Lake",
+                "name_fr": "Camp du lac d'Airain",
+                "name_ja": "キャンプ・ブロンズレイク",
+                "name_de": "Camp Bronzesee"
             }
         ],
         "mobs": [
             {
                 "id": 41,
                 "name": "Marberry",
+                "name_fr": "Marberry",
+                "name_ja": "マーベリー",
+                "name_de": "Marberry",
                 "rank": 2,
                 "npcbase": 3205,
                 "mob_index": 1
@@ -135,6 +186,9 @@
         "id": 180,
         "version": 0,
         "name": "Outer La Noscea",
+        "name_fr": "Noscea extérieure",
+        "name_ja": "外地ラノシア",
+        "name_de": "Äußeres La Noscea",
         "size_factor": 100,
         "map": 30,
         "aetherytes": [
@@ -142,13 +196,19 @@
                 "type": 60453,
                 "x": 19.2,
                 "y": 17.2,
-                "name": "Camp Overlook"
+                "name": "Camp Overlook",
+                "name_fr": "Camp du Guet",
+                "name_ja": "キャンプ・オーバールック",
+                "name_de": "Camp Ausblick"
             }
         ],
         "mobs": [
             {
                 "id": 44,
                 "name": "Cornu",
+                "name_fr": "Cornu",
+                "name_ja": "コンヌ",
+                "name_de": "Cornu",
                 "rank": 2,
                 "npcbase": 3206,
                 "mob_index": 1
@@ -159,6 +219,9 @@
         "id": 148,
         "version": 0,
         "name": "Central Shroud",
+        "name_fr": "Forêt centrale",
+        "name_ja": "黒衣森：中央森林",
+        "name_de": "Tiefer Wald",
         "size_factor": 100,
         "map": 4,
         "aetherytes": [
@@ -166,13 +229,19 @@
                 "type": 60453,
                 "x": 21.8,
                 "y": 22.2,
-                "name": "Bentbranch Meadows"
+                "name": "Bentbranch Meadows",
+                "name_fr": "Ranch de Brancharquée",
+                "name_ja": "ベントブランチ牧場",
+                "name_de": "Gut Zwieselgrund"
             }
         ],
         "mobs": [
             {
                 "id": 2,
                 "name": "Forneus",
+                "name_fr": "Forneus",
+                "name_ja": "ファルネウス",
+                "name_de": "Forneus",
                 "rank": 2,
                 "npcbase": 3192,
                 "mob_index": 1
@@ -183,6 +252,9 @@
         "id": 152,
         "version": 0,
         "name": "East Shroud",
+        "name_fr": "Forêt de l'est",
+        "name_ja": "黒衣森：東部森林",
+        "name_de": "Ostwald",
         "size_factor": 100,
         "map": 5,
         "aetherytes": [
@@ -190,13 +262,19 @@
                 "type": 60453,
                 "x": 17.8,
                 "y": 27.5,
-                "name": "The Hawthorne Hut"
+                "name": "The Hawthorne Hut",
+                "name_fr": "Hutte des Hawthorne",
+                "name_ja": "ホウソーン家の山塞",
+                "name_de": "Jagdhütte der Hawthornes"
             }
         ],
         "mobs": [
             {
                 "id": 5,
                 "name": "Melt",
+                "name_fr": "Fondu",
+                "name_ja": "メルティゼリー",
+                "name_de": "Schmelze",
                 "rank": 2,
                 "npcbase": 3193,
                 "mob_index": 1
@@ -207,6 +285,9 @@
         "id": 153,
         "version": 0,
         "name": "South Shroud",
+        "name_fr": "Forêt du sud",
+        "name_ja": "黒衣森：南部森林",
+        "name_de": "Südwald",
         "size_factor": 100,
         "map": 6,
         "aetherytes": [
@@ -214,19 +295,28 @@
                 "type": 60453,
                 "x": 16.9,
                 "y": 28.6,
-                "name": "Camp Tranquil"
+                "name": "Camp Tranquil",
+                "name_fr": "Camp des Sentes tranquilles",
+                "name_ja": "キャンプ・トランキル",
+                "name_de": "Camp Seelenruhe"
             },
             {
                 "type": 60453,
                 "x": 25.1,
                 "y": 20.1,
-                "name": "Quarrymill"
+                "name": "Quarrymill",
+                "name_fr": "Moulin de la Carrière",
+                "name_ja": "クォーリーミル",
+                "name_de": "Mühlenbruch"
             }
         ],
         "mobs": [
             {
                 "id": 8,
                 "name": "Ghede ti malice",
+                "name_fr": "Guédé ti-malice",
+                "name_ja": "ゲーデ",
+                "name_de": "Ghede titus häme",
                 "rank": 2,
                 "npcbase": 3194,
                 "mob_index": 1
@@ -237,6 +327,9 @@
         "id": 154,
         "version": 0,
         "name": "North Shroud",
+        "name_fr": "Forêt du nord",
+        "name_ja": "黒衣森：北部森林",
+        "name_de": "Nordwald",
         "size_factor": 100,
         "map": 7,
         "aetherytes": [
@@ -244,13 +337,19 @@
                 "type": 60453,
                 "x": 20.6,
                 "y": 26.1,
-                "name": "Fallgourd Float"
+                "name": "Fallgourd Float",
+                "name_fr": "Radeau de la Calebasse",
+                "name_ja": "フォールゴウド",
+                "name_de": "Herbstkürbis-See"
             }
         ],
         "mobs": [
             {
                 "id": 11,
                 "name": "Girtab",
+                "name_fr": "Girtab",
+                "name_ja": "ギルタブ",
+                "name_de": "Girtab",
                 "rank": 2,
                 "npcbase": 3195,
                 "mob_index": 1
@@ -261,6 +360,9 @@
         "id": 140,
         "version": 0,
         "name": "Western Thanalan",
+        "name_fr": "Thanalan occidental",
+        "name_ja": "西ザナラーン",
+        "name_de": "Westliches Thanalan",
         "size_factor": 100,
         "map": 20,
         "aetherytes": [
@@ -268,13 +370,19 @@
                 "type": 60453,
                 "x": 22.9,
                 "y": 16.9,
-                "name": "Horizon"
+                "name": "Horizon",
+                "name_fr": "Horizon",
+                "name_ja": "ホライズン",
+                "name_de": "Horizont"
             }
         ],
         "mobs": [
             {
                 "id": 14,
                 "name": "Alectryon",
+                "name_fr": "Alectryon",
+                "name_ja": "アレクトリオン",
+                "name_de": "Alectryon",
                 "rank": 2,
                 "npcbase": 3196,
                 "mob_index": 1
@@ -285,6 +393,9 @@
         "id": 141,
         "version": 0,
         "name": "Central Thanalan",
+        "name_fr": "Thanalan central",
+        "name_ja": "中央ザナラーン",
+        "name_de": "Zentrales Thanalan",
         "size_factor": 100,
         "map": 21,
         "aetherytes": [
@@ -292,13 +403,19 @@
                 "type": 60453,
                 "x": 21.1,
                 "y": 18.2,
-                "name": "Black Brush Station"
+                "name": "Black Brush Station",
+                "name_fr": "Gare de Roncenoire",
+                "name_ja": "ブラックブラッシュ停留所",
+                "name_de": "Kohlenstaub-Bahnhof"
             }
         ],
         "mobs": [
             {
                 "id": 17,
                 "name": "Sabotender bailarina",
+                "name_fr": "Pampa ballerine",
+                "name_ja": "サボテンダー・バイラリーナ",
+                "name_de": "Sabotender bailarina",
                 "rank": 2,
                 "npcbase": 3197,
                 "mob_index": 1
@@ -309,6 +426,9 @@
         "id": 145,
         "version": 0,
         "name": "Eastern Thanalan",
+        "name_fr": "Thanalan oriental",
+        "name_ja": "東ザナラーン",
+        "name_de": "Östliches Thanalan",
         "size_factor": 100,
         "map": 22,
         "aetherytes": [
@@ -316,13 +436,19 @@
                 "type": 60453,
                 "x": 13.8,
                 "y": 24.3,
-                "name": "Camp Drybone"
+                "name": "Camp Drybone",
+                "name_fr": "Camp des Os desséchés",
+                "name_ja": "キャンプ・ドライボーン",
+                "name_de": "Camp Knochenbleich"
             }
         ],
         "mobs": [
             {
                 "id": 20,
                 "name": "Maahes",
+                "name_fr": "Maahes",
+                "name_ja": "マヘス",
+                "name_de": "Maahes",
                 "rank": 2,
                 "npcbase": 3198,
                 "mob_index": 1
@@ -333,6 +459,9 @@
         "id": 146,
         "version": 0,
         "name": "Southern Thanalan",
+        "name_fr": "Thanalan méridional",
+        "name_ja": "南ザナラーン",
+        "name_de": "Südliches Thanalan",
         "size_factor": 100,
         "map": 23,
         "aetherytes": [
@@ -340,19 +469,28 @@
                 "type": 60453,
                 "x": 18.3,
                 "y": 13.2,
-                "name": "Little Ala Mhigo"
+                "name": "Little Ala Mhigo",
+                "name_fr": "Petite Ala Mhigo",
+                "name_ja": "リトルアラミゴ",
+                "name_de": "Klein-Ala Mhigo"
             },
             {
                 "type": 60453,
                 "x": 15.0,
                 "y": 29.6,
-                "name": "Forgotten Springs"
+                "name": "Forgotten Springs",
+                "name_fr": "Oasis oubliée",
+                "name_ja": "忘れられたオアシス",
+                "name_de": "Die Vergessene Oase"
             }
         ],
         "mobs": [
             {
                 "id": 23,
                 "name": "Zanig'oh",
+                "name_fr": "Zanig'oh",
+                "name_ja": "ザニゴ",
+                "name_de": "Zanig'oh",
                 "rank": 2,
                 "npcbase": 3199,
                 "mob_index": 1
@@ -363,6 +501,9 @@
         "id": 147,
         "version": 0,
         "name": "Northern Thanalan",
+        "name_fr": "Thanalan septentrional",
+        "name_ja": "北ザナラーン",
+        "name_de": "Nördliches Thanalan",
         "size_factor": 100,
         "map": 24,
         "aetherytes": [
@@ -370,19 +511,28 @@
                 "type": 60453,
                 "x": 21.9,
                 "y": 30.6,
-                "name": "Camp Bluefog"
+                "name": "Camp Bluefog",
+                "name_fr": "Camp de Brumebleue",
+                "name_ja": "キャンプ・ブルーフォグ",
+                "name_de": "Camp Blauer Dunst"
             },
             {
                 "type": 60453,
                 "x": 21.0,
                 "y": 20.9,
-                "name": "Ceruleum Processing Plant"
+                "name": "Ceruleum Processing Plant",
+                "name_fr": "Usine de céruleum",
+                "name_ja": "青燐精製所",
+                "name_de": "Erdseim-Fabrik"
             }
         ],
         "mobs": [
             {
                 "id": 26,
                 "name": "Dalvag's final flame",
+                "name_fr": "Dernière flamme de dalvag",
+                "name_ja": "ファイナルフレイム",
+                "name_de": "Letzt[a] flamme[p] dalvags",
                 "rank": 2,
                 "npcbase": 3200,
                 "mob_index": 1
@@ -393,6 +543,9 @@
         "id": 155,
         "version": 0,
         "name": "Coerthas Central Highlands",
+        "name_fr": "Hautes terres du Coerthas central",
+        "name_ja": "クルザス中央高地",
+        "name_de": "Zentrales Hochland von Coerthas",
         "size_factor": 100,
         "map": 53,
         "aetherytes": [
@@ -400,13 +553,19 @@
                 "type": 60453,
                 "x": 26.0,
                 "y": 16.8,
-                "name": "Camp Dragonhead"
+                "name": "Camp Dragonhead",
+                "name_fr": "Camp de la Tête du dragon",
+                "name_ja": "キャンプ・ドラゴンヘッド",
+                "name_de": "Camp Drachenkopf"
             }
         ],
         "mobs": [
             {
                 "id": 47,
                 "name": "Marraco",
+                "name_fr": "Marraco",
+                "name_ja": "マラク",
+                "name_de": "Marraco",
                 "rank": 2,
                 "npcbase": 3207,
                 "mob_index": 1
@@ -417,6 +576,9 @@
         "id": 397,
         "version": 1,
         "name": "Coerthas Western Highlands",
+        "name_fr": "Hautes terres du Coerthas occidental",
+        "name_ja": "クルザス西部高地",
+        "name_de": "Westliches Hochland von Coerthas",
         "size_factor": 95,
         "map": 211,
         "aetherytes": [
@@ -424,13 +586,19 @@
                 "type": 60453,
                 "x": 32.1,
                 "y": 36.8,
-                "name": "Falcon's Nest"
+                "name": "Falcon's Nest",
+                "name_fr": "Nid du faucon",
+                "name_ja": "ファルコンネスト",
+                "name_de": "Falkenhorst"
             }
         ],
         "mobs": [
             {
                 "id": 54,
                 "name": "Mirka",
+                "name_fr": "Mirka",
+                "name_ja": "ミルカ",
+                "name_de": "Mirka",
                 "rank": 2,
                 "npcbase": 4539,
                 "mob_index": 1
@@ -438,6 +606,9 @@
             {
                 "id": 55,
                 "name": "Lyuba",
+                "name_fr": "Lyuba",
+                "name_ja": "リューバ",
+                "name_de": "Lyuba",
                 "rank": 2,
                 "npcbase": 4540,
                 "mob_index": 2
@@ -448,6 +619,9 @@
         "id": 156,
         "version": 0,
         "name": "Mor Dhona",
+        "name_fr": "Mor Dhona",
+        "name_ja": "モードゥナ",
+        "name_de": "Mor Dhona",
         "size_factor": 100,
         "map": 25,
         "aetherytes": [
@@ -455,13 +629,19 @@
                 "type": 60453,
                 "x": 22.3,
                 "y": 8.1,
-                "name": "Revenant's Toll"
+                "name": "Revenant's Toll",
+                "name_fr": "Glas des revenants",
+                "name_ja": "レヴナンツトール",
+                "name_de": "Geisterzoll"
             }
         ],
         "mobs": [
             {
                 "id": 50,
                 "name": "Kurrea",
+                "name_fr": "Kurrea",
+                "name_ja": "クーレア",
+                "name_de": "Kurrea",
                 "rank": 2,
                 "npcbase": 3208,
                 "mob_index": 1
@@ -472,6 +652,9 @@
         "id": 401,
         "version": 1,
         "name": "The Sea of Clouds",
+        "name_fr": "L'Écume des cieux d'Abalathia",
+        "name_ja": "アバラシア雲海",
+        "name_de": "Abalathisches Wolkenmeer",
         "size_factor": 95,
         "map": 215,
         "aetherytes": [
@@ -479,19 +662,28 @@
                 "type": 60453,
                 "x": 10.5,
                 "y": 14.2,
-                "name": "Ok' Zundu"
+                "name": "Ok' Zundu",
+                "name_fr": "Ok' Zundu",
+                "name_ja": "オク・ズンド",
+                "name_de": "Ok' Zundo"
             },
             {
                 "type": 60453,
                 "x": 10.3,
                 "y": 33.6,
-                "name": "Camp Cloudtop"
+                "name": "Camp Cloudtop",
+                "name_fr": "Camp de Cime-des-nuages",
+                "name_ja": "キャンプ・クラウドトップ",
+                "name_de": "Camp Wolkenwipfel"
             }
         ],
         "mobs": [
             {
                 "id": 74,
                 "name": "Enkelados",
+                "name_fr": "Enkélados",
+                "name_ja": "エンケドラス",
+                "name_de": "Engedoras",
                 "rank": 2,
                 "npcbase": 4547,
                 "mob_index": 1
@@ -499,6 +691,9 @@
             {
                 "id": 75,
                 "name": "Sisiutl",
+                "name_fr": "Sisiutl",
+                "name_ja": "シシウトゥル",
+                "name_de": "Sisiutl",
                 "rank": 2,
                 "npcbase": 4548,
                 "mob_index": 2
@@ -509,6 +704,9 @@
         "id": 402,
         "version": 1,
         "name": "Azys Lla",
+        "name_fr": "Azys Lla",
+        "name_ja": "アジス・ラー",
+        "name_de": "Azys Lla",
         "size_factor": 95,
         "map": 216,
         "aetherytes": [
@@ -516,13 +714,19 @@
                 "type": 60453,
                 "x": 8.1,
                 "y": 10.6,
-                "name": "Helix"
+                "name": "Helix",
+                "name_fr": "Hélice",
+                "name_ja": "ポート・ヘリックス",
+                "name_de": "Helix"
             }
         ],
         "mobs": [
             {
                 "id": 79,
                 "name": "Campacti",
+                "name_fr": "Campacti",
+                "name_ja": "キャムパクティ",
+                "name_de": "Campacti",
                 "rank": 2,
                 "npcbase": 4549,
                 "mob_index": 1
@@ -530,6 +734,9 @@
             {
                 "id": 80,
                 "name": "Stench blossom",
+                "name_fr": "Fleur nauséabonde",
+                "name_ja": "センチブロッサム",
+                "name_de": "Pestwurz",
                 "rank": 2,
                 "npcbase": 4550,
                 "mob_index": 2
@@ -540,6 +747,9 @@
         "id": 398,
         "version": 1,
         "name": "The Dravanian Forelands",
+        "name_fr": "Avant-pays dravanien",
+        "name_ja": "高地ドラヴァニア",
+        "name_de": "Dravanisches Vorland",
         "size_factor": 95,
         "map": 212,
         "aetherytes": [
@@ -547,19 +757,28 @@
                 "type": 60453,
                 "x": 33.2,
                 "y": 23.2,
-                "name": "Tailfeather"
+                "name": "Tailfeather",
+                "name_fr": "La Penne",
+                "name_ja": "テイルフェザー",
+                "name_de": "Fiederhag"
             },
             {
                 "type": 60453,
                 "x": 16.5,
                 "y": 23.3,
-                "name": "Anyx Trine"
+                "name": "Anyx Trine",
+                "name_fr": "Annexe Trine",
+                "name_ja": "不浄の三塔",
+                "name_de": "Trinär-Annex"
             }
         ],
         "mobs": [
             {
                 "id": 59,
                 "name": "Pylraster",
+                "name_fr": "Pirlasta",
+                "name_ja": "パイルラスタ",
+                "name_de": "Xhauron",
                 "rank": 2,
                 "npcbase": 4541,
                 "mob_index": 1
@@ -567,6 +786,9 @@
             {
                 "id": 60,
                 "name": "Lord of the wyverns",
+                "name_fr": "Seigneur des wyvernes",
+                "name_ja": "ワイバーンロード",
+                "name_de": "Wyvern-lord",
                 "rank": 2,
                 "npcbase": 4542,
                 "mob_index": 2
@@ -577,6 +799,9 @@
         "id": 399,
         "version": 1,
         "name": "The Dravanian Hinterlands",
+        "name_fr": "Arrière-pays dravanien",
+        "name_ja": "低地ドラヴァニア",
+        "name_de": "Dravanisches Hinterland",
         "size_factor": 95,
         "map": 213,
         "aetherytes": [],
@@ -584,6 +809,9 @@
             {
                 "id": 64,
                 "name": "Slipkinx steeljoints",
+                "name_fr": "Slipkinx joints-d'acier",
+                "name_ja": "機兵のスリップキンクス",
+                "name_de": "Rutschfix stahlscharnier",
                 "rank": 2,
                 "npcbase": 4543,
                 "mob_index": 1
@@ -591,6 +819,9 @@
             {
                 "id": 65,
                 "name": "Stolas",
+                "name_fr": "Stolas",
+                "name_ja": "ストラス",
+                "name_de": "Stolas",
                 "rank": 2,
                 "npcbase": 4544,
                 "mob_index": 2
@@ -601,6 +832,9 @@
         "id": 400,
         "version": 1,
         "name": "The Churning Mists",
+        "name_fr": "L'Écume des cieux de Dravania",
+        "name_ja": "ドラヴァニア雲海",
+        "name_de": "Wallende Nebel",
         "size_factor": 95,
         "map": 214,
         "aetherytes": [
@@ -608,19 +842,28 @@
                 "type": 60453,
                 "x": 10.8,
                 "y": 28.9,
-                "name": "Zenith"
+                "name": "Zenith",
+                "name_fr": "Zénith",
+                "name_ja": "白亜の宮殿",
+                "name_de": "Kreidetempel"
             },
             {
                 "type": 60453,
                 "x": 27.9,
                 "y": 34.3,
-                "name": "Moghome"
+                "name": "Moghome",
+                "name_fr": "Nid-Mog",
+                "name_ja": "モグモグホーム",
+                "name_de": "Moglingen"
             }
         ],
         "mobs": [
             {
                 "id": 69,
                 "name": "Bune",
+                "name_fr": "Bune",
+                "name_ja": "ブネ",
+                "name_de": "Bune",
                 "rank": 2,
                 "npcbase": 4545,
                 "mob_index": 1
@@ -628,6 +871,9 @@
             {
                 "id": 70,
                 "name": "Agathos",
+                "name_fr": "Agathos",
+                "name_ja": "アガトス",
+                "name_de": "Agathos",
                 "rank": 2,
                 "npcbase": 4546,
                 "mob_index": 2
@@ -638,6 +884,9 @@
         "id": 612,
         "version": 2,
         "name": "The Fringes",
+        "name_fr": "Les Marges",
+        "name_ja": "ギラバニア辺境地帯",
+        "name_de": "Abanisches Grenzland",
         "size_factor": 100,
         "map": 367,
         "aetherytes": [
@@ -645,19 +894,28 @@
                 "type": 60453,
                 "x": 29.8,
                 "y": 26.4,
-                "name": "The Peering Stones"
+                "name": "The Peering Stones",
+                "name_fr": "Rochers d'aguet",
+                "name_ja": "ピーリングストーンズ",
+                "name_de": "Die Spähenden Steine"
             },
             {
                 "type": 60453,
                 "x": 8.9,
                 "y": 11.3,
-                "name": "Castrum Oriens"
+                "name": "Castrum Oriens",
+                "name_fr": "Castrum Oriens",
+                "name_ja": "カストルム・オリエンス",
+                "name_de": "Castrum Oriens"
             }
         ],
         "mobs": [
             {
                 "id": 99,
                 "name": "Orcus",
+                "name_fr": "Orcus",
+                "name_ja": "オルクス",
+                "name_de": "Orcus",
                 "rank": 2,
                 "npcbase": 6839,
                 "mob_index": 1
@@ -665,6 +923,9 @@
             {
                 "id": 100,
                 "name": "Erle",
+                "name_fr": "Erle",
+                "name_ja": "アール",
+                "name_de": "Erle",
                 "rank": 2,
                 "npcbase": 6840,
                 "mob_index": 2
@@ -675,6 +936,9 @@
         "id": 620,
         "version": 2,
         "name": "The Peaks",
+        "name_fr": "Les Pics",
+        "name_ja": "ギラバニア山岳地帯",
+        "name_de": "Die Zinnen",
         "size_factor": 100,
         "map": 368,
         "aetherytes": [
@@ -682,19 +946,28 @@
                 "type": 60453,
                 "x": 23.7,
                 "y": 6.5,
-                "name": "Ala Gannha"
+                "name": "Ala Gannha",
+                "name_fr": "Ala Gannha",
+                "name_ja": "アラガーナ",
+                "name_de": "Ala Gannha"
             },
             {
                 "type": 60453,
                 "x": 16.1,
                 "y": 36.4,
-                "name": "Ala Ghiri"
+                "name": "Ala Ghiri",
+                "name_fr": "Ala Ghiri",
+                "name_ja": "アラギリ",
+                "name_de": "Ala Ghiri"
             }
         ],
         "mobs": [
             {
                 "id": 104,
                 "name": "Vochstein",
+                "name_fr": "Vochstein",
+                "name_ja": "バックスタイン",
+                "name_de": "Vochstein",
                 "rank": 2,
                 "npcbase": 6841,
                 "mob_index": 1
@@ -702,6 +975,9 @@
             {
                 "id": 105,
                 "name": "Aqrabuamelu",
+                "name_fr": "Aqrabuamelu",
+                "name_ja": "アクラブアメル",
+                "name_de": "Aqrabuamelu",
                 "rank": 2,
                 "npcbase": 6842,
                 "mob_index": 2
@@ -712,6 +988,9 @@
         "id": 621,
         "version": 2,
         "name": "The Lochs",
+        "name_fr": "Les Lacs",
+        "name_ja": "ギラバニア湖畔地帯",
+        "name_de": "Das Fenn",
         "size_factor": 100,
         "map": 369,
         "aetherytes": [
@@ -719,19 +998,28 @@
                 "type": 60453,
                 "x": 8.5,
                 "y": 21.1,
-                "name": "Porta Praetoria"
+                "name": "Porta Praetoria",
+                "name_fr": "Porta Praetoria",
+                "name_ja": "ポルタ・プレトリア",
+                "name_de": "Porta Praetoria"
             },
             {
                 "type": 60453,
                 "x": 33.8,
                 "y": 34.5,
-                "name": "The Ala Mhigan Quarter"
+                "name": "The Ala Mhigan Quarter",
+                "name_fr": "Faubourg mhigois",
+                "name_ja": "アラミガン・クォーター",
+                "name_de": "Mhigisches Wohn<SoftHyphen/>viertel"
             }
         ],
         "mobs": [
             {
                 "id": 109,
                 "name": "Mahisha",
+                "name_fr": "Mahisha",
+                "name_ja": "マヒシャ",
+                "name_de": "Mahisha",
                 "rank": 2,
                 "npcbase": 6843,
                 "mob_index": 1
@@ -739,6 +1027,9 @@
             {
                 "id": 110,
                 "name": "Luminare",
+                "name_fr": "Luminare",
+                "name_ja": "ルミナーレ",
+                "name_de": "Luminare",
                 "rank": 2,
                 "npcbase": 6844,
                 "mob_index": 2
@@ -749,6 +1040,9 @@
         "id": 613,
         "version": 2,
         "name": "The Ruby Sea",
+        "name_fr": "Mer de Rubis",
+        "name_ja": "紅玉海",
+        "name_de": "Rubinsee",
         "size_factor": 100,
         "map": 371,
         "aetherytes": [
@@ -756,19 +1050,28 @@
                 "type": 60453,
                 "x": 28.7,
                 "y": 16.3,
-                "name": "Tamamizu"
+                "name": "Tamamizu",
+                "name_fr": "Tamamizu",
+                "name_ja": "碧のタマミズ",
+                "name_de": "Tamamizu"
             },
             {
                 "type": 60453,
                 "x": 23.3,
                 "y": 9.8,
-                "name": "Onokoro"
+                "name": "Onokoro",
+                "name_fr": "Onokoro",
+                "name_ja": "オノコロ島",
+                "name_de": "Onokoro"
             }
         ],
         "mobs": [
             {
                 "id": 84,
                 "name": "Funa yurei",
+                "name_fr": "Funa yurei",
+                "name_ja": "船幽霊",
+                "name_de": "Funa yurei",
                 "rank": 2,
                 "npcbase": 6845,
                 "mob_index": 1
@@ -776,6 +1079,9 @@
             {
                 "id": 85,
                 "name": "Oni yumemi",
+                "name_fr": "Oni yumemi",
+                "name_ja": "オニユメミ",
+                "name_de": "Oni yumemi",
                 "rank": 2,
                 "npcbase": 6846,
                 "mob_index": 2
@@ -786,6 +1092,9 @@
         "id": 614,
         "version": 2,
         "name": "Yanxia",
+        "name_fr": "Yanxia",
+        "name_ja": "ヤンサ",
+        "name_de": "Yanxia",
         "size_factor": 100,
         "map": 354,
         "aetherytes": [
@@ -793,19 +1102,28 @@
                 "type": 60453,
                 "x": 30.2,
                 "y": 19.7,
-                "name": "Namai"
+                "name": "Namai",
+                "name_fr": "Namai",
+                "name_ja": "ナマイ村",
+                "name_de": "Namai"
             },
             {
                 "type": 60453,
                 "x": 26.4,
                 "y": 13.4,
-                "name": "The House of the Fierce"
+                "name": "The House of the Fierce",
+                "name_fr": "Cercle des Intrépides",
+                "name_ja": "烈士庵",
+                "name_de": "Klause der Grimmigen"
             }
         ],
         "mobs": [
             {
                 "id": 89,
                 "name": "Gajasura",
+                "name_fr": "Gajasura",
+                "name_ja": "ガジャースラ",
+                "name_de": "Gajasura",
                 "rank": 2,
                 "npcbase": 6847,
                 "mob_index": 1
@@ -813,6 +1131,9 @@
             {
                 "id": 90,
                 "name": "Angada",
+                "name_fr": "Angada",
+                "name_ja": "アンガダ",
+                "name_de": "Angada",
                 "rank": 2,
                 "npcbase": 6848,
                 "mob_index": 2
@@ -823,6 +1144,9 @@
         "id": 622,
         "version": 2,
         "name": "The Azim Steppe",
+        "name_fr": "Steppe d'Azim",
+        "name_ja": "アジムステップ",
+        "name_de": "Azim-Steppe",
         "size_factor": 100,
         "map": 372,
         "aetherytes": [
@@ -830,25 +1154,37 @@
                 "type": 60453,
                 "x": 32.6,
                 "y": 28.3,
-                "name": "Reunion"
+                "name": "Reunion",
+                "name_fr": "Ralliement",
+                "name_ja": "再会の市",
+                "name_de": "Reunion"
             },
             {
                 "type": 60453,
                 "x": 23.1,
                 "y": 22.2,
-                "name": "The Dawn Throne"
+                "name": "The Dawn Throne",
+                "name_fr": "Trône de l'Aube",
+                "name_ja": "明けの玉座",
+                "name_de": "Morgenthron"
             },
             {
                 "type": 60453,
                 "x": 6.4,
                 "y": 23.8,
-                "name": "Dhoro Iloh"
+                "name": "Dhoro Iloh",
+                "name_fr": "Dhoro Iloh",
+                "name_ja": "ドーロ・イロー",
+                "name_de": "Dhoro Iloh"
             }
         ],
         "mobs": [
             {
                 "id": 94,
                 "name": "Girimekhala",
+                "name_fr": "Girimekhala",
+                "name_ja": "ギリメカラ",
+                "name_de": "Girimekhala",
                 "rank": 2,
                 "npcbase": 6849,
                 "mob_index": 1
@@ -856,6 +1192,9 @@
             {
                 "id": 95,
                 "name": "Sum",
+                "name_fr": "Sum",
+                "name_ja": "ソム",
+                "name_de": "Sum",
                 "rank": 2,
                 "npcbase": 6850,
                 "mob_index": 2
@@ -866,6 +1205,9 @@
         "id": 813,
         "version": 3,
         "name": "Lakeland",
+        "name_fr": "Grand-Lac",
+        "name_ja": "レイクランド",
+        "name_de": "Seenland",
         "size_factor": 100,
         "map": 491,
         "aetherytes": [
@@ -873,19 +1215,28 @@
                 "type": 60453,
                 "x": 36.6,
                 "y": 20.9,
-                "name": "Fort Jobb"
+                "name": "Fort Jobb",
+                "name_fr": "Fort Jobb",
+                "name_ja": "ジョッブ砦",
+                "name_de": "Jobb-Feste"
             },
             {
                 "type": 60453,
                 "x": 6.8,
                 "y": 16.9,
-                "name": "The Ostall Imperative"
+                "name": "The Ostall Imperative",
+                "name_fr": "L'Impératif d'Ostall",
+                "name_ja": "オスタル厳命城",
+                "name_de": "Ostalls Befehl"
             }
         ],
         "mobs": [
             {
                 "id": 114,
                 "name": "Nuckelavee",
+                "name_fr": "Nuckelavee",
+                "name_ja": "ナックラヴィー",
+                "name_de": "Nuckelavee",
                 "rank": 2,
                 "npcbase": 10383,
                 "mob_index": 1
@@ -893,6 +1244,9 @@
             {
                 "id": 115,
                 "name": "Nariphon",
+                "name_fr": "Nariphon",
+                "name_ja": "ナリーポン",
+                "name_de": "Nariphon",
                 "rank": 2,
                 "npcbase": 10384,
                 "mob_index": 2
@@ -903,6 +1257,9 @@
         "id": 814,
         "version": 3,
         "name": "Kholusia",
+        "name_fr": "Kholusia",
+        "name_ja": "コルシア島",
+        "name_de": "Kholusia",
         "size_factor": 100,
         "map": 492,
         "aetherytes": [
@@ -910,25 +1267,37 @@
                 "type": 60453,
                 "x": 34.9,
                 "y": 27.3,
-                "name": "Stilltide"
+                "name": "Stilltide",
+                "name_fr": "Douceonde",
+                "name_ja": "スティルタイド",
+                "name_de": "Stillwasser"
             },
             {
                 "type": 60453,
                 "x": 16.6,
                 "y": 29.2,
-                "name": "Wright"
+                "name": "Wright",
+                "name_fr": "Cherpant",
+                "name_ja": "ライト村",
+                "name_de": "Werfting"
             },
             {
                 "type": 60453,
                 "x": 13.0,
                 "y": 9.0,
-                "name": "Tomra"
+                "name": "Tomra",
+                "name_fr": "Tomra",
+                "name_ja": "トメラの村",
+                "name_de": "Tomra"
             }
         ],
         "mobs": [
             {
                 "id": 119,
                 "name": "Li'l murderer",
+                "name_fr": "Traître",
+                "name_ja": "リルマーダー",
+                "name_de": "Klein[a] mörder",
                 "rank": 2,
                 "npcbase": 10420,
                 "mob_index": 1
@@ -936,6 +1305,9 @@
             {
                 "id": 120,
                 "name": "Huracan",
+                "name_fr": "Huracan",
+                "name_ja": "フラカン",
+                "name_de": "Huracan",
                 "rank": 2,
                 "npcbase": 10421,
                 "mob_index": 2
@@ -946,6 +1318,9 @@
         "id": 815,
         "version": 3,
         "name": "Amh Araeng",
+        "name_fr": "Amh Araeng",
+        "name_ja": "アム・アレーン",
+        "name_de": "Amh Araeng",
         "size_factor": 100,
         "map": 493,
         "aetherytes": [
@@ -953,25 +1328,37 @@
                 "type": 60453,
                 "x": 26.4,
                 "y": 17.0,
-                "name": "Mord Souq"
+                "name": "Mord Souq",
+                "name_fr": "Mord Souq",
+                "name_ja": "モルド・スーク",
+                "name_de": "Mordh Souq"
             },
             {
                 "type": 60453,
                 "x": 29.5,
                 "y": 27.7,
-                "name": "The Inn at Journey's Head"
+                "name": "The Inn at Journey's Head",
+                "name_fr": "Auberge du Grand Départ",
+                "name_ja": "旅立ちの宿",
+                "name_de": "Ruhstatt vor der Langen Reise"
             },
             {
                 "type": 60453,
                 "x": 11.3,
                 "y": 17.2,
-                "name": "Twine"
+                "name": "Twine",
+                "name_fr": "Queues-liées",
+                "name_ja": "トゥワイン",
+                "name_de": "Pfotenschlag"
             }
         ],
         "mobs": [
             {
                 "id": 124,
                 "name": "Maliktender",
+                "name_fr": "Malikpampa",
+                "name_ja": "マリクテンダー",
+                "name_de": "Malikkaktor",
                 "rank": 2,
                 "npcbase": 10356,
                 "mob_index": 1
@@ -979,6 +1366,9 @@
             {
                 "id": 125,
                 "name": "Sugaar",
+                "name_fr": "Sugaar",
+                "name_ja": "シュガール",
+                "name_de": "Sugaar",
                 "rank": 2,
                 "npcbase": 10357,
                 "mob_index": 2
@@ -989,6 +1379,9 @@
         "id": 816,
         "version": 3,
         "name": "Il Mheg",
+        "name_fr": "Il Mheg",
+        "name_ja": "イル・メグ",
+        "name_de": "Il Mheg",
         "size_factor": 100,
         "map": 494,
         "aetherytes": [
@@ -996,25 +1389,37 @@
                 "type": 60453,
                 "x": 14.6,
                 "y": 31.7,
-                "name": "Lydha Lran"
+                "name": "Lydha Lran",
+                "name_fr": "Lydha Lran",
+                "name_ja": "リダ・ラーン",
+                "name_de": "Lydha Lran"
             },
             {
                 "type": 60453,
                 "x": 20.1,
                 "y": 4.3,
-                "name": "Pla Enni"
+                "name": "Pla Enni",
+                "name_fr": "Pla Enni",
+                "name_ja": "プラ・エンニ茸窟",
+                "name_de": "Pla Enni"
             },
             {
                 "type": 60453,
                 "x": 29.1,
                 "y": 7.7,
-                "name": "Wolekdorf"
+                "name": "Wolekdorf",
+                "name_fr": "Wolekdorf",
+                "name_ja": "ヴォレクドルフ",
+                "name_de": "Wolekdorf"
             }
         ],
         "mobs": [
             {
                 "id": 129,
                 "name": "The mudman",
+                "name_fr": "Tas de boue",
+                "name_ja": "泥人",
+                "name_de": "Matschklops",
                 "rank": 2,
                 "npcbase": 10271,
                 "mob_index": 1
@@ -1022,6 +1427,9 @@
             {
                 "id": 130,
                 "name": "O poorest pauldia",
+                "name_fr": "Pauldia",
+                "name_ja": "ポールディア",
+                "name_de": "Gepeinigt[a] pauldia",
                 "rank": 2,
                 "npcbase": 10272,
                 "mob_index": 2
@@ -1032,6 +1440,9 @@
         "id": 817,
         "version": 3,
         "name": "The Rak'tika Greatwood",
+        "name_fr": "Rak'tika",
+        "name_ja": "ラケティカ大森林",
+        "name_de": "Der Große Wald Rak'tika",
         "size_factor": 100,
         "map": 495,
         "aetherytes": [
@@ -1039,19 +1450,28 @@
                 "type": 60453,
                 "x": 19.4,
                 "y": 27.4,
-                "name": "Slitherbough"
+                "name": "Slitherbough",
+                "name_fr": "Serpentige",
+                "name_ja": "スリザーバウ",
+                "name_de": "Schlangenzweig"
             },
             {
                 "type": 60453,
                 "x": 29.1,
                 "y": 17.6,
-                "name": "Fanow"
+                "name": "Fanow",
+                "name_fr": "Fanow",
+                "name_ja": "ファノヴの里",
+                "name_de": "Fanow"
             }
         ],
         "mobs": [
             {
                 "id": 134,
                 "name": "Supay",
+                "name_fr": "Supay",
+                "name_ja": "スペイ",
+                "name_de": "Supay",
                 "rank": 2,
                 "npcbase": 10297,
                 "mob_index": 1
@@ -1059,6 +1479,9 @@
             {
                 "id": 135,
                 "name": "Grassman",
+                "name_fr": "Sasquatch arboricole",
+                "name_ja": "グラスマン",
+                "name_de": "Grasmann",
                 "rank": 2,
                 "npcbase": 10298,
                 "mob_index": 2
@@ -1069,6 +1492,9 @@
         "id": 818,
         "version": 3,
         "name": "The Tempest",
+        "name_fr": "La Tempête",
+        "name_ja": "テンペスト",
+        "name_de": "Tempest",
         "size_factor": 100,
         "map": 496,
         "aetherytes": [
@@ -1076,19 +1502,28 @@
                 "type": 60453,
                 "x": 32.7,
                 "y": 17.5,
-                "name": "The Ondo Cups"
+                "name": "The Ondo Cups",
+                "name_fr": "Baïne",
+                "name_ja": "オンドの潮溜まり",
+                "name_de": "Ondo-Becken"
             },
             {
                 "type": 60453,
                 "x": 18.7,
                 "y": 25.9,
-                "name": "The Macarenses Angle"
+                "name": "The Macarenses Angle",
+                "name_fr": "Carré macarien",
+                "name_ja": "マカレンサス広場",
+                "name_de": "Macarenses-Forum"
             }
         ],
         "mobs": [
             {
                 "id": 139,
                 "name": "Rusalka",
+                "name_fr": "Roussalka",
+                "name_ja": "ルサルカ",
+                "name_de": "Rusalka",
                 "rank": 2,
                 "npcbase": 10323,
                 "mob_index": 1
@@ -1096,6 +1531,9 @@
             {
                 "id": 140,
                 "name": "Baal",
+                "name_fr": "Baal",
+                "name_ja": "バール",
+                "name_de": "Baal",
                 "rank": 2,
                 "npcbase": 10324,
                 "mob_index": 2
@@ -1106,6 +1544,9 @@
         "id": 956,
         "version": 4,
         "name": "Labyrinthos",
+        "name_fr": "Le Labyrinthos",
+        "name_ja": "ラヴィリンソス",
+        "name_de": "Labyrinthos",
         "size_factor": 100,
         "map": 695,
         "aetherytes": [
@@ -1113,25 +1554,37 @@
                 "type": 60453,
                 "x": 30.4,
                 "y": 11.9,
-                "name": "The Archeion"
+                "name": "The Archeion",
+                "name_fr": "Archéion",
+                "name_ja": "アルケイオン保管院",
+                "name_de": "Archeion"
             },
             {
                 "type": 60453,
                 "x": 21.7,
                 "y": 20.5,
-                "name": "Sharlayan Hamlet"
+                "name": "Sharlayan Hamlet",
+                "name_fr": "Petite Sharlayan",
+                "name_ja": "リトルシャーレアン",
+                "name_de": "Klein-Sharlayan"
             },
             {
                 "type": 60453,
                 "x": 6.9,
                 "y": 27.5,
-                "name": "Aporia"
+                "name": "Aporia",
+                "name_fr": "L'Aporie",
+                "name_ja": "アポリア本部",
+                "name_de": "Aporia"
             }
         ],
         "mobs": [
             {
                 "id": 174,
                 "name": "Hulder",
+                "name_fr": "Huldre",
+                "name_ja": "フルドラ",
+                "name_de": "Hulder",
                 "rank": 2,
                 "npcbase": 13789,
                 "mob_index": 1
@@ -1139,6 +1592,9 @@
             {
                 "id": 175,
                 "name": "Storsie",
+                "name_fr": "Storsie",
+                "name_ja": "ストーシー",
+                "name_de": "Storsie",
                 "rank": 2,
                 "npcbase": 13790,
                 "mob_index": 2
@@ -1149,6 +1605,9 @@
         "id": 957,
         "version": 4,
         "name": "Thavnair",
+        "name_fr": "Thavnair",
+        "name_ja": "サベネア島",
+        "name_de": "Thavnair",
         "size_factor": 100,
         "map": 696,
         "aetherytes": [
@@ -1156,25 +1615,37 @@
                 "type": 60453,
                 "x": 25.4,
                 "y": 34.1,
-                "name": "Yedlihmad"
+                "name": "Yedlihmad",
+                "name_fr": "Yedlihmad",
+                "name_ja": "イェドリマン",
+                "name_de": "Yedlihmad"
             },
             {
                 "type": 60453,
                 "x": 11.0,
                 "y": 22.2,
-                "name": "The Great Work"
+                "name": "The Great Work",
+                "name_fr": "Le Grand Œuvre",
+                "name_ja": "デミールの遺烈郷",
+                "name_de": "Daemirs Werk"
             },
             {
                 "type": 60453,
                 "x": 29.6,
                 "y": 16.6,
-                "name": "Palaka's Stand"
+                "name": "Palaka's Stand",
+                "name_fr": "Écoute des Palaka",
+                "name_ja": "パーラカの里",
+                "name_de": "Palakas Ruh"
             }
         ],
         "mobs": [
             {
                 "id": 184,
                 "name": "Yilan",
+                "name_fr": "Yilan",
+                "name_ja": "ユラン",
+                "name_de": "Yilan",
                 "rank": 2,
                 "npcbase": 13759,
                 "mob_index": 1
@@ -1182,6 +1653,9 @@
             {
                 "id": 185,
                 "name": "Sugriva",
+                "name_fr": "Sugriva",
+                "name_ja": "スグリーヴァ",
+                "name_de": "Sugriva",
                 "rank": 2,
                 "npcbase": 13820,
                 "mob_index": 2
@@ -1192,6 +1666,9 @@
         "id": 958,
         "version": 4,
         "name": "Garlemald",
+        "name_fr": "Garlemald",
+        "name_ja": "ガレマルド",
+        "name_de": "Garlemald",
         "size_factor": 100,
         "map": 697,
         "aetherytes": [
@@ -1199,19 +1676,28 @@
                 "type": 60453,
                 "x": 13.3,
                 "y": 31.1,
-                "name": "Camp Broken Glass"
+                "name": "Camp Broken Glass",
+                "name_fr": "Camp Bris-de-glace",
+                "name_ja": "キャンプ・ブロークングラス",
+                "name_de": "Camp Splitterglas"
             },
             {
                 "type": 60453,
                 "x": 31.9,
                 "y": 17.9,
-                "name": "Tertium"
+                "name": "Tertium",
+                "name_fr": "Gare de Tertium",
+                "name_ja": "テルティウム駅",
+                "name_de": "Tertium"
             }
         ],
         "mobs": [
             {
                 "id": 194,
                 "name": "Minerva",
+                "name_fr": "Minerva",
+                "name_ja": "ミネルウァ",
+                "name_de": "Minerva",
                 "rank": 2,
                 "npcbase": 13833,
                 "mob_index": 1
@@ -1219,6 +1705,9 @@
             {
                 "id": 195,
                 "name": "Aegeiros",
+                "name_fr": "Ægeiros",
+                "name_ja": "アイゲイロス",
+                "name_de": "Aegeiros",
                 "rank": 2,
                 "npcbase": 13937,
                 "mob_index": 2
@@ -1229,6 +1718,9 @@
         "id": 959,
         "version": 4,
         "name": "Mare Lamentorum",
+        "name_fr": "Mare Lamentorum",
+        "name_ja": "嘆きの海",
+        "name_de": "Mare Lamentorum",
         "size_factor": 100,
         "map": 698,
         "aetherytes": [
@@ -1236,19 +1728,28 @@
                 "type": 60453,
                 "x": 10.1,
                 "y": 34.5,
-                "name": "Sinus Lacrimarum"
+                "name": "Sinus Lacrimarum",
+                "name_fr": "Sinus Lacrimarum",
+                "name_ja": "涙の入江",
+                "name_de": "Sinus Lacrimarum"
             },
             {
                 "type": 60453,
                 "x": 21.5,
                 "y": 11.2,
-                "name": "Bestways Burrow"
+                "name": "Bestways Burrow",
+                "name_fr": "Halot de Bestway",
+                "name_ja": "ベストウェイ・バロー",
+                "name_de": "Bestways Rast"
             }
         ],
         "mobs": [
             {
                 "id": 204,
                 "name": "Mousse princess",
+                "name_fr": "Princesse mousse",
+                "name_ja": "ムースプリンセス",
+                "name_de": "Mousse-prinzessin",
                 "rank": 2,
                 "npcbase": 13835,
                 "mob_index": 1
@@ -1256,6 +1757,9 @@
             {
                 "id": 205,
                 "name": "Lunatender queen",
+                "name_fr": "Pampa sélénienne reine",
+                "name_ja": "ルナテンダー・クイーン",
+                "name_de": "Lunatender-königin",
                 "rank": 2,
                 "npcbase": 13791,
                 "mob_index": 2
@@ -1266,6 +1770,9 @@
         "id": 960,
         "version": 4,
         "name": "Ultima Thule",
+        "name_fr": "Ultima Thulé",
+        "name_ja": "ウルティマ・トゥーレ",
+        "name_de": "Ultima Thule",
         "size_factor": 100,
         "map": 699,
         "aetherytes": [
@@ -1273,25 +1780,37 @@
                 "type": 60453,
                 "x": 10.6,
                 "y": 26.8,
-                "name": "Reah Tahra"
+                "name": "Reah Tahra",
+                "name_fr": "Reah Tahra",
+                "name_ja": "リア・ターラ",
+                "name_de": "Reah Tahra"
             },
             {
                 "type": 60453,
                 "x": 22.7,
                 "y": 8.3,
-                "name": "Abode of the Ea"
+                "name": "Abode of the Ea",
+                "name_fr": "Demeure des Éas",
+                "name_ja": "イーアの里",
+                "name_de": "Domizil der Ea"
             },
             {
                 "type": 60453,
                 "x": 31.3,
                 "y": 28.1,
-                "name": "Base Omicron"
+                "name": "Base Omicron",
+                "name_fr": "Base des Omicrons",
+                "name_ja": "オミクロンベース",
+                "name_de": "Omikron-Basis"
             }
         ],
         "mobs": [
             {
                 "id": 224,
                 "name": "Arch-eta",
+                "name_fr": "Arch-êta",
+                "name_ja": "アーチイータ",
+                "name_de": "Erz-eta",
                 "rank": 2,
                 "npcbase": 13760,
                 "mob_index": 1
@@ -1299,6 +1818,9 @@
             {
                 "id": 225,
                 "name": "Fan ail",
+                "name_fr": "Fan ail",
+                "name_ja": "ファン・アイル",
+                "name_de": "Fan ail",
                 "rank": 2,
                 "npcbase": 13761,
                 "mob_index": 2
@@ -1309,6 +1831,9 @@
         "id": 961,
         "version": 4,
         "name": "Elpis",
+        "name_fr": "Elpis",
+        "name_ja": "エルピス",
+        "name_de": "Elpis",
         "size_factor": 100,
         "map": 700,
         "aetherytes": [
@@ -1316,25 +1841,37 @@
                 "type": 60453,
                 "x": 24.7,
                 "y": 24.0,
-                "name": "Anagnorisis"
+                "name": "Anagnorisis",
+                "name_fr": "L'Anagnorisis",
+                "name_ja": "アナグノリシス天測園",
+                "name_de": "Anagnorisis"
             },
             {
                 "type": 60453,
                 "x": 8.8,
                 "y": 32.4,
-                "name": "The Twelve Wonders"
+                "name": "The Twelve Wonders",
+                "name_fr": "Les Douze Merveilles",
+                "name_ja": "十二節の園",
+                "name_de": "Die Zwölf Gärten"
             },
             {
                 "type": 60453,
                 "x": 10.9,
                 "y": 17.1,
-                "name": "Poieten Oikos"
+                "name": "Poieten Oikos",
+                "name_fr": "Poièten Oïkos",
+                "name_ja": "ポイエテーン・オイコス",
+                "name_de": "Poieten Oikos"
             }
         ],
         "mobs": [
             {
                 "id": 214,
                 "name": "Petalodus",
+                "name_fr": "Petalodus",
+                "name_ja": "ペタロドゥス",
+                "name_de": "Petalodus",
                 "rank": 2,
                 "npcbase": 13819,
                 "mob_index": 1
@@ -1342,6 +1879,9 @@
             {
                 "id": 215,
                 "name": "Gurangatch",
+                "name_fr": "Gurangatch",
+                "name_ja": "グランガチ",
+                "name_de": "Gurangatch",
                 "rank": 2,
                 "npcbase": 13851,
                 "mob_index": 2

@@ -11,6 +11,13 @@ class Zone extends Model
 {
     protected $appends = ['total_mobs'];
 
+    protected function casts(): array
+    {
+        return [
+            'names' =>  'array',
+        ];
+    }
+
     /* Accessors and Mutators */
 
     public function totalMobs(): Attribute

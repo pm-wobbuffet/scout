@@ -49,7 +49,7 @@ class InitialDataSeeder extends Seeder
 
         $p = File::json(resource_path('json/zones.json'));
         $zone_number = 0; // Used for assigning priority based on json file order
-        foreach($p as $zone) {
+        foreach ($p as $zone) {
             $zone_number++;
             $mId = intval($zone['map']);
             $z = Zone::updateOrCreate(
@@ -60,12 +60,18 @@ class InitialDataSeeder extends Seeder
                     'default_instances' =>  1,
                     'expansion_id'      =>  intval($zone['version']) + 2,
                     'size_factor'       =>  $zone['size_factor'],
-                    'max_coord_size'    =>  round( 41 / ($zone['size_factor'] / 100), 1, PHP_ROUND_HALF_DOWN),
+                    'max_coord_size'    =>  round(41 / ($zone['size_factor'] / 100), 1, PHP_ROUND_HALF_DOWN),
                     'sort_priority'     =>  $zone_number * 10,
+                    'names'             =>  [
+                        'en'            =>  $zone['name'],
+                        'ja'            =>  $zone['name_ja'],
+                        'fr'            =>  $zone['name_fr'],
+                        'de'            =>  $zone['name_de'],
+                    ]
                 ]
             );
-            foreach($zone['mobs'] as $mob) {
-                $m = Mob::firstOrCreate(
+            foreach ($zone['mobs'] as $mob) {
+                $m = Mob::updateOrCreate(
                     ['id'   =>  $mob['id']],
                     [
                         'name'          =>  $mob['name'],
@@ -73,11 +79,17 @@ class InitialDataSeeder extends Seeder
                         'rank'          =>  $mob['rank'],
                         'zone_id'       =>  $z->id,
                         'mob_index'     =>  $mob['mob_index'],
+                        'names'             =>  [
+                            'en'            =>  $mob['name'],
+                            'ja'            =>  $mob['name_ja'],
+                            'fr'            =>  $mob['name_fr'],
+                            'de'            =>  $mob['name_de'],
+                        ]
                     ]
                 );
             }
             foreach ($zone['aetherytes'] as $tp) {
-                $a = Aetheryte::firstOrCreate(
+                $a = Aetheryte::updateOrCreate(
                     [
                         'zone_id'   =>  $z->id,
                         'x'         =>  $tp['x'],
@@ -86,6 +98,12 @@ class InitialDataSeeder extends Seeder
                     ],
                     [
                         'name'      =>  $tp['name'],
+                        'names'             =>  [
+                            'en'            =>  $tp['name'],
+                            'ja'            =>  $tp['name_ja'],
+                            'fr'            =>  $tp['name_fr'],
+                            'de'            =>  $tp['name_de'],
+                        ]
                     ]
                 );
             }

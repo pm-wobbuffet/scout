@@ -25,7 +25,7 @@
                         <div class="grid gap-2 items-center" style="grid-template-columns: 1fr auto;">
                             <template v-for="expac in getActiveExpac()">
                                 <template v-for="(zone, index) in expac.zones" :key="`zone-sort-row-${zone.id}`">
-                                    <div class="text-md font-bold">{{ zone.name }}</div>
+                                    <div class="text-md font-bold">{{ getDisplayName(zone, defaultLanguage) }}</div>
                                     <div class="zone-sort-buttons">
                                         <button
                                         :disabled="index == expac.zones.length - 1"
@@ -46,6 +46,9 @@
                 ><WeatherNightIcon v-if="lightDarkMode == 'dark'" @click="toggleDarkMode('light')" />
                 <WeatherSunnyIcon v-else-if="lightDarkMode == 'light'" @click="toggleDarkMode('dark')" />    
                 </button>
+                <button class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
+                title="Cycle through available display languages (English, Japanese, French, German)"
+                @click="cycleLanguage()">{{ defaultLanguage.toUpperCase() }}</button>
             </div>
             <!-- <button title="Settings" class="bg-slate-600 ml-2 rounded-md border flex justify-center items-center mr-auto text-2xl pb-[5px] px-1"
             ><CogIcon /></button> -->
@@ -69,6 +72,7 @@
                         :zone="zone" 
                         :instance="i" 
                         :editmode="props.editmode"
+                        :language="defaultLanguage"
                         :ref="el => {zoneMaps[zone.id+'-'+i] = el}"
                         v-model="form"
                         @pointUpdated="handlePointUpdated"
@@ -95,14 +99,14 @@
                 </div>
                 <div v-for="expac in getActiveExpac()">
                     <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
-                        {{ expac.name }}
+                        {{ getDisplayName(expac, defaultLanguage) }}
                         <div class="italic text-sm inline-block">{{ getMappedMobsForExpac(expac) }}/{{ mobCount(expac) }}</div>
                     </div>
                     <ul class="text-sm">
                         <template v-for="zone in expac.zones">
                             <li v-for="i in zone.default_instances" class="hover:bg-slate-200 ml-2 pr-2"
                             :class="{'line-through': getFoundMobCount(zone.id, i) == zone.mobs.length}"><a class="text-blue-500"
-                                    :href="`#zonemap-${zone.id}-${i}`">{{ zone.name }}</a>
+                                    :href="`#zonemap-${zone.id}-${i}`">{{ getDisplayName(zone, defaultLanguage) }}</a>
                                 <span class="ml-1 font-bold text-blue-800" v-if="zone.default_instances > 1">{{ i
                                     }}</span>
                                 <i class="text-sm ml-2 text-black dark:text-slate-200">{{ getFoundMobCount(zone.id, i) }}/{{ zone.mobs.length }}
@@ -182,6 +186,7 @@ import SortIcon from "vue-material-design-icons/Sort.vue";
 import ArrowDownIcon from "vue-material-design-icons/ArrowDown.vue"
 import WeatherSunnyIcon from 'vue-material-design-icons/WeatherSunny.vue';
 import WeatherNightIcon from "vue-material-design-icons/WeatherNight.vue";
+import { getDisplayName, languages } from "@/helpers";
 
 const emit = defineEmits(['pointUpdated', 'mapFinalized'])
 
@@ -233,6 +238,7 @@ const showMarkOverlay = ref(false)
 const sortOrders = ref({})
 const zoneMaps = ref({})
 const lightDarkMode = ref('light')
+const defaultLanguage = ref('ja')
 
 const form = useForm({
     point_data: {},
@@ -242,6 +248,18 @@ const form = useForm({
 
 const closeMarkOverlay = function(event) {
     showMarkOverlay.value = false
+}
+
+const cycleLanguage = function()
+{
+    let curIndex = languages.findIndex((el) => el.abbrev == defaultLanguage.value)
+    if(curIndex < 0 || curIndex == languages.length - 1) {
+        // If no match or on last lang, cycle back to the first
+        defaultLanguage.value = languages[0].abbrev
+    } else {
+        defaultLanguage.value = languages[curIndex+1].abbrev
+    }
+    localStorage.setItem('defaultLanguage', defaultLanguage.value)
 }
 
 const toggleDarkMode = function(newMode) {
@@ -322,6 +340,10 @@ const getClosestSpawnPoint = function(zone, x, y, mob) {
 onMounted(() => {
     if(displayMode) {
         lightDarkMode.value = displayMode
+    }
+    if('defaultLanguage' in localStorage) {
+        //console.log(`Registered old default language ${localStorage.getItem('defaultLanguage')}`)
+        defaultLanguage.value = localStorage.getItem('defaultLanguage')
     }
     //console.log(zoneMaps.value)
     

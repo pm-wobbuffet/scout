@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Aetheryte extends Model
 {
-    protected   $appends = ['x_norm', 'y_norm'];
+    //protected   $appends = ['x_norm', 'y_norm'];
+
+    protected function casts(): array
+    {
+        return [
+            'names' =>  'array',
+        ];
+    }
     
     public function xNorm(): Attribute
     {

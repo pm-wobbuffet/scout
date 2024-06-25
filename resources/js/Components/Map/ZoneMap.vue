@@ -7,13 +7,13 @@
         <div class="absolute mob-list">
             <ol class="block list-decimal pl-4">
                 <li v-for="(mob, index) in zone.mobs" :class="`mob-number-${index}`">
-                    {{ mob.name }}
+                    {{ getDisplayName(mob, props.language) }}
                 </li>
             </ol>
         </div>
         <div v-for="aetheryte in zone.aetherytes" class="text-white absolute h-[32px] w-[32px] aetheryte"
             :style="{ 'left': convertCoordToPercent(aetheryte.x, zone), 'top': convertCoordToPercent(aetheryte.y, zone) }"
-            :data-title="aetheryte.name">
+            :data-title="getDisplayName(aetheryte, props.language)">
         </div>
         <button v-for="point in zone.spawn_points.concat(getCustomSpawnPoints())"  
             class="" 
@@ -21,7 +21,7 @@
             :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
             :data-title="`${point.x},${point.y}`" 
             :disabled="isPointDisabled(point.id) && !isPointSelected(point.id)"
-            :data-coords="`${point.x}, ${point.y} id:${point.id}`"
+            :data-coords="`${point.x}, ${point.y}`"
             @click.stop.prevent="assignMob(point)"
             @dblclick.stop.prevent="false">{{ getTakenMob(point.id)?.mob_index ?? '' }}</button>
         <div class="absolute flex items-center bottom-1 left-4 text-center text-xs bg-slate-300 font-bold"
@@ -31,7 +31,7 @@
             <span>Spawn points unknown. Custom spawn points can be added by double clicking.</span>
         </div>
         <div class="text-right font-semibold text-xl zone-name">
-            {{ zone.name }}
+            {{ getDisplayName(zone, language) }}
             <span v-if="zone.default_instances > 1">{{ instance }}</span>
             <div v-if="is_hovered">({{ x_hover }},{{ y_hover }})</div>
         </div>
@@ -39,6 +39,7 @@
 </template>
 
 <script setup>
+import { getDisplayName } from "@/helpers";
 import { onMounted, ref, getCurrentInstance, onBeforeMount, watch } from "vue"
 import AlertOutlineIcon from "vue-material-design-icons/AlertOutline.vue";
 
@@ -58,6 +59,7 @@ const props = defineProps({
     zone: Object,
     instance: Number,
     editmode: Boolean,
+    language: String,
 })
 
 watch(() => model.value, function() {
