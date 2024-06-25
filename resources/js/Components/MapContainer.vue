@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <Popover class="self-center mr-auto basis-0 shrink ml-2 relative">
-                    <PopoverButton class="border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 rounded-sm"
+                    <PopoverButton class="border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 dark:border-slate-500 rounded-sm"
                     ><SortIcon /></PopoverButton>
                     <PopoverPanel class="absolute min-w-max mt-1 z-50 text-sm left-1/2 -translate-x-1/2 bg-white dark:bg-slate-700 dark:text-slate-300 border border-black p-4 text-black">
                         <div class="text-center border-b font-bold text-xl mb-2">Sort Order</div>
@@ -40,7 +40,8 @@
                         </div>
                     </PopoverPanel>
                 </Popover>
-                <button class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 rounded-sm"
+                <button class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
+                title="Toggle display mode between dark/light"
                 ><WeatherNightIcon v-if="lightDarkMode == 'dark'" @click="toggleDarkMode('light')" />
                 <WeatherSunnyIcon v-else-if="lightDarkMode == 'light'" @click="toggleDarkMode('dark')" />    
                 </button>

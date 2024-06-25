@@ -6,7 +6,7 @@
     
     .expac-list {
         div.expac-list-item {
-            @apply border-r-0 bg-[rgba(0,0,0,0.3)] hover:bg-[rgba(0,0,0,0.1)] cursor-pointer;
+            @apply border-r-0 bg-[rgba(0,0,0,0.3)] hover:bg-[rgba(0,0,0,0.1)] cursor-pointer dark:border-slate-500;
             &.selected-expansion {
                 @apply bg-blue-200/25 !important;
             }
