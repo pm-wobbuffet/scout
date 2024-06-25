@@ -21,6 +21,11 @@
     }
 }
 
+.map-main-window {
+    @apply bg-white dark:bg-slate-700;
+}
+
+
 dialog {
     @apply p-4 rounded-lg border-2 border-black;
 }

@@ -11,7 +11,7 @@ main.map-main-window {
 }
 
 .map-container-block {
-    @apply border border-slate-200 relative bg-contain select-none w-[600px] h-[600px] max-w-[100%] scale-75 md:scale-100;
+    @apply border border-slate-200 relative bg-contain select-none w-[600px] h-[600px] max-w-[100%] scale-75 md:scale-100 dark:brightness-75;
     background-image: var(--map-bg-image);
 
     .mob-list {
@@ -72,7 +72,7 @@ main.map-main-window {
     backdrop-filter: blur(1px);
 
     .mark-summary-panel {
-        @apply bg-gray-400 absolute right-0 top-0 h-full min-w-[20%] p-2 overflow-y-scroll;
+        @apply bg-gray-400 dark:bg-gray-700 absolute right-0 top-0 h-full min-w-[20%] p-2 overflow-y-scroll;
 
         h1 {
             @apply text-2xl font-bold;

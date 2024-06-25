@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="bg-black">
         <slot />
     </div>
     <footer>

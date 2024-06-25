@@ -1,7 +1,7 @@
 <template>
     <div class="w-full min-h-[100vh]">
         <nav
-            class="flex flex-wrap w-full items-center justify-between bg-slate-500 text-slate-100 p-2 min-h-[3rem] main-nav flex-grow-1">
+            class="flex flex-wrap w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] main-nav flex-grow-1">
             <div class="shrink">
                 <a href="/"><img src="/turtleknife.png" height="40" width="90" class="inline" alt="The turtle says to murder" /></a>
             </div>
@@ -17,9 +17,9 @@
                     </div>
                 </div>
                 <Popover class="self-center mr-auto basis-0 shrink ml-2 relative">
-                    <PopoverButton class="border flex items-center justify-center text-2xl bg-slate-400 rounded-sm"
+                    <PopoverButton class="border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 rounded-sm"
                     ><SortIcon /></PopoverButton>
-                    <PopoverPanel class="absolute min-w-max mt-1 z-50 text-sm left-1/2 -translate-x-1/2 bg-white border border-black p-4 text-black">
+                    <PopoverPanel class="absolute min-w-max mt-1 z-50 text-sm left-1/2 -translate-x-1/2 bg-white dark:bg-slate-700 dark:text-slate-300 border border-black p-4 text-black">
                         <div class="text-center border-b font-bold text-xl mb-2">Sort Order</div>
                         <div class="grid gap-2 items-center" style="grid-template-columns: 1fr auto;">
                             <template v-for="expac in getActiveExpac()">
@@ -45,7 +45,7 @@
             ><CogIcon /></button> -->
             
             <div class="flex shrink">
-                <button class="mr-2 flex items-center gap-x-2 bg-slate-600 p-2 rounded-md text-slate-100" @click.prevent="showMarkOverlay=true">
+                <button class="mr-2 flex items-center gap-x-2 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300" @click.prevent="showMarkOverlay=true">
                     <NoteMultipleOutline class="inline-block" />
                     Summary
                 </button>
@@ -69,26 +69,26 @@
                         />
                 </template>
             </div>
-            <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white">
+            <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800">
                 <div class="p-1 text-center">
-                    <a href="#" class="inline-flex rounded-md bg-blue-400 px-3 text-white py-1 mr-1 font-bold"
+                    <a href="#" class="inline-flex rounded-md bg-blue-400 dark:bg-blue-900 px-3 text-white dark:text-slate-300 py-1 mr-1 font-bold"
                     ><ArrowUpIcon /> Top</a>
-                    <a href="#" class="inline-flex rounded-md bg-blue-700 px-3 text-white py-1 font-bold"
+                    <a href="#" class="inline-flex rounded-md bg-blue-700 dark:bg-blue-800 px-3 text-white dark:text-slate-300 py-1 font-bold"
                     v-if="props.scout"
                     @click.prevent="showShareDialog"
                     ><ExportIcon /> Share</a>
-                    <a href="#" class="inline-flex rounded-md bg-blue-700 px-3 text-white py-1 font-bold" v-else
+                    <a href="#" class="inline-flex rounded-md bg-blue-700 px-3 dark:bg-blue-800 text-white dark:text-slate-300 py-1 font-bold" v-else
                     @click.prevent="submitForm"><ExportIcon /> Share</a>
                 </div>
                 <div class="p-1 text-center" v-if="props.scout && !props.scout.finalized_at">
-                    <a href="#" class="inline-flex rounded-md bg-red-400 py-1 font-bold px-3 text-white"
+                    <a href="#" class="inline-flex rounded-md bg-red-400 dark:bg-red-800 py-1 font-bold px-3 text-white dark:text-slate-300"
                     title="Finalize/lock this scouting report. No further edits can be made after"
                     @click.prevent="handleFinalizeClick"
                     ><FileLockOutlineIcon />
                         Finalize</a>
                 </div>
                 <div v-for="expac in getActiveExpac()">
-                    <div class="font-bold bg-slate-300 p-1">
+                    <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
                         {{ expac.name }}
                         <div class="italic text-sm inline-block">{{ getMappedMobsForExpac(expac) }}/{{ mobCount(expac) }}</div>
                     </div>
@@ -99,7 +99,7 @@
                                     :href="`#zonemap-${zone.id}-${i}`">{{ zone.name }}</a>
                                 <span class="ml-1 font-bold text-blue-800" v-if="zone.default_instances > 1">{{ i
                                     }}</span>
-                                <i class="text-sm ml-2">{{ getFoundMobCount(zone.id, i) }}/{{ zone.mobs.length }}
+                                <i class="text-sm ml-2 text-black dark:text-slate-200">{{ getFoundMobCount(zone.id, i) }}/{{ zone.mobs.length }}
                                 </i>
                             </li>
                         </template>
@@ -303,34 +303,35 @@ const getClosestSpawnPoint = function(zone, x, y, mob) {
 onMounted(() => {
 
     //console.log(zoneMaps.value)
-    const instanceToIntMapping = {
-        "": 1,
-        "": 2,
-        "": 3,
-    }
+    
+    // const instanceToIntMapping = {
+    //     "": 1,
+    //     "": 2,
+    //     "": 3,
+    // }
     // \uE0B1 = Instance 1 , \uE0B2 = 2 , \uE0B3 = 3 
-    const re = /[\uE0BB]([^\uE0B1-\uE0B3]*)([\uE0B1-\uE0B3]?) \( ([0-9\.]+)\W+,\W+([0-9\.]+)\W+\).*/
-    const linesArr = copiedText.split(/\r?\n/);
-    linesArr.forEach((line) => {
-        let found = line.match(re)
-        let instance = 1
-        if(found) {
-            let zoneName = found[1]
-            let x = parseFloat(found[3])
-            let y = parseFloat(found[4])
-            let zone = getZoneByName(zoneName)
-            if(found[2]) {
-                instance = instanceToIntMapping[found[2]] ?? 1
-            }
-            let mob = zone.mobs.find((el) => line.includes(el.name))
-            if(mob && zone && x && y) {
-                let point = getClosestSpawnPoint(zone, x, y, mob.name)
-                if(point) {
-                    manualAssignMob(zone, instance, point, mob )
-                }
-            }
-        }
-    })
+    // const re = /[\uE0BB]([^\uE0B1-\uE0B3]*)([\uE0B1-\uE0B3]?) \( ([0-9\.]+)\W+,\W+([0-9\.]+)\W+\).*/
+    // const linesArr = copiedText.split(/\r?\n/);
+    // linesArr.forEach((line) => {
+    //     let found = line.match(re)
+    //     let instance = 1
+    //     if(found) {
+    //         let zoneName = found[1]
+    //         let x = parseFloat(found[3])
+    //         let y = parseFloat(found[4])
+    //         let zone = getZoneByName(zoneName)
+    //         if(found[2]) {
+    //             instance = instanceToIntMapping[found[2]] ?? 1
+    //         }
+    //         let mob = zone.mobs.find((el) => line.includes(el.name))
+    //         if(mob && zone && x && y) {
+    //             let point = getClosestSpawnPoint(zone, x, y, mob.name)
+    //             if(point) {
+    //                 manualAssignMob(zone, instance, point, mob )
+    //             }
+    //         }
+    //     }
+    // })
     
     const dialog = document.getElementById('shareModal')
     // This bit of code lets you click outside of the Share modal in the backdrop area and have it
