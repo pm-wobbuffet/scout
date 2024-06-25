@@ -19,8 +19,10 @@
     @vite(['resources/js/app.js', 'resources/css/app.css', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
     <script>
+        let displayMode = 'light'
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia(
                 '(prefers-color-scheme: dark)').matches)) {
+            displayMode = 'dark'
             document.documentElement.classList.add('dark')
         } else {
             document.documentElement.classList.remove('dark')

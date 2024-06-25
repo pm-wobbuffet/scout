@@ -40,6 +40,10 @@
                         </div>
                     </PopoverPanel>
                 </Popover>
+                <button class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 rounded-sm"
+                ><WeatherNightIcon v-if="lightDarkMode == 'dark'" @click="toggleDarkMode('light')" />
+                <WeatherSunnyIcon v-else-if="lightDarkMode == 'light'" @click="toggleDarkMode('dark')" />    
+                </button>
             </div>
             <!-- <button title="Settings" class="bg-slate-600 ml-2 rounded-md border flex justify-center items-center mr-auto text-2xl pb-[5px] px-1"
             ><CogIcon /></button> -->
@@ -174,6 +178,8 @@ import NoteMultipleOutline from "vue-material-design-icons/NoteMultipleOutline.v
 import FileLockOutlineIcon from "vue-material-design-icons/FileLockOutline.vue";
 import SortIcon from "vue-material-design-icons/Sort.vue";
 import ArrowDownIcon from "vue-material-design-icons/ArrowDown.vue"
+import WeatherSunnyIcon from 'vue-material-design-icons/WeatherSunny.vue';
+import WeatherNightIcon from "vue-material-design-icons/WeatherNight.vue";
 
 const emit = defineEmits(['pointUpdated', 'mapFinalized'])
 
@@ -224,6 +230,7 @@ const cacheBusterAppend = ref(1)
 const showMarkOverlay = ref(false)
 const sortOrders = ref({})
 const zoneMaps = ref({})
+const lightDarkMode = ref('light')
 
 const form = useForm({
     point_data: {},
@@ -233,6 +240,16 @@ const form = useForm({
 
 const closeMarkOverlay = function(event) {
     showMarkOverlay.value = false
+}
+
+const toggleDarkMode = function(newMode) {
+    lightDarkMode.value = newMode
+    localStorage.setItem('theme', newMode)
+    if(newMode === 'light') {
+        document.documentElement.classList.remove('dark')
+    } else {
+        document.documentElement.classList.add('dark')
+    }
 }
 
 const copyLink = async function(linkText) {
@@ -301,7 +318,9 @@ const getClosestSpawnPoint = function(zone, x, y, mob) {
 }
 
 onMounted(() => {
-
+    if(displayMode) {
+        lightDarkMode.value = displayMode
+    }
     //console.log(zoneMaps.value)
     
     // const instanceToIntMapping = {
