@@ -405,10 +405,12 @@ const manualAssignMob = function (zone, instance, point, mob) {
     if (!(instance in form.point_data?.[zone.id])) {
         form.point_data[zone.id][instance] = []
     }
+    console.log("Manual Assign Mob Called", zone, instance, point, mob)
     // See if the mob is already assigned in this zone
     let mobArrayIdx = form.point_data[zone.id][instance].findIndex((el) => {
         return el.mob_id == mob.id
     })
+    console.log(`Found ${mobArrayIdx} for ${mob.name} in ${zone.name} and instance ${instance} `)
     if (mobArrayIdx > -1) {
         form.point_data[zone.id][instance] = form.point_data[zone.id][instance].splice(mobArrayIdx, 1)
     }
@@ -496,6 +498,7 @@ const parsePastedLog = function () {
             }
         }
     })
+    //console.log(form.point_data)
     //txtArea.value = ''
     if(assignments) {
         outputTextFromImport.value = `Imported ${assignments.success.length ?? 0} lines successfully.`

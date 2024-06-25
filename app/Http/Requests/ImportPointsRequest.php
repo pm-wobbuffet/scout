@@ -32,6 +32,13 @@ class ImportPointsRequest extends FormRequest
             'custom_points.*.valid_mobs.*.id'           => 'numeric',
             'custom_points.*.valid_mobs.*.mob_index'    => 'numeric',
             'custom_points.*.valid_mobs.*.zone_id'      => 'numeric',
+            'point_data.*.*.*.point_id'                 =>  'numeric|nullable',
+            'point_data.*.*.*.mob_id'                   =>  'numeric|nullable',
+            'point_data.*.*.*.x'                        =>  'numeric|nullable',
+            'point_data.*.*.*.y'                        =>  'numeric|nullable',
+            'point_data.*.*.*.expansion_id'             =>  'integer|nullable',
+            'point_data.*'                              =>  'array',
+            'point_data.*.*'                            =>  'array',
 
         ];
     }

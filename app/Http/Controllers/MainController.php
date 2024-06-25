@@ -175,7 +175,8 @@ class MainController extends Controller
             abort('403', 'Method not allowed');
         }
         $scout->instance_data = $request->safe()->input('instance_data');
-        dd($request->all(), $request->safe()->all());
+        //dd($request->all(), $request->safe()->all());
+        dd($request->safe()->all(), $request->all());
         //Cycle through the existing custom points and make sure they're not added to the array twice
         $existing = (new Collection($scout->custom_points))->keyBy('id');
         foreach($request->safe()->input('custom_points') as $point) {
@@ -184,7 +185,22 @@ class MainController extends Controller
             }
         }
         $scout->custom_points = $existing->values()->toArray();
-        dd($scout->toArray());
+
+        // Now we need to go through the points array and make sure we prevent any collisions
+        //$s = $points[$request->input('zone_id')][$request->input('instance_number')] ?? [];
+        
+        foreach($request->safe()->input('point_data') as $zone_id => $instances) {
+            foreach($instances as $instance => $mobs) {
+                $mobById = (new Collection($mobs))->keyBy('mob_id');
+                // Filter out any existing mobs from this group that are already assigned to a point
+                $scout->point_data[$zone_id][$instance] = array_filter($scout->point_data[$zone_id][$instance],function($item) {
+                    if(isset($mobById[$item['mob_id']])) {
+                        return false;
+                    }
+                    return true;
+                });
+            }
+        }
         //dd($scout->custom_points->merge($request->safe()->input('custom_points')));
     }
 
