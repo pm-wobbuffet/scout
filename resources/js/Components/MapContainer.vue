@@ -81,7 +81,7 @@
                 </template>
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800">
-                <div class="p-1 text-center">
+                <div class="grid grid-cols-2 gap-1 p-1 scale-90">
                     <a href="#"
                         class="inline-flex rounded-md bg-blue-400 dark:bg-blue-900 px-3 text-white dark:text-slate-300 py-1 mr-1 font-bold">
                         <ArrowUpIcon /> Top
@@ -96,9 +96,7 @@
                         v-else @click.prevent="submitForm">
                         <ExportIcon /> Share
                     </a>
-                </div>
-                <div class="p-1 text-center">
-                    <button class="inline-flex rounded-md bg-slate-200 py-1 px-3 font-bold text-black mr-1"
+                    <button class="inline-flex rounded-md bg-slate-200 dark:bg-yellow-800 py-1 px-3 font-bold text-white mr-1"
                         v-if="props.editmode && !props.scout?.finalized_at"
                         @click.prevent="showImportDialog">
                         <ClipboardTextMultipleOutlineIcon />Import
@@ -106,14 +104,11 @@
                     <a href="#"
                         class="inline-flex rounded-md bg-red-400 dark:bg-red-800 py-1 font-bold px-3 text-white dark:text-slate-300"
                         title="Finalize/lock this scouting report. No further edits can be made after"
-                        v-if="props.scout && !props.scout.finalized_at"
+                        v-if="props.scout && !props.scout.finalized_at && props.editmode"
                         @click.prevent="handleFinalizeClick">
                         <FileLockOutlineIcon />
                         Finish
                     </a>
-                </div>
-                <div class="p-1 text-center" v-if="props.scout && !props.scout.finalized_at">
-                    
                 </div>
                 <div v-for="expac in getActiveExpac()">
                     <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
