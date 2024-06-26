@@ -165,7 +165,7 @@ const isPointDisabled = function(point_id) {
         }
         return false
     } else {
-        console.log(`${point_id} not found`)
+        //console.log(`${point_id} not found`)
     }
     return false
 }
@@ -205,7 +205,7 @@ const assignMob = function(point) {
     //console.log(curMobOnPoint, validMobs)
 
     if(curMobOnPoint.mob_index != '') {
-        console.log(`Removing ${curMobOnPoint.name} from ${point.id}`)
+        //console.log(`Removing ${curMobOnPoint.name} from ${point.id}`)
         removeMob(point, curMobOnPoint)
     }
     // If there's a valid mob left, cycle to it
@@ -250,12 +250,5 @@ const getValidMobsForPoint = function(point) {
     })
 }
 
-const processImportLine = function(line) {
-    console.log('Called for line import')
-}
-
 const emit = defineEmits(['pointUpdated'])
-defineExpose({
-    processImportLine
-})
 </script>

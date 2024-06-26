@@ -246,7 +246,6 @@ const emit = defineEmits(['pointUpdated', 'mapFinalized', 'clipboardImport'])
 
 const processUpdate = function (payload) {
     if ('point_data' in payload) {
-        //props.scout.point_data = payload.point_data
         form.point_data = payload.point_data
     }
     if ('custom_points' in payload) {
@@ -275,6 +274,8 @@ const lightDarkMode = ref('light')
 const defaultLanguage = ref('en')
 const outputTextFromImport = ref('')
 const processingImport = ref(false)
+const allowBlankMobImport = ref(true)
+
 let lastPointAddTime = -1 * Date.now()
 
 const form = useForm({
@@ -355,49 +356,42 @@ const handlePointUpdated = function (point, mob, zone_id, instance_number) {
     emit('pointUpdated', point, mob, form.point_data, getInstanceCounts(), zone_id, instance_number, form.custom_points)
 }
 
-const getClosestSpawnPoint = function (zone, x, y, mob) {
+const getAllZoneSpawnPoints = function(zone) {
+    return zone.spawn_points.concat(getCustomSpawnPoints(zone.id))
+}
 
+const getClosestSpawnPoint = function(zone, x, y) {
     function d(point) {
         return Math.pow(point.x - x, 2) + Math.pow(point.y - y, 2)
     }
     function trueDistance(pointOne, pointTwo) {
         return Math.sqrt(Math.pow(pointTwo.x - pointOne.x, 2) + Math.pow(pointTwo.y - pointOne.y, 2))
     }
-
-    let spawnPts = zone.spawn_points.concat(getCustomSpawnPoints(zone.id))
+    let spawnPts = getAllZoneSpawnPoints(zone)
     if (spawnPts.length > 0) {
+        // This zone has predefined points, so we should look for closest match
         let closest = spawnPts.reduce((a, b) => {
             return d(a) < d(b) ? a : b
         })
         let distance = trueDistance({ x: x, y: y }, closest)
-        if (distance < 1.25) {
-            //console.log(closest)
-            return closest
-        } else {
-            if (zone.allow_custom_points) {
-                let lastEl = form.custom_points.push({
-                    'x': x,
-                    'y': y,
-                    'zone_id': zone.id,
-                    'id': --lastPointAddTime,
-                    'valid_mobs': zone.mobs,
-                })
-                return form.custom_points[lastEl - 1]
-            }
-        }
-    } else {
-        if (zone.allow_custom_points) {
-            let lastEl = form.custom_points.push({
-                'x': x,
-                'y': y,
-                'zone_id': zone.id,
-                'id': --lastPointAddTime,
-                'valid_mobs': zone.mobs,
-            })
-            return form.custom_points[lastEl - 1]
+        return {
+            'point': closest,
+            'distance': distance,
         }
     }
+    // Return false and let the program decide if we need to add custom points
     return false
+}
+
+const createCustomSpawnPoint = function(zone, x, y) {
+    let lastEl = form.custom_points.push({
+        'x': x,
+        'y': y,
+        'zone_id': zone.id,
+        'id': --lastPointAddTime,
+        'valid_mobs': zone.mobs,
+    })
+    return form.custom_points[lastEl - 1]
 }
 
 const manualAssignMob = function (zone, instance, point, mob) {
@@ -455,6 +449,19 @@ const parsePastedLog = function () {
             let x = parseFloat(found[3])
             let y = parseFloat(found[4])
             let zone = getZoneByName(zoneName)
+            let point = null
+            let closestPoint = getClosestSpawnPoint(zone, x, y)
+
+            if(!closestPoint && zone.allow_custom_points) {
+                // There was no point found close to this mob, so create one
+                point = createCustomSpawnPoint(zone, x, y)
+            } else if (closestPoint && closestPoint.distance > 1.5 && zone.allow_custom_points) {
+                // If a point from chat is over 1.5 total distance units away, create a new point
+                point = createCustomSpawnPoint(zone, x, y)
+            } else {
+                point = closestPoint.point
+            }
+
             if (found[2]) {
                 instance = instanceToIntMapping[found[2]] ?? 1
             }
@@ -493,7 +500,7 @@ const parsePastedLog = function () {
             })
             if (mob && zone && x && y) {
                 // console.log(`Trying ${zone.name} with ${mob.name} at ${x}, ${y}`)
-                let point = getClosestSpawnPoint(zone, x, y, mob.name)
+                //let point = getClosestSpawnPoint(zone, x, y, mob.name)
                 // console.log('FOund point', point)
                 if (point) {
                     manualAssignMob(zone, instance, point, mob)
