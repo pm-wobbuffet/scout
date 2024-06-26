@@ -408,16 +408,69 @@ const manualAssignMob = function (zone, instance, point, mob) {
     let mobArrayIdx = form.point_data[zone.id][instance].findIndex((el) => {
         return el.mob_id == mob.id
     })
-    //console.log(`Found ${mobArrayIdx} for ${mob.name} in ${zone.name} and instance ${instance} `)
+    //console.log(`Found ${mobArrayIdx} for ${mob.name} in ${zone.name} and instance ${instance} `, form.point_data[zone.id][instance])
     if (mobArrayIdx > -1) {
         form.point_data[zone.id][instance].splice(mobArrayIdx, 1)
+        // form.point_data[zone.id][instance] = form.point_data[zone.id][instance].filter((el) => {
+        //     return el.mob_id != mob.id
+        // })
     }
+    //console.log(form.point_data[zone.id][instance])
     form.point_data[zone.id][instance].push({
         point_id: point.id,
         mob_id: mob.id,
         x: point.x,
         y: point.y,
         expansion_id: zone.expansion_id,
+    })
+}
+
+const getAlreadyFoundMobIds = function(zone, instance) {
+    let mobList = form.point_data?.[zone.id]?.[instance] ?? []
+    let ret = []
+    mobList.forEach((el) => {
+        ret.push(el.mob_id)
+    })
+    return ret
+}
+
+const getMobOnPoint = function(zone, instance, point) {
+    let mobList = form.point_data?.[zone.id]?.[instance] ?? []
+    return mobList.find((el) => {
+        return el.point_id == point.id
+    })
+}
+
+const logImportFail = function(assignments, line, errorMessage) {
+    assignments.fail.push({
+        line: line,
+        reason: errorMessage
+    })
+}
+
+const isMobValidForPoint = function(mob, point) {
+    //console.log(point.valid_mobs)
+    let ret = false
+    //console.log(`Testing if ${mob.name} is valid for ${point.id}`, point.valid_mobs)
+    point.valid_mobs.forEach((el) => {
+        //console.log(el)
+        if(el.id == mob.id) {
+            ret = true
+        }
+    })
+    return ret
+}
+
+const getPointTakenByMob = function(zone, instance, mob) {
+    let mobList = form.point_data?.[zone.id]?.[instance] ?? []
+    return mobList.find((el) => {
+        return el.mob_id == mob.id
+    })
+}
+
+const getPointById = function(zone, point_id) {
+    return getAllZoneSpawnPoints(zone).find((pt) => {
+        return pt.id == point_id
     })
 }
 
@@ -486,6 +539,7 @@ const parsePastedLog = function () {
                 })
                 return false
             }
+            // Look for the first mob whose name or foreign names match the given input
             let mob = zone.mobs.find((el) => {
                 let lc = line.toLowerCase()
                 if (lc.includes(el.name.toLowerCase())) {
@@ -498,6 +552,49 @@ const parsePastedLog = function () {
                 }
                 return false
             })
+            if(!mob && allowBlankMobImport.value == true) {
+                // Are there already mobs assigned for this zone?
+                let mobsAssigned = getAlreadyFoundMobIds(zone, instance)
+                let mobOnPoint = getMobOnPoint(zone, instance, point)
+                if(mobOnPoint?.mob_id > 0) {
+                    logImportFail(assignments, line, 'This point already contains a mob')
+                    return
+                }
+                let validMobs = point.valid_mobs.filter((testMob) => {
+                    //console.log(`Testing ${testMob.id} against`, mobsAssigned)
+                    return !mobsAssigned.includes(testMob.id)
+                })
+                //console.log(validMobs)
+                let otherMob = zone.mobs.find((m) => m.id == mobsAssigned[0])
+                
+                // If the other mob in this zone exists already, see if we can place it on this spot
+                if(validMobs.length < 1 && otherMob && isMobValidForPoint(otherMob, point)) {
+                    // Take the other assigned mob and stick him onto this point
+                    let oldPt = getPointTakenByMob(zone, instance, otherMob)
+                    //console.log(oldPt)
+                    oldPt = getPointById(zone, oldPt.point_id)
+                    //console.log(oldPt)
+                    manualAssignMob(zone, instance, point, otherMob)
+                    
+                    mobsAssigned = getAlreadyFoundMobIds(zone, instance)
+                    console.log('new mobs assigned', mobsAssigned, oldPt, otherMob)
+                    validMobs = oldPt.valid_mobs.filter((testMob) => {
+                        return !mobsAssigned.includes(testMob.id)
+                    })
+                    console.log('New valid mobs', validMobs)
+                    manualAssignMob(zone, instance, oldPt, validMobs[0])
+                }
+                
+                if(validMobs.length < 1) {
+                    assignments.fail.push({
+                        'line': line,
+                        'reason': 'List of available mobs to place is already exhausted'
+                    })
+                    return
+                } else {
+                    mob = validMobs[0]
+                }
+            }
             if (mob && zone && x && y) {
                 // console.log(`Trying ${zone.name} with ${mob.name} at ${x}, ${y}`)
                 //let point = getClosestSpawnPoint(zone, x, y, mob.name)

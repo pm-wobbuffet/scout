@@ -1887,5 +1887,353 @@
                 "mob_index": 2
             }
         ]
+    },
+    {
+        "id": 1187,
+        "version": 5,
+        "name": "Urqopacha",
+        "name_fr": "Urqopacha",
+        "name_ja": "オルコ・パチャ",
+        "name_de": "Urqopacha",
+        "size_factor": 100,
+        "map": 857,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 28.1,
+                "y": 13.2,
+                "name": "Wachunpelo",
+                "name_fr": "Wachunpelo",
+                "name_ja": "ワチュン・ペロ",
+                "name_de": "Wachunpelo"
+            },
+            {
+                "type": 60453,
+                "x": 30.8,
+                "y": 34.2,
+                "name": "Worlar's Echo",
+                "name_fr": "L'Écho de Worlar",
+                "name_ja": "ウォーラーの残響",
+                "name_de": "Worlars Echo"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 234,
+                "name": "Queen hawk",
+                "name_fr": "Reine des guêpes",
+                "name_ja": "クイーンホーク",
+                "name_de": "Falkenkönigin",
+                "rank": 2,
+                "npcbase": 17707,
+                "mob_index": 1
+            },
+            {
+                "id": 235,
+                "name": "Nechuciho",
+                "name_fr": "Nechukiho",
+                "name_ja": "ネチュキホ",
+                "name_de": "Nechuciho",
+                "rank": 2,
+                "npcbase": 17708,
+                "mob_index": 2
+            }
+        ]
+    },
+    {
+        "id": 1188,
+        "version": 5,
+        "name": "Kozama'uka",
+        "name_fr": "Kozama'uka",
+        "name_ja": "コザマル・カ",
+        "name_de": "Kozama'uka",
+        "size_factor": 100,
+        "map": 858,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 18.1,
+                "y": 11.9,
+                "name": "Ok'hanu",
+                "name_fr": "Ok'hanu",
+                "name_ja": "オック・ハヌ",
+                "name_de": "Ok'hanu"
+            },
+            {
+                "type": 60453,
+                "x": 32.3,
+                "y": 25.6,
+                "name": "Many Fires",
+                "name_fr": "Maints-Feux",
+                "name_ja": "朋友の灯火",
+                "name_de": "Viele Flammen"
+            },
+            {
+                "type": 60453,
+                "x": 11.9,
+                "y": 27.7,
+                "name": "Earthenshire",
+                "name_fr": "La Fournée",
+                "name_ja": "アースンシャイア",
+                "name_de": "Irdehalde"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 244,
+                "name": "The raintriller",
+                "name_fr": "Trilleur de pluie",
+                "name_ja": "レイントリラー",
+                "name_de": "Regentriller",
+                "rank": 2,
+                "npcbase": 17791,
+                "mob_index": 1
+            },
+            {
+                "id": 245,
+                "name": "Pkuucha",
+                "name_fr": "Pkuucha",
+                "name_ja": "プクーチャ",
+                "name_de": "Pkuucha",
+                "rank": 2,
+                "npcbase": 17792,
+                "mob_index": 2
+            }
+        ]
+    },
+    {
+        "id": 1189,
+        "version": 5,
+        "name": "Yak T'el",
+        "name_fr": "Yak T'el",
+        "name_ja": "ヤクテル樹海",
+        "name_de": "Yak T'el",
+        "size_factor": 100,
+        "map": 859,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 13.5,
+                "y": 12.9,
+                "name": "Iq Br'aax",
+                "name_fr": "Iq Br'aax",
+                "name_ja": "イクブラーシャ",
+                "name_de": "Iq Br'aax"
+            },
+            {
+                "type": 60453,
+                "x": 35.9,
+                "y": 32.0,
+                "name": "Mamook",
+                "name_fr": "Mamook",
+                "name_ja": "マムーク",
+                "name_de": "Mamook"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 254,
+                "name": "Rrax yity'a",
+                "name_fr": "Rrax yity'a",
+                "name_ja": "ラシュイチャ",
+                "name_de": "Rrax yity'a",
+                "rank": 2,
+                "npcbase": 16946,
+                "mob_index": 1
+            },
+            {
+                "id": 255,
+                "name": "Starcrier",
+                "name_fr": "Furopluminescent",
+                "name_ja": "幻煌鳥",
+                "name_de": "Sternschreier",
+                "rank": 2,
+                "npcbase": 16892,
+                "mob_index": 2
+            }
+        ]
+    },
+    {
+        "id": 1190,
+        "version": 5,
+        "name": "Shaaloani",
+        "name_fr": "Shaaloani",
+        "name_ja": "シャーローニ荒野",
+        "name_de": "Shaaloani",
+        "size_factor": 100,
+        "map": 860,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 29.1,
+                "y": 30.8,
+                "name": "Hhusatahwi",
+                "name_fr": "Hhusatahwi",
+                "name_ja": "フーサタイ宿場町",
+                "name_de": "Hhusatahwi"
+            },
+            {
+                "type": 60453,
+                "x": 27.7,
+                "y": 10.1,
+                "name": "Mehwahhetsoan",
+                "name_fr": "Mehwahhetsoan",
+                "name_ja": "メワヘイゾーン",
+                "name_de": "Mehwahhetsoan"
+            },
+            {
+                "type": 60453,
+                "x": 15.7,
+                "y": 19.2,
+                "name": "Sheshenewezi Springs",
+                "name_fr": "Sources de Sheshenewezi",
+                "name_ja": "シェシェネ青燐泉",
+                "name_de": "Sheshenewezi-Quellen"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 264,
+                "name": "Yehehetoaua'pyo",
+                "name_fr": "Yehehetoaua'pyo",
+                "name_ja": "エヘヘトーワポ",
+                "name_de": "Yehehetoaua'pyo",
+                "rank": 2,
+                "npcbase": 17371,
+                "mob_index": 1
+            },
+            {
+                "id": 265,
+                "name": "Keheniheyamewi",
+                "name_fr": "Keheniheyamewi",
+                "name_ja": "ケヘニヘヤメウィ",
+                "name_de": "Keheniheyamewi",
+                "rank": 2,
+                "npcbase": 17372,
+                "mob_index": 2
+            }
+        ]
+    },
+    {
+        "id": 1191,
+        "version": 5,
+        "name": "Heritage Found",
+        "name_fr": "L'Hoirie recouvrée",
+        "name_ja": "ヘリテージファウンド",
+        "name_de": "Ewiges Erbe",
+        "size_factor": 100,
+        "map": 861,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 31.8,
+                "y": 25.6,
+                "name": "Yyasulani Station",
+                "name_fr": "Gare de Yyasulani",
+                "name_ja": "ヤースラニ駅",
+                "name_de": "Bahnhof Yyasulani"
+            },
+            {
+                "type": 60453,
+                "x": 17.1,
+                "y": 23.9,
+                "name": "Electrope Strike",
+                "name_fr": "Mines d'Électrope",
+                "name_ja": "エレクトロープ採石場",
+                "name_de": "Elektrob-Bruch"
+            },
+            {
+                "type": 60453,
+                "x": 17.1,
+                "y": 9.8,
+                "name": "The Outskirts",
+                "name_fr": "Les Faubourgs",
+                "name_ja": "アウトスカーツ",
+                "name_de": "Außenbezirke"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 274,
+                "name": "Heshuala",
+                "name_fr": "Heshuala",
+                "name_ja": "ヘシュワラ",
+                "name_de": "Heshuala",
+                "rank": 2,
+                "npcbase": 16750,
+                "mob_index": 1
+            },
+            {
+                "id": 275,
+                "name": "Urna variabilis",
+                "name_fr": "Pod variant",
+                "name_ja": "ヴァリアポッド",
+                "name_de": "Urna variabilis",
+                "rank": 2,
+                "npcbase": 16751,
+                "mob_index": 2
+            }
+        ]
+    },
+    {
+        "id": 1192,
+        "version": 5,
+        "name": "Living Memory",
+        "name_fr": "La Mémoire vivante",
+        "name_ja": "リビング・メモリー",
+        "name_de": "Lebende Erinnerung",
+        "size_factor": 100,
+        "map": 862,
+        "aetherytes": [
+            {
+                "type": 60453,
+                "x": 21.5,
+                "y": 37.5,
+                "name": "Leynode Mnemo",
+                "name_fr": "Nœud tellurique mnémo",
+                "name_ja": "レイノード・メモリス",
+                "name_de": "Leyknoten Mnemo"
+            },
+            {
+                "type": 60453,
+                "x": 34.7,
+                "y": 15.8,
+                "name": "Leynode Pyro",
+                "name_fr": "Nœud tellurique pyro",
+                "name_ja": "レイノード・ファイア",
+                "name_de": "Leyknoten Pyro"
+            },
+            {
+                "type": 60453,
+                "x": 16.4,
+                "y": 13.6,
+                "name": "Leynode Aero",
+                "name_fr": "Nœud tellurique aéro",
+                "name_ja": "レイノード・ウィンド",
+                "name_de": "Leyknoten Aero"
+            }
+        ],
+        "mobs": [
+            {
+                "id": 284,
+                "name": "Sally the sweeper",
+                "name_fr": "Sally la balayeuse",
+                "name_ja": "サリー・ザ・スイーパー",
+                "name_de": "Sally [t] fegerin",
+                "rank": 2,
+                "npcbase": 17301,
+                "mob_index": 1
+            },
+            {
+                "id": 285,
+                "name": "Cat's eye",
+                "name_fr": "Œil-de-chat",
+                "name_ja": "キャッツアイ",
+                "name_de": "Katzenauge",
+                "rank": 2,
+                "npcbase": 17302,
+                "mob_index": 2
+            }
+        ]
     }
 ]
