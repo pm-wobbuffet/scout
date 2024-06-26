@@ -206,6 +206,8 @@
                 <br>
                 Example: <b>Nariphon Lakeland ( 35.5 , 27.2 ) Z: 0.3 INSTANCE 3</b> would be parsed as being in instance
                 3
+                <br>
+                <b>Unfortunately for now, the name of the mob must be in the chat line for it to be picked up/used</b>
             </p>
             <div>
                 <textarea name="pastedLog" id="pastedLog" class="w-full" rows="6"></textarea>

@@ -91,8 +91,9 @@ const updateMobSpawnAssignments = function() {
     if(! (props.instance in model.value.point_data[props.zone.id]) ) {
         model.value.point_data[props.zone.id][props.instance] = []
     }
-    if(props.zone.spawn_points?.length > 0) {
-        props.zone.spawn_points.forEach((point) => {
+    let combinedSpawnPoints = props.zone.spawn_points.concat(getCustomSpawnPoints())
+    if(combinedSpawnPoints?.length > 0) {
+        combinedSpawnPoints.forEach((point) => {
             if(model.value.point_data[props.zone.id][props.instance].length > 0) {
                 model.value.point_data[props.zone.id][props.instance].forEach((mob) => {
                     //console.log(`Placing mob ${mob.mob_id} on point ${mob.point_id}`)
@@ -201,8 +202,10 @@ const assignMob = function(point) {
     if(!props.editmode) return
     let curMobOnPoint = getTakenMob(point.id)
     let validMobs = getValidMobsForPoint(point)
+    //console.log(curMobOnPoint, validMobs)
 
     if(curMobOnPoint.mob_index != '') {
+        console.log(`Removing ${curMobOnPoint.name} from ${point.id}`)
         removeMob(point, curMobOnPoint)
     }
     // If there's a valid mob left, cycle to it
@@ -216,8 +219,10 @@ const assignMob = function(point) {
 
 const removeMob = function(point, mob) {
     const index = model.value.point_data?.[props.zone.id]?.[props.instance].findIndex((el) => el.mob_id == mob.id) ?? -1
-    if (index != undefined && index > -1) {
+    if (index > -1) {
+        //console.log(`Removing index ${index}`)
         model.value.point_data[props.zone.id][props.instance].splice(index, 1)
+        //console.log(model.value.point_data?.[props.zone.id]?.[props.instance])
         delete mobPoints.value[mob.id]
     }
 }
