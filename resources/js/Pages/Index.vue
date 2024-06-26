@@ -4,6 +4,7 @@
         <MapContainer
         :expac="props.expac"
         :editmode="true"
+        :defaultId="props.defaultId"
          />
     </div>
 </template>
@@ -13,5 +14,6 @@ import MapContainer from '../Components/MapContainer.vue';
 import { Head } from '@inertiajs/vue3';
 const props = defineProps({
     expac: Array,
+    defaultId: Number,
 })
 </script>

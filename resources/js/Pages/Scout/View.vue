@@ -9,6 +9,7 @@
         @clipboardImport="handleClipboardImport"
         :editmode="props.scout.collaborator_password != null && !props.scout.finalized_at"
         :newly-created="props.flash?.newly_created"
+        :defaultId="props.defaultId"
         ref="mapRef"
         />
     </div>
@@ -25,6 +26,7 @@ const props = defineProps({
     expac: Array,
     scout: Object,
     flash: Object,
+    defaultId: Number,
 })
 
 const mapRef = ref(null)

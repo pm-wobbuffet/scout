@@ -262,10 +262,11 @@ const props = defineProps({
     scout: Object,
     editmode: Boolean,
     newlyCreated: Boolean,
+    defaultId: Number,
 })
 
 const defaultExp = ref(6)
-const selectedExp = ref(5)
+const selectedExp = ref(props.defaultId)
 const cacheBusterAppend = ref(1)
 const showMarkOverlay = ref(false)
 const sortOrders = ref({})

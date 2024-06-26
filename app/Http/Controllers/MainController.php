@@ -30,7 +30,8 @@ class MainController extends Controller
     {
         $expansions = $this->getExpansionsData();
         return Inertia::render('Index', [
-            'expac' =>  $expansions,
+            'expac'     =>  $expansions,
+            'defaultId' =>  intval(env('DEFAULT_EXPANSION_ID', 6)),
         ]);
     }
 
@@ -74,6 +75,7 @@ class MainController extends Controller
         return Inertia::render('Scout/View',[
             'expac' =>  $expansions,
             'scout' =>  $scout,
+            'defaultId' =>  intval(env('DEFAULT_EXPANSION_ID', 6)),
         ]);
     }
 
