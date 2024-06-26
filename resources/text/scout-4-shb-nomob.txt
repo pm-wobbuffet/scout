@@ -1,0 +1,12 @@
+Lakeland ( 35.5  , 27.2 ) Z: 0.3
+Lakeland ( 23.1  , 29.5 ) Z: 0.2
+Kholusia ( 17.0  , 7.1 ) Z: 4.7
+Kholusia ( 14.8  , 15.8 ) Z: 3.7
+Amh Araeng ( 30.4  , 34.9 ) Z: 0.5
+Amh Araeng ( 19.0  , 24.6 ) Z: 1.0
+Il Mheg ( 19.7  , 34.6 ) Z: 0.3
+Il Mheg ( 8.3  , 26.6 ) Z: 0.5
+The Rak'tika Greatwood ( 25.0  , 30.1 ) Z: -0.1
+The Rak'tika Greatwood ( 33.2  , 22.7 ) Z: 0.3
+The Tempest ( 33.6  , 21.6 ) Z: -1.6
+The Tempest ( 11.5  , 4.8 ) Z: -1.5
