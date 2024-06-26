@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ImportPointsRequest;
 use App\Http\Requests\StoreScoutRequest;
 use App\Http\Requests\UpdateScoutRequest;
+use App\Models\CustomPoint;
 use App\Models\Expansion;
 use App\Models\Scout;
 use App\Models\ScoutUpdate;
@@ -41,7 +42,9 @@ class MainController extends Controller
      */
     public function store(StoreScoutRequest $request): RedirectResponse
     {
+        //dd($request->all());
         $s = Scout::create($request->safe()->all());
+        $this->extractCustomPoints($request->all(), $s);
         
         //return Inertia::location(route('scout.view', [$s->slug, $s->collaborator_password]));
         return redirect()->route('scout.view',[$s->slug, $s->collaborator_password])
@@ -109,6 +112,7 @@ class MainController extends Controller
         $up->point_id = $request->input('point')['id'];
         $up->save();
 
+
         // If the mob has no index, we're clearing out the point
         $zone = Zone::where('id', $request->input('zone_id'))->first();
         $expac_id = $zone->expansion_id;
@@ -136,6 +140,17 @@ class MainController extends Controller
                 'point_id'      => $request->input('point')['id'],
                 'expansion_id'  => $expac_id,
             ];
+            if($request->input('point')['id'] < 0) {
+                // This was a custom point, so throw it in the CustomPoints table
+                CustomPoint::create([
+                    'scout_id'  => $scout->id,
+                    'zone_id'   => $zone->id,
+                    'point_id'  => $request->input('point')['id'],
+                    'x'         => $request->input('point')['x'],
+                    'y'         => $request->input('point')['y'],
+                    'mob_id'    => $request->input('mob')['id'],
+                ]);
+            }
         }
         $points[$request->input('zone_id')][$request->input('instance_number')] = $s;
         $scout->point_data = $points;
@@ -175,10 +190,8 @@ class MainController extends Controller
             abort('403', 'Method not allowed');
         }
         $scout->instance_data = $request->safe()->input('instance_data');
-        //dd($request->safe()->all(), $request->all());
         //Cycle through the existing custom points and make sure they're not added to the array twice
         $existing = (new Collection($scout->custom_points))->keyBy('id');
-        //dd($existing);
         foreach($request->safe()->input('custom_points') as $point) {
             if(!isset($existing[$point['id']])) {
                 $existing[$point['id']] = $point;
@@ -208,13 +221,13 @@ class MainController extends Controller
         $scout->point_data = $s;
         //dd($scout->point_data, $s);
         $scout->save();
+        $this->extractCustomPoints($request->all(), $scout);
         return [
             'point_data'    => $scout->point_data,
             'custom_points' => $scout->custom_points,
             'instance_data' => $scout->instance_data,
             'finalized_at'  => $scout->finalized_at,
         ];
-
         //dd($scout->custom_points->merge($request->safe()->input('custom_points')));
     }
 
@@ -302,5 +315,26 @@ class MainController extends Controller
         ->withCount(['zones', 'mobs'])
         ->orderBy('id')
         ->get();
+    }
+
+    private function extractCustomPoints(array $request, Scout $scout ): void
+    {
+        foreach($request['point_data'] as $zoneId => $instances) {
+            foreach($instances as $instance) {
+                foreach($instance as $mob) {
+                    if($mob['point_id'] < 0 || isset($mob['line'])) {
+                        CustomPoint::create([
+                            'scout_id'  => $scout->id,
+                            'zone_id'   => $zoneId,
+                            'point_id'  => $mob['point_id'],
+                            'x'         => $mob['x'],
+                            'y'         => $mob['y'],
+                            'mob_id'    => $mob['mob_id'],
+                            'line_source' => $mob['line'] ?? null,
+                        ]);
+                    }   
+                }
+            }
+        }
     }
 }

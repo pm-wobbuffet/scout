@@ -394,7 +394,7 @@ const createCustomSpawnPoint = function(zone, x, y) {
     return form.custom_points[lastEl - 1]
 }
 
-const manualAssignMob = function (zone, instance, point, mob) {
+const manualAssignMob = function (zone, instance, point, mob, line) {
     if (!props.editmode) return
     //console.log(point, mob)
     if (!(zone.id in form.point_data)) {
@@ -422,6 +422,7 @@ const manualAssignMob = function (zone, instance, point, mob) {
         x: point.x,
         y: point.y,
         expansion_id: zone.expansion_id,
+        line: line,
     })
 }
 
@@ -571,18 +572,17 @@ const parsePastedLog = function () {
                 if(validMobs.length < 1 && otherMob && isMobValidForPoint(otherMob, point)) {
                     // Take the other assigned mob and stick him onto this point
                     let oldPt = getPointTakenByMob(zone, instance, otherMob)
-                    //console.log(oldPt)
                     oldPt = getPointById(zone, oldPt.point_id)
-                    //console.log(oldPt)
-                    manualAssignMob(zone, instance, point, otherMob)
+                    manualAssignMob(zone, instance, point, otherMob, line)
                     
                     mobsAssigned = getAlreadyFoundMobIds(zone, instance)
-                    console.log('new mobs assigned', mobsAssigned, oldPt, otherMob)
+                    //console.log('new mobs assigned', mobsAssigned, oldPt, otherMob, point)
                     validMobs = oldPt.valid_mobs.filter((testMob) => {
                         return !mobsAssigned.includes(testMob.id)
                     })
-                    console.log('New valid mobs', validMobs)
-                    manualAssignMob(zone, instance, oldPt, validMobs[0])
+                    // Now that we've reassigned the proper mob, set point = the old previous point
+                    // we grabbed the other mob from
+                    point = oldPt
                 }
                 
                 if(validMobs.length < 1) {
@@ -600,7 +600,7 @@ const parsePastedLog = function () {
                 //let point = getClosestSpawnPoint(zone, x, y, mob.name)
                 // console.log('FOund point', point)
                 if (point) {
-                    manualAssignMob(zone, instance, point, mob)
+                    manualAssignMob(zone, instance, point, mob, line)
                     assignments.success.push({
                         zone: zone,
                         instance: instance,

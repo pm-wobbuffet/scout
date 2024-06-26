@@ -4,7 +4,7 @@
         @mousemove.self="handleMouseOver"
         @mouseout="handleMouseOut" 
         @dblclick.prevent="(e) => dblClickMap(e, zone)">
-        <div class="absolute mob-list">
+        <div class="absolute mob-list pointer-events-none">
             <ol class="block list-decimal pl-4">
                 <li v-for="(mob, index) in zone.mobs" :class="`mob-number-${index}`">
                     {{ getDisplayName(mob, props.language) }}
