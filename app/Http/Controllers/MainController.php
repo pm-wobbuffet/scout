@@ -131,6 +131,12 @@ class MainController extends Controller
                 return true;
             }));
         }
+        // Delete any previous custom points added here
+        CustomPoint::query()
+        ->where('scout_id', $scout->id)
+        ->where('point_id', $request->input('point')['id'])
+        ->delete();
+        
         if( !is_null($request->input('mob')['mob_index']) ) 
         {
             // Add the point to the list

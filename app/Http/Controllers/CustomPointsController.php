@@ -82,4 +82,41 @@ class CustomPointsController extends Controller
 
         return $query;
     }
+
+    public function generate_custom(Expansion $expansion)
+    {
+        //  instance 1, 2, 3 icons for later
+        $unicode_map = [
+            '1' => '', // instance 1
+            '2' => '', // instance 2
+            '3' => '', // instance 3
+            't' => '', // zone prefix indicator
+        ];
+        $expansion->load([
+            'zones',
+            'zones.mobs',
+            'zones.spawn_points',
+            'zones.spawn_points.valid_mobs',
+        ]);
+        
+        // Generate a randomized in-game style list of coords for an expansion
+        $output = [];
+        foreach($expansion->zones as $zone) {
+            $zone_name = $zone->name;
+            for($i = 1; $i <= $zone->default_instances; $i++) {
+                foreach($zone->mobs as $mob) {
+                    $x = $this->getRandomCoordinate($zone);
+                    $y = $this->getRandomCoordinate($zone);
+                    $line = "{$mob->name} {$unicode_map['t']}{$zone_name}{$unicode_map[$i]} ( $x  , $y ) Z: 0.3";
+                    $output[] = $line;
+                }
+            }
+        }
+        return '<pre>' . join("\r\n", $output) . '</pre>';
+    }
+
+    private function getRandomCoordinate(Zone $zone)
+    {
+        return random_int(20, ($zone->max_coord_size - 2) * 10) / 10;
+    }
 }
