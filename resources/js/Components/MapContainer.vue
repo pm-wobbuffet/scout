@@ -737,7 +737,12 @@ const getZoneByName = function (zoneName) {
     for (let i = 0; i < props.expac.length; i++) {
         for (let j = 0; j < props.expac[i].zones.length; j++) {
             let z = props.expac[i].zones[j]
-            if (z.name == zoneName) {
+            if (z.name == zoneName 
+            || z.names['en'] == zoneName
+            || z.names['de'] == zoneName
+            || z.names['ja'] == zoneName
+            || z.names['fr'] == zoneName
+            ) {
                 return z
             }
         }

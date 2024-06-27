@@ -102,7 +102,7 @@ class CustomPointsController extends Controller
         // Generate a randomized in-game style list of coords for an expansion
         $output = [];
         foreach($expansion->zones as $zone) {
-            $zone_name = $zone->name;
+            $zone_name = $zone->names['de'];
             for($i = 1; $i <= $zone->default_instances; $i++) {
                 foreach($zone->mobs as $mob) {
                     $x = $this->getRandomCoordinate($zone);
