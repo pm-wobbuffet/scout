@@ -147,7 +147,9 @@
             <template v-if="scout.collaborator_password && !scout?.finalized_at">
                 <h1 class="font-bold text-2xl mb-4">Share Editable Map</h1>
                 <p class="text-sm">This link will allow users to edit/add points to the map, so only give it to trusted
-                    users.</p>
+                    users. <br>
+                    <b>Important:</b> This is still a work in progress! It has worked in limited testing, but if you want to be extra safe
+                <br> only have one person using a report at the same time.</p>
                 <div class="bg-blue-500 text-white p-4 mb-4 relative cursor-pointer"
                     @click="copyLink(route('scout.view', { scout: props.scout.slug, password: props.scout.collaborator_password }))">
                     <span>{{ route('scout.view', {
@@ -207,7 +209,10 @@
                 Example: <b>Nariphon Lakeland ( 35.5 , 27.2 ) Z: 0.3 INSTANCE 3</b> would be parsed as being in instance
                 3
                 <br>
-                <b>Unfortunately for now, the name of the mob must be in the chat line for it to be picked up/used</b>
+                <b>Be cautious if you paste in a line without a mob name - make sure it's not an accidental B rank coordinate
+                    <br>
+                    If the coordinates do not incldue mob name, it will assign them in order of the zone mob list<br>
+                </b>
             </p>
             <div>
                 <textarea name="pastedLog" id="pastedLog" class="w-full" rows="6"></textarea>
