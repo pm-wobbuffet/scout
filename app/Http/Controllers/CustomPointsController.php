@@ -107,7 +107,7 @@ class CustomPointsController extends Controller
                 foreach($zone->mobs as $mob) {
                     $x = $this->getRandomCoordinate($zone);
                     $y = $this->getRandomCoordinate($zone);
-                    $line = "{$mob->name} {$unicode_map['t']}{$zone_name}{$unicode_map[$i]} ( $x  , $y ) Z: 0.3";
+                    $line = "{$mob->names['de']} {$unicode_map['t']}{$zone_name}{$unicode_map[$i]} ( $x  , $y ) Z: 0.3";
                     $output[] = $line;
                 }
             }
