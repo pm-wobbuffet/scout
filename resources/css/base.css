@@ -46,3 +46,14 @@ textarea {
 button:disabled {
     @apply cursor-not-allowed;
 }
+
+div.selected-zone {
+    @apply bg-slate-400 font-bold dark:bg-slate-600;
+}
+
+select {
+    @apply text-black p-1 pl-4 pr-8 rounded-md bg-white dark:bg-slate-300;
+    option {
+        @apply text-black;
+    }
+}

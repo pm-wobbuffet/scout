@@ -16,6 +16,7 @@ Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
     Route::post('/scoutimport/{scout:slug}/{password?}', 'MainController@import')->name('scout.import');
 
     Route::get('/custompoints', 'CustomPointsController@index')->name('custompoints');
+    Route::get('/custompoints/{zone}', 'CustomPointsController@get_custom')->name('custompoints.zone');
 });
 
 /*

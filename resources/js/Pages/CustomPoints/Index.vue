@@ -11,7 +11,7 @@
                 </div>
         </nav>
         <main class="map-main-window">
-            <div class="map-image-list order-2">
+            <div class="map-image-list order-2 justify-center flex-col items-center">
                 <ZoneMapCustomPoints
                 :zone="chosenZone" 
                 />
@@ -20,8 +20,11 @@
                 <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
                     Zones
                 </div>
-                <div v-for="zone in props.expac.zones" class="p-2 hover:bg-gray-300 dark:hover:bg-slate-700">
-                    <a href="#" class=" block underline">{{ zone.name }}</a>
+                <div v-for="zone in props.expac.zones" class="p-2 hover:bg-gray-300 dark:hover:bg-slate-700"
+                :class="{'selected-zone': zone.id == chosenZone.id}">
+                    <button type="button" class="block underline"
+                    @click="setZone(zone)"
+                    >{{ zone.name }}</button>
                 </div>
             </aside>
         </main>
@@ -40,14 +43,11 @@ const props = defineProps({
     expac: Object,
 })
 
-
-const form = useForm({
-    verifiedOnly: Boolean,
-    zone_id: Number,
-})
+const setZone = function(zone) {
+    chosenZone.value = zone
+}
 
 onBeforeMount(() => {
     chosenZone.value = props.expac.zones[0]
-    console.log(chosenZone.value)
 })
 </script>

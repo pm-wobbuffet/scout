@@ -52,6 +52,10 @@ main.map-main-window {
         &:disabled {
             @apply bg-black/10 ring-opacity-30 !important;
         }
+        &.custom-point {
+            @apply bg-green-300 w-[30px] h-[30px] scale-50 hover:scale-150;
+            text-shadow: none;
+        }
     }
 
     .button-mob-marker {
@@ -62,7 +66,7 @@ main.map-main-window {
 
     button::after {
         content: attr(data-coords);
-        @apply z-[-1] hidden hover:block absolute top-[-1.5rem] text-sm font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none;
+        @apply z-[1000] hidden hover:block absolute top-[-1.5rem] text-sm font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none;
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
     }
 
