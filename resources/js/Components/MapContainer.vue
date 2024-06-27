@@ -96,7 +96,7 @@
                         v-else @click.prevent="submitForm">
                         <ExportIcon /> Share
                     </a>
-                    <button class="inline-flex rounded-md bg-slate-200 dark:bg-yellow-800 py-1 px-3 font-bold text-white mr-1"
+                    <button class="inline-flex rounded-md bg-slate-500 dark:bg-yellow-800 py-1 px-3 font-bold text-white dark:text-slate-300 mr-1"
                         v-if="props.editmode && !props.scout?.finalized_at"
                         @click.prevent="showImportDialog">
                         <ClipboardTextMultipleOutlineIcon />Import

@@ -28,7 +28,7 @@
         v-if="props.zone.allow_custom_points && editMode == true"
         >
             <AlertOutlineIcon class="text-yellow-800 font-bold text-xl" />
-            <span>Spawn points unknown. Custom spawn points can be added by double clicking.</span>
+            <span>Spawn points unknown. Double click or use Import to add spawn points.</span>
         </div>
         <div class="text-right font-semibold text-xl zone-name">
             {{ getDisplayName(zone, language) }}
