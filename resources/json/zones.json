@@ -532,7 +532,7 @@
                 "name": "Dalvag's final flame",
                 "name_fr": "Dernière flamme de dalvag",
                 "name_ja": "ファイナルフレイム",
-                "name_de": "Letzt[a] flamme[p] dalvags",
+                "name_de": "Letzte flamme dalvags",
                 "rank": 2,
                 "npcbase": 3200,
                 "mob_index": 1
@@ -1297,7 +1297,7 @@
                 "name": "Li'l murderer",
                 "name_fr": "Traître",
                 "name_ja": "リルマーダー",
-                "name_de": "Klein[a] mörder",
+                "name_de": "Kleiner mörder",
                 "rank": 2,
                 "npcbase": 10420,
                 "mob_index": 1
@@ -1429,7 +1429,7 @@
                 "name": "O poorest pauldia",
                 "name_fr": "Pauldia",
                 "name_ja": "ポールディア",
-                "name_de": "Gepeinigt[a] pauldia",
+                "name_de": "Gepeinigter pauldia",
                 "rank": 2,
                 "npcbase": 10272,
                 "mob_index": 2
@@ -2219,7 +2219,7 @@
                 "name": "Sally the sweeper",
                 "name_fr": "Sally la balayeuse",
                 "name_ja": "サリー・ザ・スイーパー",
-                "name_de": "Sally [t] fegerin",
+                "name_de": "Sally die fegerin",
                 "rank": 2,
                 "npcbase": 17301,
                 "mob_index": 1
