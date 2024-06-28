@@ -40,6 +40,9 @@ For local development, Laravel Sail is used to make things a bit easier. (Follow
     - Run `sail artisan db:seed SpawnPointDataSeeder` to import SpawnPoints from resources/json/spawn_points_hunthelper.js, sourced from the wonderful HuntHelper plogon.
     - Run `sail artisan db:seed SpawnPointMobSeeder` to import old expansion spawn point mob assignments, which I manually built in resources/csv/SPAWN_POINT_MOBS.csv
 
+If a new expansion launches and I'm retired, you can use the script in resources/python/get_hunts.py to grab new hunt marks from future builds. It will create the contents
+of zones.json in the expected format and extract any new maps as long as the Data file formats don't change too much
+
 ## Contributing
 
 At this time, contributions will not be accepted, just because I'll be busy with Dawntrail things. Once life settles down a bit, I'll open things up.
