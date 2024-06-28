@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full min-h-[100vh]">
+    <div class="w-full min-h-[90vh]">
         <nav
                 class="flex flex-wrap w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] main-nav flex-grow-1">
                 <div class="shrink">
@@ -13,7 +13,7 @@
         <main class="map-main-window">
             <div class="map-image-list order-2 justify-center flex-col items-center">
                 <ZoneMapCustomPoints
-                :zone="chosenZone" 
+                :zone="chosenZone"
                 />
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800 text-black dark:text-slate-300">

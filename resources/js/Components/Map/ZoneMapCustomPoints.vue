@@ -1,7 +1,7 @@
 <template>
     <div class="block bg-slate-500 text-slate-100 dark:text-slate-300 p-2 rounded-lg">
         <h1 class="text-lg text-center font-bold">Options</h1>
-        <div class="flex flex-row flex-wrap items-center">
+        <div class="flex flex-row flex-wrap items-center gap-1">
             <div>Coordinate Rounding:</div>
             <div>
                 <select id="coordRounding" name="coordRounding"
@@ -11,14 +11,12 @@
                     </option>
                 </select>
             </div>
-            <!-- <Listbox v-model="form.rounding">
-                <ListboxButton>{{ form.rounding }}</ListboxButton>
-                <ListboxOptions>
-                    <ListboxOption
-                    v-for="option in roundingOptions"
-                    >{{ option }}</ListboxOption>
-                </ListboxOptions>
-            </Listbox> -->
+            <div title="Only show custom points that were imported via an in-game coordinate chat message">Only Chat Log Lines:</div>
+            <div>
+                <input type="checkbox" name="coordChatOnly" value="1"
+                title="Only show custom points that were imported via an in-game coordinate chat message"
+                v-model="form.chatonly" />
+            </div>
         </div>
     </div>
     <div class="map-container-block w-[900px] h-[900px]" :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`">
@@ -42,12 +40,6 @@ import { getDisplayName } from '@/helpers';
 import { useForm } from '@inertiajs/vue3';
 import axios from 'axios';
 import { onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
-import {
-    Listbox,
-    ListboxButton,
-    ListboxOptions,
-    ListboxOption,
-} from '@headlessui/vue'
 
 const props = defineProps({
     zone: Object,
@@ -59,6 +51,7 @@ const form = useForm({
     verifiedOnly: Boolean,
     zone_id: Number,
     rounding: Number,
+    chatonly: Number,
 })
 
 const convertCoordToPercent = function (coord, zone) {
@@ -78,6 +71,7 @@ const getPoints = function () {
     axios.get(route('custompoints.zone', { zone: props.zone.id }),{
         params: {
             rounding: form.rounding,
+            chatonly: form.chatonly ?? 0,
         }
     })
         .then((response) => {
@@ -91,9 +85,10 @@ const getPoints = function () {
 
 onBeforeMount(() => {
     form.rounding = 0.1
+    form.chatonly = 0,
     getPoints()
 
-    watch(() => form.rounding, () => {
+    watch(() => [form.rounding, form.chatonly], () => {
         console.log('rounding updated')
         getPoints()
     })

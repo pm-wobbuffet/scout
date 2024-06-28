@@ -49,31 +49,36 @@ class CustomPointsController extends Controller
             '2'     => ['mult' => .5, 'div' => 0],
         ];
         $mult = $multipliers[$request->input('rounding')] ?? 1;
+        $onlychat = boolval($request->input('chatonly', false)) === true ?
+        " AND line_source IS NOT NULL " : '';
+
         //dd($mult);
         if ($request->input('rounding') == "0.1") {
             $query = DB::select("
-                SELECT zone_id, 
-                x as agg_x, 
-                y as agg_y, 
+                SELECT zone_id,
+                x as agg_x,
+                y as agg_y,
                 COUNT(*) as num_points
                 FROM custom_points
                 WHERE zone_id = ?
-                GROUP by zone_id, 
-                agg_x, 
+                $onlychat
+                GROUP by zone_id,
+                agg_x,
                 agg_y
         ", [
                 $zone->id,
             ]);
         } else {
             $query = DB::select("
-                SELECT zone_id, 
-                ROUND(ROUND(x * {$mult['mult']})/{$mult['mult']}, {$mult['div']}) as agg_x, 
-                ROUND(ROUND(y * {$mult['mult']})/{$mult['mult']}, {$mult['div']}) as agg_y, 
+                SELECT zone_id,
+                ROUND(ROUND(x * {$mult['mult']})/{$mult['mult']}, {$mult['div']}) as agg_x,
+                ROUND(ROUND(y * {$mult['mult']})/{$mult['mult']}, {$mult['div']}) as agg_y,
                 COUNT(*) as num_points
                 FROM custom_points
                 WHERE zone_id = ?
-                GROUP by zone_id, 
-                agg_x, 
+                $onlychat
+                GROUP by zone_id,
+                agg_x,
                 agg_y
         ", [
                 $zone->id,
@@ -98,7 +103,7 @@ class CustomPointsController extends Controller
             'zones.spawn_points',
             'zones.spawn_points.valid_mobs',
         ]);
-        
+
         // Generate a randomized in-game style list of coords for an expansion
         $output = [];
         foreach($expansion->zones as $zone) {
