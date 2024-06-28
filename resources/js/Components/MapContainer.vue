@@ -496,9 +496,12 @@ const parsePastedLog = function () {
         "": 1,
         "": 2,
         "": 3,
+        "": 4,
+        "": 5,
+        "": 6,
     }
     //\uE0B1 = Instance 1 , \uE0B2 = 2 , \uE0B3 = 3  \uE0BB = start of flag marker
-    const re = /[\uE0BB]([^\uE0B1-\uE0B3]*)([\uE0B1-\uE0B3]?) \( ([0-9\.]+)\W+,\W+([0-9\.]+)\W+\).*/
+    const re = /[\uE0BB]([^\uE0B1-\uE0B6]*)([\uE0B1-\uE0B6]?) \( ([0-9\.]+)\W+,\W+([0-9\.]+)\W+\).*/
     const instanceCheck = /(instance.|i)([1|2|3])/i
     const linesArr = txtArea.value.split(/\r?\n/);
     linesArr.forEach((line) => {
@@ -573,14 +576,14 @@ const parsePastedLog = function () {
                 })
                 //console.log(validMobs)
                 let otherMob = zone.mobs.find((m) => m.id == mobsAssigned[0])
-                
+
                 // If the other mob in this zone exists already, see if we can place it on this spot
                 if(validMobs.length < 1 && otherMob && isMobValidForPoint(otherMob, point)) {
                     // Take the other assigned mob and stick him onto this point
                     let oldPt = getPointTakenByMob(zone, instance, otherMob)
                     oldPt = getPointById(zone, oldPt.point_id)
                     manualAssignMob(zone, instance, point, otherMob, line)
-                    
+
                     mobsAssigned = getAlreadyFoundMobIds(zone, instance)
                     //console.log('new mobs assigned', mobsAssigned, oldPt, otherMob, point)
                     validMobs = oldPt.valid_mobs.filter((testMob) => {
@@ -590,7 +593,7 @@ const parsePastedLog = function () {
                     // we grabbed the other mob from
                     point = oldPt
                 }
-                
+
                 if(validMobs.length < 1) {
                     assignments.fail.push({
                         'line': line,
@@ -737,7 +740,7 @@ const getZoneByName = function (zoneName) {
     for (let i = 0; i < props.expac.length; i++) {
         for (let j = 0; j < props.expac[i].zones.length; j++) {
             let z = props.expac[i].zones[j]
-            if (z.name == zoneName 
+            if (z.name == zoneName
             || z.names['en'] == zoneName
             || z.names['de'] == zoneName
             || z.names['ja'] == zoneName
