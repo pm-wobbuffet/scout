@@ -22,27 +22,27 @@ class InitialDataSeeder extends Seeder
         Model::unguard(true);
         // Create expansions
 
-        $arr = Expansion::firstOrCreate(['id' => 2], [
+        $arr = Expansion::updateOrCreate(['id' => 2], [
             'name' => 'A Realm Reborn',
             'abbreviation' => 'ARR',
         ]);
-        $hw = Expansion::firstOrCreate(['id' => 3], [
+        $hw = Expansion::updateOrCreate(['id' => 3], [
             'name' => 'Heavensward',
             'abbreviation' => 'HW',
         ]);
-        $sb = Expansion::firstOrCreate(['id' => 4], [
+        $sb = Expansion::updateOrCreate(['id' => 4], [
             'name' => 'Stormblood',
             'abbreviation' => 'SB',
         ]);
-        $shb = Expansion::firstOrCreate(['id' => 5], [
+        $shb = Expansion::updateOrCreate(['id' => 5], [
             'name' => 'Shadowbringers',
-            'abbreviation' => 'SHB',
+            'abbreviation' => 'ShB',
         ]);
-        $ew = Expansion::firstOrCreate(['id' => 6], [
+        $ew = Expansion::updateOrCreate(['id' => 6], [
             'name' => 'Endwalker',
             'abbreviation' => 'EW',
         ]);
-        $dt = Expansion::firstOrCreate(['id' => 7], [
+        $dt = Expansion::updateOrCreate(['id' => 7], [
             'name' => 'Dawntrail',
             'abbreviation' => 'DT',
         ]);
@@ -62,6 +62,7 @@ class InitialDataSeeder extends Seeder
                     'size_factor'       =>  $zone['size_factor'],
                     'max_coord_size'    =>  round(41 / ($zone['size_factor'] / 100), 1, PHP_ROUND_HALF_DOWN),
                     'sort_priority'     =>  $zone_number * 10,
+                    'allow_custom_points' => intval($zone['version']) == 5 ? true: false,
                     'names'             =>  [
                         'en'            =>  $zone['name'],
                         'ja'            =>  $zone['name_ja'],
