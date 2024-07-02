@@ -1,875 +1,919 @@
 id,name,mob1_name,mob2_name,spawn_point_id,x,y,valid_mobs
-134,Middle La Noscea,Vogaal ja,,5,13.9,11.65,1
-134,Middle La Noscea,Vogaal ja,,7,13.9,13.6,1
-134,Middle La Noscea,Vogaal ja,,10,15.2,15.3,1
-134,Middle La Noscea,Vogaal ja,,3,15.95,10.85,1
-134,Middle La Noscea,Vogaal ja,,9,16.35,14,1
-134,Middle La Noscea,Vogaal ja,,1,16.55,7.9,1
-134,Middle La Noscea,Vogaal ja,,4,17.15,11.5,1
-134,Middle La Noscea,Vogaal ja,,14,17.15,17.15,1
-134,Middle La Noscea,Vogaal ja,,6,18.35,13.3,1
-134,Middle La Noscea,Vogaal ja,,15,18.45,18.25,1
-134,Middle La Noscea,Vogaal ja,,2,18.6,9.45,1
-134,Middle La Noscea,Vogaal ja,,12,18.7,16.3,1
-134,Middle La Noscea,Vogaal ja,,18,19.25,20.3,1
+134,Middle La Noscea,Vogaal ja,,24,23.2,24.2,1
+134,Middle La Noscea,Vogaal ja,,23,25.1,23.45,1
+134,Middle La Noscea,Vogaal ja,,22,22.9,22.55,1
 134,Middle La Noscea,Vogaal ja,,21,19.9,22.4,1
 134,Middle La Noscea,Vogaal ja,,20,20.25,21.3,1
-134,Middle La Noscea,Vogaal ja,,8,20.4,13.75,1
-134,Middle La Noscea,Vogaal ja,,11,20.75,15.6,1
-134,Middle La Noscea,Vogaal ja,,16,21,18.3,1
-134,Middle La Noscea,Vogaal ja,,22,22.9,22.55,1
-134,Middle La Noscea,Vogaal ja,,24,23.2,24.2,1
-134,Middle La Noscea,Vogaal ja,,13,23.3,17,1
-134,Middle La Noscea,Vogaal ja,,17,23.9,19.7,1
 134,Middle La Noscea,Vogaal ja,,19,24.4,20.95,1
-134,Middle La Noscea,Vogaal ja,,23,25.1,23.45,1
-135,Lower La Noscea,Unktehi,,39,16.9,35.35,1
-135,Lower La Noscea,Unktehi,,40,19.2,35.4,1
+134,Middle La Noscea,Vogaal ja,,18,19.25,20.3,1
+134,Middle La Noscea,Vogaal ja,,17,23.9,19.7,1
+134,Middle La Noscea,Vogaal ja,,16,21,18.3,1
+134,Middle La Noscea,Vogaal ja,,15,18.45,18.25,1
+134,Middle La Noscea,Vogaal ja,,14,17.15,17.15,1
+134,Middle La Noscea,Vogaal ja,,13,23.3,17,1
+134,Middle La Noscea,Vogaal ja,,12,18.7,16.3,1
+134,Middle La Noscea,Vogaal ja,,11,20.75,15.6,1
+134,Middle La Noscea,Vogaal ja,,10,15.2,15.3,1
+134,Middle La Noscea,Vogaal ja,,9,16.35,14,1
+134,Middle La Noscea,Vogaal ja,,8,20.4,13.75,1
+134,Middle La Noscea,Vogaal ja,,7,13.9,13.6,1
+134,Middle La Noscea,Vogaal ja,,6,18.35,13.3,1
+134,Middle La Noscea,Vogaal ja,,5,13.9,11.65,1
+134,Middle La Noscea,Vogaal ja,,4,17.15,11.5,1
+134,Middle La Noscea,Vogaal ja,,3,15.95,10.85,1
+134,Middle La Noscea,Vogaal ja,,2,18.6,9.45,1
+134,Middle La Noscea,Vogaal ja,,1,16.55,7.9,1
+135,Lower La Noscea,Unktehi,,44,22.9,38.2,1
 135,Lower La Noscea,Unktehi,,43,20,37.5,1
+135,Lower La Noscea,Unktehi,,42,23.15,36,1
+135,Lower La Noscea,Unktehi,,41,20.6,35.6,1
+135,Lower La Noscea,Unktehi,,40,19.2,35.4,1
+135,Lower La Noscea,Unktehi,,39,16.9,35.35,1
+135,Lower La Noscea,Unktehi,,38,22.7,34.5,1
 135,Lower La Noscea,Unktehi,,37,20.1,34.3,1
 135,Lower La Noscea,Unktehi,,36,20.25,32,1
-135,Lower La Noscea,Unktehi,,41,20.6,35.6,1
-135,Lower La Noscea,Unktehi,,38,22.7,34.5,1
-135,Lower La Noscea,Unktehi,,44,22.9,38.2,1
-135,Lower La Noscea,Unktehi,,42,23.15,36,1
 135,Lower La Noscea,Unktehi,,35,24.3,26.55,1
-135,Lower La Noscea,Unktehi,,32,25.1,22.4,1
-135,Lower La Noscea,Unktehi,,33,25.95,24.85,1
 135,Lower La Noscea,Unktehi,,34,26.45,26.3,1
-135,Lower La Noscea,Unktehi,,30,28.55,18.2,1
+135,Lower La Noscea,Unktehi,,33,25.95,24.85,1
+135,Lower La Noscea,Unktehi,,32,25.1,22.4,1
 135,Lower La Noscea,Unktehi,,31,28.65,20.5,1
+135,Lower La Noscea,Unktehi,,30,28.55,18.2,1
+135,Lower La Noscea,Unktehi,,29,33.5,17.5,1
 135,Lower La Noscea,Unktehi,,28,29,17,1
-135,Lower La Noscea,Unktehi,,25,30.05,14.3,1
 135,Lower La Noscea,Unktehi,,27,31.5,16.45,1
 135,Lower La Noscea,Unktehi,,26,33,16.05,1
-135,Lower La Noscea,Unktehi,,29,33.5,17.5,1
-137,Eastern La Noscea,Hellsclaw,,63,14.75,28.85,1
-137,Eastern La Noscea,Hellsclaw,,66,15,30.6,1
-137,Eastern La Noscea,Hellsclaw,,70,16.5,32.7,1
-137,Eastern La Noscea,Hellsclaw,,74,17,33.9,1
-137,Eastern La Noscea,Hellsclaw,,65,17.4,29.95,1
-137,Eastern La Noscea,Hellsclaw,,60,17.9,27.5,1
-137,Eastern La Noscea,Hellsclaw,,56,18.3,26.2,1
-137,Eastern La Noscea,Hellsclaw,,69,19.55,31.35,1
-137,Eastern La Noscea,Hellsclaw,,54,20.3,25.2,1
-137,Eastern La Noscea,Hellsclaw,,71,20.5,33.15,1
-137,Eastern La Noscea,Hellsclaw,,64,21.3,29.6,1
-137,Eastern La Noscea,Hellsclaw,,68,21.3,31.05,1
-137,Eastern La Noscea,Hellsclaw,,62,21.45,28.3,1
-137,Eastern La Noscea,Hellsclaw,,55,22.25,25.2,1
-137,Eastern La Noscea,Hellsclaw,,51,25.4,21.8,1
-137,Eastern La Noscea,Hellsclaw,,48,25.55,20.4,1
-137,Eastern La Noscea,Hellsclaw,,73,25.9,33.8,1
-137,Eastern La Noscea,Hellsclaw,,67,26.6,30.9,1
-137,Eastern La Noscea,Hellsclaw,,72,26.7,33.15,1
-137,Eastern La Noscea,Hellsclaw,,52,27.55,25,1
-137,Eastern La Noscea,Hellsclaw,,57,28.1,26.55,1
-137,Eastern La Noscea,Hellsclaw,,61,28.35,28,1
-137,Eastern La Noscea,Hellsclaw,,49,28.62,20.65,1
-137,Eastern La Noscea,Hellsclaw,,75,28.9,35.6,1
-137,Eastern La Noscea,Hellsclaw,,45,28.95,19.3,1
-137,Eastern La Noscea,Hellsclaw,,50,29.7,21.4,1
-137,Eastern La Noscea,Hellsclaw,,53,30.1,25,1
-137,Eastern La Noscea,Hellsclaw,,46,30.4,19.3,1
-137,Eastern La Noscea,Hellsclaw,,58,30.7,26.7,1
-137,Eastern La Noscea,Hellsclaw,,47,31.05,19.95,1
+135,Lower La Noscea,Unktehi,,25,30.05,14.3,1
 137,Eastern La Noscea,Hellsclaw,,76,31.75,36.25,1
+137,Eastern La Noscea,Hellsclaw,,75,28.9,35.6,1
+137,Eastern La Noscea,Hellsclaw,,74,17,33.9,1
+137,Eastern La Noscea,Hellsclaw,,73,25.9,33.8,1
+137,Eastern La Noscea,Hellsclaw,,72,26.7,33.15,1
+137,Eastern La Noscea,Hellsclaw,,71,20.5,33.15,1
+137,Eastern La Noscea,Hellsclaw,,70,16.5,32.7,1
+137,Eastern La Noscea,Hellsclaw,,69,19.55,31.35,1
+137,Eastern La Noscea,Hellsclaw,,68,21.3,31.05,1
+137,Eastern La Noscea,Hellsclaw,,67,26.6,30.9,1
+137,Eastern La Noscea,Hellsclaw,,66,15,30.6,1
+137,Eastern La Noscea,Hellsclaw,,65,17.4,29.95,1
+137,Eastern La Noscea,Hellsclaw,,64,21.3,29.6,1
+137,Eastern La Noscea,Hellsclaw,,63,14.75,28.85,1
+137,Eastern La Noscea,Hellsclaw,,62,21.45,28.3,1
+137,Eastern La Noscea,Hellsclaw,,61,28.35,28,1
+137,Eastern La Noscea,Hellsclaw,,60,17.9,27.5,1
 137,Eastern La Noscea,Hellsclaw,,59,32.1,27.2,1
-138,Western La Noscea,Nahn,,79,12.9,14.55,1
-138,Western La Noscea,Nahn,,98,13.95,35.15,1
-138,Western La Noscea,Nahn,,80,14.2,15.85,1
-138,Western La Noscea,Nahn,,81,14.35,17.05,1
-138,Western La Noscea,Nahn,,77,14.55,14.25,1
-138,Western La Noscea,Nahn,,78,16.1,14.5,1
-138,Western La Noscea,Nahn,,97,16.15,34.4,1
+137,Eastern La Noscea,Hellsclaw,,58,30.7,26.7,1
+137,Eastern La Noscea,Hellsclaw,,57,28.1,26.55,1
+137,Eastern La Noscea,Hellsclaw,,56,18.3,26.2,1
+137,Eastern La Noscea,Hellsclaw,,55,22.25,25.2,1
+137,Eastern La Noscea,Hellsclaw,,54,20.3,25.2,1
+137,Eastern La Noscea,Hellsclaw,,53,30.1,25,1
+137,Eastern La Noscea,Hellsclaw,,52,27.55,25,1
+137,Eastern La Noscea,Hellsclaw,,51,25.4,21.8,1
+137,Eastern La Noscea,Hellsclaw,,50,29.7,21.4,1
+137,Eastern La Noscea,Hellsclaw,,49,28.62,20.65,1
+137,Eastern La Noscea,Hellsclaw,,48,25.55,20.4,1
+137,Eastern La Noscea,Hellsclaw,,47,31.05,19.95,1
+137,Eastern La Noscea,Hellsclaw,,46,30.4,19.3,1
+137,Eastern La Noscea,Hellsclaw,,45,28.95,19.3,1
 138,Western La Noscea,Nahn,,99,16.95,36.05,1
-138,Western La Noscea,Nahn,,83,17.05,19.4,1
-138,Western La Noscea,Nahn,,84,19.6,19.55,1
-138,Western La Noscea,Nahn,,86,19.85,21.95,1
-138,Western La Noscea,Nahn,,82,20.2,18.4,1
-138,Western La Noscea,Nahn,,85,23.15,21.75,1
-138,Western La Noscea,Nahn,,90,23.3,24.65,1
-138,Western La Noscea,Nahn,,87,24.7,22.7,1
-138,Western La Noscea,Nahn,,88,26.1,23.55,1
-138,Western La Noscea,Nahn,,89,27.65,24,1
-138,Western La Noscea,Nahn,,91,29,25.2,1
-138,Western La Noscea,Nahn,,95,30.8,28.8,1
-138,Western La Noscea,Nahn,,92,31.25,27.4,1
-138,Western La Noscea,Nahn,,94,31.75,28.7,1
+138,Western La Noscea,Nahn,,98,13.95,35.15,1
+138,Western La Noscea,Nahn,,97,16.15,34.4,1
 138,Western La Noscea,Nahn,,96,33,29.8,1
+138,Western La Noscea,Nahn,,95,30.8,28.8,1
+138,Western La Noscea,Nahn,,94,31.75,28.7,1
 138,Western La Noscea,Nahn,,93,34.05,28.1,1
-139,Upper La Noscea,Marberry,,103,10.55,21.45,1
-139,Upper La Noscea,Marberry,,106,11.6,22.65,1
-139,Upper La Noscea,Marberry,,104,12.15,21.75,1
-139,Upper La Noscea,Marberry,,107,12.65,23.55,1
-139,Upper La Noscea,Marberry,,114,12.7,25.7,1
+138,Western La Noscea,Nahn,,92,31.25,27.4,1
+138,Western La Noscea,Nahn,,91,29,25.2,1
+138,Western La Noscea,Nahn,,90,23.3,24.65,1
+138,Western La Noscea,Nahn,,89,27.65,24,1
+138,Western La Noscea,Nahn,,88,26.1,23.55,1
+138,Western La Noscea,Nahn,,87,24.7,22.7,1
+138,Western La Noscea,Nahn,,86,19.85,21.95,1
+138,Western La Noscea,Nahn,,85,23.15,21.75,1
+138,Western La Noscea,Nahn,,84,19.6,19.55,1
+138,Western La Noscea,Nahn,,83,17.05,19.4,1
+138,Western La Noscea,Nahn,,82,20.2,18.4,1
+138,Western La Noscea,Nahn,,81,14.35,17.05,1
+138,Western La Noscea,Nahn,,80,14.2,15.85,1
+138,Western La Noscea,Nahn,,79,12.9,14.55,1
+138,Western La Noscea,Nahn,,78,16.1,14.5,1
+138,Western La Noscea,Nahn,,77,14.55,14.25,1
 139,Upper La Noscea,Marberry,,116,13.85,25.9,1
-139,Upper La Noscea,Marberry,,109,27.35,23.75,1
-139,Upper La Noscea,Marberry,,100,27.7,19.85,1
-139,Upper La Noscea,Marberry,,113,28.05,25.6,1
-139,Upper La Noscea,Marberry,,102,28.2,21.4,1
-139,Upper La Noscea,Marberry,,105,28.75,22.25,1
-139,Upper La Noscea,Marberry,,101,29.05,21.2,1
-139,Upper La Noscea,Marberry,,110,29.45,23.95,1
-139,Upper La Noscea,Marberry,,112,30.45,25.3,1
 139,Upper La Noscea,Marberry,,115,33.25,25.8,1
+139,Upper La Noscea,Marberry,,114,12.7,25.7,1
+139,Upper La Noscea,Marberry,,113,28.05,25.6,1
+139,Upper La Noscea,Marberry,,112,30.45,25.3,1
 139,Upper La Noscea,Marberry,,111,33.4,24.1,1
+139,Upper La Noscea,Marberry,,110,29.45,23.95,1
+139,Upper La Noscea,Marberry,,109,27.35,23.75,1
 139,Upper La Noscea,Marberry,,108,35.2,23.7,1
-180,Outer La Noscea,Cornu,,473,13.55,16.2,1
-180,Outer La Noscea,Cornu,,467,14.1,14.05,1
-180,Outer La Noscea,Cornu,,475,14.7,16.85,1
-180,Outer La Noscea,Cornu,,477,15.1,18.05,1
-180,Outer La Noscea,Cornu,,469,15.25,14.8,1
-180,Outer La Noscea,Cornu,,465,15.4,12.65,1
-180,Outer La Noscea,Cornu,,464,15.6,10.35,1
-180,Outer La Noscea,Cornu,,476,16.45,17.8,1
-180,Outer La Noscea,Cornu,,470,19,15.1,1
-180,Outer La Noscea,Cornu,,468,21.35,14.6,1
-180,Outer La Noscea,Cornu,,456,21.5,6.85,1
-180,Outer La Noscea,Cornu,,460,21.75,8.35,1
-180,Outer La Noscea,Cornu,,462,21.8,9.5,1
-180,Outer La Noscea,Cornu,,463,21.9,10.3,1
-180,Outer La Noscea,Cornu,,457,22.45,6.85,1
-180,Outer La Noscea,Cornu,,471,22.9,15.15,1
-180,Outer La Noscea,Cornu,,466,23,13.2,1
-180,Outer La Noscea,Cornu,,474,23,16.2,1
-180,Outer La Noscea,Cornu,,461,23.65,9.25,1
-180,Outer La Noscea,Cornu,,459,24.55,7.35,1
-180,Outer La Noscea,Cornu,,472,24.6,16.15,1
-180,Outer La Noscea,Cornu,,455,27,5.2,1
-180,Outer La Noscea,Cornu,,458,27.4,7.25,1
-148,Central Shroud,Forneus,,257,9.55,16.9,1
-148,Central Shroud,Forneus,,261,10.05,18.9,1
-148,Central Shroud,Forneus,,269,10.45,21.7,1
-148,Central Shroud,Forneus,,273,11.6,23.55,1
-148,Central Shroud,Forneus,,262,12.1,19.4,1
-148,Central Shroud,Forneus,,267,12.75,20.75,1
-148,Central Shroud,Forneus,,264,14.25,19.5,1
-148,Central Shroud,Forneus,,265,15.8,19.65,1
-148,Central Shroud,Forneus,,274,15.85,24,1
-148,Central Shroud,Forneus,,268,16.05,21.15,1
-148,Central Shroud,Forneus,,258,16.65,17.8,1
-148,Central Shroud,Forneus,,259,19.1,18.3,1
-148,Central Shroud,Forneus,,277,21.6,30.05,1
-148,Central Shroud,Forneus,,256,21.75,16.35,1
-148,Central Shroud,Forneus,,275,22.05,24.5,1
-148,Central Shroud,Forneus,,276,23.4,27.5,1
-148,Central Shroud,Forneus,,266,26.75,20.6,1
-148,Central Shroud,Forneus,,271,27.05,22.6,1
-148,Central Shroud,Forneus,,270,28.25,22.05,1
-148,Central Shroud,Forneus,,255,28.75,14.45,1
-148,Central Shroud,Forneus,,263,29.1,19.45,1
-148,Central Shroud,Forneus,,272,29.65,23.35,1
-148,Central Shroud,Forneus,,260,31.1,18.6,1
-152,East Shroud,Melt,,301,13.6,23.25,1
-152,East Shroud,Melt,,306,14.35,25.35,1
-152,East Shroud,Melt,,308,14.5,27.65,1
-152,East Shroud,Melt,,303,15.6,23.9,1
-152,East Shroud,Melt,,296,16.85,21.75,1
-152,East Shroud,Melt,,300,17.4,22.9,1
-152,East Shroud,Melt,,307,19.05,25.4,1
-152,East Shroud,Melt,,310,19.95,28.75,1
-152,East Shroud,Melt,,298,21.25,21.8,1
-152,East Shroud,Melt,,309,22,28.1,1
-152,East Shroud,Melt,,311,22.1,29.6,1
-152,East Shroud,Melt,,297,23,21.75,1
-152,East Shroud,Melt,,312,23.8,30.85,1
-152,East Shroud,Melt,,288,24,16.5,1
-152,East Shroud,Melt,,285,24.3,15.2,1
-152,East Shroud,Melt,,281,24.45,11.7,1
-152,East Shroud,Melt,,289,24.8,17.4,1
-152,East Shroud,Melt,,278,25.05,9.8,1
-152,East Shroud,Melt,,302,25.3,23.65,1
-152,East Shroud,Melt,,293,25.7,20.35,1
-152,East Shroud,Melt,,305,25.8,25.2,1
-152,East Shroud,Melt,,283,25.9,13.1,1
-152,East Shroud,Melt,,279,26.5,11.3,1
-152,East Shroud,Melt,,287,26.7,16.05,1
-152,East Shroud,Melt,,291,27,17.95,1
-152,East Shroud,Melt,,299,27.6,22.6,1
-152,East Shroud,Melt,,304,27.7,24.6,1
-152,East Shroud,Melt,,292,27.8,18.7,1
-152,East Shroud,Melt,,282,28.1,12.75,1
-152,East Shroud,Melt,,294,29,20.5,1
-152,East Shroud,Melt,,280,29.5,11.45,1
-152,East Shroud,Melt,,284,29.9,13.3,1
-152,East Shroud,Melt,,290,30.3,17.45,1
-152,East Shroud,Melt,,295,31.7,21.5,1
-152,East Shroud,Melt,,286,31.9,15.4,1
-153,South Shroud,Ghede ti malice,,335,15.7,28.55,1
-153,South Shroud,Ghede ti malice,,318,15.8,19.7,1
-153,South Shroud,Ghede ti malice,,333,16.15,27.6,1
-153,South Shroud,Ghede ti malice,,339,16.3,32.05,1
-153,South Shroud,Ghede ti malice,,315,16.9,18.4,1
-153,South Shroud,Ghede ti malice,,325,16.9,23.65,1
-153,South Shroud,Ghede ti malice,,320,17,21.45,1
-153,South Shroud,Ghede ti malice,,340,17.15,32.45,1
-153,South Shroud,Ghede ti malice,,337,17.25,30.5,1
-153,South Shroud,Ghede ti malice,,338,18.25,30.9,1
-153,South Shroud,Ghede ti malice,,322,18.6,22.05,1
-153,South Shroud,Ghede ti malice,,316,18.8,18.45,1
-153,South Shroud,Ghede ti malice,,336,19,28.65,1
-153,South Shroud,Ghede ti malice,,332,19.4,27.4,1
-153,South Shroud,Ghede ti malice,,321,21.4,21.6,1
-153,South Shroud,Ghede ti malice,,334,21.4,27.65,1
-153,South Shroud,Ghede ti malice,,317,22.15,19.25,1
-153,South Shroud,Ghede ti malice,,323,22.65,22.65,1
-153,South Shroud,Ghede ti malice,,331,22.65,25.65,1
-153,South Shroud,Ghede ti malice,,328,23,24.15,1
-153,South Shroud,Ghede ti malice,,314,24.35,18.2,1
-153,South Shroud,Ghede ti malice,,319,26.95,19.9,1
-153,South Shroud,Ghede ti malice,,324,27.05,22.75,1
-153,South Shroud,Ghede ti malice,,313,27.75,17.65,1
-153,South Shroud,Ghede ti malice,,329,28.85,24.65,1
-153,South Shroud,Ghede ti malice,,330,30.55,25.6,1
-153,South Shroud,Ghede ti malice,,326,31.7,23.75,1
-153,South Shroud,Ghede ti malice,,327,32.7,23.95,1
-154,North Shroud,Girtab,,356,15.95,28.25,1
-154,North Shroud,Girtab,,350,16.65,25.4,1
-154,North Shroud,Girtab,,359,18.15,28.95,1
-154,North Shroud,Girtab,,353,18.2,27.05,1
-154,North Shroud,Girtab,,343,18.65,20.4,1
-154,North Shroud,Girtab,,358,19.4,28.6,1
-154,North Shroud,Girtab,,360,21.55,30.05,1
-154,North Shroud,Girtab,,348,22.15,23.75,1
-154,North Shroud,Girtab,,355,22.45,28.15,1
-154,North Shroud,Girtab,,344,22.65,20.7,1
-154,North Shroud,Girtab,,341,23.45,19.95,1
-154,North Shroud,Girtab,,342,24.45,20.2,1
-154,North Shroud,Girtab,,357,24.55,28.3,1
-154,North Shroud,Girtab,,351,24.8,25.7,1
-154,North Shroud,Girtab,,352,25.8,26.05,1
-154,North Shroud,Girtab,,347,25.95,22.75,1
-154,North Shroud,Girtab,,354,27.05,27.2,1
-154,North Shroud,Girtab,,346,27.65,22.25,1
-154,North Shroud,Girtab,,349,27.95,24.3,1
-154,North Shroud,Girtab,,345,28.6,21.65,1
-140,Western Thanalan,Alectryon,,118,8.45,5.5,1
-140,Western Thanalan,Alectryon,,121,10.2,6.4,1
-140,Western Thanalan,Alectryon,,117,10.35,5.25,1
-140,Western Thanalan,Alectryon,,122,12,7.5,1
-140,Western Thanalan,Alectryon,,119,12.15,5.95,1
-140,Western Thanalan,Alectryon,,123,14.05,7.85,1
-140,Western Thanalan,Alectryon,,120,14.95,6,1
+139,Upper La Noscea,Marberry,,107,12.65,23.55,1
+139,Upper La Noscea,Marberry,,106,11.6,22.65,1
+139,Upper La Noscea,Marberry,,105,28.75,22.25,1
+139,Upper La Noscea,Marberry,,104,12.15,21.75,1
+139,Upper La Noscea,Marberry,,103,10.55,21.45,1
+139,Upper La Noscea,Marberry,,102,28.2,21.4,1
+139,Upper La Noscea,Marberry,,101,29.05,21.2,1
+139,Upper La Noscea,Marberry,,100,27.7,19.85,1
+140,Western Thanalan,Alectryon,,138,20.3,29.35,1
+140,Western Thanalan,Alectryon,,137,18.9,29.35,1
+140,Western Thanalan,Alectryon,,136,21.3,27.8,1
+140,Western Thanalan,Alectryon,,135,26.1,26.35,1
+140,Western Thanalan,Alectryon,,134,20.65,25.6,1
+140,Western Thanalan,Alectryon,,133,22.75,24.75,1
+140,Western Thanalan,Alectryon,,132,22.3,24,1
+140,Western Thanalan,Alectryon,,131,21.25,24,1
+140,Western Thanalan,Alectryon,,130,21.95,22.05,1
+140,Western Thanalan,Alectryon,,129,22.85,20.1,1
+140,Western Thanalan,Alectryon,,128,26.2,19.15,1
+140,Western Thanalan,Alectryon,,127,18.3,17.4,1
+140,Western Thanalan,Alectryon,,126,26.85,16.95,1
 140,Western Thanalan,Alectryon,,125,16.95,16.45,1
 140,Western Thanalan,Alectryon,,124,18.3,15,1
-140,Western Thanalan,Alectryon,,127,18.3,17.4,1
-140,Western Thanalan,Alectryon,,137,18.9,29.35,1
-140,Western Thanalan,Alectryon,,138,20.3,29.35,1
-140,Western Thanalan,Alectryon,,134,20.65,25.6,1
-140,Western Thanalan,Alectryon,,131,21.25,24,1
-140,Western Thanalan,Alectryon,,136,21.3,27.8,1
-140,Western Thanalan,Alectryon,,130,21.95,22.05,1
-140,Western Thanalan,Alectryon,,132,22.3,24,1
-140,Western Thanalan,Alectryon,,133,22.75,24.75,1
-140,Western Thanalan,Alectryon,,129,22.85,20.1,1
-140,Western Thanalan,Alectryon,,135,26.1,26.35,1
-140,Western Thanalan,Alectryon,,128,26.2,19.15,1
-140,Western Thanalan,Alectryon,,126,26.85,16.95,1
-141,Central Thanalan,Sabotender bailarina,,139,16.3,12.4,1
-141,Central Thanalan,Sabotender bailarina,,149,16.3,19.55,1
-141,Central Thanalan,Sabotender bailarina,,143,16.6,16.4,1
-141,Central Thanalan,Sabotender bailarina,,154,16.95,23.3,1
-141,Central Thanalan,Sabotender bailarina,,148,17.9,18.9,1
-141,Central Thanalan,Sabotender bailarina,,140,18,13.5,1
-141,Central Thanalan,Sabotender bailarina,,145,18.1,17.5,1
-141,Central Thanalan,Sabotender bailarina,,156,18.7,25.25,1
-141,Central Thanalan,Sabotender bailarina,,153,19.2,21.7,1
-141,Central Thanalan,Sabotender bailarina,,155,19.45,23.7,1
-141,Central Thanalan,Sabotender bailarina,,157,20.45,26.1,1
-141,Central Thanalan,Sabotender bailarina,,144,20.8,16.4,1
-141,Central Thanalan,Sabotender bailarina,,151,21.6,21.1,1
-141,Central Thanalan,Sabotender bailarina,,141,21.75,13.65,1
-141,Central Thanalan,Sabotender bailarina,,142,21.9,15.55,1
-141,Central Thanalan,Sabotender bailarina,,159,22.4,31.4,1
+140,Western Thanalan,Alectryon,,123,14.05,7.85,1
+140,Western Thanalan,Alectryon,,122,12,7.5,1
+140,Western Thanalan,Alectryon,,121,10.2,6.4,1
+140,Western Thanalan,Alectryon,,120,14.95,6,1
+140,Western Thanalan,Alectryon,,119,12.15,5.95,1
+140,Western Thanalan,Alectryon,,118,8.45,5.5,1
+140,Western Thanalan,Alectryon,,117,10.35,5.25,1
 141,Central Thanalan,Sabotender bailarina,,161,23.7,35,1
 141,Central Thanalan,Sabotender bailarina,,160,23.9,31.9,1
-141,Central Thanalan,Sabotender bailarina,,146,25.4,17.95,1
+141,Central Thanalan,Sabotender bailarina,,159,22.4,31.4,1
 141,Central Thanalan,Sabotender bailarina,,158,25.8,29.85,1
+141,Central Thanalan,Sabotender bailarina,,157,20.45,26.1,1
+141,Central Thanalan,Sabotender bailarina,,156,18.7,25.25,1
+141,Central Thanalan,Sabotender bailarina,,155,19.45,23.7,1
+141,Central Thanalan,Sabotender bailarina,,154,16.95,23.3,1
+141,Central Thanalan,Sabotender bailarina,,153,19.2,21.7,1
 141,Central Thanalan,Sabotender bailarina,,152,27.2,21.5,1
-141,Central Thanalan,Sabotender bailarina,,147,27.75,18,1
+141,Central Thanalan,Sabotender bailarina,,151,21.6,21.1,1
 141,Central Thanalan,Sabotender bailarina,,150,29.5,20.9,1
-145,Eastern Thanalan,Maahes,,170,10.4,19.1,1
-145,Eastern Thanalan,Maahes,,168,12.7,18.9,1
-145,Eastern Thanalan,Maahes,,162,12.8,15.85,1
+141,Central Thanalan,Sabotender bailarina,,149,16.3,19.55,1
+141,Central Thanalan,Sabotender bailarina,,148,17.9,18.9,1
+141,Central Thanalan,Sabotender bailarina,,147,27.75,18,1
+141,Central Thanalan,Sabotender bailarina,,146,25.4,17.95,1
+141,Central Thanalan,Sabotender bailarina,,145,18.1,17.5,1
+141,Central Thanalan,Sabotender bailarina,,144,20.8,16.4,1
+141,Central Thanalan,Sabotender bailarina,,143,16.6,16.4,1
+141,Central Thanalan,Sabotender bailarina,,142,21.9,15.55,1
+141,Central Thanalan,Sabotender bailarina,,141,21.75,13.65,1
+141,Central Thanalan,Sabotender bailarina,,140,18,13.5,1
+141,Central Thanalan,Sabotender bailarina,,139,16.3,12.4,1
 145,Eastern Thanalan,Maahes,,195,12.9,29,1
-145,Eastern Thanalan,Maahes,,163,14.5,16.25,1
-145,Eastern Thanalan,Maahes,,188,14.55,26.15,1
-145,Eastern Thanalan,Maahes,,167,14.65,18.7,1
-145,Eastern Thanalan,Maahes,,191,15.4,26.9,1
-145,Eastern Thanalan,Maahes,,174,15.65,20.15,1
-145,Eastern Thanalan,Maahes,,187,16.6,25.9,1
-145,Eastern Thanalan,Maahes,,173,17.4,20,1
-145,Eastern Thanalan,Maahes,,182,17.4,24.75,1
-145,Eastern Thanalan,Maahes,,192,17.45,28,1
-145,Eastern Thanalan,Maahes,,177,17.5,21.4,1
-145,Eastern Thanalan,Maahes,,184,17.85,25.5,1
-145,Eastern Thanalan,Maahes,,178,18.95,22.5,1
-145,Eastern Thanalan,Maahes,,193,19.55,28.45,1
-145,Eastern Thanalan,Maahes,,181,19.85,24.35,1
 145,Eastern Thanalan,Maahes,,194,20.35,28.55,1
-145,Eastern Thanalan,Maahes,,172,22.8,19.65,1
-145,Eastern Thanalan,Maahes,,189,23.4,26.7,1
-145,Eastern Thanalan,Maahes,,179,23.45,22.85,1
-145,Eastern Thanalan,Maahes,,175,23.95,21.25,1
-145,Eastern Thanalan,Maahes,,169,24.3,18.95,1
-145,Eastern Thanalan,Maahes,,180,25,23.25,1
-145,Eastern Thanalan,Maahes,,185,25.4,25.55,1
-145,Eastern Thanalan,Maahes,,165,25.8,17.65,1
-145,Eastern Thanalan,Maahes,,171,26.7,19.25,1
-145,Eastern Thanalan,Maahes,,183,26.7,25.05,1
-145,Eastern Thanalan,Maahes,,166,27.35,17.9,1
-145,Eastern Thanalan,Maahes,,186,27.9,25.75,1
-145,Eastern Thanalan,Maahes,,176,28.1,21.3,1
+145,Eastern Thanalan,Maahes,,193,19.55,28.45,1
+145,Eastern Thanalan,Maahes,,192,17.45,28,1
+145,Eastern Thanalan,Maahes,,191,15.4,26.9,1
 145,Eastern Thanalan,Maahes,,190,29.3,26.75,1
+145,Eastern Thanalan,Maahes,,189,23.4,26.7,1
+145,Eastern Thanalan,Maahes,,188,14.55,26.15,1
+145,Eastern Thanalan,Maahes,,187,16.6,25.9,1
+145,Eastern Thanalan,Maahes,,186,27.9,25.75,1
+145,Eastern Thanalan,Maahes,,185,25.4,25.55,1
+145,Eastern Thanalan,Maahes,,184,17.85,25.5,1
+145,Eastern Thanalan,Maahes,,183,26.7,25.05,1
+145,Eastern Thanalan,Maahes,,182,17.4,24.75,1
+145,Eastern Thanalan,Maahes,,181,19.85,24.35,1
+145,Eastern Thanalan,Maahes,,180,25,23.25,1
+145,Eastern Thanalan,Maahes,,179,23.45,22.85,1
+145,Eastern Thanalan,Maahes,,178,18.95,22.5,1
+145,Eastern Thanalan,Maahes,,177,17.5,21.4,1
+145,Eastern Thanalan,Maahes,,176,28.1,21.3,1
+145,Eastern Thanalan,Maahes,,175,23.95,21.25,1
+145,Eastern Thanalan,Maahes,,174,15.65,20.15,1
+145,Eastern Thanalan,Maahes,,173,17.4,20,1
+145,Eastern Thanalan,Maahes,,172,22.8,19.65,1
+145,Eastern Thanalan,Maahes,,171,26.7,19.25,1
+145,Eastern Thanalan,Maahes,,170,10.4,19.1,1
+145,Eastern Thanalan,Maahes,,169,24.3,18.95,1
+145,Eastern Thanalan,Maahes,,168,12.7,18.9,1
+145,Eastern Thanalan,Maahes,,167,14.65,18.7,1
+145,Eastern Thanalan,Maahes,,166,27.35,17.9,1
+145,Eastern Thanalan,Maahes,,165,25.8,17.65,1
 145,Eastern Thanalan,Maahes,,164,29.6,17.3,1
-146,Southern Thanalan,Zanig'oh,,231,13.8,34.85,1
-146,Southern Thanalan,Zanig'oh,,236,14.75,38.85,1
-146,Southern Thanalan,Zanig'oh,,209,15.95,20.25,1
-146,Southern Thanalan,Zanig'oh,,217,16,24.45,1
-146,Southern Thanalan,Zanig'oh,,232,16.1,36.8,1
-146,Southern Thanalan,Zanig'oh,,216,16.65,23.15,1
-146,Southern Thanalan,Zanig'oh,,227,16.85,33.05,1
-146,Southern Thanalan,Zanig'oh,,220,17.05,25.7,1
-146,Southern Thanalan,Zanig'oh,,202,17.2,11.7,1
-146,Southern Thanalan,Zanig'oh,,204,17.2,16.95,1
-146,Southern Thanalan,Zanig'oh,,198,18,10.2,1
-146,Southern Thanalan,Zanig'oh,,200,18.25,11.2,1
-146,Southern Thanalan,Zanig'oh,,212,18.35,21.2,1
-146,Southern Thanalan,Zanig'oh,,214,18.45,22.9,1
-146,Southern Thanalan,Zanig'oh,,225,18.85,30.55,1
-146,Southern Thanalan,Zanig'oh,,234,19.1,38.4,1
-146,Southern Thanalan,Zanig'oh,,205,19.55,17.2,1
-146,Southern Thanalan,Zanig'oh,,207,19.7,19.25,1
-146,Southern Thanalan,Zanig'oh,,218,19.8,24.7,1
-146,Southern Thanalan,Zanig'oh,,222,20.25,28.5,1
-146,Southern Thanalan,Zanig'oh,,215,21.05,22.9,1
-146,Southern Thanalan,Zanig'oh,,221,21.15,26.35,1
-146,Southern Thanalan,Zanig'oh,,226,21.2,32.15,1
-146,Southern Thanalan,Zanig'oh,,199,21.25,10.85,1
-146,Southern Thanalan,Zanig'oh,,210,21.4,20.75,1
-146,Southern Thanalan,Zanig'oh,,223,21.6,29.9,1
-146,Southern Thanalan,Zanig'oh,,229,21.8,34.3,1
-146,Southern Thanalan,Zanig'oh,,235,22.5,38.65,1
-146,Southern Thanalan,Zanig'oh,,196,23.2,7.95,1
-146,Southern Thanalan,Zanig'oh,,228,23.45,33.3,1
-146,Southern Thanalan,Zanig'oh,,203,23.8,12.45,1
-146,Southern Thanalan,Zanig'oh,,224,23.85,30.4,1
-146,Southern Thanalan,Zanig'oh,,213,24.15,21.3,1
-146,Southern Thanalan,Zanig'oh,,219,24.4,24.85,1
-146,Southern Thanalan,Zanig'oh,,233,24.45,36.9,1
-146,Southern Thanalan,Zanig'oh,,197,24.65,9.35,1
-146,Southern Thanalan,Zanig'oh,,201,24.65,11.45,1
+145,Eastern Thanalan,Maahes,,163,14.5,16.25,1
+145,Eastern Thanalan,Maahes,,162,12.8,15.85,1
 146,Southern Thanalan,Zanig'oh,,237,25.1,40.85,1
-146,Southern Thanalan,Zanig'oh,,211,28.5,20.75,1
+146,Southern Thanalan,Zanig'oh,,236,14.75,38.85,1
+146,Southern Thanalan,Zanig'oh,,235,22.5,38.65,1
+146,Southern Thanalan,Zanig'oh,,234,19.1,38.4,1
+146,Southern Thanalan,Zanig'oh,,233,24.45,36.9,1
+146,Southern Thanalan,Zanig'oh,,232,16.1,36.8,1
+146,Southern Thanalan,Zanig'oh,,231,13.8,34.85,1
 146,Southern Thanalan,Zanig'oh,,230,28.5,34.7,1
-146,Southern Thanalan,Zanig'oh,,206,31,18.4,1
+146,Southern Thanalan,Zanig'oh,,229,21.8,34.3,1
+146,Southern Thanalan,Zanig'oh,,228,23.45,33.3,1
+146,Southern Thanalan,Zanig'oh,,227,16.85,33.05,1
+146,Southern Thanalan,Zanig'oh,,226,21.2,32.15,1
+146,Southern Thanalan,Zanig'oh,,225,18.85,30.55,1
+146,Southern Thanalan,Zanig'oh,,224,23.85,30.4,1
+146,Southern Thanalan,Zanig'oh,,223,21.6,29.9,1
+146,Southern Thanalan,Zanig'oh,,222,20.25,28.5,1
+146,Southern Thanalan,Zanig'oh,,221,21.15,26.35,1
+146,Southern Thanalan,Zanig'oh,,220,17.05,25.7,1
+146,Southern Thanalan,Zanig'oh,,219,24.4,24.85,1
+146,Southern Thanalan,Zanig'oh,,218,19.8,24.7,1
+146,Southern Thanalan,Zanig'oh,,217,16,24.45,1
+146,Southern Thanalan,Zanig'oh,,216,16.65,23.15,1
+146,Southern Thanalan,Zanig'oh,,215,21.05,22.9,1
+146,Southern Thanalan,Zanig'oh,,214,18.45,22.9,1
+146,Southern Thanalan,Zanig'oh,,213,24.15,21.3,1
+146,Southern Thanalan,Zanig'oh,,212,18.35,21.2,1
+146,Southern Thanalan,Zanig'oh,,211,28.5,20.75,1
+146,Southern Thanalan,Zanig'oh,,210,21.4,20.75,1
+146,Southern Thanalan,Zanig'oh,,209,15.95,20.25,1
 146,Southern Thanalan,Zanig'oh,,208,32.9,19.85,1
-147,Northern Thanalan,Dalvag's final flame,,245,15.4,18.55,1
-147,Northern Thanalan,Dalvag's final flame,,238,16.05,14.65,1
-147,Northern Thanalan,Dalvag's final flame,,240,16.05,15.95,1
-147,Northern Thanalan,Dalvag's final flame,,246,16.35,19.4,1
-147,Northern Thanalan,Dalvag's final flame,,242,16.85,16.95,1
-147,Northern Thanalan,Dalvag's final flame,,239,17.25,15.7,1
-147,Northern Thanalan,Dalvag's final flame,,243,18.25,17.5,1
-147,Northern Thanalan,Dalvag's final flame,,244,18.75,18,1
-147,Northern Thanalan,Dalvag's final flame,,241,19.05,16.75,1
+146,Southern Thanalan,Zanig'oh,,207,19.7,19.25,1
+146,Southern Thanalan,Zanig'oh,,206,31,18.4,1
+146,Southern Thanalan,Zanig'oh,,205,19.55,17.2,1
+146,Southern Thanalan,Zanig'oh,,204,17.2,16.95,1
+146,Southern Thanalan,Zanig'oh,,203,23.8,12.45,1
+146,Southern Thanalan,Zanig'oh,,202,17.2,11.7,1
+146,Southern Thanalan,Zanig'oh,,201,24.65,11.45,1
+146,Southern Thanalan,Zanig'oh,,200,18.25,11.2,1
+146,Southern Thanalan,Zanig'oh,,199,21.25,10.85,1
+146,Southern Thanalan,Zanig'oh,,198,18,10.2,1
+146,Southern Thanalan,Zanig'oh,,197,24.65,9.35,1
+146,Southern Thanalan,Zanig'oh,,196,23.2,7.95,1
 147,Northern Thanalan,Dalvag's final flame,,254,20.6,27.8,1
-147,Northern Thanalan,Dalvag's final flame,,250,21.05,25,1
 147,Northern Thanalan,Dalvag's final flame,,253,22.2,27,1
 147,Northern Thanalan,Dalvag's final flame,,252,23.45,26.3,1
 147,Northern Thanalan,Dalvag's final flame,,251,23.6,25.25,1
+147,Northern Thanalan,Dalvag's final flame,,250,21.05,25,1
 147,Northern Thanalan,Dalvag's final flame,,249,23.65,24.15,1
-147,Northern Thanalan,Dalvag's final flame,,247,23.95,22.85,1
 147,Northern Thanalan,Dalvag's final flame,,248,24.3,23.2,1
-155,Coerthas Central Highlands,Marraco,,381,4.15,16.6,1
-155,Coerthas Central Highlands,Marraco,,379,5.25,16,1
-155,Coerthas Central Highlands,Marraco,,383,5.6,18.05,1
-155,Coerthas Central Highlands,Marraco,,392,6.45,19.85,1
-155,Coerthas Central Highlands,Marraco,,414,6.6,28.7,1
-155,Coerthas Central Highlands,Marraco,,396,8.35,21,1
-155,Coerthas Central Highlands,Marraco,,372,8.85,13.5,1
-155,Coerthas Central Highlands,Marraco,,376,8.85,14.8,1
-155,Coerthas Central Highlands,Marraco,,368,8.95,11.9,1
-155,Coerthas Central Highlands,Marraco,,408,9,27.25,1
-155,Coerthas Central Highlands,Marraco,,385,10.5,18.25,1
-155,Coerthas Central Highlands,Marraco,,370,10.8,12.85,1
-155,Coerthas Central Highlands,Marraco,,409,11,27.3,1
-155,Coerthas Central Highlands,Marraco,,416,11.05,28.95,1
-155,Coerthas Central Highlands,Marraco,,390,11.55,19.65,1
-155,Coerthas Central Highlands,Marraco,,374,11.75,14.25,1
-155,Coerthas Central Highlands,Marraco,,412,12.65,28.05,1
-155,Coerthas Central Highlands,Marraco,,403,13.4,25.25,1
-155,Coerthas Central Highlands,Marraco,,384,14.3,18.05,1
-155,Coerthas Central Highlands,Marraco,,391,14.3,19.8,1
-155,Coerthas Central Highlands,Marraco,,404,14.9,25.6,1
-155,Coerthas Central Highlands,Marraco,,386,15.4,18.5,1
-155,Coerthas Central Highlands,Marraco,,415,15.5,28.7,1
-155,Coerthas Central Highlands,Marraco,,410,15.8,27.45,1
-155,Coerthas Central Highlands,Marraco,,394,16.85,20.5,1
-155,Coerthas Central Highlands,Marraco,,389,17.5,18.85,1
-155,Coerthas Central Highlands,Marraco,,418,17.7,29.35,1
-155,Coerthas Central Highlands,Marraco,,387,19.55,18.65,1
-155,Coerthas Central Highlands,Marraco,,417,19.8,29.2,1
-155,Coerthas Central Highlands,Marraco,,380,20.55,16.25,1
-155,Coerthas Central Highlands,Marraco,,413,21.4,28.2,1
-155,Coerthas Central Highlands,Marraco,,388,21.55,18.8,1
-155,Coerthas Central Highlands,Marraco,,363,22.95,8.05,1
-155,Coerthas Central Highlands,Marraco,,407,23.45,26.8,1
-155,Coerthas Central Highlands,Marraco,,397,24.15,21.7,1
-155,Coerthas Central Highlands,Marraco,,393,24.6,20,1
-155,Coerthas Central Highlands,Marraco,,364,24.65,9.1,1
-155,Coerthas Central Highlands,Marraco,,402,24.65,23.75,1
-155,Coerthas Central Highlands,Marraco,,373,24.8,13.5,1
-155,Coerthas Central Highlands,Marraco,,366,25.3,11.2,1
-155,Coerthas Central Highlands,Marraco,,406,25.65,25.65,1
-155,Coerthas Central Highlands,Marraco,,371,27.05,13.45,1
-155,Coerthas Central Highlands,Marraco,,395,27.1,20.65,1
-155,Coerthas Central Highlands,Marraco,,398,27.4,22.15,1
-155,Coerthas Central Highlands,Marraco,,367,28.1,11.45,1
-155,Coerthas Central Highlands,Marraco,,405,28.1,25.6,1
-155,Coerthas Central Highlands,Marraco,,377,28.4,14.85,1
-155,Coerthas Central Highlands,Marraco,,362,28.9,7.75,1
-155,Coerthas Central Highlands,Marraco,,411,29.3,27.65,1
-155,Coerthas Central Highlands,Marraco,,365,30.15,10.6,1
-155,Coerthas Central Highlands,Marraco,,369,30.2,12.6,1
-155,Coerthas Central Highlands,Marraco,,419,30.3,29.8,1
+147,Northern Thanalan,Dalvag's final flame,,247,23.95,22.85,1
+147,Northern Thanalan,Dalvag's final flame,,246,16.35,19.4,1
+147,Northern Thanalan,Dalvag's final flame,,245,15.4,18.55,1
+147,Northern Thanalan,Dalvag's final flame,,244,18.75,18,1
+147,Northern Thanalan,Dalvag's final flame,,243,18.25,17.5,1
+147,Northern Thanalan,Dalvag's final flame,,242,16.85,16.95,1
+147,Northern Thanalan,Dalvag's final flame,,241,19.05,16.75,1
+147,Northern Thanalan,Dalvag's final flame,,240,16.05,15.95,1
+147,Northern Thanalan,Dalvag's final flame,,239,17.25,15.7,1
+147,Northern Thanalan,Dalvag's final flame,,238,16.05,14.65,1
+148,Central Shroud,Forneus,,277,21.6,30.05,1
+148,Central Shroud,Forneus,,276,23.4,27.5,1
+148,Central Shroud,Forneus,,275,22.05,24.5,1
+148,Central Shroud,Forneus,,274,15.85,24,1
+148,Central Shroud,Forneus,,273,11.6,23.55,1
+148,Central Shroud,Forneus,,272,29.65,23.35,1
+148,Central Shroud,Forneus,,271,27.05,22.6,1
+148,Central Shroud,Forneus,,270,28.25,22.05,1
+148,Central Shroud,Forneus,,269,10.45,21.7,1
+148,Central Shroud,Forneus,,268,16.05,21.15,1
+148,Central Shroud,Forneus,,267,12.75,20.75,1
+148,Central Shroud,Forneus,,266,26.75,20.6,1
+148,Central Shroud,Forneus,,265,15.8,19.65,1
+148,Central Shroud,Forneus,,264,14.25,19.5,1
+148,Central Shroud,Forneus,,263,29.1,19.45,1
+148,Central Shroud,Forneus,,262,12.1,19.4,1
+148,Central Shroud,Forneus,,261,10.05,18.9,1
+148,Central Shroud,Forneus,,260,31.1,18.6,1
+148,Central Shroud,Forneus,,259,19.1,18.3,1
+148,Central Shroud,Forneus,,258,16.65,17.8,1
+148,Central Shroud,Forneus,,257,9.55,16.9,1
+148,Central Shroud,Forneus,,256,21.75,16.35,1
+148,Central Shroud,Forneus,,255,28.75,14.45,1
+152,East Shroud,Melt,,312,23.8,30.85,1
+152,East Shroud,Melt,,311,22.1,29.6,1
+152,East Shroud,Melt,,310,19.95,28.75,1
+152,East Shroud,Melt,,309,22,28.1,1
+152,East Shroud,Melt,,308,14.5,27.65,1
+152,East Shroud,Melt,,307,19.05,25.4,1
+152,East Shroud,Melt,,306,14.35,25.35,1
+152,East Shroud,Melt,,305,25.8,25.2,1
+152,East Shroud,Melt,,304,27.7,24.6,1
+152,East Shroud,Melt,,303,15.6,23.9,1
+152,East Shroud,Melt,,302,25.3,23.65,1
+152,East Shroud,Melt,,301,13.6,23.25,1
+152,East Shroud,Melt,,300,17.4,22.9,1
+152,East Shroud,Melt,,299,27.6,22.6,1
+152,East Shroud,Melt,,298,21.25,21.8,1
+152,East Shroud,Melt,,297,23,21.75,1
+152,East Shroud,Melt,,296,16.85,21.75,1
+152,East Shroud,Melt,,295,31.7,21.5,1
+152,East Shroud,Melt,,294,29,20.5,1
+152,East Shroud,Melt,,293,25.7,20.35,1
+152,East Shroud,Melt,,292,27.8,18.7,1
+152,East Shroud,Melt,,291,27,17.95,1
+152,East Shroud,Melt,,290,30.3,17.45,1
+152,East Shroud,Melt,,289,24.8,17.4,1
+152,East Shroud,Melt,,288,24,16.5,1
+152,East Shroud,Melt,,287,26.7,16.05,1
+152,East Shroud,Melt,,286,31.9,15.4,1
+152,East Shroud,Melt,,285,24.3,15.2,1
+152,East Shroud,Melt,,284,29.9,13.3,1
+152,East Shroud,Melt,,283,25.9,13.1,1
+152,East Shroud,Melt,,282,28.1,12.75,1
+152,East Shroud,Melt,,281,24.45,11.7,1
+152,East Shroud,Melt,,280,29.5,11.45,1
+152,East Shroud,Melt,,279,26.5,11.3,1
+152,East Shroud,Melt,,278,25.05,9.8,1
+153,South Shroud,Ghede ti malice,,340,17.15,32.45,1
+153,South Shroud,Ghede ti malice,,339,16.3,32.05,1
+153,South Shroud,Ghede ti malice,,338,18.25,30.9,1
+153,South Shroud,Ghede ti malice,,337,17.25,30.5,1
+153,South Shroud,Ghede ti malice,,336,19,28.65,1
+153,South Shroud,Ghede ti malice,,335,15.7,28.55,1
+153,South Shroud,Ghede ti malice,,334,21.4,27.65,1
+153,South Shroud,Ghede ti malice,,333,16.15,27.6,1
+153,South Shroud,Ghede ti malice,,332,19.4,27.4,1
+153,South Shroud,Ghede ti malice,,331,22.65,25.65,1
+153,South Shroud,Ghede ti malice,,330,30.55,25.6,1
+153,South Shroud,Ghede ti malice,,329,28.85,24.65,1
+153,South Shroud,Ghede ti malice,,328,23,24.15,1
+153,South Shroud,Ghede ti malice,,327,32.7,23.95,1
+153,South Shroud,Ghede ti malice,,326,31.7,23.75,1
+153,South Shroud,Ghede ti malice,,325,16.9,23.65,1
+153,South Shroud,Ghede ti malice,,324,27.05,22.75,1
+153,South Shroud,Ghede ti malice,,323,22.65,22.65,1
+153,South Shroud,Ghede ti malice,,322,18.6,22.05,1
+153,South Shroud,Ghede ti malice,,321,21.4,21.6,1
+153,South Shroud,Ghede ti malice,,320,17,21.45,1
+153,South Shroud,Ghede ti malice,,319,26.95,19.9,1
+153,South Shroud,Ghede ti malice,,318,15.8,19.7,1
+153,South Shroud,Ghede ti malice,,317,22.15,19.25,1
+153,South Shroud,Ghede ti malice,,316,18.8,18.45,1
+153,South Shroud,Ghede ti malice,,315,16.9,18.4,1
+153,South Shroud,Ghede ti malice,,314,24.35,18.2,1
+153,South Shroud,Ghede ti malice,,313,27.75,17.65,1
+154,North Shroud,Girtab,,360,21.55,30.05,1
+154,North Shroud,Girtab,,359,18.15,28.95,1
+154,North Shroud,Girtab,,358,19.4,28.6,1
+154,North Shroud,Girtab,,357,24.55,28.3,1
+154,North Shroud,Girtab,,356,15.95,28.25,1
+154,North Shroud,Girtab,,355,22.45,28.15,1
+154,North Shroud,Girtab,,354,27.05,27.2,1
+154,North Shroud,Girtab,,353,18.2,27.05,1
+154,North Shroud,Girtab,,352,25.8,26.05,1
+154,North Shroud,Girtab,,351,24.8,25.7,1
+154,North Shroud,Girtab,,350,16.65,25.4,1
+154,North Shroud,Girtab,,349,27.95,24.3,1
+154,North Shroud,Girtab,,348,22.15,23.75,1
+154,North Shroud,Girtab,,347,25.95,22.75,1
+154,North Shroud,Girtab,,346,27.65,22.25,1
+154,North Shroud,Girtab,,345,28.6,21.65,1
+154,North Shroud,Girtab,,344,22.65,20.7,1
+154,North Shroud,Girtab,,343,18.65,20.4,1
+154,North Shroud,Girtab,,342,24.45,20.2,1
+154,North Shroud,Girtab,,341,23.45,19.95,1
 155,Coerthas Central Highlands,Marraco,,420,30.75,31.05,1
-155,Coerthas Central Highlands,Marraco,,375,31.5,14.3,1
-155,Coerthas Central Highlands,Marraco,,382,31.9,16.95,1
-155,Coerthas Central Highlands,Marraco,,361,32.05,7.1,1
+155,Coerthas Central Highlands,Marraco,,419,30.3,29.8,1
+155,Coerthas Central Highlands,Marraco,,418,17.7,29.35,1
+155,Coerthas Central Highlands,Marraco,,417,19.8,29.2,1
+155,Coerthas Central Highlands,Marraco,,416,11.05,28.95,1
+155,Coerthas Central Highlands,Marraco,,415,15.5,28.7,1
+155,Coerthas Central Highlands,Marraco,,414,6.6,28.7,1
+155,Coerthas Central Highlands,Marraco,,413,21.4,28.2,1
+155,Coerthas Central Highlands,Marraco,,412,12.65,28.05,1
+155,Coerthas Central Highlands,Marraco,,411,29.3,27.65,1
+155,Coerthas Central Highlands,Marraco,,410,15.8,27.45,1
+155,Coerthas Central Highlands,Marraco,,409,11,27.3,1
+155,Coerthas Central Highlands,Marraco,,408,9,27.25,1
+155,Coerthas Central Highlands,Marraco,,407,23.45,26.8,1
+155,Coerthas Central Highlands,Marraco,,406,25.65,25.65,1
+155,Coerthas Central Highlands,Marraco,,405,28.1,25.6,1
+155,Coerthas Central Highlands,Marraco,,404,14.9,25.6,1
+155,Coerthas Central Highlands,Marraco,,403,13.4,25.25,1
+155,Coerthas Central Highlands,Marraco,,402,24.65,23.75,1
 155,Coerthas Central Highlands,Marraco,,401,32.8,23.6,1
-155,Coerthas Central Highlands,Marraco,,399,34.8,22.75,1
-155,Coerthas Central Highlands,Marraco,,378,35.05,15.3,1
 155,Coerthas Central Highlands,Marraco,,400,35.8,23.05,1
-397,Coerthas Western Highlands,Mirka,Lyuba,482,6.65,12.45,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,486,10,13.2,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,488,11.55,17.3,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,481,15.1,12.1,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,499,16.7,29.65,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,496,17.3,25.8,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,485,18,13.1,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,491,18.05,18.95,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,500,18.7,31.2,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,489,21.95,17.65,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,492,22.1,20.7,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,498,23.5,28.1,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,501,25,32.35,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,480,26.1,11.55,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,487,27.5,15.9,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,494,27.95,21.4,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,478,28,7.85,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,484,29.35,13,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,497,29.95,26.75,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,490,32.5,17.65,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,495,33.8,22.5,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,493,34.05,20.8,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,479,35.6,9.6,1|2
-397,Coerthas Western Highlands,Mirka,Lyuba,483,36.25,12.5,1|2
-156,Mor Dhona,Kurrea,,446,9.8,13.9,
-156,Mor Dhona,Kurrea,,450,10.6,15.15,
-156,Mor Dhona,Kurrea,,436,11.9,11.8,1
+155,Coerthas Central Highlands,Marraco,,399,34.8,22.75,1
+155,Coerthas Central Highlands,Marraco,,398,27.4,22.15,1
+155,Coerthas Central Highlands,Marraco,,397,24.15,21.7,1
+155,Coerthas Central Highlands,Marraco,,396,8.35,21,1
+155,Coerthas Central Highlands,Marraco,,395,27.1,20.65,1
+155,Coerthas Central Highlands,Marraco,,394,16.85,20.5,1
+155,Coerthas Central Highlands,Marraco,,393,24.6,20,1
+155,Coerthas Central Highlands,Marraco,,392,6.45,19.85,1
+155,Coerthas Central Highlands,Marraco,,391,14.3,19.8,1
+155,Coerthas Central Highlands,Marraco,,390,11.55,19.65,1
+155,Coerthas Central Highlands,Marraco,,389,17.5,18.85,1
+155,Coerthas Central Highlands,Marraco,,388,21.55,18.8,1
+155,Coerthas Central Highlands,Marraco,,387,19.55,18.65,1
+155,Coerthas Central Highlands,Marraco,,386,15.4,18.5,1
+155,Coerthas Central Highlands,Marraco,,385,10.5,18.25,1
+155,Coerthas Central Highlands,Marraco,,384,14.3,18.05,1
+155,Coerthas Central Highlands,Marraco,,383,5.6,18.05,1
+155,Coerthas Central Highlands,Marraco,,382,31.9,16.95,1
+155,Coerthas Central Highlands,Marraco,,381,4.15,16.6,1
+155,Coerthas Central Highlands,Marraco,,380,20.55,16.25,1
+155,Coerthas Central Highlands,Marraco,,379,5.25,16,1
+155,Coerthas Central Highlands,Marraco,,378,35.05,15.3,1
+155,Coerthas Central Highlands,Marraco,,377,28.4,14.85,1
+155,Coerthas Central Highlands,Marraco,,376,8.85,14.8,1
+155,Coerthas Central Highlands,Marraco,,375,31.5,14.3,1
+155,Coerthas Central Highlands,Marraco,,374,11.75,14.25,1
+155,Coerthas Central Highlands,Marraco,,373,24.8,13.5,1
+155,Coerthas Central Highlands,Marraco,,372,8.85,13.5,1
+155,Coerthas Central Highlands,Marraco,,371,27.05,13.45,1
+155,Coerthas Central Highlands,Marraco,,370,10.8,12.85,1
+155,Coerthas Central Highlands,Marraco,,369,30.2,12.6,1
+155,Coerthas Central Highlands,Marraco,,368,8.95,11.9,1
+155,Coerthas Central Highlands,Marraco,,367,28.1,11.45,1
+155,Coerthas Central Highlands,Marraco,,366,25.3,11.2,1
+155,Coerthas Central Highlands,Marraco,,365,30.15,10.6,1
+155,Coerthas Central Highlands,Marraco,,364,24.65,9.1,1
+155,Coerthas Central Highlands,Marraco,,363,22.95,8.05,1
+155,Coerthas Central Highlands,Marraco,,362,28.9,7.75,1
+155,Coerthas Central Highlands,Marraco,,361,32.05,7.1,1
+156,Mor Dhona,Kurrea,,454,16.8,17.4,1
 156,Mor Dhona,Kurrea,,453,12.25,16.85,
 156,Mor Dhona,Kurrea,,452,12.6,16,
-156,Mor Dhona,Kurrea,,444,12.7,13.75,1
-156,Mor Dhona,Kurrea,,439,13.65,12.15,1
-156,Mor Dhona,Kurrea,,431,14,10.5,1
-156,Mor Dhona,Kurrea,,445,14.2,13.85,1
-156,Mor Dhona,Kurrea,,437,15.75,11.8,1
-156,Mor Dhona,Kurrea,,430,16.05,10.45,1
 156,Mor Dhona,Kurrea,,451,16.4,15.6,1
-156,Mor Dhona,Kurrea,,454,16.8,17.4,1
-156,Mor Dhona,Kurrea,,425,19.15,8.1,1
-156,Mor Dhona,Kurrea,,434,23.2,10.7,1
-156,Mor Dhona,Kurrea,,440,23.4,12.2,1
-156,Mor Dhona,Kurrea,,433,24.85,10.65,1
-156,Mor Dhona,Kurrea,,441,25.2,12.7,1
-156,Mor Dhona,Kurrea,,426,26.8,8.5,1
-156,Mor Dhona,Kurrea,,442,26.8,12.7,1
-156,Mor Dhona,Kurrea,,428,27.15,8.85,1
-156,Mor Dhona,Kurrea,,432,27.4,10.6,1
-156,Mor Dhona,Kurrea,,443,28.25,13.55,1
-156,Mor Dhona,Kurrea,,448,28.95,14.75,1
-156,Mor Dhona,Kurrea,,422,29.1,6.5,1
-156,Mor Dhona,Kurrea,,424,29.1,7.7,1
+156,Mor Dhona,Kurrea,,450,10.6,15.15,
 156,Mor Dhona,Kurrea,,449,30.15,15.05,1
-156,Mor Dhona,Kurrea,,421,30.6,6.4,1
-156,Mor Dhona,Kurrea,,435,31.45,11.3,1
-156,Mor Dhona,Kurrea,,423,32.3,6.9,1
-156,Mor Dhona,Kurrea,,429,32.3,10.2,1
+156,Mor Dhona,Kurrea,,448,28.95,14.75,1
 156,Mor Dhona,Kurrea,,447,32.4,14.35,1
-156,Mor Dhona,Kurrea,,427,32.45,8.6,1
+156,Mor Dhona,Kurrea,,446,9.8,13.9,
+156,Mor Dhona,Kurrea,,445,14.2,13.85,1
+156,Mor Dhona,Kurrea,,444,12.7,13.75,1
+156,Mor Dhona,Kurrea,,443,28.25,13.55,1
+156,Mor Dhona,Kurrea,,442,26.8,12.7,1
+156,Mor Dhona,Kurrea,,441,25.2,12.7,1
+156,Mor Dhona,Kurrea,,440,23.4,12.2,1
+156,Mor Dhona,Kurrea,,439,13.65,12.15,1
 156,Mor Dhona,Kurrea,,438,33.6,12.05,1
-401,The Sea of Clouds,Enkelados,Sisiutl,579,6.5,19.3,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,569,7.5,8.35,2
-401,The Sea of Clouds,Enkelados,Sisiutl,577,9.05,16.65,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,585,13.75,29.15,1
-401,The Sea of Clouds,Enkelados,Sisiutl,582,14.55,23.5,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,574,15.4,14.6,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,567,15.55,7.5,2
-401,The Sea of Clouds,Enkelados,Sisiutl,586,17.9,29.85,1
-401,The Sea of Clouds,Enkelados,Sisiutl,588,18.3,31.65,1
-401,The Sea of Clouds,Enkelados,Sisiutl,571,19.25,9.45,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,581,20.85,21.5,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,576,21.55,16.05,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,568,21.75,7.65,2
-401,The Sea of Clouds,Enkelados,Sisiutl,572,23.25,10,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,583,24.45,25.25,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,573,25.05,13.1,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,584,26.1,29.1,1
-401,The Sea of Clouds,Enkelados,Sisiutl,589,26.6,33.7,1
-401,The Sea of Clouds,Enkelados,Sisiutl,566,29.35,6.55,2
-401,The Sea of Clouds,Enkelados,Sisiutl,578,31.45,19.05,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,590,31.65,36.1,1
-401,The Sea of Clouds,Enkelados,Sisiutl,587,34.05,31.55,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,591,36.2,38.5,2
-401,The Sea of Clouds,Enkelados,Sisiutl,580,36.5,21.15,1|2
-401,The Sea of Clouds,Enkelados,Sisiutl,570,36.9,8.65,2
-401,The Sea of Clouds,Enkelados,Sisiutl,575,37.4,14.65,1|2
-402,Azys Lla,Campacti,Stench blossom,607,8.25,34,1|2
-402,Azys Lla,Campacti,Stench blossom,600,9.45,26.5,1|2
-402,Azys Lla,Campacti,Stench blossom,605,11.3,30.35,1|2
-402,Azys Lla,Campacti,Stench blossom,611,12.85,38.2,1|2
-402,Azys Lla,Campacti,Stench blossom,599,13.9,16.9,1|2
-402,Azys Lla,Campacti,Stench blossom,604,16.1,29.4,1|2
-402,Azys Lla,Campacti,Stench blossom,594,17.3,8.55,1|2
-402,Azys Lla,Campacti,Stench blossom,597,18.5,13.25,1|2
-402,Azys Lla,Campacti,Stench blossom,598,27.4,15.8,1|2
-402,Azys Lla,Campacti,Stench blossom,595,27.65,11.15,1|2
-402,Azys Lla,Campacti,Stench blossom,609,29.65,35.05,1|2
-402,Azys Lla,Campacti,Stench blossom,603,29.85,28.75,1|2
-402,Azys Lla,Campacti,Stench blossom,592,32.7,5.75,1|2
-402,Azys Lla,Campacti,Stench blossom,596,33.8,12.85,1|2
-402,Azys Lla,Campacti,Stench blossom,601,34.35,26.65,1|2
-402,Azys Lla,Campacti,Stench blossom,606,35.9,30.8,1|2
-402,Azys Lla,Campacti,Stench blossom,608,36.25,34.15,1|2
-402,Azys Lla,Campacti,Stench blossom,610,36.35,37.15,1|2
-402,Azys Lla,Campacti,Stench blossom,593,37.7,7.1,1|2
-402,Azys Lla,Campacti,Stench blossom,602,38.95,27.6,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,519,10.25,35.25,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,512,12.35,27.6,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,506,13.6,15.05,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,516,14.3,31.35,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,504,16.9,11.3,1|2
+156,Mor Dhona,Kurrea,,437,15.75,11.8,1
+156,Mor Dhona,Kurrea,,436,11.9,11.8,1
+156,Mor Dhona,Kurrea,,435,31.45,11.3,1
+156,Mor Dhona,Kurrea,,434,23.2,10.7,1
+156,Mor Dhona,Kurrea,,433,24.85,10.65,1
+156,Mor Dhona,Kurrea,,432,27.4,10.6,1
+156,Mor Dhona,Kurrea,,431,14,10.5,1
+156,Mor Dhona,Kurrea,,430,16.05,10.45,1
+156,Mor Dhona,Kurrea,,429,32.3,10.2,1
+156,Mor Dhona,Kurrea,,428,27.15,8.85,1
+156,Mor Dhona,Kurrea,,427,32.45,8.6,1
+156,Mor Dhona,Kurrea,,426,26.8,8.5,1
+156,Mor Dhona,Kurrea,,425,19.15,8.1,1
+156,Mor Dhona,Kurrea,,424,29.1,7.7,1
+156,Mor Dhona,Kurrea,,423,32.3,6.9,1
+156,Mor Dhona,Kurrea,,422,29.1,6.5,1
+156,Mor Dhona,Kurrea,,421,30.6,6.4,1
+180,Outer La Noscea,Cornu,,477,15.1,18.05,1
+180,Outer La Noscea,Cornu,,476,16.45,17.8,1
+180,Outer La Noscea,Cornu,,475,14.7,16.85,1
+180,Outer La Noscea,Cornu,,474,23,16.2,1
+180,Outer La Noscea,Cornu,,473,13.55,16.2,1
+180,Outer La Noscea,Cornu,,472,24.6,16.15,1
+180,Outer La Noscea,Cornu,,471,22.9,15.15,1
+180,Outer La Noscea,Cornu,,470,19,15.1,1
+180,Outer La Noscea,Cornu,,469,15.25,14.8,1
+180,Outer La Noscea,Cornu,,468,21.35,14.6,1
+180,Outer La Noscea,Cornu,,467,14.1,14.05,1
+180,Outer La Noscea,Cornu,,466,23,13.2,1
+180,Outer La Noscea,Cornu,,465,15.4,12.65,1
+180,Outer La Noscea,Cornu,,464,15.6,10.35,1
+180,Outer La Noscea,Cornu,,463,21.9,10.3,1
+180,Outer La Noscea,Cornu,,462,21.8,9.5,1
+180,Outer La Noscea,Cornu,,461,23.65,9.25,1
+180,Outer La Noscea,Cornu,,460,21.75,8.35,1
+180,Outer La Noscea,Cornu,,459,24.55,7.35,1
+180,Outer La Noscea,Cornu,,458,27.4,7.25,1
+180,Outer La Noscea,Cornu,,457,22.45,6.85,1
+180,Outer La Noscea,Cornu,,456,21.5,6.85,1
+180,Outer La Noscea,Cornu,,455,27,5.2,1
+397,Coerthas Western Highlands,Mirka,Lyuba,501,25,32.35,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,500,18.7,31.2,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,499,16.7,29.65,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,498,23.5,28.1,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,497,29.95,26.75,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,496,17.3,25.8,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,495,33.8,22.5,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,494,27.95,21.4,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,493,34.05,20.8,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,492,22.1,20.7,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,491,18.05,18.95,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,490,32.5,17.65,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,489,21.95,17.65,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,488,11.55,17.3,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,487,27.5,15.9,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,486,10,13.2,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,485,18,13.1,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,484,29.35,13,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,483,36.25,12.5,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,482,6.65,12.45,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,481,15.1,12.1,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,480,26.1,11.55,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,479,35.6,9.6,1|2
+397,Coerthas Western Highlands,Mirka,Lyuba,478,28,7.85,1|2
 398,The Dravanian Forelands,Pylraster,Lord of the wyverns,521,17.95,38.75,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,514,20.05,30.2,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,518,21.15,33.8,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,508,21.4,19.8,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,517,24.9,32.4,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,510,25.7,24.85,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,502,26.4,7.5,1|2
 398,The Dravanian Forelands,Pylraster,Lord of the wyverns,520,27.4,37.25,
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,519,10.25,35.25,1|2
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,518,21.15,33.8,1|2
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,517,24.9,32.4,1|2
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,516,14.3,31.35,1|2
 398,The Dravanian Forelands,Pylraster,Lord of the wyverns,515,27.75,30.8,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,509,28.9,21.8,1|2
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,507,32.5,18.25,
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,503,33.9,8.55,1|2
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,514,20.05,30.2,1|2
 398,The Dravanian Forelands,Pylraster,Lord of the wyverns,513,34.6,28.75,
-398,The Dravanian Forelands,Pylraster,Lord of the wyverns,505,34.85,13.55,
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,512,12.35,27.6,1|2
 398,The Dravanian Forelands,Pylraster,Lord of the wyverns,511,38.6,25.6,
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,529,5.4,22.15,1
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,540,8.45,34,2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,535,8.6,28.1,2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,526,9.35,21.35,1
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,537,12.6,29.25,2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,522,13.1,16.45,1
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,541,14.5,35.65,2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,527,15.05,21.6,1
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,532,15.1,25.45,1|2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,539,15.5,32.05,2
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,510,25.7,24.85,1|2
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,509,28.9,21.8,1|2
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,508,21.4,19.8,1|2
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,507,32.5,18.25,
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,506,13.6,15.05,1|2
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,505,34.85,13.55,
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,504,16.9,11.3,1|2
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,503,33.9,8.55,1|2
+398,The Dravanian Forelands,Pylraster,Lord of the wyverns,502,26.4,7.5,1|2
 399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,543,16.15,37.75,2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,530,24,23.5,1|2
 399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,542,26.25,36.9,1|2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,541,14.5,35.65,2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,540,8.45,34,2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,539,15.5,32.05,2
 399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,538,26.6,29.4,1|2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,523,26.65,16.6,1
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,533,26.8,25.45,1|2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,524,26.85,20.05,1|2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,525,31.8,20.15,1|2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,531,33.95,24.1,1|2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,534,34.2,26.85,1|2
-399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,528,35.95,21.85,1|2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,537,12.6,29.25,2
 399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,536,38,28.4,1|2
-400,The Churning Mists,Bune,Agathos,564,6.45,35.65,2
-400,The Churning Mists,Bune,Agathos,550,6.85,20.25,1|2
-400,The Churning Mists,Bune,Agathos,547,7.4,11.7,1|2
-400,The Churning Mists,Bune,Agathos,549,7.9,15.8,1|2
-400,The Churning Mists,Bune,Agathos,545,9.5,8.5,2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,535,8.6,28.1,2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,534,34.2,26.85,1|2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,533,26.8,25.45,1|2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,532,15.1,25.45,1|2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,531,33.95,24.1,1|2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,530,24,23.5,1|2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,529,5.4,22.15,1
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,528,35.95,21.85,1|2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,527,15.05,21.6,1
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,526,9.35,21.35,1
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,525,31.8,20.15,1|2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,524,26.85,20.05,1|2
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,523,26.65,16.6,1
+399,The Dravanian Hinterlands,Slipkinx steeljoints,Stolas,522,13.1,16.45,1
 400,The Churning Mists,Bune,Agathos,565,10.05,38.7,2
-400,The Churning Mists,Bune,Agathos,551,11.9,20.3,1
-400,The Churning Mists,Bune,Agathos,555,14,23.55,1|2
-400,The Churning Mists,Bune,Agathos,548,15.2,14.5,1
-400,The Churning Mists,Bune,Agathos,561,15.8,30.25,1|2
-400,The Churning Mists,Bune,Agathos,559,16.9,28,1|2
-400,The Churning Mists,Bune,Agathos,556,18.2,24.35,1
-400,The Churning Mists,Bune,Agathos,562,22.45,31.1,1|2
-400,The Churning Mists,Bune,Agathos,553,24.9,20.5,1
-400,The Churning Mists,Bune,Agathos,544,25.85,7.95,2
-400,The Churning Mists,Bune,Agathos,558,26.4,27.6,1
-400,The Churning Mists,Bune,Agathos,546,28.25,10.6,2
-400,The Churning Mists,Bune,Agathos,552,28.5,20.35,2
+400,The Churning Mists,Bune,Agathos,564,6.45,35.65,2
 400,The Churning Mists,Bune,Agathos,563,31.95,32.65,1|2
-400,The Churning Mists,Bune,Agathos,554,33.5,20.85,2
+400,The Churning Mists,Bune,Agathos,562,22.45,31.1,1|2
+400,The Churning Mists,Bune,Agathos,561,15.8,30.25,1|2
 400,The Churning Mists,Bune,Agathos,560,36.05,29.05,1|2
+400,The Churning Mists,Bune,Agathos,559,16.9,28,1|2
+400,The Churning Mists,Bune,Agathos,558,26.4,27.6,1
 400,The Churning Mists,Bune,Agathos,557,37.2,26.2,1|2
-612,The Fringes,Orcus,Erle,628,8.3,30.55,2
-612,The Fringes,Orcus,Erle,625,8.7,25.25,2
-612,The Fringes,Orcus,Erle,617,10.45,14.55,2
-612,The Fringes,Orcus,Erle,619,12.25,18,2
-612,The Fringes,Orcus,Erle,615,14.35,12.4,2
-612,The Fringes,Orcus,Erle,626,15.35,26.25,1
-612,The Fringes,Orcus,Erle,624,16.65,24.3,1
-612,The Fringes,Orcus,Erle,622,17.5,21.75,1
-612,The Fringes,Orcus,Erle,616,17.8,12.75,2
-612,The Fringes,Orcus,Erle,612,18.25,8.45,2
-612,The Fringes,Orcus,Erle,613,21.2,10.55,
-612,The Fringes,Orcus,Erle,620,24.1,18.15,
-612,The Fringes,Orcus,Erle,627,25.2,28.4,1
-612,The Fringes,Orcus,Erle,614,25.35,11.75,
-612,The Fringes,Orcus,Erle,630,25.85,31.9,1
-612,The Fringes,Orcus,Erle,623,27.75,23.5,1
-612,The Fringes,Orcus,Erle,629,28.95,30.8,
+400,The Churning Mists,Bune,Agathos,556,18.2,24.35,1
+400,The Churning Mists,Bune,Agathos,555,14,23.55,1|2
+400,The Churning Mists,Bune,Agathos,554,33.5,20.85,2
+400,The Churning Mists,Bune,Agathos,553,24.9,20.5,1
+400,The Churning Mists,Bune,Agathos,552,28.5,20.35,2
+400,The Churning Mists,Bune,Agathos,551,11.9,20.3,1
+400,The Churning Mists,Bune,Agathos,550,6.85,20.25,1|2
+400,The Churning Mists,Bune,Agathos,549,7.9,15.8,1|2
+400,The Churning Mists,Bune,Agathos,548,15.2,14.5,1
+400,The Churning Mists,Bune,Agathos,547,7.4,11.7,1|2
+400,The Churning Mists,Bune,Agathos,546,28.25,10.6,2
+400,The Churning Mists,Bune,Agathos,545,9.5,8.5,2
+400,The Churning Mists,Bune,Agathos,544,25.85,7.95,2
+401,The Sea of Clouds,Enkelados,Sisiutl,591,36.2,38.5,2
+401,The Sea of Clouds,Enkelados,Sisiutl,590,31.65,36.1,1
+401,The Sea of Clouds,Enkelados,Sisiutl,589,26.6,33.7,1
+401,The Sea of Clouds,Enkelados,Sisiutl,588,18.3,31.65,1
+401,The Sea of Clouds,Enkelados,Sisiutl,587,34.05,31.55,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,586,17.9,29.85,1
+401,The Sea of Clouds,Enkelados,Sisiutl,585,13.75,29.15,1
+401,The Sea of Clouds,Enkelados,Sisiutl,584,26.1,29.1,1
+401,The Sea of Clouds,Enkelados,Sisiutl,583,24.45,25.25,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,582,14.55,23.5,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,581,20.85,21.5,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,580,36.5,21.15,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,579,6.5,19.3,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,578,31.45,19.05,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,577,9.05,16.65,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,576,21.55,16.05,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,575,37.4,14.65,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,574,15.4,14.6,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,573,25.05,13.1,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,572,23.25,10,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,571,19.25,9.45,1|2
+401,The Sea of Clouds,Enkelados,Sisiutl,570,36.9,8.65,2
+401,The Sea of Clouds,Enkelados,Sisiutl,569,7.5,8.35,2
+401,The Sea of Clouds,Enkelados,Sisiutl,568,21.75,7.65,2
+401,The Sea of Clouds,Enkelados,Sisiutl,567,15.55,7.5,2
+401,The Sea of Clouds,Enkelados,Sisiutl,566,29.35,6.55,2
+402,Azys Lla,Campacti,Stench blossom,611,12.85,38.2,1|2
+402,Azys Lla,Campacti,Stench blossom,610,36.35,37.15,1|2
+402,Azys Lla,Campacti,Stench blossom,609,29.65,35.05,1|2
+402,Azys Lla,Campacti,Stench blossom,608,36.25,34.15,1|2
+402,Azys Lla,Campacti,Stench blossom,607,8.25,34,1|2
+402,Azys Lla,Campacti,Stench blossom,606,35.9,30.8,1|2
+402,Azys Lla,Campacti,Stench blossom,605,11.3,30.35,1|2
+402,Azys Lla,Campacti,Stench blossom,604,16.1,29.4,1|2
+402,Azys Lla,Campacti,Stench blossom,603,29.85,28.75,1|2
+402,Azys Lla,Campacti,Stench blossom,602,38.95,27.6,1|2
+402,Azys Lla,Campacti,Stench blossom,601,34.35,26.65,1|2
+402,Azys Lla,Campacti,Stench blossom,600,9.45,26.5,1|2
+402,Azys Lla,Campacti,Stench blossom,599,13.9,16.9,1|2
+402,Azys Lla,Campacti,Stench blossom,598,27.4,15.8,1|2
+402,Azys Lla,Campacti,Stench blossom,597,18.5,13.25,1|2
+402,Azys Lla,Campacti,Stench blossom,596,33.8,12.85,1|2
+402,Azys Lla,Campacti,Stench blossom,595,27.65,11.15,1|2
+402,Azys Lla,Campacti,Stench blossom,594,17.3,8.55,1|2
+402,Azys Lla,Campacti,Stench blossom,593,37.7,7.1,1|2
+402,Azys Lla,Campacti,Stench blossom,592,32.7,5.75,1|2
 612,The Fringes,Orcus,Erle,631,33.3,33.35,1
+612,The Fringes,Orcus,Erle,630,25.85,31.9,1
+612,The Fringes,Orcus,Erle,629,28.95,30.8,
+612,The Fringes,Orcus,Erle,628,8.3,30.55,2
+612,The Fringes,Orcus,Erle,627,25.2,28.4,1
+612,The Fringes,Orcus,Erle,626,15.35,26.25,1
+612,The Fringes,Orcus,Erle,625,8.7,25.25,2
+612,The Fringes,Orcus,Erle,624,16.65,24.3,1
+612,The Fringes,Orcus,Erle,623,27.75,23.5,1
+612,The Fringes,Orcus,Erle,622,17.5,21.75,1
 612,The Fringes,Orcus,Erle,621,33.75,20.9,1
+612,The Fringes,Orcus,Erle,620,24.1,18.15,
+612,The Fringes,Orcus,Erle,619,12.25,18,2
 612,The Fringes,Orcus,Erle,618,34.65,17.5,1
-620,The Peaks,Vochstein,Aqrabuamelu,666,5.65,14.75,1
-620,The Peaks,Vochstein,Aqrabuamelu,676,5.85,34.8,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,671,7.8,25.85,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,664,8.7,12.25,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,661,11.2,8.2,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,675,11.75,32.85,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,673,12.6,28.3,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,669,16.65,23.1,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,672,18.1,26.7,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,667,23.35,14.95,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,677,23.65,36.6,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,670,23.75,24.25,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,668,25.35,20.15,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,663,26.25,12,1
-620,The Peaks,Vochstein,Aqrabuamelu,674,26.65,29.85,
-620,The Peaks,Vochstein,Aqrabuamelu,660,26.95,7.95,1|2
-620,The Peaks,Vochstein,Aqrabuamelu,662,32.05,8.3,1
-620,The Peaks,Vochstein,Aqrabuamelu,665,36.35,12.45,1|2
-621,The Lochs,Mahisha,Luminare,695,3.1,34.95,2
-621,The Lochs,Mahisha,Luminare,689,4.6,29.3,2
-621,The Lochs,Mahisha,Luminare,680,6.45,8.25,1
-621,The Lochs,Mahisha,Luminare,690,6.95,31.1,1
-621,The Lochs,Mahisha,Luminare,688,7.4,26.3,1|2
-621,The Lochs,Mahisha,Luminare,683,7.7,14.1,1|2
-621,The Lochs,Mahisha,Luminare,693,10.45,33.7,
-621,The Lochs,Mahisha,Luminare,685,13.95,20.55,1|2
-621,The Lochs,Mahisha,Luminare,678,18.3,7.5,
-621,The Lochs,Mahisha,Luminare,686,18.8,25.6,1|2
-621,The Lochs,Mahisha,Luminare,691,18.95,31.75,2
-621,The Lochs,Mahisha,Luminare,681,22.5,10.35,
-621,The Lochs,Mahisha,Luminare,687,23.45,25.85,
-621,The Lochs,Mahisha,Luminare,692,24.55,32.95,1|2
-621,The Lochs,Mahisha,Luminare,684,25.05,16.5,
-621,The Lochs,Mahisha,Luminare,694,26.45,34.55,
-621,The Lochs,Mahisha,Luminare,679,29.1,8,1|2
-621,The Lochs,Mahisha,Luminare,696,30.1,36.35,1
-621,The Lochs,Mahisha,Luminare,682,35.1,11.1,2
-613,The Ruby Sea,Funa yurei,Oni yumemi,639,5.05,22.95,1|2
+612,The Fringes,Orcus,Erle,617,10.45,14.55,2
+612,The Fringes,Orcus,Erle,616,17.8,12.75,2
+612,The Fringes,Orcus,Erle,615,14.35,12.4,2
+612,The Fringes,Orcus,Erle,614,25.35,11.75,
+612,The Fringes,Orcus,Erle,613,21.2,10.55,
+612,The Fringes,Orcus,Erle,612,18.25,8.45,2
+613,The Ruby Sea,Funa yurei,Oni yumemi,645,31.05,38.75,1|2
+613,The Ruby Sea,Funa yurei,Oni yumemi,644,23.95,33.2,1|2
+613,The Ruby Sea,Funa yurei,Oni yumemi,643,27.25,31.6,1|2
 613,The Ruby Sea,Funa yurei,Oni yumemi,642,6.9,29.8,1|2
-613,The Ruby Sea,Funa yurei,Oni yumemi,632,7.5,5.9,
+613,The Ruby Sea,Funa yurei,Oni yumemi,641,25.3,26.2,
+613,The Ruby Sea,Funa yurei,Oni yumemi,640,32.05,24.3,1|2
+613,The Ruby Sea,Funa yurei,Oni yumemi,639,5.05,22.95,1|2
+613,The Ruby Sea,Funa yurei,Oni yumemi,638,34.95,21.15,
+613,The Ruby Sea,Funa yurei,Oni yumemi,637,36.5,17.95,
 613,The Ruby Sea,Funa yurei,Oni yumemi,636,14.45,13.9,1|2
 613,The Ruby Sea,Funa yurei,Oni yumemi,635,16.55,10.6,
 613,The Ruby Sea,Funa yurei,Oni yumemi,634,18.85,8.65,1|2
-613,The Ruby Sea,Funa yurei,Oni yumemi,644,23.95,33.2,1|2
-613,The Ruby Sea,Funa yurei,Oni yumemi,641,25.3,26.2,
 613,The Ruby Sea,Funa yurei,Oni yumemi,633,25.95,7.05,1|2
-613,The Ruby Sea,Funa yurei,Oni yumemi,643,27.25,31.6,1|2
-613,The Ruby Sea,Funa yurei,Oni yumemi,645,31.05,38.75,1|2
-613,The Ruby Sea,Funa yurei,Oni yumemi,640,32.05,24.3,1|2
-613,The Ruby Sea,Funa yurei,Oni yumemi,638,34.95,21.15,
-613,The Ruby Sea,Funa yurei,Oni yumemi,637,36.5,17.95,
-614,Yanxia,Gajasura,Angada,657,12.3,30.6,1|2
-614,Yanxia,Gajasura,Angada,651,16.9,13.8,1|2
-614,Yanxia,Gajasura,Angada,658,17.65,34.3,1|2
-614,Yanxia,Gajasura,Angada,652,18.25,16.15,1|2
-614,Yanxia,Gajasura,Angada,648,18.35,10.5,
-614,Yanxia,Gajasura,Angada,646,21.6,9.45,1|2
-614,Yanxia,Gajasura,Angada,656,23.6,27.25,
-614,Yanxia,Gajasura,Angada,650,23.65,11.5,1|2
-614,Yanxia,Gajasura,Angada,654,24.6,21.7,
-614,Yanxia,Gajasura,Angada,647,27.1,10.4,1|2
-614,Yanxia,Gajasura,Angada,649,28.7,11.35,1|2
+613,The Ruby Sea,Funa yurei,Oni yumemi,632,7.5,5.9,
 614,Yanxia,Gajasura,Angada,659,29.85,35.3,
-614,Yanxia,Gajasura,Angada,653,32.35,18.5,
+614,Yanxia,Gajasura,Angada,658,17.65,34.3,1|2
+614,Yanxia,Gajasura,Angada,657,12.3,30.6,1|2
+614,Yanxia,Gajasura,Angada,656,23.6,27.25,
 614,Yanxia,Gajasura,Angada,655,34.15,26.6,
-622,The Azim Steppe,Girimekhala,Sum,705,9.65,22.35,1|2
-622,The Azim Steppe,Girimekhala,Sum,708,9.75,25.9,1|2
-622,The Azim Steppe,Girimekhala,Sum,709,11.4,28.35,1|2
-622,The Azim Steppe,Girimekhala,Sum,702,12.45,17.25,1|2
-622,The Azim Steppe,Girimekhala,Sum,698,13.5,10.15,1|2
-622,The Azim Steppe,Girimekhala,Sum,706,14.95,25.5,1|2
-622,The Azim Steppe,Girimekhala,Sum,710,15.6,30.3,1|2
-622,The Azim Steppe,Girimekhala,Sum,704,17.4,18.9,1|2
+614,Yanxia,Gajasura,Angada,654,24.6,21.7,
+614,Yanxia,Gajasura,Angada,653,32.35,18.5,
+614,Yanxia,Gajasura,Angada,652,18.25,16.15,1|2
+614,Yanxia,Gajasura,Angada,651,16.9,13.8,1|2
+614,Yanxia,Gajasura,Angada,650,23.65,11.5,1|2
+614,Yanxia,Gajasura,Angada,649,28.7,11.35,1|2
+614,Yanxia,Gajasura,Angada,648,18.35,10.5,
+614,Yanxia,Gajasura,Angada,647,27.1,10.4,1|2
+614,Yanxia,Gajasura,Angada,646,21.6,9.45,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,677,23.65,36.6,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,676,5.85,34.8,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,675,11.75,32.85,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,674,26.65,29.85,
+620,The Peaks,Vochstein,Aqrabuamelu,673,12.6,28.3,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,672,18.1,26.7,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,671,7.8,25.85,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,670,23.75,24.25,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,669,16.65,23.1,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,668,25.35,20.15,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,667,23.35,14.95,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,666,5.65,14.75,1
+620,The Peaks,Vochstein,Aqrabuamelu,665,36.35,12.45,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,664,8.7,12.25,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,663,26.25,12,1
+620,The Peaks,Vochstein,Aqrabuamelu,662,32.05,8.3,1
+620,The Peaks,Vochstein,Aqrabuamelu,661,11.2,8.2,1|2
+620,The Peaks,Vochstein,Aqrabuamelu,660,26.95,7.95,1|2
+621,The Lochs,Mahisha,Luminare,696,30.1,36.35,1
+621,The Lochs,Mahisha,Luminare,695,3.1,34.95,2
+621,The Lochs,Mahisha,Luminare,694,26.45,34.55,
+621,The Lochs,Mahisha,Luminare,693,10.45,33.7,
+621,The Lochs,Mahisha,Luminare,692,24.55,32.95,1|2
+621,The Lochs,Mahisha,Luminare,691,18.95,31.75,2
+621,The Lochs,Mahisha,Luminare,690,6.95,31.1,1
+621,The Lochs,Mahisha,Luminare,689,4.6,29.3,2
+621,The Lochs,Mahisha,Luminare,688,7.4,26.3,1|2
+621,The Lochs,Mahisha,Luminare,687,23.45,25.85,
+621,The Lochs,Mahisha,Luminare,686,18.8,25.6,1|2
+621,The Lochs,Mahisha,Luminare,685,13.95,20.55,1|2
+621,The Lochs,Mahisha,Luminare,684,25.05,16.5,
+621,The Lochs,Mahisha,Luminare,683,7.7,14.1,1|2
+621,The Lochs,Mahisha,Luminare,682,35.1,11.1,2
+621,The Lochs,Mahisha,Luminare,681,22.5,10.35,
+621,The Lochs,Mahisha,Luminare,680,6.45,8.25,1
+621,The Lochs,Mahisha,Luminare,679,29.1,8,1|2
+621,The Lochs,Mahisha,Luminare,678,18.3,7.5,
 622,The Azim Steppe,Girimekhala,Sum,714,17.6,34.4,1|2
-622,The Azim Steppe,Girimekhala,Sum,699,19.35,10.25,1|2
-622,The Azim Steppe,Girimekhala,Sum,712,21.85,34.2,1|2
-622,The Azim Steppe,Girimekhala,Sum,701,22.35,15.95,1|2
-622,The Azim Steppe,Girimekhala,Sum,711,24.25,30.3,1|2
 622,The Azim Steppe,Girimekhala,Sum,713,26.7,34.25,1|2
-622,The Azim Steppe,Girimekhala,Sum,697,27.35,9,1|2
-622,The Azim Steppe,Girimekhala,Sum,703,27.9,18.8,1|2
+622,The Azim Steppe,Girimekhala,Sum,712,21.85,34.2,1|2
+622,The Azim Steppe,Girimekhala,Sum,711,24.25,30.3,1|2
+622,The Azim Steppe,Girimekhala,Sum,710,15.6,30.3,1|2
+622,The Azim Steppe,Girimekhala,Sum,709,11.4,28.35,1|2
+622,The Azim Steppe,Girimekhala,Sum,708,9.75,25.9,1|2
 622,The Azim Steppe,Girimekhala,Sum,707,27.9,25.7,1|2
+622,The Azim Steppe,Girimekhala,Sum,706,14.95,25.5,1|2
+622,The Azim Steppe,Girimekhala,Sum,705,9.65,22.35,1|2
+622,The Azim Steppe,Girimekhala,Sum,704,17.4,18.9,1|2
+622,The Azim Steppe,Girimekhala,Sum,703,27.9,18.8,1|2
+622,The Azim Steppe,Girimekhala,Sum,702,12.45,17.25,1|2
+622,The Azim Steppe,Girimekhala,Sum,701,22.35,15.95,1|2
 622,The Azim Steppe,Girimekhala,Sum,700,34.65,15.05,1|2
-813,Lakeland,Nuckelavee,Nariphon,724,7.8,22.75,2
-813,Lakeland,Nuckelavee,Nariphon,721,11.3,17.25,2
-813,Lakeland,Nuckelavee,Nariphon,718,11.7,12.65,2
-813,Lakeland,Nuckelavee,Nariphon,727,13.7,24.5,1|2
-813,Lakeland,Nuckelavee,Nariphon,725,18.3,23,1|2
-813,Lakeland,Nuckelavee,Nariphon,715,19.7,9.75,2
-813,Lakeland,Nuckelavee,Nariphon,729,23.1,29.7,1|2
-813,Lakeland,Nuckelavee,Nariphon,717,23.25,12.35,2
-813,Lakeland,Nuckelavee,Nariphon,726,25.5,23.9,1|2
+622,The Azim Steppe,Girimekhala,Sum,699,19.35,10.25,1|2
+622,The Azim Steppe,Girimekhala,Sum,698,13.5,10.15,1|2
+622,The Azim Steppe,Girimekhala,Sum,697,27.35,9,1|2
 813,Lakeland,Nuckelavee,Nariphon,732,26.65,37.2,1|2
-813,Lakeland,Nuckelavee,Nariphon,719,27.65,15.35,2
-813,Lakeland,Nuckelavee,Nariphon,730,27.9,30.9,1|2
-813,Lakeland,Nuckelavee,Nariphon,722,29.5,19.3,2
-813,Lakeland,Nuckelavee,Nariphon,723,30.75,22.65,2
-813,Lakeland,Nuckelavee,Nariphon,720,35.1,15.95,2
 813,Lakeland,Nuckelavee,Nariphon,731,35.2,32.2,2
+813,Lakeland,Nuckelavee,Nariphon,730,27.9,30.9,1|2
+813,Lakeland,Nuckelavee,Nariphon,729,23.1,29.7,1|2
 813,Lakeland,Nuckelavee,Nariphon,728,35.7,27.05,2
+813,Lakeland,Nuckelavee,Nariphon,727,13.7,24.5,1|2
+813,Lakeland,Nuckelavee,Nariphon,726,25.5,23.9,1|2
+813,Lakeland,Nuckelavee,Nariphon,725,18.3,23,1|2
+813,Lakeland,Nuckelavee,Nariphon,724,7.8,22.75,2
+813,Lakeland,Nuckelavee,Nariphon,723,30.75,22.65,2
+813,Lakeland,Nuckelavee,Nariphon,722,29.5,19.3,2
+813,Lakeland,Nuckelavee,Nariphon,721,11.3,17.25,2
+813,Lakeland,Nuckelavee,Nariphon,720,35.1,15.95,2
+813,Lakeland,Nuckelavee,Nariphon,719,27.65,15.35,2
+813,Lakeland,Nuckelavee,Nariphon,718,11.7,12.65,2
+813,Lakeland,Nuckelavee,Nariphon,717,23.25,12.35,2
 813,Lakeland,Nuckelavee,Nariphon,716,36.65,12.2,2
-814,Kholusia,Li'l murderer,Huracan,746,9,25.6,1
-814,Kholusia,Li'l murderer,Huracan,739,11.6,18.7,1|2
-814,Kholusia,Li'l murderer,Huracan,737,14.9,15.75,1|2
-814,Kholusia,Li'l murderer,Huracan,744,15,24.3,1
-814,Kholusia,Li'l murderer,Huracan,733,17.05,6.9,1|2
-814,Kholusia,Li'l murderer,Huracan,734,19.6,10.6,1|2
+813,Lakeland,Nuckelavee,Nariphon,715,19.7,9.75,2
 814,Kholusia,Li'l murderer,Huracan,749,20.9,31.3,1
-814,Kholusia,Li'l murderer,Huracan,742,21.2,22.5,1|2
-814,Kholusia,Li'l murderer,Huracan,736,21.8,14.05,1|2
-814,Kholusia,Li'l murderer,Huracan,738,22.95,17.55,1|2
-814,Kholusia,Li'l murderer,Huracan,747,24.7,29.85,1
-814,Kholusia,Li'l murderer,Huracan,735,24.8,11.4,1|2
-814,Kholusia,Li'l murderer,Huracan,740,26.7,19.25,1|2
-814,Kholusia,Li'l murderer,Huracan,745,26.8,24.35,1
 814,Kholusia,Li'l murderer,Huracan,748,30.05,30.05,1
-814,Kholusia,Li'l murderer,Huracan,741,31.45,19.65,1|2
+814,Kholusia,Li'l murderer,Huracan,747,24.7,29.85,1
+814,Kholusia,Li'l murderer,Huracan,746,9,25.6,1
+814,Kholusia,Li'l murderer,Huracan,745,26.8,24.35,1
+814,Kholusia,Li'l murderer,Huracan,744,15,24.3,1
 814,Kholusia,Li'l murderer,Huracan,743,34.45,24.15,1
-815,Amh Araeng,Maliktender,Sugaar,752,10.25,11.95,2
-815,Amh Araeng,Maliktender,Sugaar,756,11.55,19.5,2
-815,Amh Araeng,Maliktender,Sugaar,759,16.3,24.05,2
-815,Amh Araeng,Maliktender,Sugaar,750,16.7,10.25,2
-815,Amh Araeng,Maliktender,Sugaar,764,17.15,31.65,2
-815,Amh Araeng,Maliktender,Sugaar,760,19.2,24.9,2
-815,Amh Araeng,Maliktender,Sugaar,755,19.35,16.15,2
-815,Amh Araeng,Maliktender,Sugaar,762,19.75,28.75,2
+814,Kholusia,Li'l murderer,Huracan,742,21.2,22.5,1|2
+814,Kholusia,Li'l murderer,Huracan,741,31.45,19.65,1|2
+814,Kholusia,Li'l murderer,Huracan,740,26.7,19.25,1|2
+814,Kholusia,Li'l murderer,Huracan,739,11.6,18.7,1|2
+814,Kholusia,Li'l murderer,Huracan,738,22.95,17.55,1|2
+814,Kholusia,Li'l murderer,Huracan,737,14.9,15.75,1|2
+814,Kholusia,Li'l murderer,Huracan,736,21.8,14.05,1|2
+814,Kholusia,Li'l murderer,Huracan,735,24.8,11.4,1|2
+814,Kholusia,Li'l murderer,Huracan,734,19.6,10.6,1|2
+814,Kholusia,Li'l murderer,Huracan,733,17.05,6.9,1|2
 815,Amh Araeng,Maliktender,Sugaar,767,19.9,36.45,1|2
-815,Amh Araeng,Maliktender,Sugaar,751,22.6,10.5,
-815,Amh Araeng,Maliktender,Sugaar,763,23.2,29.75,1|2
-815,Amh Araeng,Maliktender,Sugaar,761,28.5,26,1|2
-815,Amh Araeng,Maliktender,Sugaar,753,28.6,12.3,1|2
-815,Amh Araeng,Maliktender,Sugaar,757,28.8,20.25,1|2
 815,Amh Araeng,Maliktender,Sugaar,766,30.4,35.25,1|2
-815,Amh Araeng,Maliktender,Sugaar,754,30.95,13.75,1|2
 815,Amh Araeng,Maliktender,Sugaar,765,33,33.9,1|2
+815,Amh Araeng,Maliktender,Sugaar,764,17.15,31.65,2
+815,Amh Araeng,Maliktender,Sugaar,763,23.2,29.75,1|2
+815,Amh Araeng,Maliktender,Sugaar,762,19.75,28.75,2
+815,Amh Araeng,Maliktender,Sugaar,761,28.5,26,1|2
+815,Amh Araeng,Maliktender,Sugaar,760,19.2,24.9,2
+815,Amh Araeng,Maliktender,Sugaar,759,16.3,24.05,2
 815,Amh Araeng,Maliktender,Sugaar,758,33.55,21.55,1|2
-816,Il Mheg,The mudman,O poorest pauldia,776,7.45,23,1|2
-816,Il Mheg,The mudman,O poorest pauldia,777,7.85,27.05,1|2
-816,Il Mheg,The mudman,O poorest pauldia,780,9.65,30.65,1|2
-816,Il Mheg,The mudman,O poorest pauldia,775,10.8,20.35,1|2
-816,Il Mheg,The mudman,O poorest pauldia,773,11.2,15.9,1|2
-816,Il Mheg,The mudman,O poorest pauldia,782,13.6,34.1,1|2
-816,Il Mheg,The mudman,O poorest pauldia,778,19.1,27.15,1|2
-816,Il Mheg,The mudman,O poorest pauldia,783,19.7,34.9,1|2
-816,Il Mheg,The mudman,O poorest pauldia,771,20.2,8.5,1|2
-816,Il Mheg,The mudman,O poorest pauldia,779,22.8,28.85,1|2
-816,Il Mheg,The mudman,O poorest pauldia,781,24.55,32.75,1|2
+815,Amh Araeng,Maliktender,Sugaar,757,28.8,20.25,1|2
+815,Amh Araeng,Maliktender,Sugaar,756,11.55,19.5,2
+815,Amh Araeng,Maliktender,Sugaar,755,19.35,16.15,2
+815,Amh Araeng,Maliktender,Sugaar,754,30.95,13.75,1|2
+815,Amh Araeng,Maliktender,Sugaar,753,28.6,12.3,1|2
+815,Amh Araeng,Maliktender,Sugaar,752,10.25,11.95,2
+815,Amh Araeng,Maliktender,Sugaar,751,22.6,10.5,
+815,Amh Araeng,Maliktender,Sugaar,750,16.7,10.25,2
 816,Il Mheg,The mudman,O poorest pauldia,784,24.7,37.25,1|2
-816,Il Mheg,The mudman,O poorest pauldia,769,25.5,7.1,1|2
+816,Il Mheg,The mudman,O poorest pauldia,783,19.7,34.9,1|2
+816,Il Mheg,The mudman,O poorest pauldia,782,13.6,34.1,1|2
+816,Il Mheg,The mudman,O poorest pauldia,781,24.55,32.75,1|2
+816,Il Mheg,The mudman,O poorest pauldia,780,9.65,30.65,1|2
+816,Il Mheg,The mudman,O poorest pauldia,779,22.8,28.85,1|2
+816,Il Mheg,The mudman,O poorest pauldia,778,19.1,27.15,1|2
+816,Il Mheg,The mudman,O poorest pauldia,777,7.85,27.05,1|2
+816,Il Mheg,The mudman,O poorest pauldia,776,7.45,23,1|2
+816,Il Mheg,The mudman,O poorest pauldia,775,10.8,20.35,1|2
 816,Il Mheg,The mudman,O poorest pauldia,774,27.2,19,1|2
-816,Il Mheg,The mudman,O poorest pauldia,768,29.25,5.45,1|2
+816,Il Mheg,The mudman,O poorest pauldia,773,11.2,15.9,1|2
 816,Il Mheg,The mudman,O poorest pauldia,772,31.6,13.65,1|2
+816,Il Mheg,The mudman,O poorest pauldia,771,20.2,8.5,1|2
 816,Il Mheg,The mudman,O poorest pauldia,770,33.8,7.3,1|2
-817,The Rak'tika Greatwood,Supay,Grassman,797,8.5,34.65,1|2
-817,The Rak'tika Greatwood,Supay,Grassman,788,9.5,18.6,1|2
-817,The Rak'tika Greatwood,Supay,Grassman,791,9.9,24,1|2
+816,Il Mheg,The mudman,O poorest pauldia,769,25.5,7.1,1|2
+816,Il Mheg,The mudman,O poorest pauldia,768,29.25,5.45,1|2
 817,The Rak'tika Greatwood,Supay,Grassman,799,12.05,35.85,1|2
-817,The Rak'tika Greatwood,Supay,Grassman,789,14.9,22.35,1|2
-817,The Rak'tika Greatwood,Supay,Grassman,795,15.1,30.25,1|2
-817,The Rak'tika Greatwood,Supay,Grassman,792,16.7,24.05,1|2
 817,The Rak'tika Greatwood,Supay,Grassman,798,17.8,35.1,1|2
+817,The Rak'tika Greatwood,Supay,Grassman,797,8.5,34.65,1|2
+817,The Rak'tika Greatwood,Supay,Grassman,796,25.3,30.3,1|2
+817,The Rak'tika Greatwood,Supay,Grassman,795,15.1,30.25,1|2
+817,The Rak'tika Greatwood,Supay,Grassman,794,29.7,26.05,1|2
+817,The Rak'tika Greatwood,Supay,Grassman,793,26.3,24.25,1|2
+817,The Rak'tika Greatwood,Supay,Grassman,792,16.7,24.05,1|2
+817,The Rak'tika Greatwood,Supay,Grassman,791,9.9,24,1|2
+817,The Rak'tika Greatwood,Supay,Grassman,790,33.35,22.8,1|2
+817,The Rak'tika Greatwood,Supay,Grassman,789,14.9,22.35,1|2
+817,The Rak'tika Greatwood,Supay,Grassman,788,9.5,18.6,1|2
+817,The Rak'tika Greatwood,Supay,Grassman,787,26.35,14.95,1
 817,The Rak'tika Greatwood,Supay,Grassman,786,21.95,13.7,1
 817,The Rak'tika Greatwood,Supay,Grassman,785,22.5,10.75,1
-817,The Rak'tika Greatwood,Supay,Grassman,796,25.3,30.3,1|2
-817,The Rak'tika Greatwood,Supay,Grassman,793,26.3,24.25,1|2
-817,The Rak'tika Greatwood,Supay,Grassman,787,26.35,14.95,1
-817,The Rak'tika Greatwood,Supay,Grassman,794,29.7,26.05,1|2
-817,The Rak'tika Greatwood,Supay,Grassman,790,33.35,22.8,1|2
-818,The Tempest,Rusalka,Baal,803,8.35,8.35,1|2
-818,The Tempest,Rusalka,Baal,801,11.4,5.25,1|2
-818,The Tempest,Rusalka,Baal,811,13.45,17.4,1|2
-818,The Tempest,Rusalka,Baal,813,15.4,20.4,1|2
-818,The Tempest,Rusalka,Baal,805,15.7,10.3,1|2
-818,The Tempest,Rusalka,Baal,809,18.2,13.35,1|2
-818,The Tempest,Rusalka,Baal,802,21,7.7,1|2
 818,The Tempest,Rusalka,Baal,816,24.7,24.7,1|2
-818,The Tempest,Rusalka,Baal,808,25.3,12.95,1|2
-818,The Tempest,Rusalka,Baal,804,28.4,8.45,1|2
 818,The Tempest,Rusalka,Baal,815,29.1,22.85,1|2
-818,The Tempest,Rusalka,Baal,806,30.75,10.95,1|2
-818,The Tempest,Rusalka,Baal,800,31.2,4.05,1|2
 818,The Tempest,Rusalka,Baal,814,33.7,21.6,1|2
+818,The Tempest,Rusalka,Baal,813,15.4,20.4,1|2
 818,The Tempest,Rusalka,Baal,812,36.1,19.95,1|2
-818,The Tempest,Rusalka,Baal,807,36.6,11.55,1|2
+818,The Tempest,Rusalka,Baal,811,13.45,17.4,1|2
 818,The Tempest,Rusalka,Baal,810,37.75,16.7,1|2
-956,Labyrinthos,Hulder,Storsie,824,5.75,33.85,1|2
-956,Labyrinthos,Hulder,Storsie,821,10.55,19.25,1|2
-956,Labyrinthos,Hulder,Storsie,825,12.05,35.4,1|2
-956,Labyrinthos,Hulder,Storsie,820,16.55,16.3,1|2
-956,Labyrinthos,Hulder,Storsie,818,17.1,9.45,1|2
+818,The Tempest,Rusalka,Baal,809,18.2,13.35,1|2
+818,The Tempest,Rusalka,Baal,808,25.3,12.95,1|2
+818,The Tempest,Rusalka,Baal,807,36.6,11.55,1|2
+818,The Tempest,Rusalka,Baal,806,30.75,10.95,1|2
+818,The Tempest,Rusalka,Baal,805,15.7,10.3,1|2
+818,The Tempest,Rusalka,Baal,804,28.4,8.45,1|2
+818,The Tempest,Rusalka,Baal,803,8.35,8.35,1|2
+818,The Tempest,Rusalka,Baal,802,21,7.7,1|2
+818,The Tempest,Rusalka,Baal,801,11.4,5.25,1|2
+818,The Tempest,Rusalka,Baal,800,31.2,4.05,1|2
 956,Labyrinthos,Hulder,Storsie,826,19.6,38.35,1|2
-956,Labyrinthos,Hulder,Storsie,822,25.2,25.5,1|2
-956,Labyrinthos,Hulder,Storsie,817,30.15,8.35,1|2
+956,Labyrinthos,Hulder,Storsie,825,12.05,35.4,1|2
+956,Labyrinthos,Hulder,Storsie,824,5.75,33.85,1|2
 956,Labyrinthos,Hulder,Storsie,823,32.1,26,1|2
+956,Labyrinthos,Hulder,Storsie,822,25.2,25.5,1|2
+956,Labyrinthos,Hulder,Storsie,821,10.55,19.25,1|2
+956,Labyrinthos,Hulder,Storsie,820,16.55,16.3,1|2
 956,Labyrinthos,Hulder,Storsie,819,34.3,13.5,1|2
-957,Thavnair,Yilan,Sugriva,828,14.55,12.2,1|2
-957,Thavnair,Yilan,Sugriva,830,18.15,16.35,1|2
-957,Thavnair,Yilan,Sugriva,833,18.4,23.35,1|2
-957,Thavnair,Yilan,Sugriva,827,18.65,11.55,1|2
+956,Labyrinthos,Hulder,Storsie,818,17.1,9.45,1|2
+956,Labyrinthos,Hulder,Storsie,817,30.15,8.35,1|2
 957,Thavnair,Yilan,Sugriva,835,20.25,31.05,1|2
-957,Thavnair,Yilan,Sugriva,832,26.5,20.85,1|2
 957,Thavnair,Yilan,Sugriva,834,27.65,25.8,1|2
-957,Thavnair,Yilan,Sugriva,829,29.5,13.65,1|2
+957,Thavnair,Yilan,Sugriva,833,18.4,23.35,1|2
+957,Thavnair,Yilan,Sugriva,832,26.5,20.85,1|2
 957,Thavnair,Yilan,Sugriva,831,32.8,20.3,1|2
-958,Garlemald,Minerva,Aegeiros,836,9.75,11.6,1|2
+957,Thavnair,Yilan,Sugriva,830,18.15,16.35,1|2
+957,Thavnair,Yilan,Sugriva,829,29.5,13.65,1|2
+957,Thavnair,Yilan,Sugriva,828,14.55,12.2,1|2
+957,Thavnair,Yilan,Sugriva,827,18.65,11.55,1|2
+958,Garlemald,Minerva,Aegeiros,844,27.4,34.05,1|2
+958,Garlemald,Minerva,Aegeiros,843,32.45,32.35,1|2
+958,Garlemald,Minerva,Aegeiros,842,23.2,25.55,1|2
+958,Garlemald,Minerva,Aegeiros,841,33,21.85,1|2
+958,Garlemald,Minerva,Aegeiros,840,28.95,20.75,1|2
+958,Garlemald,Minerva,Aegeiros,839,15.7,19.65,1|2
 958,Garlemald,Minerva,Aegeiros,838,11.9,17.35,1|2
 958,Garlemald,Minerva,Aegeiros,837,12.2,12.75,1|2
-958,Garlemald,Minerva,Aegeiros,839,15.7,19.65,1|2
-958,Garlemald,Minerva,Aegeiros,842,23.2,25.55,1|2
-958,Garlemald,Minerva,Aegeiros,844,27.4,34.05,1|2
-958,Garlemald,Minerva,Aegeiros,840,28.95,20.75,1|2
-958,Garlemald,Minerva,Aegeiros,843,32.45,32.35,1|2
-958,Garlemald,Minerva,Aegeiros,841,33,21.85,1|2
-959,Mare Lamentorum,Mousse princess,Lunatender queen,847,10.3,24.1,1|2
-959,Mare Lamentorum,Mousse princess,Lunatender queen,851,16.55,28.85,1|2
-959,Mare Lamentorum,Mousse princess,Lunatender queen,848,17.15,24.7,1|2
-959,Mare Lamentorum,Mousse princess,Lunatender queen,845,18.45,21.5,1|2
+958,Garlemald,Minerva,Aegeiros,836,9.75,11.6,1|2
 959,Mare Lamentorum,Mousse princess,Lunatender queen,854,21.1,34.7,1|2
 959,Mare Lamentorum,Mousse princess,Lunatender queen,853,24.25,33.5,1|2
-959,Mare Lamentorum,Mousse princess,Lunatender queen,846,24.3,23.35,1|2
-959,Mare Lamentorum,Mousse princess,Lunatender queen,849,28.3,26.65,1|2
 959,Mare Lamentorum,Mousse princess,Lunatender queen,852,29.8,29.85,1|2
+959,Mare Lamentorum,Mousse princess,Lunatender queen,851,16.55,28.85,1|2
 959,Mare Lamentorum,Mousse princess,Lunatender queen,850,36.4,27.2,1|2
-960,Ultima Thule,Arch-eta,Fan ail,858,8.2,20.6,1|2
-960,Ultima Thule,Arch-eta,Fan ail,859,11.75,21.7,1|2
-960,Ultima Thule,Arch-eta,Fan ail,856,13.3,10.5,1|2
+959,Mare Lamentorum,Mousse princess,Lunatender queen,849,28.3,26.65,1|2
+959,Mare Lamentorum,Mousse princess,Lunatender queen,848,17.15,24.7,1|2
+959,Mare Lamentorum,Mousse princess,Lunatender queen,847,10.3,24.1,1|2
+959,Mare Lamentorum,Mousse princess,Lunatender queen,846,24.3,23.35,1|2
+959,Mare Lamentorum,Mousse princess,Lunatender queen,845,18.45,21.5,1|2
 960,Ultima Thule,Arch-eta,Fan ail,863,15.2,35.95,1|2
-960,Ultima Thule,Arch-eta,Fan ail,860,16.45,25.85,1|2
-960,Ultima Thule,Arch-eta,Fan ail,861,17.6,30.35,1|2
-960,Ultima Thule,Arch-eta,Fan ail,855,19.4,10,1|2
 960,Ultima Thule,Arch-eta,Fan ail,862,21.35,34,1|2
+960,Ultima Thule,Arch-eta,Fan ail,861,17.6,30.35,1|2
+960,Ultima Thule,Arch-eta,Fan ail,860,16.45,25.85,1|2
+960,Ultima Thule,Arch-eta,Fan ail,859,11.75,21.7,1|2
+960,Ultima Thule,Arch-eta,Fan ail,858,8.2,20.6,1|2
 960,Ultima Thule,Arch-eta,Fan ail,857,28.1,12.6,1|2
-961,Elpis,Petalodus,Gurangatch,883,7.05,29.05,1|2
-961,Elpis,Petalodus,Gurangatch,876,12.85,9.8,1|2
-961,Elpis,Petalodus,Gurangatch,885,12.85,32.1,1|2
-961,Elpis,Petalodus,Gurangatch,884,17.8,30.15,1|2
-961,Elpis,Petalodus,Gurangatch,881,18.5,24.45,1|2
-961,Elpis,Petalodus,Gurangatch,878,21.35,13.45,1|2
-961,Elpis,Petalodus,Gurangatch,875,21.7,6.05,1|2
-961,Elpis,Petalodus,Gurangatch,882,29.4,27.65,1|2
-961,Elpis,Petalodus,Gurangatch,880,32.55,18.6,1|2
-961,Elpis,Petalodus,Gurangatch,877,33.95,10.85,1|2
-961,Elpis,Petalodus,Gurangatch,879,34.35,14.2,1|2
+960,Ultima Thule,Arch-eta,Fan ail,856,13.3,10.5,1|2
+960,Ultima Thule,Arch-eta,Fan ail,855,19.4,10,1|2
+961,Elpis,Petalodus,Gurangatch,874,12.85,32.1,1|2
+961,Elpis,Petalodus,Gurangatch,873,17.8,30.15,1|2
+961,Elpis,Petalodus,Gurangatch,872,7.05,29.05,1|2
+961,Elpis,Petalodus,Gurangatch,871,29.4,27.65,1|2
+961,Elpis,Petalodus,Gurangatch,870,18.5,24.45,1|2
+961,Elpis,Petalodus,Gurangatch,869,32.55,18.6,1|2
+961,Elpis,Petalodus,Gurangatch,868,34.35,14.2,1|2
+961,Elpis,Petalodus,Gurangatch,867,21.35,13.45,1|2
+961,Elpis,Petalodus,Gurangatch,866,33.95,10.85,1|2
+961,Elpis,Petalodus,Gurangatch,865,12.85,9.8,1|2
+961,Elpis,Petalodus,Gurangatch,864,21.7,6.05,1|2
+1187,Urqopacha,Queen hawk,Nechuciho,,7.4,25.5,1|2
+1187,Urqopacha,Queen hawk,Nechuciho,,11.4,9.1,1|2
+1187,Urqopacha,Queen hawk,Nechuciho,,15.7,24.1,1|2
+1187,Urqopacha,Queen hawk,Nechuciho,,18.8,14,1|2
+1187,Urqopacha,Queen hawk,Nechuciho,,21.6,20.4,1|2
+1187,Urqopacha,Queen hawk,Nechuciho,,28.1,22.4,1|2
+1187,Urqopacha,Queen hawk,Nechuciho,,28.7,9.3,1|2
+1188,Kozama'uka,The raintriller,Pkuucha,,5.2,28.7,1|2
+1188,Kozama'uka,The raintriller,Pkuucha,,6.6,11.9,1|2
+1188,Kozama'uka,The raintriller,Pkuucha,,9.2,7.9,1|2
+1188,Kozama'uka,The raintriller,Pkuucha,,15.7,23.4,1|2
+1188,Kozama'uka,The raintriller,Pkuucha,,16.4,17.2,1|2
+1188,Kozama'uka,The raintriller,Pkuucha,,20.3,28.4,1|2
+1188,Kozama'uka,The raintriller,Pkuucha,,24,36.6,1|2
+1188,Kozama'uka,The raintriller,Pkuucha,,36.5,17.2,1|2
+1189,Yak T'el,Rrax yity'a,Starcrier,,8.6,19.3,1|2
+1189,Yak T'el,Rrax yity'a,Starcrier,,21.3,36.4,1|2
+1189,Yak T'el,Rrax yity'a,Starcrier,,21.8,28.5,1|2
+1189,Yak T'el,Rrax yity'a,Starcrier,,23.4,14.1,1|2
+1189,Yak T'el,Rrax yity'a,Starcrier,,24.8,33,1|2
+1189,Yak T'el,Rrax yity'a,Starcrier,,26.2,9.4,1|2
+1189,Yak T'el,Rrax yity'a,Starcrier,,32.8,16.3,1|2
+1190,Shaaloani,Yehehetoaua'pyo,Keheniheyamewi,,9,16.3,1|2
+1190,Shaaloani,Yehehetoaua'pyo,Keheniheyamewi,,16,8.2,1|2
+1190,Shaaloani,Yehehetoaua'pyo,Keheniheyamewi,,21.7,32.8,1|2
+1190,Shaaloani,Yehehetoaua'pyo,Keheniheyamewi,,22.2,28.1,1|2
+1190,Shaaloani,Yehehetoaua'pyo,Keheniheyamewi,,22.9,18.8,1|2
+1190,Shaaloani,Yehehetoaua'pyo,Keheniheyamewi,,24.6,23.1,1|2
+1190,Shaaloani,Yehehetoaua'pyo,Keheniheyamewi,,31.3,22.9,1|2
+1190,Shaaloani,Yehehetoaua'pyo,Keheniheyamewi,,34.3,6.5,1|2
+1191,Heritage Found,Heshuala,Urna variabilis,,8.5,33.3,1|2
+1191,Heritage Found,Heshuala,Urna variabilis,,12.8,21.4,1|2
+1191,Heritage Found,Heshuala,Urna variabilis,,14.6,26,1|2
+1191,Heritage Found,Heshuala,Urna variabilis,,23.6,19.7,1|2
+1191,Heritage Found,Heshuala,Urna variabilis,,27.1,33.7,1|2
+1191,Heritage Found,Heshuala,Urna variabilis,,27.2,13.6,1|2
+1191,Heritage Found,Heshuala,Urna variabilis,,29.5,29.8,1|2
+1191,Heritage Found,Heshuala,Urna variabilis,,29.9,19.6,1|2
+1192,Living Memory,Sally the sweeper,Cat's eye,,4.3,29,1|2
+1192,Living Memory,Sally the sweeper,Cat's eye,,5.1,12.5,1|2
+1192,Living Memory,Sally the sweeper,Cat's eye,,12.4,37.8,1|2
+1192,Living Memory,Sally the sweeper,Cat's eye,,12.9,27.4,1|2
+1192,Living Memory,Sally the sweeper,Cat's eye,,18.8,20.2,1|2
+1192,Living Memory,Sally the sweeper,Cat's eye,,26.8,31,1|2
