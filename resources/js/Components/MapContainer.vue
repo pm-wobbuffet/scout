@@ -59,6 +59,12 @@
             </div>
             <div class="flex shrink">
                 <button
+                class="mr-2 flex items-center gap-x-2 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300"
+                title="Export marks as text"
+                @click.prevent="copyMarksAsText">
+                    <ExportIcon title="Export marks as text" /> Export
+                </button>
+                <button
                     class="mr-2 flex items-center gap-x-2 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300"
                     @click.prevent="showMarkOverlay = true">
                     <NoteMultipleOutline class="inline-block" />
@@ -72,6 +78,8 @@
             </div>
         </nav>
         <main class="map-main-window">
+            <textarea name="txtExport" id="txtExport" :value="getExportTextValue"
+            class="hidden"></textarea>
             <div class="map-image-list order-2">
                 <template v-for="zone in getMapsForExpansion()">
                     <ZoneMap v-for="i in zone.default_instances" :id="`zonemap-${zone.id}-${i}`"
@@ -118,11 +126,11 @@
                     </div>
                     <ul class="text-sm">
                         <template v-for="zone in expac.zones">
-                            <li v-for="i in zone.default_instances" class="hover:bg-slate-200 ml-2 pr-2"
+                            <li v-for="i in zone.default_instances" class="hover:bg-slate-200 dark:hover:bg-slate-700 ml-2 pr-2"
                                 :class="{ 'line-through': getFoundMobCount(zone.id, i) == zone.mobs.length }"><a
                                     class="text-blue-500" :href="`#zonemap-${zone.id}-${i}`">{{ getDisplayName(zone,
                                         defaultLanguage) }}</a>
-                                <span class="ml-1 font-bold text-blue-800" v-if="zone.default_instances > 1">{{ i
+                                <span class="ml-1 font-bold text-blue-800 dark:text-blue-400" v-if="zone.default_instances > 1">{{ i
                                     }}</span>
                                 <i class="text-sm ml-2 text-black dark:text-slate-200">{{ getFoundMobCount(zone.id, i)
                                     }}/{{ zone.mobs.length }}
@@ -246,6 +254,7 @@ import WeatherSunnyIcon from 'vue-material-design-icons/WeatherSunny.vue';
 import WeatherNightIcon from "vue-material-design-icons/WeatherNight.vue";
 import ClipboardTextMultipleOutlineIcon from "vue-material-design-icons/ClipboardTextMultipleOutline.vue";
 import { getDisplayName, languages } from "@/helpers";
+import { useToast } from "vue-toastification";
 
 const emit = defineEmits(['pointUpdated', 'mapFinalized', 'clipboardImport'])
 
@@ -281,6 +290,7 @@ const defaultLanguage = ref('en')
 const outputTextFromImport = ref('')
 const processingImport = ref(false)
 const allowBlankMobImport = ref(true)
+const toast = useToast()
 
 let lastPointAddTime = -1 * Date.now()
 
@@ -301,6 +311,54 @@ const showImportDialog = function (event) {
     outputTextFromImport.value = ''
     document.getElementById('pasteMarks').showModal()
 }
+
+const copyMarksAsText = async function() {
+    try {
+        let linkText = document.getElementById('txtExport').value
+        await navigator.clipboard.writeText(linkText)
+        toast.success('Marks copied!')
+    } catch (err) {
+        // Silently fail
+        console.log(err)
+    }
+}
+
+const getExportTextValue = computed(() => {
+    const intToName = function(val) {
+        return {
+            1: 'ONE',
+            2: 'TWO',
+            3: 'THREE',
+            4: 'FOUR',
+            5: 'FIVE',
+            6: 'SIX',
+        }[val] ?? ''
+    }
+    let ret = ''
+    props.expac.forEach((expansion) => {
+        if(getMappedMobsForExpac(expansion) > 0) {
+            expansion.zones.forEach((zone) => {
+                for(let i = 1; i <= zone.default_instances; i++) {
+                    if(getFoundMobCount(zone.id, i) > 0) {
+                        form.point_data[zone.id][i].forEach((mob) => {
+                            ret += zone.mobs.find((el) => el.id == mob.mob_id).name
+                            ret += ` @ \uE0BB${zone.name}`
+                            if(zone.default_instances > 1) {
+                                ret += intToInstanceMapping[i]
+                            }
+                            ret += ` ( ${mob.x} , ${mob.y} ) `
+                            if(zone.default_instances > 1) {
+                                ret += `Instance ${intToName(i)}`
+                            }
+                            ret += "\n"
+                        })
+                    }
+                }
+            })
+        }
+    })
+    return ret
+})
 
 const cycleLanguage = function () {
     let curIndex = languages.findIndex((el) => el.abbrev == defaultLanguage.value)
@@ -481,6 +539,16 @@ const getPointById = function(zone, point_id) {
     })
 }
 
+const instanceToIntMapping = {
+        "": 1,
+        "": 2,
+        "": 3,
+        "": 4,
+        "": 5,
+        "": 6,
+}
+const intToInstanceMapping = Object.fromEntries(Object.entries(instanceToIntMapping).map(([key, value]) => [value, key]))
+
 const parsePastedLog = function () {
     const txtArea = document.getElementById('pastedLog')
     processingImport.value = true
@@ -492,14 +560,6 @@ const parsePastedLog = function () {
         'success': [],
     }
 
-    const instanceToIntMapping = {
-        "": 1,
-        "": 2,
-        "": 3,
-        "": 4,
-        "": 5,
-        "": 6,
-    }
     //\uE0B1 = Instance 1 , \uE0B2 = 2 , \uE0B3 = 3  \uE0BB = start of flag marker
     const re = /[\uE0BB]([^\uE0B1-\uE0B6]*)([\uE0B1-\uE0B6]?) \( ([0-9\.]+)\W+,\W+([0-9\.]+)\W+\).*/
     const instanceCheck = /(instance.|i)([1|2|3])/i
