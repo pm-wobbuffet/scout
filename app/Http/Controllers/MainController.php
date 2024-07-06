@@ -20,7 +20,7 @@ use Sqids\Sqids;
 
 class MainController extends Controller
 {
-    
+
     /**
      * Show a blank map for the user to start their scouting journey
      *
@@ -46,7 +46,7 @@ class MainController extends Controller
         //dd($request->all());
         $s = Scout::create($request->safe()->all());
         $this->extractCustomPoints($request->all(), $s);
-        
+
         //return Inertia::location(route('scout.view', [$s->slug, $s->collaborator_password]));
         return redirect()->route('scout.view',[$s->slug, $s->collaborator_password])
         ->with(['newly_created' => true]);
@@ -58,19 +58,22 @@ class MainController extends Controller
      *
      * @param Scout $scout
      * @param string $password
-     * @return \Inertia\Response
+     * @return \Inertia\Response | \Illuminate\Http\Response | \Illuminate\Http\JsonResponse
      */
-    public function view(Scout $scout, string $password = ''): \Inertia\Response
+    public function view(Request $request, Scout $scout, string $password = ''): \Inertia\Response | \Illuminate\Http\Response | \Illuminate\Http\JsonResponse
     {
         $scout->load(['updates']);
         $scout->loadMax('updates', 'id');
         if($password && $password === $scout->collaborator_password) {
             $scout->makeVisible(['collaborator_password']);
         }
-        
+
         $expansions = $this->getExpansionsData();
 
         $exp_totals = $this->calculateExpTotals($expansions, $scout);
+        if($request->wantsJson() || $request->has('json')) {
+            return response()->json($this->generateJson($scout, $password === $scout->collaborator_password));
+        }
         $this->setOGTitle(implode(', ', $exp_totals));
         return Inertia::render('Scout/View',[
             'expac' =>  $expansions,
@@ -101,7 +104,7 @@ class MainController extends Controller
                 'collision'     => true,
             ];
         }
-        
+
         // Store the update sent
         $up = new ScoutUpdate($request->safe()->all());
         $up->previous_instance_data = $scout->instance_data;
@@ -136,8 +139,8 @@ class MainController extends Controller
         ->where('scout_id', $scout->id)
         ->where('point_id', $request->input('point')['id'])
         ->delete();
-        
-        if( !is_null($request->input('mob')['mob_index']) ) 
+
+        if( !is_null($request->input('mob')['mob_index']) )
         {
             // Add the point to the list
             $s[] = [
@@ -311,12 +314,12 @@ class MainController extends Controller
     {
         return Expansion::query()
         ->with([
-            'zones', 
+            'zones',
             'zones.mobs' => function($query) {
                 $query->select(['id', 'name', 'rank', 'mob_index', 'zone_id', 'names']);
-            }, 
-            'zones.aetherytes', 
-            'zones.spawn_points', 
+            },
+            'zones.aetherytes',
+            'zones.spawn_points',
             'zones.spawn_points.valid_mobs' => function($query) {
                 $query->select(['mobs.id', 'name', 'mob_index', 'zone_id']);
             }])
@@ -340,9 +343,21 @@ class MainController extends Controller
                             'mob_id'    => $mob['mob_id'],
                             'line_source' => $mob['line'] ?? null,
                         ]);
-                    }   
+                    }
                 }
             }
         }
+    }
+
+    private function generateJson(Scout $scout, $is_collaborator = false) {
+        $r = [
+            'scout_id'          => $scout->id,
+            'instance_counts'   => $scout->instance_data,
+            'mob_list'          => $scout->point_data,
+        ];
+        if($is_collaborator) {
+            $r['collaborator_password'] = $scout->collaborator_password;
+        }
+        return $r;
     }
 }
