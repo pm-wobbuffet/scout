@@ -92,6 +92,11 @@ const updateMobSpawnAssignments = function() {
         model.value.point_data[props.zone.id][props.instance] = []
     }
     let combinedSpawnPoints = props.zone.spawn_points.concat(getCustomSpawnPoints())
+    // Always empty out the currently assigned mob array on update
+    // This prevents users from getting locked out of assigning mobs because of a phantom
+    // mob taking up a previously assigned point when it had already been zero'ed out
+    // by another user.
+    // https://github.com/pm-wobbuffet/scout/issues/2
     mobPoints.value = {}
     if(combinedSpawnPoints?.length > 0) {
         combinedSpawnPoints.forEach((point) => {
