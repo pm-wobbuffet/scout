@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Expansion extends Model
 {
+    protected $hidden = ['created_at', 'updated_at'];
+
     /* Accessors and Mutators */
 
     /* Relations */

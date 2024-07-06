@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Request;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
@@ -31,5 +34,9 @@ class AppServiceProvider extends ServiceProvider
 
             $dumper->dump($cloner->cloneVar($var));
         }));
+
+        RateLimiter::for('api', function(Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Zone;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreScoutRequest extends FormRequest
@@ -16,6 +17,13 @@ class StoreScoutRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        // If a request includes no instance_data, default to including
+        // whatever we have in the database presently
+        if(!$this->has('instance_data')) {
+            $this->merge([
+                'instance_data' => $this->getDefaultInstanceCounts(),
+            ]);
+        }
         $this->merge([
             'collaborator_password' =>  str(bin2hex(random_bytes(4))),
         ]);
@@ -43,8 +51,16 @@ class StoreScoutRequest extends FormRequest
             'point_data.*.*.*.expansion_id' =>  'integer|nullable',
             'point_data.*'                  =>  'array',
             'point_data.*.*'                =>  'array',
-            'custom_points'                 =>  'array',  
+            'custom_points'                 =>  'array',
             'collaborator_password'         =>  'required',
         ];
+    }
+
+    private function getDefaultInstanceCounts() {
+        return Zone::query()
+        ->select(['id', 'default_instances'])
+        ->orderBy('sort_priority')
+        ->get()
+        ->pluck('default_instances', 'id')->toArray();
     }
 }
