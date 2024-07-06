@@ -2,7 +2,7 @@
     <div class="map-container-block"
         :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`"
         @mousemove.self="handleMouseOver"
-        @mouseout="handleMouseOut" 
+        @mouseout="handleMouseOut"
         @dblclick.prevent="(e) => dblClickMap(e, zone)">
         <div class="absolute mob-list pointer-events-none">
             <ol class="block list-decimal pl-4">
@@ -15,11 +15,11 @@
             :style="{ 'left': convertCoordToPercent(aetheryte.x, zone), 'top': convertCoordToPercent(aetheryte.y, zone) }"
             :data-title="getDisplayName(aetheryte, props.language)">
         </div>
-        <button v-for="point in zone.spawn_points.concat(getCustomSpawnPoints())"  
-            class="" 
+        <button v-for="point in zone.spawn_points.concat(getCustomSpawnPoints())"
+            class=""
             :class="`point-taken-by-${getTakenMob(point.id)?.mob_index}`"
             :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
-            :data-title="`${point.x},${point.y}`" 
+            :data-title="`${point.x},${point.y}`"
             :disabled="isPointDisabled(point.id) && !isPointSelected(point.id)"
             :data-coords="`${point.x}, ${point.y}`"
             @click.stop.prevent="assignMob(point)"
@@ -40,7 +40,7 @@
 
 <script setup>
 import { getDisplayName } from "@/helpers";
-import { onMounted, ref, getCurrentInstance, onBeforeMount, watch } from "vue"
+import { onMounted, ref, getCurrentInstance, onBeforeMount, watch, onUpdated } from "vue"
 import AlertOutlineIcon from "vue-material-design-icons/AlertOutline.vue";
 
 // Parent model link
@@ -63,7 +63,7 @@ const props = defineProps({
 })
 
 watch(() => model.value, function() {
-    //.log("Model Changed")
+    //console.log("Model Changed")
     updateMobSpawnAssignments()
 },{deep:true})
 
@@ -79,7 +79,7 @@ onBeforeMount(() => {
     if(props.editmode) {
         editMode.value = props.editmode
     }
-    
+
 })
 
 // Remap mobs that are positioned to the mobPoints reactive element
@@ -92,6 +92,7 @@ const updateMobSpawnAssignments = function() {
         model.value.point_data[props.zone.id][props.instance] = []
     }
     let combinedSpawnPoints = props.zone.spawn_points.concat(getCustomSpawnPoints())
+    mobPoints.value = {}
     if(combinedSpawnPoints?.length > 0) {
         combinedSpawnPoints.forEach((point) => {
             if(model.value.point_data[props.zone.id][props.instance].length > 0) {
@@ -193,7 +194,7 @@ const getTakenMob = function(point_id) {
     }
 
     let mob = pts.find( (el) => el.point_id == point_id)
-    
+
     return mobsById?.[mob?.mob_id] ?? {'mob_index': ''}
 }
 
