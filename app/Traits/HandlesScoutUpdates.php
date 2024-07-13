@@ -88,8 +88,9 @@ trait HandlesScoutUpdates
                 // Make sure the mob itself is also removed if it was already assigned
                 // This prevents errors from API calls where javascript logic isn't checking this
                 // ahead of time on the client side
-                if($request->safe()->input('mob') 
-                    && $value['mob_id'] == $request->safe()->input('mob')['id']) 
+                if( is_array($request->safe()->input('mob'))
+                    && $request->safe()->input('mob')['mob_index'] != ''
+                    && $value['mob_id'] == $request->safe()->input('mob')['id'] ) 
                 {
                     return false;
                 }
