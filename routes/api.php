@@ -20,5 +20,6 @@ Route::group([
         Route::get('/expansions', 'ExpansionController@index');
 
         Route::apiResource('scout', 'ScoutController');
+
     }
 )->middleware(['throttle:api']);

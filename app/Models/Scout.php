@@ -12,9 +12,19 @@ class Scout extends Model
     protected   $guarded = ['id'];
     protected   $hidden = ['collaborator_password'];
 
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     protected static function booted(): void
     {
-        static::created(function(Scout $scout) {
+        static::created(function (Scout $scout) {
             // Create an sqid ID to serve as a slug for the submission
             $sqids = new Sqids(minLength: 10, alphabet: env('SQID_ALPHABET'));
             $scout->slug = $sqids->encode([$scout->id]);

@@ -4,11 +4,17 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreScoutRequest;
+use App\Http\Requests\UpdateScoutAPIRequest;
+use App\Http\Requests\UpdateScoutRequest;
 use App\Models\Scout;
+use App\Traits\HandlesScoutUpdates;
+use App\Traits\Traits\HandlesCustomPoints;
 use Illuminate\Http\Request;
 
 class ScoutController extends Controller
 {
+    use HandlesScoutUpdates, HandlesCustomPoints;
+
     /**
      * Display a listing of the resource.
      */
@@ -49,9 +55,23 @@ class ScoutController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateScoutAPIRequest $request, Scout $scout)
     {
-        //
+        //$scout = Scout::where('slug', $id)->firstOrFail();
+        // Store the update sent
+        $this->saveScoutUpdate($request, $scout);
+        // Delete any previous custom points added here
+        $this->deleteCustomPointsForScout($scout, $request->input('point')['id']);
+        // Process the actual update and assign the mob to the point_data array
+        $this->handleScoutUpdate($request, $scout);
+
+        return response()->json([
+            'point_id'              =>  $request->safe()->input('point_id'),
+            'scout_id'              =>  $scout->slug,
+            'collaborator_password' =>  $scout->slug,
+            'readonly_url'          => route('scout.view', $scout),
+            'collaborate_url'       => route('scout.view', [$scout, $scout->collaborator_password]),
+        ]);
     }
 
     /**

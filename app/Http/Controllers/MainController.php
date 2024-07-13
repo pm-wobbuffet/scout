@@ -10,6 +10,8 @@ use App\Models\Expansion;
 use App\Models\Scout;
 use App\Models\ScoutUpdate;
 use App\Models\Zone;
+use App\Traits\HandlesScoutUpdates;
+use App\Traits\Traits\HandlesCustomPoints;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +22,7 @@ use Sqids\Sqids;
 
 class MainController extends Controller
 {
+    use HandlesScoutUpdates, HandlesCustomPoints;
 
     /**
      * Show a blank map for the user to start their scouting journey
@@ -106,73 +109,11 @@ class MainController extends Controller
         }
 
         // Store the update sent
-        $up = new ScoutUpdate($request->safe()->all());
-        $up->previous_instance_data = $scout->instance_data;
-        $up->previous_point_data = $scout->point_data;
-        $up->previous_custom_points = $scout->custom_points;
-        $up->scout_id = $scout->id;
-        $up->x = $request->input('point')['x'];
-        $up->y = $request->input('point')['y'];
-        $up->mob_index = $request->input('mob')['mob_index'] ?? '';
-        $up->point_id = $request->input('point')['id'];
-        $up->save();
-
-
-        // If the mob has no index, we're clearing out the point
-        $zone = Zone::where('id', $request->input('zone_id'))->first();
-        $expac_id = $zone->expansion_id;
-        $points = $scout->point_data;
-        $s = $points[$request->input('zone_id')][$request->input('instance_number')] ?? [];
-        if(sizeof($s) > 0) {
-            // Points already exist, need to filter out this point and we can fill it with a new mob if necessary
-            // Use array values to keep it from fucking up if a mob is deleted
-            // since array_filter preserves keys by default
-            $s = array_values(array_filter($s, function($value) use ($request) {
-                if($value['point_id'] == $request->input('point')['id']) {
-                    return false;
-                }
-                return true;
-            }));
-        }
+        $this->saveScoutUpdate($request, $scout);
         // Delete any previous custom points added here
-        CustomPoint::query()
-        ->where('scout_id', $scout->id)
-        ->where('point_id', $request->input('point')['id'])
-        ->delete();
-
-        if( !is_null($request->input('mob')['mob_index']) )
-        {
-            // Add the point to the list
-            $s[] = [
-                'x'             => $request->input('point')['x'],
-                'y'             => $request->input('point')['y'],
-                'mob_id'        => $request->input('mob')['id'],
-                'zone_id'       => $zone->id,
-                'point_id'      => $request->input('point')['id'],
-                'expansion_id'  => $expac_id,
-            ];
-            if($request->input('point')['id'] < 0) {
-                // This was a custom point, so throw it in the CustomPoints table
-                CustomPoint::create([
-                    'scout_id'  => $scout->id,
-                    'zone_id'   => $zone->id,
-                    'point_id'  => $request->input('point')['id'],
-                    'x'         => $request->input('point')['x'],
-                    'y'         => $request->input('point')['y'],
-                    'mob_id'    => $request->input('mob')['id'],
-                ]);
-            }
-        }
-        $points[$request->input('zone_id')][$request->input('instance_number')] = $s;
-        $scout->point_data = $points;
-        //$scout->point_data[$request->input('zone_id')][$request->input('instance_number')];
-
-        // Make sure any custom points we have in the DB but the client didn't submit are sent back to them
-        // since another user submitted a point in a different window
-        $custom_points = (new Collection($scout->custom_points))->concat($request->safe()->input('custom_points'))
-        ->unique('id')->values()->all();
-        $scout->custom_points = $custom_points;
-        $scout->save();
+        $this->deleteCustomPointsForScout($scout, $request->input('point')['id']);
+        // Process the actual update and assign the mob to the point_data array
+        $this->handleScoutUpdate($request, $scout);
 
         return [
             'point_data'    => $scout->point_data,
@@ -290,24 +231,6 @@ class MainController extends Controller
             }
         }
         return $ret;
-    }
-
-    private function mobAlreadyExists(UpdateScoutRequest $request, Scout $scout)
-    {
-        if($request->mob['mob_index'] == '') {
-            // They're clearing out a point
-            return false;
-        }
-        $z = $scout->point_data[$request->zone_id][$request->instance_number] ?? null;
-        if(!$z) {
-            return false;
-        }
-        foreach($z as $mob_point) {
-            if($mob_point['mob_id'] == $request->mob['id']) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private function getExpansionsData()
