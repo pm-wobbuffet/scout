@@ -24,6 +24,15 @@ class StoreScoutRequest extends FormRequest
                 'instance_data' => $this->getDefaultInstanceCounts(),
             ]);
         }
+        // If there's no custom point data, initialize as an empty array, just to make
+        // API calls with more brevity
+        if(!$this->has('custom_points')) {
+            $this->merge([
+                'custom_points' => [],
+            ]);
+        }
+
+        // Generate the collaborator password automatically.
         $this->merge([
             'collaborator_password' =>  str(bin2hex(random_bytes(4))),
         ]);
@@ -56,6 +65,11 @@ class StoreScoutRequest extends FormRequest
         ];
     }
 
+    /**
+     * Get the current number of default instances per zone
+     *
+     * @return void
+     */
     private function getDefaultInstanceCounts() {
         return Zone::query()
         ->select(['id', 'default_instances'])
