@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Mob;
 use App\Models\Scout;
+use App\Models\SpawnPoint;
 use App\Models\Zone;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -51,6 +52,11 @@ class UpdateScoutAPIRequest extends FormRequest
                 'point'     =>  $point['point']->toArray(),
                 'distance'  =>  $point['distance'],
             ]);
+        } else {
+            // Pull in point details
+            $this->merge([
+                'point'     =>  SpawnPoint::where('id', $this->point_id)->first()->toArray(),
+            ]);
         }
 
         // The javascript client posts a mob_index, but for ease of use, allow
@@ -83,7 +89,17 @@ class UpdateScoutAPIRequest extends FormRequest
         ];
     }
 
-    private function findClosestSpawnPoint(Zone $zone, float $x, float $y)
+
+    /**
+     * Return the closest spawn point to the given x, y coordinate in a zone.
+     * Also returns the distance calculated to the spawn point, in case the ability to add
+     * custom spawn points via API ends up being supported.
+     * @param \App\Models\Zone $zone
+     * @param float $x
+     * @param float $y
+     * @return array{point: SpawnPoint, distance: float}
+     */
+    private function findClosestSpawnPoint(Zone $zone, float $x, float $y): array
     {
         $closest = null;
         $min_found = PHP_FLOAT_MAX;
