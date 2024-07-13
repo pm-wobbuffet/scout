@@ -101,7 +101,10 @@ trait HandlesScoutUpdates
         // Check to see if they're actually assigning a new mob
         // If NULL is passed, they're blanking out the currently assigned point so
         // we just skip this
-        if( !is_null($request->safe()->input('mob')['mob_index'] ?? null) )
+        if( 
+            !is_null($request->safe()->input('mob')['mob_index'] ?? null) 
+            && $request->safe()->input('mob')['mob_index'] != ''
+        )
         {
             // Add the point to the list
             $s[] = [
