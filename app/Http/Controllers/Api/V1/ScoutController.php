@@ -68,9 +68,9 @@ class ScoutController extends Controller
         return response()->json([
             'point_id'              =>  $request->safe()->input('point_id'),
             'scout_id'              =>  $scout->slug,
-            'collaborator_password' =>  $scout->slug,
-            'readonly_url'          => route('scout.view', $scout),
-            'collaborate_url'       => route('scout.view', [$scout, $scout->collaborator_password]),
+            'collaborator_password' =>  $scout->collaborator_password,
+            'readonly_url'          =>  route('scout.view', $scout),
+            'collaborate_url'       =>  route('scout.view', [$scout, $scout->collaborator_password]),
         ]);
     }
 
