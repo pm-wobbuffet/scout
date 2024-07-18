@@ -135,6 +135,94 @@ trait HandlesScoutUpdates
         $scout->save();
     }
 
+    /**
+     * For a given scouting report, cycle back through the update log and ensure that all points
+     * sent via update are included in the point_data.
+     * This is hopefully to prevent race conditions from deleting known points from a given report
+     * if multiple updates are posted/patched quickly
+     * @param \App\Models\Scout $scout
+     * @param StoreScoutRequest|UpdateScoutAPIRequest|UpdateScoutRequest $request,
+     * @return void
+     */
+    private function syncPointDataWithUpdates(
+        Scout $scout,
+        StoreScoutRequest|UpdateScoutAPIRequest|UpdateScoutRequest $request,
+    ) {
+        $updates = ScoutUpdate::where('scout_id', '=', $scout->id)
+        ->orderByDesc('id')
+        ->get();
+        // Keep track of points seen in each zone/instance so as we cycle back
+        // we can ignore previous entries that would have been superseeded by a later one
+        $points_seen = [];
+        foreach($updates as $update) {
+
+        }
+    }
+
+    private function createBulkUpdate(
+        Scout $scout,
+        array $sightings
+    ) {
+        $points = $scout->point_data;
+        foreach($sightings as $sighting)
+        {
+            // Get or initialize a blank array of mobs assigned to this zone+instance
+            $s = $points[$sighting['zone_id']][$sighting['instance_number']] ?? [];
+            if(sizeof($s) > 0) {
+                // Need to remove existing mobs/points that are in this sighting
+                $s = array_values(array_filter($s, function($value) use ($sighting) {
+                    // If this point was already used, clear it out
+                    if($value['point_id'] == $sighting['point']['id']) {
+                        return false;
+                    }
+                    // Make sure the mob itself is also removed if it was already assigned
+                    // This prevents errors from API calls where javascript logic isn't checking this
+                    // ahead of time on the client side
+                    if( is_array($sighting['mob'])
+                        && $sighting['mob']['mob_index'] != ''
+                        && $value['mob_id'] == $sighting['mob']['id'] ) 
+                    {
+                        return false;
+                    }
+                    return true;
+                }));
+            }
+
+            // Is a new mob being assigned?
+            if(
+                !is_null($sighting['mob']['mob_index'])
+                && $sighting['mob']['mob_index'] != ''
+            ) {
+                $s[] = [
+                    'x' => $sighting['x'],
+                    'y' => $sighting['y'],
+                    'mob_id' => $sighting['mob']['id'],
+                    'point_id' => $sighting['point']['id'],
+                ];
+                if($sighting['point']['id'] < 0) {
+                    // TODO: Handle custom point saving logic
+                }
+            }
+            // Persist data
+            $points[$sighting['zone_id']][$sighting['instance_number']] = $s;
+            $this->createAtomicUpdateFromBulk($sighting, $scout);
+        }
+        $scout->point_data = $points;
+        $scout->save();
+    }
+
+    private function createAtomicUpdateFromBulk($sighting, Scout $scout) {
+        $up = new ScoutUpdate($sighting);
+        $up->previous_instance_data = $scout->instance_data;
+        $up->previous_point_data = $scout->point_data;
+        $up->previous_custom_points = $scout->custom_points;
+        $up->scout_id = $scout->id;
+        $up->x = $sighting['x'];
+        $up->y = $sighting['y'];
+        $up->mob_index = $sighting['mob']['mob_index'] ?? '';
+        $up->point_id = $sighting['point']['id'];
+        $up->save();
+    }
     private function createCustomPointLogEntry(
         StoreScoutRequest|UpdateScoutAPIRequest|UpdateScoutRequest $request,
         Scout $scout,

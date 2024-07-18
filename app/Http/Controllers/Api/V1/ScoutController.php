@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BulkUpdateScoutAPIRequest;
 use App\Http\Requests\StoreScoutRequest;
 use App\Http\Requests\UpdateScoutAPIRequest;
 use App\Http\Requests\UpdateScoutRequest;
@@ -57,11 +58,12 @@ class ScoutController extends Controller
      */
     public function update(UpdateScoutAPIRequest $request, Scout $scout)
     {
-        //$scout = Scout::where('slug', $id)->firstOrFail();
-        // Store the update sent
-        $this->saveScoutUpdate($request, $scout);
         // Delete any previous custom points added here
         $this->deleteCustomPointsForScout($scout, $request->input('point')['id']);
+        // Make sure all updates are reflected in the current point_data
+        //$this->syncPointDataWithUpdates($scout, $request);
+        // Store the update sent
+        $this->saveScoutUpdate($request, $scout);
         // Process the actual update and assign the mob to the point_data array
         $this->handleScoutUpdate($request, $scout);
 
@@ -71,6 +73,18 @@ class ScoutController extends Controller
             'collaborator_password' =>  $scout->collaborator_password,
             'readonly_url'          =>  route('scout.view', $scout),
             'collaborate_url'       =>  route('scout.view', [$scout, $scout->collaborator_password]),
+        ]);
+    }
+
+    public function bulkUpdate(BulkUpdateScoutAPIRequest $request, Scout $scout)
+    {
+        $this->createBulkUpdate($scout, $request->validated('sightings'));
+        return response()->json([
+            'scout_id'              =>  $scout->slug,
+            'collaborator_password' =>  $scout->collaborator_password,
+            'readonly_url'          =>  route('scout.view', $scout),
+            'collaborate_url'       =>  route('scout.view', [$scout, $scout->collaborator_password]),
+            'processed_sightings'   =>  $request->validated('sightings'),
         ]);
     }
 

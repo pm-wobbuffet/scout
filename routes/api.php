@@ -19,6 +19,7 @@ Route::group([
 
         Route::get('/expansions', 'ExpansionController@index');
 
+        Route::match(['PUT', 'PATCH'],'/scout/{scout}/bulkupdate', 'ScoutController@bulkUpdate');
         Route::apiResource('scout', 'ScoutController');
 
     }
