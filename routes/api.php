@@ -19,8 +19,8 @@ Route::group([
 
         Route::get('/expansions', 'ExpansionController@index');
 
+        Route::match(['PUT', 'PATCH'],'/scout/{scout}/bulkupdate', 'ScoutController@bulkUpdate');
         Route::apiResource('scout', 'ScoutController');
-        Route::match(['PUT', 'PATCH'],'/bulkupdate/scout/{scout}', 'ScoutController@bulkUpdate');
 
     }
 )->middleware(['throttle:api']);
