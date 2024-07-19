@@ -56,23 +56,15 @@ class ScoutController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateScoutAPIRequest $request, Scout $scout)
+    public function update(BulkUpdateScoutAPIRequest $request, Scout $scout)
     {
-        // Delete any previous custom points added here
-        $this->deleteCustomPointsForScout($scout, $request->input('point')['id']);
-        // Make sure all updates are reflected in the current point_data
-        //$this->syncPointDataWithUpdates($scout, $request);
-        // Store the update sent
-        $this->saveScoutUpdate($request, $scout);
-        // Process the actual update and assign the mob to the point_data array
-        $this->handleScoutUpdate($request, $scout);
-
+        $this->createBulkUpdate($scout, $request->validated('sightings'));
         return response()->json([
-            'point_id'              =>  $request->safe()->input('point_id'),
             'scout_id'              =>  $scout->slug,
             'collaborator_password' =>  $scout->collaborator_password,
             'readonly_url'          =>  route('scout.view', $scout),
             'collaborate_url'       =>  route('scout.view', [$scout, $scout->collaborator_password]),
+            'processed_sightings'   =>  $request->validated('sightings'),
         ]);
     }
 
