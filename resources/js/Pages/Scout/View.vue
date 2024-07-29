@@ -7,6 +7,9 @@
         @pointUpdated="handlePointUpdate"
         @mapFinalized="handleMapFinalized"
         @clipboardImport="handleClipboardImport"
+        @pauseUpdates="handlePauseUpdates"
+        @metaDetailsUpdated="handleMetaDetailUpdate"
+        @resumeUpdates="handleResumeUpdates"
         :editmode="props.scout.collaborator_password != null && !props.scout.finalized_at"
         :newly-created="props.flash?.newly_created"
         :defaultId="props.defaultId"
@@ -37,6 +40,27 @@ let updateTimeout = ref(null)
 const refreshTime = 5000
 const toast = useToast()
 
+const handlePauseUpdates = function() {
+    processUpdates.value = false
+}
+
+const handleResumeUpdates = function() {
+    processUpdates.value = true
+}
+
+const handleMetaDetailUpdate = function(title, scouts) {
+    axios.post(route('scout.updateMeta', {scout: props.scout, password: props.scout.collaborator_password}),{
+        title: title,
+        scouts: scouts,
+    }).then((response) => {
+        console.log(response)
+        processUpdates.value = true
+        mapRef.value.processUpdate(response?.data)
+    }).catch((error) => {
+        console.log("Meta update failure", error)
+    })
+}
+
 const handleClipboardImport = function(assignments, point_data, custom_points, instance_data) {
     if(!props.scout?.collaborator_password || props.scout.collaborator_password == '') return
     clearTimeout(updateTimeout)
@@ -61,7 +85,7 @@ const handleMapFinalized = function()
     {scout: props.scout, password: props.scout.collaborator_password} ))
 }
 
-const handlePointUpdate = function(point, mob, point_data, instance_data, zone_id, instance_number, custom_points) {
+const handlePointUpdate = function(point, mob, point_data, instance_data, zone_id, instance_number, custom_points, username) {
     //console.log('Point Update Called')
     if(!props.scout?.collaborator_password || props.scout.collaborator_password == '') return
     // Stop any get update requests that are pending
@@ -73,7 +97,8 @@ const handlePointUpdate = function(point, mob, point_data, instance_data, zone_i
         mob: mob,
         zone_id: zone_id,
         instance_number: instance_number,
-        custom_points: custom_points, 
+        custom_points: custom_points,
+        update_user: username,
     })
     .then((response) => {
         //console.log(response.data)

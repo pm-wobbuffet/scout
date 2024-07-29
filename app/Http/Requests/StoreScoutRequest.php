@@ -36,6 +36,26 @@ class StoreScoutRequest extends FormRequest
         $this->merge([
             'collaborator_password' =>  str(bin2hex(random_bytes(4))),
         ]);
+
+        // Did they submit a blank title? If so null it out
+        if($this->has('title')) {
+            if($this->title === '') {
+                $this->merge([
+                    'title' =>  null,
+                ]);
+            } else {
+                $this->merge([
+                    'title' => strip_tags($this->title),
+                ]);
+            }
+        }
+        $scouts = $this->scouts;
+        array_walk_recursive($scouts, function(&$scouts) {
+            $scouts = strip_tags($scouts);
+        });
+        $this->merge([
+            'scouts'    =>  $scouts,
+        ]);
     }
 
     /**
@@ -62,15 +82,18 @@ class StoreScoutRequest extends FormRequest
             'point_data.*.*'                =>  'array',
             'custom_points'                 =>  'array',
             'collaborator_password'         =>  'required',
+            'title'                         =>  'string|nullable',
+            'scouts'                        =>  'array',
+            'scouts.*'                      =>  'string',
         ];
     }
 
     /**
      * Get the current number of default instances per zone
      *
-     * @return void
+     * @return array
      */
-    private function getDefaultInstanceCounts() {
+    private function getDefaultInstanceCounts(): array {
         return Zone::query()
         ->select(['id', 'default_instances'])
         ->orderBy('sort_priority')

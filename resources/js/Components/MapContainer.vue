@@ -1,12 +1,12 @@
 <template>
     <div class="w-full min-h-[100vh]">
         <nav
-            class="flex flex-wrap w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] main-nav flex-grow-1">
+            class="flex flex-wrap gap-1 w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] main-nav flex-grow-1">
             <div class="shrink">
                 <a href="/"><img src="/turtleknife.png" height="40" width="90" class="inline"
                         alt="The turtle says to murder" /></a>
             </div>
-            <div class="flex flex-row expac-list place-self-center m-auto">
+            <div class="flex flex-wrap flex-row expac-list place-self-center m-auto">
                 <div class="expansion-list-container flex">
                     <div v-for="expansion in expac" :key="expansion.id"
                         class="text-center border p-1 px-4 expac-list-item" @click="setActiveExpac(expansion.id)"
@@ -17,7 +17,8 @@
                         </div>
                     </div>
                 </div>
-                <Popover class="self-center mr-auto basis-0 shrink ml-2 relative">
+                <div class="flex">
+                    <Popover class="self-center mr-auto basis-0 shrink ml-2 relative">
                     <PopoverButton
                         class="border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 dark:border-slate-500 rounded-sm"
                         title="Change the sort order of zones">
@@ -45,24 +46,39 @@
                         </div>
                     </PopoverPanel>
                 </Popover>
-                <button
-                    class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
-                    title="Toggle display mode between dark/light">
-                    <WeatherNightIcon v-if="lightDarkMode == 'dark'" @click="toggleDarkMode('light')" />
-                    <WeatherSunnyIcon v-else-if="lightDarkMode == 'light'" @click="toggleDarkMode('dark')" />
-                </button>
-                <button
-                    class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
-                    title="Cycle through available display languages (English, Japanese, French, German)"
-                    @click="cycleLanguage()">{{
-                        defaultLanguage.toUpperCase() }}</button>
+                    <button
+                        class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
+                        title="Toggle display mode between dark/light">
+                        <WeatherNightIcon v-if="lightDarkMode == 'dark'" @click="toggleDarkMode('light')" />
+                        <WeatherSunnyIcon v-else-if="lightDarkMode == 'light'" @click="toggleDarkMode('dark')" />
+                    </button>
+                    <button
+                        class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
+                        title="Cycle through available display languages (English, Japanese, French, German)"
+                        @click="cycleLanguage()">{{
+                            defaultLanguage.toUpperCase() }}</button>
 
-                <button
-                    class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
-                    title="Enter a display name to submit with your scout report (optional)"
-                    >{{ getUserDisplayName() }}</button>
-                <input class="p-0  border-white self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
-                value="hi">
+                    <button
+                        class="self-center whitespace-nowrap mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
+                        title="Enter a display name to submit with your scout report (optional)"
+                        v-if="!editingUsername"
+                        @click.prevent="toggleUsernameEditor()"
+                        >{{ getUserDisplayName() }}</button>
+                    <div class="flex self-center justify-center items-center basis-0 shrink"
+                    v-if="editingUsername">
+                        <input class="p-0  border-white self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
+                        id="txtDisplayUserName"
+                        maxlength="30"
+                        @keypress.enter="setUserDisplayName()"
+                        :value="getUserDisplayName()">
+                        <button
+                        @click="setUserDisplayName()"
+                        >
+                            <CheckBold />
+                        </button>
+                    </div>
+                    
+                </div>
 
             </div>
             <div class="flex shrink">
@@ -97,6 +113,9 @@
                 </template>
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800">
+                <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300" v-if="form.title != ''">
+                    <div class="text-sm inline-block">{{ form.title }}</div>
+                </div>
                 <div class="grid grid-cols-2 gap-1 p-1 scale-90">
                     <a href="#"
                         class="inline-flex rounded-md bg-blue-400 dark:bg-blue-900 px-3 text-white dark:text-slate-300 py-1 mr-1 font-bold">
@@ -128,6 +147,7 @@
                     <a href="#"
                     class="inline-flex rounded-md bg-green-700 dark:bg-green-800 py-1 font-bold px-3 text-white dark:text-slate-300"
                     title="Enter details about the scouting report, including names of scouts"
+                    @click.prevent="showDetailsDialog()"
                     >
                     <ClipboardTextOutline />
                     Details</a>
@@ -166,33 +186,34 @@
                 </div>
             </aside>
         </main>
-        <dialog id="scoutDetails" class="relative min-w-[400px]">
+        <dialog id="scoutDetails" class="relative min-w-[400px]"
+        @close="handleDetailsUpdated">
             <h1 class="font-bold text-2xl mb-4">Scout Report Details</h1>
-            <form>
-                <div class="grid grid-cols-2 items-center gap-2 w-full" style="grid-template-columns: auto 1fr;">
-                    <div>Title</div>
-                    <div>
-                        <input type="text" name="scouttitle" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black w-full" v-model="form.title"
-                        title="You can optionally enter a descriptive title for the scout report, i.e. Adam 30 July AM Train">
+            <div class="grid grid-cols-2 items-center gap-2 w-full" style="grid-template-columns: auto 1fr;">
+                <div>Title</div>
+                <div>
+                    <input type="text" name="scouttitle" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black w-full" v-model="form.title"
+                    title="You can optionally enter a descriptive title for the scout report, i.e. Adam 30 July AM Train">
+                </div>
+                <div>Scouts:</div>
+                <div>
+                    <div v-for="(scout, index) in form.scouts" class="flex gap-1 mb-1">
+                        <input v-model="form.scouts[index]" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black p-1">
+                        <button class="rounded-md p-1 bg-gray-400 dark:bg-slate-400 text-black text-xs"
+                        @click.prevent="removeScout(index)"
+                        title="Remove this scout from the scouting report"
+                        >Remove</button>
                     </div>
-                    <div>Scouts:</div>
-                    <div>
-                        <div v-for="(scout, index) in form.scouts" class="flex gap-1 mb-1">
-                            <input v-model="form.scouts[index]" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black p-1">
-                            <button class="rounded-md p-1 bg-gray-400 dark:bg-slate-400 text-black text-xs"
-                            @click.prevent="removeScout(index)"
-                            title="Remove this scout from the scouting report"
-                            >Remove</button>
-                        </div>
-                        <div class="flex gap-1 mb-1">
-                            <input id="txtNewScout" name="newscout" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black p-1">
-                            <button class="rounded-md p-1 bg-gray-400 dark:bg-slate-400 text-black text-xs"
-                            title="Add a credit to the scouting report"
-                            @click.prevent="handleAddScout">Add</button>
-                        </div>
+                    <div class="flex gap-1 mb-1">
+                        <input id="txtNewScout" name="newscout" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black p-1"
+                        @keypress.enter.prevent="handleAddScout">
+                        <button class="rounded-md p-1 bg-gray-400 dark:bg-slate-400 text-black text-xs"
+                        title="Add a credit to the scouting report"
+                        @click.prevent.stop="handleAddScout">Add</button>
                     </div>
                 </div>
-            </form>
+            </div>
+
         </dialog>
         <dialog id="shareModal" class="relative" v-if="scout">
             <h1 class="font-bold text-2xl mb-4">Share View-Only Map</h1>
@@ -291,7 +312,7 @@
 
 <script setup>
 //  instance 1, 2, 3 icons for later
-import { computed, onBeforeMount, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeMount, onMounted, ref, watch } from "vue";
 import ZoneMap from '@/Components/Map/ZoneMap.vue';
 import { useForm, Link } from "@inertiajs/vue3";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
@@ -307,10 +328,11 @@ import ArrowDownIcon from "vue-material-design-icons/ArrowDown.vue"
 import WeatherSunnyIcon from 'vue-material-design-icons/WeatherSunny.vue';
 import WeatherNightIcon from "vue-material-design-icons/WeatherNight.vue";
 import ClipboardTextMultipleOutlineIcon from "vue-material-design-icons/ClipboardTextMultipleOutline.vue";
+import CheckBold from "vue-material-design-icons/CheckBold.vue";
 import { getDisplayName, languages } from "@/helpers";
 import { useToast } from "vue-toastification";
 
-const emit = defineEmits(['pointUpdated', 'mapFinalized', 'clipboardImport'])
+const emit = defineEmits(['pointUpdated', 'mapFinalized', 'clipboardImport', 'pauseUpdates', 'resumeUpdates', 'metaDetailsUpdated'])
 
 const processUpdate = function (payload) {
     if ('point_data' in payload) {
@@ -318,6 +340,9 @@ const processUpdate = function (payload) {
     }
     if ('custom_points' in payload) {
         form.custom_points = payload.custom_points
+    }
+    if ('scouts' in payload) {
+        form.scouts = payload.scouts
     }
     processingImport.value = false
 }
@@ -344,6 +369,7 @@ const defaultLanguage = ref('en')
 const outputTextFromImport = ref('')
 const processingImport = ref(false)
 const allowBlankMobImport = ref(true)
+const editingUsername = ref(false)
 const toast = useToast()
 
 let lastPointAddTime = -1 * Date.now()
@@ -352,8 +378,37 @@ const form = useForm({
     point_data: {},
     custom_points: [],
     title: '',
-    scouts: ['Wuzu Mufu', 'Kaiden Alenko'],
+    scouts: [],
 })
+
+const toggleUsernameEditor = function() {
+    editingUsername.value = true
+    nextTick(() => {
+        const txtUname = document.getElementById('txtDisplayUserName')
+        txtUname.focus()
+        txtUname.select()
+    })
+}
+
+const getUserDisplayName = function() {
+    if('username' in localStorage) {
+        return localStorage.getItem('username')
+    }
+    return 'Anonymous'
+}
+
+const setUserDisplayName = function() {
+    const txtUname = document.getElementById('txtDisplayUserName')
+    if(txtUname.value.length > 0) {
+        if(txtUname.value.length > 30) {
+            txtUname.value = txtUname.value.substring(0, 30)
+        }
+        localStorage.setItem('username', txtUname.value)
+    } else {
+        localStorage.removeItem('username')
+    }
+    editingUsername.value = false
+}
 
 const removeScout = function(index) {
     if(index >= 0 && index < form.scouts.length) {
@@ -372,6 +427,10 @@ const handleAddScout = function(event) {
     }
 }
 
+const handleDetailsUpdated = function(event) {
+    emit('metaDetailsUpdated', form.title, form.scouts)
+}
+
 const closeMarkOverlay = function (event) {
     showMarkOverlay.value = false
 }
@@ -385,6 +444,7 @@ const showImportDialog = function (event) {
 }
 
 const showDetailsDialog = function(event) {
+    emit('pauseUpdates')
     document.getElementById('scoutDetails').showModal()
 }
 
@@ -493,7 +553,7 @@ const handleFinalizeClick = function () {
 }
 
 const handlePointUpdated = function (point, mob, zone_id, instance_number) {
-    emit('pointUpdated', point, mob, form.point_data, getInstanceCounts(), zone_id, instance_number, form.custom_points)
+    emit('pointUpdated', point, mob, form.point_data, getInstanceCounts(), zone_id, instance_number, form.custom_points, getUserDisplayName())
 }
 
 const getAllZoneSpawnPoints = function(zone) {
@@ -788,7 +848,7 @@ onMounted(() => {
         defaultLanguage.value = localStorage.getItem('defaultLanguage')
     }
     //showImportDialog()
-    showDetailsDialog()
+    //showDetailsDialog()
 
     //const dialog = document.getElementById('shareModal')
     const dialogs = document.querySelectorAll('dialog')
@@ -848,6 +908,13 @@ onBeforeMount(() => {
         }
         form.point_data = props.scout.point_data
         form.custom_points = props.scout.custom_points
+    }
+
+    if (props?.scout?.title) {
+        form.title = props.scout.title
+    }
+    if (props?.scout?.scouts) {
+        form.scouts = props.scout.scouts
     }
 
     props.expac.forEach((expansion) => {
@@ -914,6 +981,7 @@ const submitForm = function () {
             .transform((data) => ({
                 ...data,
                 instance_data: getInstanceCounts(),
+                scouter_name: getUserDisplayName(),
             }))
             .post(route('scout.store'), { preserveState: false })
     }

@@ -38,6 +38,7 @@ class UpdateScoutRequest extends FormRequest
             'custom_points'                 =>  'array',
             'instance_number'               =>  'integer',
             'zone_id'                       =>  'integer',
+            'update_user'                   =>  'string|nullable',
         ];
     }
 }

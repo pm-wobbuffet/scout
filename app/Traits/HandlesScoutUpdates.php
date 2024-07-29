@@ -132,6 +132,14 @@ trait HandlesScoutUpdates
         $custom_points = (new Collection($scout->custom_points))->concat($request->safe()->input('custom_points', []))
         ->unique('id')->values()->all();
         $scout->custom_points = $custom_points;
+
+        // Make sure to credit the user if a username was supplied
+        if($request->has('update_user') && $request->input('update_user') !== 'Anonymous') {
+            if(!in_array($request->input('update_user'), $scout->scouts)) {
+                $scout->scouts = [...$scout->scouts, $request->input('update_user')];
+            }
+        }
+
         $scout->save();
     }
 

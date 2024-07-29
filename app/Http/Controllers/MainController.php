@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImportPointsRequest;
 use App\Http\Requests\StoreScoutRequest;
+use App\Http\Requests\UpdateScoutMetaRequest;
 use App\Http\Requests\UpdateScoutRequest;
 use App\Models\CustomPoint;
 use App\Models\Expansion;
@@ -33,7 +34,6 @@ class MainController extends Controller
     function index(): \Inertia\Response
     {
         $expansions = $this->getExpansionsData();
-        Log::debug('Request received');
         return Inertia::render('Index', [
             'expac'     =>  $expansions,
             'defaultId' =>  intval(env('DEFAULT_EXPANSION_ID', 6)),
@@ -121,6 +121,27 @@ class MainController extends Controller
             'point_data'    => $scout->point_data,
             'custom_points' => $scout->custom_points,
             'finalized_at'  => $scout->finalized_at,
+            'title'         => $scout->title,
+            'scouts'        => $scout->scouts,
+        ];
+    }
+
+    public function updateMeta(UpdateScoutMetaRequest $request, Scout $scout, string $password = '') 
+    {
+        if(!$password || $password !== $scout->collaborator_password) {
+            abort('403', 'Method not allowed');
+        }
+
+        $scout->title = $request->safe()->input('title');
+        $scout->scouts = $request->safe()->input('scouts');
+
+        $scout->save();
+        return [
+            'point_data'    => $scout->point_data,
+            'custom_points' => $scout->custom_points,
+            'finalized_at'  => $scout->finalized_at,
+            'title'         => $scout->title,
+            'scouts'        => $scout->scouts,
         ];
     }
 
