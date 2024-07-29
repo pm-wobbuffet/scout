@@ -56,6 +56,14 @@
                     title="Cycle through available display languages (English, Japanese, French, German)"
                     @click="cycleLanguage()">{{
                         defaultLanguage.toUpperCase() }}</button>
+
+                <button
+                    class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
+                    title="Enter a display name to submit with your scout report (optional)"
+                    >{{ getUserDisplayName() }}</button>
+                <input class="p-0  border-white self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
+                value="hi">
+
             </div>
             <div class="flex shrink">
                 <button
@@ -117,6 +125,12 @@
                         <FileLockOutlineIcon />
                         Finish
                     </a>
+                    <a href="#"
+                    class="inline-flex rounded-md bg-green-700 dark:bg-green-800 py-1 font-bold px-3 text-white dark:text-slate-300"
+                    title="Enter details about the scouting report, including names of scouts"
+                    >
+                    <ClipboardTextOutline />
+                    Details</a>
                 </div>
                 <div v-for="expac in getActiveExpac()">
                     <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
@@ -139,8 +153,47 @@
                         </template>
                     </ul>
                 </div>
+                <div v-if="form.scouts.length > 0">
+                    <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">Scouts</div>
+                    <div>
+                        <ul class="text-sm">
+                            <li v-for="(scout, index) in form.scouts" :key="`scoutname-${index}`"
+                            class="ml-2 pr-2 text-blue-800 dark:text-blue-400 overflow-ellipsis"
+                            :title="scout"
+                            >{{ scout }}</li>
+                        </ul>
+                    </div>
+                </div>
             </aside>
         </main>
+        <dialog id="scoutDetails" class="relative min-w-[400px]">
+            <h1 class="font-bold text-2xl mb-4">Scout Report Details</h1>
+            <form>
+                <div class="grid grid-cols-2 items-center gap-2 w-full" style="grid-template-columns: auto 1fr;">
+                    <div>Title</div>
+                    <div>
+                        <input type="text" name="scouttitle" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black w-full" v-model="form.title"
+                        title="You can optionally enter a descriptive title for the scout report, i.e. Adam 30 July AM Train">
+                    </div>
+                    <div>Scouts:</div>
+                    <div>
+                        <div v-for="(scout, index) in form.scouts" class="flex gap-1 mb-1">
+                            <input v-model="form.scouts[index]" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black p-1">
+                            <button class="rounded-md p-1 bg-gray-400 dark:bg-slate-400 text-black text-xs"
+                            @click.prevent="removeScout(index)"
+                            title="Remove this scout from the scouting report"
+                            >Remove</button>
+                        </div>
+                        <div class="flex gap-1 mb-1">
+                            <input id="txtNewScout" name="newscout" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black p-1">
+                            <button class="rounded-md p-1 bg-gray-400 dark:bg-slate-400 text-black text-xs"
+                            title="Add a credit to the scouting report"
+                            @click.prevent="handleAddScout">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </dialog>
         <dialog id="shareModal" class="relative" v-if="scout">
             <h1 class="font-bold text-2xl mb-4">Share View-Only Map</h1>
             <p class="text-sm">This link provides a view only copy of the map. Users cannot submit changes to the map.
@@ -246,6 +299,7 @@ import ArrowUpIcon from "vue-material-design-icons/ArrowUp.vue";
 import ExportIcon from "vue-material-design-icons/Export.vue";
 import ContentCopyIcon from "vue-material-design-icons/ContentCopy.vue";
 import ClipboardArrowUpOutlineIcon from "vue-material-design-icons/ClipboardArrowUpOutline.vue";
+import ClipboardTextOutline from "vue-material-design-icons/ClipboardTextOutline.vue";
 import NoteMultipleOutline from "vue-material-design-icons/NoteMultipleOutline.vue";
 import FileLockOutlineIcon from "vue-material-design-icons/FileLockOutline.vue";
 import SortIcon from "vue-material-design-icons/Sort.vue";
@@ -297,8 +351,26 @@ let lastPointAddTime = -1 * Date.now()
 const form = useForm({
     point_data: {},
     custom_points: [],
+    title: '',
+    scouts: ['Wuzu Mufu', 'Kaiden Alenko'],
 })
 
+const removeScout = function(index) {
+    if(index >= 0 && index < form.scouts.length) {
+        form.scouts.splice(index, 1)
+    }
+}
+
+const handleAddScout = function(event) {
+    const txtScoutName = document.getElementById('txtNewScout')
+    if(txtScoutName.value != '') {
+        if(!form.scouts.includes(txtScoutName.value)) {
+            // Make sure they can't add duplicates
+            form.scouts.push(txtScoutName.value)
+        }
+        txtScoutName.value = ''
+    }
+}
 
 const closeMarkOverlay = function (event) {
     showMarkOverlay.value = false
@@ -310,6 +382,10 @@ const getCustomSpawnPoints = function (zone_id) {
 const showImportDialog = function (event) {
     outputTextFromImport.value = ''
     document.getElementById('pasteMarks').showModal()
+}
+
+const showDetailsDialog = function(event) {
+    document.getElementById('scoutDetails').showModal()
 }
 
 const copyMarksAsText = async function() {
@@ -712,6 +788,7 @@ onMounted(() => {
         defaultLanguage.value = localStorage.getItem('defaultLanguage')
     }
     //showImportDialog()
+    showDetailsDialog()
 
     //const dialog = document.getElementById('shareModal')
     const dialogs = document.querySelectorAll('dialog')

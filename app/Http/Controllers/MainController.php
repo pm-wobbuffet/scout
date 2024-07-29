@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Sqids\Sqids;
 
@@ -32,6 +33,7 @@ class MainController extends Controller
     function index(): \Inertia\Response
     {
         $expansions = $this->getExpansionsData();
+        Log::debug('Request received');
         return Inertia::render('Index', [
             'expac'     =>  $expansions,
             'defaultId' =>  intval(env('DEFAULT_EXPANSION_ID', 6)),
@@ -251,12 +253,20 @@ class MainController extends Controller
         ->get();
     }
 
+    /**
+     * Extract custom points and create a custom point database entry
+     * Custom points will always be identified by having an id < 0
+     *
+     * @param array $request
+     * @param Scout $scout
+     * @return void
+     */
     private function extractCustomPoints(array $request, Scout $scout ): void
     {
         foreach($request['point_data'] as $zoneId => $instances) {
             foreach($instances as $instance) {
                 foreach($instance as $mob) {
-                    if($mob['point_id'] < 0 || isset($mob['line'])) {
+                    if($mob['point_id'] < 0 && isset($mob['line'])) {
                         CustomPoint::create([
                             'scout_id'  => $scout->id,
                             'zone_id'   => $zoneId,
