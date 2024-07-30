@@ -59,6 +59,13 @@ class ScoutController extends Controller
     public function update(BulkUpdateScoutAPIRequest $request, Scout $scout)
     {
         $this->createBulkUpdate($scout, $request->validated('sightings'));
+        // Make sure to credit the user if a username was supplied
+        if($request->has('update_user') && $request->input('update_user') !== 'Anonymous') {
+            if(!in_array($request->input('update_user'), $scout->scouts)) {
+                $scout->scouts = [...$scout->scouts, $request->input('update_user')];
+            }
+        }
+        $scout->save();
         return response()->json([
             'scout_id'              =>  $scout->slug,
             'collaborator_password' =>  $scout->collaborator_password,

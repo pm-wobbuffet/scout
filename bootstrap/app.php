@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->api(append: [
             \App\Http\Middleware\AddRequestId::class,
+            \App\Http\Middleware\AddAcceptHeaderToAPIRequests::class,
         ]);
         $middleware->throttleWithRedis();
         $middleware->throttleApi();

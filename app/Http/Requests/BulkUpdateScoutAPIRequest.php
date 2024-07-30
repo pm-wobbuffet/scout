@@ -7,6 +7,7 @@ use App\Models\Scout;
 use App\Models\SpawnPoint;
 use App\Models\Zone;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class BulkUpdateScoutAPIRequest extends FormRequest
 {
@@ -17,16 +18,19 @@ class BulkUpdateScoutAPIRequest extends FormRequest
     {
         $scout = $this->route('scout');
         if(!$scout) {
+            Log::debug("No Scouting report was found for this request, {req}", ['req' => $this]);
             return false;
         }
         // Check to make sure they supplied the correct collaborator_password
         // to prevent unauthorized users from supplying updates
         if($scout->collaborator_password !== $this->collaborator_password) {
+            Log::debug("An invalid collaborator password was submitted for this request, {req}", ['req' => $this]);
             return false;
         }
 
         // Make sure we don't make any changes to an existing map that's finalized
         if(!is_null($scout->finalized_at)) {
+            Log::debug("An API request was made to update a finalized scouting report, {req}", ['req' => $this]);
             return false;
         }
 
@@ -47,9 +51,13 @@ class BulkUpdateScoutAPIRequest extends FormRequest
         ->keyBy('id');
 
         $mod_sightings = [];
+        if(!$this->has('sightings')) {
+            $this->merge([
+                'sightings' => []
+            ]);
+        }
 
         for($i = 0; $i < sizeof($this->sightings); $i++)
-        //foreach($this->sightings as $sighting)
         {
             $sighting = $this->sightings[$i];
             // If no instance number is specified, default to 1.
@@ -93,7 +101,7 @@ class BulkUpdateScoutAPIRequest extends FormRequest
     {
         return [
             'collaborator_password'             =>  'required',
-            'sightings'                         =>  'required|array',
+            'sightings'                         =>  'array',
             'sightings.*.zone_id'               =>  'required|numeric',
             'sightings.*.instance_number'       =>  'numeric',
             'sightings.*.point_id'              =>  'numeric',
@@ -103,6 +111,7 @@ class BulkUpdateScoutAPIRequest extends FormRequest
             'sightings.*.mob_id'                =>  'numeric|nullable',
             'sightings.*.mob'                   =>  'array',
             'sightings.*.distance'              =>  'nullable|numeric',
+            'update_user'                       =>  'string|nullable',
         ];
     }
 
