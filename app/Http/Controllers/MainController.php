@@ -79,7 +79,15 @@ class MainController extends Controller
         if($request->wantsJson() || $request->has('json')) {
             return response()->json($this->generateJson($scout, $password === $scout->collaborator_password));
         }
-        $this->setOGTitle(implode(', ', $exp_totals));
+        if($scout->title) {
+            $this->setOGTitle($scout->title . ' ' . implode(', ', $exp_totals));
+        } else {
+            $this->setOGTitle(implode(', ', $exp_totals));
+        }
+        if($scout->scouts && sizeof($scout->scouts) > 0) {
+            $this->setOGDescription('Scouted by: ' . implode(', ', $scout->scouts ?? []));
+        }
+        
         return Inertia::render('Scout/View',[
             'expac' =>  $expansions,
             'scout' =>  $scout,
