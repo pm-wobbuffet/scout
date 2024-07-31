@@ -77,7 +77,7 @@
                             <CheckBold />
                         </button>
                     </div>
-                    
+
                 </div>
 
             </div>
@@ -173,7 +173,7 @@
                         </template>
                     </ul>
                 </div>
-                <div v-if="form.scouts.length > 0">
+                <div v-if="form.scouts?.length > 0">
                     <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">Scouts</div>
                     <div>
                         <ul class="text-sm">
@@ -915,6 +915,8 @@ onBeforeMount(() => {
     }
     if (props?.scout?.scouts) {
         form.scouts = props.scout.scouts
+    } else {
+        form.scouts = []
     }
 
     props.expac.forEach((expansion) => {
