@@ -49,7 +49,7 @@ class StoreScoutRequest extends FormRequest
                 ]);
             }
         }
-        $scouts = $this->scouts;
+        $scouts = $this->scouts ?? [];
         if(is_array($this->scouts)) {
             array_walk_recursive($scouts, function(&$scouts) {
                 $scouts = strip_tags($scouts);
