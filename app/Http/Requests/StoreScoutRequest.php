@@ -50,12 +50,14 @@ class StoreScoutRequest extends FormRequest
             }
         }
         $scouts = $this->scouts;
-        array_walk_recursive($scouts, function(&$scouts) {
-            $scouts = strip_tags($scouts);
-        });
-        $this->merge([
-            'scouts'    =>  $scouts,
-        ]);
+        if(is_array($this->scouts)) {
+            array_walk_recursive($scouts, function(&$scouts) {
+                $scouts = strip_tags($scouts);
+            });
+            $this->merge([
+                'scouts'    =>  $scouts,
+            ]);
+        }
     }
 
     /**
