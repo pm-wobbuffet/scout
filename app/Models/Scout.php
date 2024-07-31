@@ -24,6 +24,15 @@ class Scout extends Model
 
     protected static function booted(): void
     {
+        static::creating(function(Scout $scout) {
+            if(is_null($scout->scouts)) {
+                $scout->scouts = [];
+            }
+            if(is_null($scout->title)) {
+                $scout->title = '';
+            }
+        });
+
         static::created(function (Scout $scout) {
             // Create an sqid ID to serve as a slug for the submission
             $sqids = new Sqids(minLength: 10, alphabet: env('SQID_ALPHABET'));
