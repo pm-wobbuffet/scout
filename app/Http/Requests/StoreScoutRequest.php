@@ -41,14 +41,19 @@ class StoreScoutRequest extends FormRequest
         if($this->has('title')) {
             if($this->title === '') {
                 $this->merge([
-                    'title' =>  null,
+                    'title' =>  '',
                 ]);
             } else {
                 $this->merge([
                     'title' => strip_tags($this->title),
                 ]);
             }
+        } else {
+            $this->merge([
+                'title' => '',
+            ]);
         }
+
         $scouts = $this->scouts ?? [];
         if(is_array($this->scouts)) {
             array_walk_recursive($scouts, function(&$scouts) {
@@ -56,6 +61,10 @@ class StoreScoutRequest extends FormRequest
             });
             $this->merge([
                 'scouts'    =>  $scouts,
+            ]);
+        } else {
+            $this->merge([
+                'scouts'    =>  [],
             ]);
         }
     }
