@@ -29,7 +29,6 @@ class ScoutController extends Controller
      */
     public function store(StoreScoutRequest $request)
     {
-        //dd($request->safe()->all());
         $s = Scout::create($request->safe()->all());
         if($s) {
             return response()->json([
