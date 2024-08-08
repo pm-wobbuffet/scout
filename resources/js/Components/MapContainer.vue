@@ -276,7 +276,7 @@
                 </div>
             </div>
         </div>
-        <dialog id="pasteMarks" class="relative">
+        <dialog id="pasteMarks" class="fixed">
             <h2 class="text-xl font-bold">Import Marks From Clipboard</h2>
             <p class="text-sm">
                 Paste the output from your echo log into the box below and click the Import button.
@@ -439,8 +439,10 @@ const getCustomSpawnPoints = function (zone_id) {
 }
 
 const showImportDialog = function (event) {
+    let curScrollY = window.scrollY
     outputTextFromImport.value = ''
     document.getElementById('pasteMarks').showModal()
+    window.scrollTo(0, curScrollY)
 }
 
 const showDetailsDialog = function(event) {
@@ -835,8 +837,8 @@ const parsePastedLog = function () {
     emit('clipboardImport', assignments, form.point_data, form.custom_points, getInstanceCounts())
     if(!props.scout) {
         processingImport.value = false
-        txtArea.value = ''
     }
+    txtArea.value = ''
     return assignments
 }
 
