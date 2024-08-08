@@ -265,8 +265,8 @@
                                     <div v-for="mob in form.point_data[zone.id][i]">
                                         <div>
                                             {{ zone.mobs.find((el) => el.id == mob.mob_id).name }}
-                                            ({{ mob.x }},
-                                            {{ mob.y }})
+                                            ({{ formatCoordinate(mob.x) }},
+                                            {{ formatCoordinate(mob.y) }})
                                         </div>
                                     </div>
                                 </fieldset>
@@ -276,7 +276,7 @@
                 </div>
             </div>
         </div>
-        <dialog id="pasteMarks" class="relative">
+        <dialog id="pasteMarks" class="fixed">
             <h2 class="text-xl font-bold">Import Marks From Clipboard</h2>
             <p class="text-sm">
                 Paste the output from your echo log into the box below and click the Import button.
@@ -329,7 +329,7 @@ import WeatherSunnyIcon from 'vue-material-design-icons/WeatherSunny.vue';
 import WeatherNightIcon from "vue-material-design-icons/WeatherNight.vue";
 import ClipboardTextMultipleOutlineIcon from "vue-material-design-icons/ClipboardTextMultipleOutline.vue";
 import CheckBold from "vue-material-design-icons/CheckBold.vue";
-import { getDisplayName, languages } from "@/helpers";
+import { formatCoordinate, getDisplayName, languages } from "@/helpers";
 import { useToast } from "vue-toastification";
 
 const emit = defineEmits(['pointUpdated', 'mapFinalized', 'clipboardImport', 'pauseUpdates', 'resumeUpdates', 'metaDetailsUpdated'])
@@ -439,8 +439,10 @@ const getCustomSpawnPoints = function (zone_id) {
 }
 
 const showImportDialog = function (event) {
+    let curScrollY = window.scrollY
     outputTextFromImport.value = ''
     document.getElementById('pasteMarks').showModal()
+    window.scrollTo(0, curScrollY)
 }
 
 const showDetailsDialog = function(event) {
@@ -482,7 +484,7 @@ const getExportTextValue = computed(() => {
                             if(zone.default_instances > 1) {
                                 ret += intToInstanceMapping[i]
                             }
-                            ret += ` ( ${mob.x} , ${mob.y} ) `
+                            ret += ` ( ${formatCoordinate(mob.x)} , ${formatCoordinate(mob.y)} ) `
                             if(zone.default_instances > 1) {
                                 ret += `Instance ${intToName(i)}`
                             }
@@ -835,8 +837,8 @@ const parsePastedLog = function () {
     emit('clipboardImport', assignments, form.point_data, form.custom_points, getInstanceCounts())
     if(!props.scout) {
         processingImport.value = false
-        txtArea.value = ''
     }
+    txtArea.value = ''
     return assignments
 }
 

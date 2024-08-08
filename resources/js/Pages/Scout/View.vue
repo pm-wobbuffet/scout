@@ -53,7 +53,7 @@ const handleMetaDetailUpdate = function(title, scouts) {
         title: title,
         scouts: scouts,
     }).then((response) => {
-        console.log(response)
+        //console.log(response)
         processUpdates.value = true
         mapRef.value.processUpdate(response?.data)
     }).catch((error) => {
@@ -116,7 +116,7 @@ const handlePointUpdate = function(point, mob, point_data, instance_data, zone_i
 const pollUpdates = function() {
     // return
     axios.get(route('scout.updatelist', {
-        scout: props.scout.slug, 
+        scout: props.scout.slug,
         password: props.scout.collaborator_password,
         last_id: maxUpdateId.value,
     }))
@@ -125,7 +125,7 @@ const pollUpdates = function() {
             mapRef.value.processUpdate(response.data)
             clearTimeout(updateTimeout)
         }
-        
+
         // As long the map isn't finalized, keep on polling for updates
         if(!response.data.finalized_at) {
             updateTimeout = setTimeout(pollUpdates, refreshTime)
