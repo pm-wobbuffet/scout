@@ -189,12 +189,12 @@ class MainController extends Controller
                 $mobById = (new Collection($mobs))->keyBy('mob_id');
                 // Filter out any existing mobs from this group that are already assigned to a point
                 $subs = $s[$zone_id][$instance] ?? [];
-                $s[$zone_id][$instance] = array_filter($subs,function($item) use($mobById) {
+                $s[$zone_id][$instance] = array_values(array_filter($subs,function($item) use($mobById) {
                     if(isset($mobById[$item['mob_id']])) {
                         return false;
                     }
                     return true;
-                });
+                }));
                 // Add new mobs
                 foreach($mobs as $mob) {
                     $s[$zone_id][$instance][] = $mob;
