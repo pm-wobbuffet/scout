@@ -31,6 +31,9 @@ class Scout extends Model
             if(is_null($scout->title)) {
                 $scout->title = '';
             }
+            if(is_null($scout->mob_status)) {
+                $scout->mob_status = [];
+            }
         });
 
         static::created(function (Scout $scout) {
@@ -48,6 +51,7 @@ class Scout extends Model
             'point_data'    =>  'array',
             'custom_points' =>  'array',
             'scouts'        =>  'array',
+            'mob_status'    =>  'array',
             'finalized_at'  =>  'datetime',
         ];
     }

@@ -87,7 +87,7 @@ class MainController extends Controller
         if($scout->scouts && sizeof($scout->scouts) > 0) {
             $this->setOGDescription('Scouted by: ' . implode(', ', $scout->scouts ?? []));
         }
-        
+
         return Inertia::render('Scout/View',[
             'expac' =>  $expansions,
             'scout' =>  $scout,
@@ -131,10 +131,11 @@ class MainController extends Controller
             'finalized_at'  => $scout->finalized_at,
             'title'         => $scout->title,
             'scouts'        => $scout->scouts,
+            'mob_status'    => $scout->mob_status,
         ];
     }
 
-    public function updateMeta(UpdateScoutMetaRequest $request, Scout $scout, string $password = '') 
+    public function updateMeta(UpdateScoutMetaRequest $request, Scout $scout, string $password = '')
     {
         if(!$password || $password !== $scout->collaborator_password) {
             abort('403', 'Method not allowed');
@@ -150,7 +151,46 @@ class MainController extends Controller
             'finalized_at'  => $scout->finalized_at,
             'title'         => $scout->title,
             'scouts'        => $scout->scouts,
+            'mob_status'    => $scout->mob_status,
         ];
+    }
+
+    public function updateMobStatus(Request $request, Scout $scout, string $password = '') {
+        if(!$password || $password !== $scout->collaborator_password) {
+            abort('403', 'Method not allowed');
+        }
+        $request->validate([
+            'mob_id'            =>  'required|integer',
+            'instance_number'   =>  'required|integer',
+            'status'            =>  'required|boolean',
+        ]);
+        if(!$scout->mob_status) {
+            $scout->mob_status = [];
+        }
+        $mobs = $scout->mob_status;
+        if($request->status == false) {
+            // The mob is no longer marked as dead; remove it from the mob_status array if it's there
+            if(isset($mobs[$request->mob_id][$request->instance_number])) {
+                unset($mobs[$request->mob_id][$request->instance_number]);
+            }
+        } elseif($request->status) {
+            if(!isset($mobs[$request->mob_id])) {
+                $mobs[$request->mob_id] = [];
+            }
+            $mobs[$request->mob_id][$request->instance_number] = 1;
+        }
+        $scout->mob_status = $mobs;
+        $scout->save();
+
+        return [
+            'point_data'    => $scout->point_data,
+            'custom_points' => $scout->custom_points,
+            'finalized_at'  => $scout->finalized_at,
+            'title'         => $scout->title,
+            'scouts'        => $scout->scouts,
+            'mob_status'    => $scout->mob_status,
+        ];
+
     }
 
     public function clone(Request $request, Scout $scout)

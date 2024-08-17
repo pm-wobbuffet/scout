@@ -38,21 +38,12 @@ class StoreScoutRequest extends FormRequest
         ]);
 
         // Did they submit a blank title? If so null it out
-        if($this->has('title')) {
-            if($this->title === '') {
-                $this->merge([
-                    'title' =>  '',
-                ]);
-            } else {
-                $this->merge([
-                    'title' => strip_tags($this->title),
-                ]);
-            }
-        } else {
-            $this->merge([
-                'title' => '',
-            ]);
+        if(!$this->has('title')) {
+            $this->merge(['title' => '']);
         }
+        $this->merge([
+            'title' => strip_tags($this->title)
+        ]);
 
         $scouts = $this->scouts ?? [];
         if(is_array($scouts)) {
@@ -96,6 +87,7 @@ class StoreScoutRequest extends FormRequest
             'title'                         =>  'string|nullable',
             'scouts'                        =>  'array',
             'scouts.*'                      =>  'string',
+            'mob_status'                    =>  'array|nullable',
         ];
     }
 

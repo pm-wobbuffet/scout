@@ -10,6 +10,7 @@
         @pauseUpdates="handlePauseUpdates"
         @metaDetailsUpdated="handleMetaDetailUpdate"
         @resumeUpdates="handleResumeUpdates"
+        @mobStatusUpdated="handleMobStatusUpdate"
         :editmode="props.scout.collaborator_password != null && !props.scout.finalized_at"
         :newly-created="props.flash?.newly_created"
         :defaultId="props.defaultId"
@@ -79,10 +80,27 @@ const handleClipboardImport = function(assignments, point_data, custom_points, i
     });
 }
 
-const handleMapFinalized = function()
-{
+const handleMapFinalized = function() {
     router.post(route('scout.finalize',
     {scout: props.scout, password: props.scout.collaborator_password} ))
+}
+
+const handleMobStatusUpdate = function(mob, instance, status) {
+    //console.log(mob, instance, status)
+    axios.post(route('scout.updateMobStatus', {scout: props.scout, password: props.scout.collaborator_password}),{
+        mob_id: mob.id,
+        instance_number: instance,
+        status: status
+    })
+    .then((response) => {
+        mapRef.value.processUpdate(response.data)
+        if(response.data.collision) {
+            toast.error("Another user has already modified that mob. Your data has been refreshed.")
+        }
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
 }
 
 const handlePointUpdate = function(point, mob, point_data, instance_data, zone_id, instance_number, custom_points, username) {

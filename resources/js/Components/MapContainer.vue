@@ -109,7 +109,9 @@
                     <ZoneMap v-for="i in zone.default_instances" :id="`zonemap-${zone.id}-${i}`"
                         :key="`zonemap-${zone.id}-${i}`" :zone="zone" :instance="i" :editmode="props.editmode"
                         :language="defaultLanguage" :ref="el => { zoneMaps[zone.id + '-' + i] = el }" v-model="form"
-                        @pointUpdated="handlePointUpdated" />
+                        @pointUpdated="handlePointUpdated"
+                        @mobStatusUpdated="handleMobStatusUpdate"
+                         />
                 </template>
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800">
@@ -161,7 +163,7 @@
                     <ul class="text-sm">
                         <template v-for="zone in expac.zones">
                             <li v-for="i in zone.default_instances" class="hover:bg-slate-200 dark:hover:bg-slate-700 ml-2 pr-2"
-                                :class="{ 'line-through': getFoundMobCount(zone.id, i) == zone.mobs.length }"><a
+                                :class="{ 'line-through': isZoneScoutingComplete(zone, i) }"><a
                                     class="text-blue-500" :href="`#zonemap-${zone.id}-${i}`">{{ getDisplayName(zone,
                                         defaultLanguage) }}</a>
                                 <span class="ml-1 font-bold text-blue-800 dark:text-blue-400" v-if="zone.default_instances > 1">{{ i
@@ -332,7 +334,7 @@ import CheckBold from "vue-material-design-icons/CheckBold.vue";
 import { formatCoordinate, getDisplayName, languages } from "@/helpers";
 import { useToast } from "vue-toastification";
 
-const emit = defineEmits(['pointUpdated', 'mapFinalized', 'clipboardImport', 'pauseUpdates', 'resumeUpdates', 'metaDetailsUpdated'])
+const emit = defineEmits(['pointUpdated', 'mapFinalized', 'clipboardImport', 'pauseUpdates', 'resumeUpdates', 'metaDetailsUpdated', 'mobStatusUpdated'])
 
 const processUpdate = function (payload) {
     if ('point_data' in payload) {
@@ -343,6 +345,9 @@ const processUpdate = function (payload) {
     }
     if ('scouts' in payload) {
         form.scouts = payload.scouts
+    }
+    if ('mob_status' in payload) {
+        form.mob_status = payload.mob_status
     }
     processingImport.value = false
 }
@@ -377,6 +382,7 @@ let lastPointAddTime = -1 * Date.now()
 const form = useForm({
     point_data: {},
     custom_points: [],
+    mob_status: {},
     title: '',
     scouts: [],
 })
@@ -558,8 +564,24 @@ const handlePointUpdated = function (point, mob, zone_id, instance_number) {
     emit('pointUpdated', point, mob, form.point_data, getInstanceCounts(), zone_id, instance_number, form.custom_points, getUserDisplayName())
 }
 
+const handleMobStatusUpdate = function(mob, instance, status) {
+    emit('mobStatusUpdated', mob, instance, status)
+}
+
 const getAllZoneSpawnPoints = function(zone) {
     return zone.spawn_points.concat(getCustomSpawnPoints(zone.id))
+}
+
+const isZoneScoutingComplete = function(zone, instance_number) {
+    // Get the remaining valid mobs for a particular zone
+    let remainingMobs = zone.mobs.filter((mob) => {
+        if(form.mob_status && mob.id in form?.mob_status && form?.mob_status?.[mob.id]?.[instance_number]) {
+            return false
+        }
+        return true
+    })
+
+    return getFoundMobCount(zone.id, instance_number) == remainingMobs.length
 }
 
 const getClosestSpawnPoint = function(zone, x, y) {
@@ -919,6 +941,11 @@ onBeforeMount(() => {
         form.scouts = props.scout.scouts
     } else {
         form.scouts = []
+    }
+    if (props?.scout?.mob_status) {
+        form.mob_status = props.scout.mob_status
+    } else {
+        form.mob_status = {}
     }
 
     props.expac.forEach((expansion) => {

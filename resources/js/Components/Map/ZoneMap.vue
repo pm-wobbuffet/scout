@@ -4,10 +4,17 @@
         @mousemove.self="handleMouseOver"
         @mouseout="handleMouseOut"
         @dblclick.prevent="(e) => dblClickMap(e, zone)">
-        <div class="absolute mob-list pointer-events-none">
+        <div class="absolute mob-list">
             <ol class="block list-decimal pl-4">
-                <li v-for="(mob, index) in zone.mobs" :class="`mob-number-${index}`">
-                    {{ getDisplayName(mob, props.language) }}
+                <li v-for="(mob, index) in zone.mobs" :class="`group mob-number-${index} dead-mob-${getDeadMobStatus(mob, props.instance)}`"
+                title="Toggle this mob as being dead/alive. Dead mobs will count toward scouting completion for this zone."
+                @click="toggleMobStatus(mob)">
+                    <div class="flex items-center">
+                    <span>{{ getDisplayName(mob, props.language) }}</span>
+                    <SkullOutlineIcon class="inline-block p-0 m-0 pl-2 scale-90 group-hover:visible"
+                    :class="{'visible': getDeadMobStatus(mob, props.instance), 'invisible': !getDeadMobStatus(mob, props.instance)}"
+                     />
+                    </div>
                 </li>
             </ol>
         </div>
@@ -42,6 +49,7 @@
 import { getDisplayName } from "@/helpers";
 import { onMounted, ref, getCurrentInstance, onBeforeMount, watch, onUpdated } from "vue"
 import AlertOutlineIcon from "vue-material-design-icons/AlertOutline.vue";
+import SkullOutlineIcon from "vue-material-design-icons/SkullOutline.vue";
 
 // Parent model link
 const model = defineModel()
@@ -79,8 +87,32 @@ onBeforeMount(() => {
     if(props.editmode) {
         editMode.value = props.editmode
     }
-
 })
+
+const getDeadMobStatus = function(mob, instance) {
+    return model.value.mob_status?.[mob.id]?.[props.instance] ?? 0
+}
+
+const toggleMobStatus = function(mob) {
+    // If a mob is already assigned to a spot, we shouldn't allow it to be marked as dead
+    if(mob.id in mobPoints.value) {
+        // Remove the status if it was already there
+        delete(model.value.mob_status[mob.id][props.instance])
+        return
+    }
+    if(model.value.mob_status?.[mob.id]?.[props.instance]) {
+        // This mob has already been marked as dead, so we should remove it
+        delete(model.value.mob_status[mob.id][props.instance])
+        emit('mobStatusUpdated', mob, props.instance, 0)
+        //console.log(`Removed dead mob indicator for ${mob.id} and instance ${props.instance}`)
+    } else {
+        // We should mark the mob as dead for now
+        model.value.mob_status[mob.id] = model.value.mob_status?.[mob.id] || {}
+        model.value.mob_status[mob.id][props.instance] = 1
+        emit('mobStatusUpdated', mob, props.instance, 1)
+        //console.log(`Added dead mob indicator for ${mob.id} and instance ${props.instance}`)
+    }
+}
 
 // Remap mobs that are positioned to the mobPoints reactive element
 const updateMobSpawnAssignments = function() {
@@ -100,10 +132,14 @@ const updateMobSpawnAssignments = function() {
     mobPoints.value = {}
     if(combinedSpawnPoints?.length > 0) {
         combinedSpawnPoints.forEach((point) => {
-            if(model.value.point_data[props.zone.id][props.instance].length > 0) {
+            if(model.value.point_data[props.zone.id][props.instance]?.length > 0) {
                 model.value.point_data[props.zone.id][props.instance].forEach((mob) => {
                     //console.log(`Placing mob ${mob.mob_id} on point ${mob.point_id}`)
                     mobPoints.value[mob.mob_id] = mob.point_id
+                    // Remove any manual death marks if a player/API marks the mob as being somewhere
+                    if(model.value.mob_status?.[mob.mob_id]?.[props.instance]) {
+                        delete(model.value.mob_status[mob.mob_id][props.instance])
+                    }
                 })
             }
         })
@@ -164,7 +200,17 @@ const isPointDisabled = function(point_id) {
         if(spawnPoint?.valid_mobs?.length === 0 && !props.zone.allow_custom_points) {
             return true
         }
-        let remainingAvailableMobs = spawnPoint.valid_mobs.filter((el) => !(el.id in mobPoints.value))
+        let remainingAvailableMobs = spawnPoint.valid_mobs.filter(function(mob) {
+            if(mob.id in mobPoints.value) {
+                return false
+            }
+            // Check if a mob has been manually flagged as dead; if so, never include
+            // it in the list
+            if(getDeadMobStatus(mob, props.instance)) {
+                return false
+            }
+            return true
+        })
         // If there are no overall zone mobs available, don't bother with further logic
         if (remainingAvailableMobs.length === 0) {
             return true
@@ -251,10 +297,19 @@ const placeMob = function(point, mob) {
 }
 
 const getValidMobsForPoint = function(point) {
-    return point.valid_mobs.filter(function(el) {
-        return ! (el.id in mobPoints.value)
+    return point.valid_mobs.filter(function(mob) {
+        //return ! (el.id in mobPoints.value)
+        if(mob.id in mobPoints.value) {
+            return false
+        }
+        // Check if a mob has been manually flagged as dead; if so, never include
+        // it in the list
+        if(getDeadMobStatus(mob, props.instance)) {
+            return false
+        }
+        return true
     })
 }
 
-const emit = defineEmits(['pointUpdated'])
+const emit = defineEmits(['pointUpdated', 'mobStatusUpdated'])
 </script>
