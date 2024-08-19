@@ -116,7 +116,7 @@
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800">
                 <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300" v-if="form.title != ''">
-                    <div class="text-sm inline-block">{{ form.title }}</div>
+                    <div class="text-sm max-w-[200px] overflow-hidden overflow-ellipsis" :title="form.title">{{ form.title }}</div>
                 </div>
                 <div class="grid grid-cols-2 gap-1 p-1 scale-90">
                     <a href="#"
@@ -195,6 +195,7 @@
                 <div>Title</div>
                 <div>
                     <input type="text" name="scouttitle" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black w-full" v-model="form.title"
+                    maxlength="100"
                     title="You can optionally enter a descriptive title for the scout report, i.e. Adam 30 July AM Train">
                 </div>
                 <div>Scouts:</div>
