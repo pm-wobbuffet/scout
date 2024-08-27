@@ -296,7 +296,7 @@
                 <br>
                 <b>Be cautious if you paste in a line without a mob name - make sure it's not an accidental B rank coordinate
                     <br>
-                    If the coordinates do not incldue mob name, it will assign them in order of the zone mob list<br>
+                    If the coordinates do not include mob name, it will assign them in order of the zone mob list<br>
                 </b>
             </p>
             <div>
