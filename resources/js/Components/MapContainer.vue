@@ -350,6 +350,9 @@ const processUpdate = function (payload) {
     if ('mob_status' in payload) {
         form.mob_status = payload.mob_status
     }
+    if ('occupied_points' in payload) {
+        form.occupied_points = payload.occupied_points
+    }
     processingImport.value = false
 }
 defineExpose({
@@ -382,6 +385,7 @@ let lastPointAddTime = -1 * Date.now()
 
 const form = useForm({
     point_data: {},
+    occupied_points: {},
     custom_points: [],
     mob_status: {},
     title: '',

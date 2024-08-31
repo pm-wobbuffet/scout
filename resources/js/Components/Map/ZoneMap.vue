@@ -1,9 +1,14 @@
 <template>
     <div class="map-container-block"
         :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`"
+        @click="showingContextMenu = false"
+        @keyup.escape.prevent="showingContextMenu = false"
         @mousemove.self="handleMouseOver"
         @mouseout="handleMouseOut"
         @dblclick.prevent="(e) => dblClickMap(e, zone)">
+        <PointStatusDialog :x="contextX" :y="contextY" :point="selectedPoint" ref="contextMenuRef" v-show="showingContextMenu" v-model="model"
+        :instance="props.instance"
+         />
         <div class="absolute mob-list">
             <ol class="block list-decimal pl-4">
                 <li v-for="(mob, index) in zone.mobs" :class="`group mob-number-${index} dead-mob-${getDeadMobStatus(mob, props.instance)}`"
@@ -30,6 +35,7 @@
             :disabled="isPointDisabled(point.id) && !isPointSelected(point.id)"
             :data-coords="`${point.x}, ${point.y}`"
             @click.stop.prevent="assignMob(point)"
+            @contextmenu.stop.prevent="showContext(point, $event)"
             @dblclick.stop.prevent="false">{{ getTakenMob(point.id)?.mob_index ?? '' }}</button>
         <div class="absolute flex items-center bottom-1 left-4 text-center text-xs bg-slate-300 font-bold"
         v-if="props.zone.allow_custom_points && editMode == true"
@@ -50,6 +56,7 @@ import { getDisplayName } from "@/helpers";
 import { onMounted, ref, getCurrentInstance, onBeforeMount, watch, onUpdated } from "vue"
 import AlertOutlineIcon from "vue-material-design-icons/AlertOutline.vue";
 import SkullOutlineIcon from "vue-material-design-icons/SkullOutline.vue";
+import PointStatusDialog from "./PointStatusDialog.vue";
 
 // Parent model link
 const model = defineModel()
@@ -60,6 +67,12 @@ const x_hover = ref(0)
 const y_hover = ref(0)
 const is_hovered = ref(false)
 const editMode = ref(false)
+const showingContextMenu = ref(false)
+const contextMenuRef = ref(null)
+const selectedPoint = ref({})
+const contextX = ref(0)
+const contextY = ref(0)
+
 let mobs = []
 let mobsById = {}
 
@@ -88,6 +101,14 @@ onBeforeMount(() => {
         editMode.value = props.editmode
     }
 })
+
+const showContext = function(point, e) {
+    selectedPoint.value = point
+    contextX.value = e.srcElement.offsetLeft + 15
+    contextY.value = e.srcElement.offsetTop - 10
+    showingContextMenu.value = true
+    //contextMenuRef.value.point = point
+}
 
 const getDeadMobStatus = function(mob, instance) {
     return model.value.mob_status?.[mob.id]?.[props.instance] ?? 0
