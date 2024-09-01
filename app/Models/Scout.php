@@ -34,6 +34,9 @@ class Scout extends Model
             if(is_null($scout->mob_status)) {
                 $scout->mob_status = [];
             }
+            if(is_null($scout->occupied_points)) {
+                $scout->occupied_points = [];
+            }
         });
 
         static::created(function (Scout $scout) {
@@ -47,12 +50,13 @@ class Scout extends Model
     protected function casts(): array
     {
         return [
-            'instance_data' =>  'array',
-            'point_data'    =>  'array',
-            'custom_points' =>  'array',
-            'scouts'        =>  'array',
-            'mob_status'    =>  'array',
-            'finalized_at'  =>  'datetime',
+            'instance_data'     =>  'array',
+            'point_data'        =>  'array',
+            'custom_points'     =>  'array',
+            'scouts'            =>  'array',
+            'mob_status'        =>  'array',
+            'occupied_points'   =>  'array',
+            'finalized_at'      =>  'datetime',
         ];
     }
 

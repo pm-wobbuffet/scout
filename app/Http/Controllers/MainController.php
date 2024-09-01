@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImportPointsRequest;
 use App\Http\Requests\StoreScoutRequest;
+use App\Http\Requests\UpdatePointOccupiedRequest;
 use App\Http\Requests\UpdateScoutMetaRequest;
 use App\Http\Requests\UpdateScoutRequest;
 use App\Models\CustomPoint;
@@ -132,6 +133,27 @@ class MainController extends Controller
             'title'         => $scout->title,
             'scouts'        => $scout->scouts,
             'mob_status'    => $scout->mob_status,
+        ];
+    }
+
+    public function updateOccupiedPoint(UpdatePointOccupiedRequest $request, Scout $scout, string $password = '')
+    {
+        if(!$password || $password !== $scout->collaborator_password) {
+            abort('403', 'Method not allowed');
+        }
+        $point_id = $request->validated('point_id');
+        $instance = $request->validated('instance_number');
+        $status = $request->validated('status');
+        $p = $scout->occupied_points;
+        if(!isset($p[$point_id])) {
+            $p[$point_id] = [];
+        }
+        $p[$point_id][$instance] = $status;
+        $scout->occupied_points = $p;
+        $scout->save();
+
+        return [
+            'occupied_points' => $scout->occupied_points,
         ];
     }
 

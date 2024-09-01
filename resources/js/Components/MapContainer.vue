@@ -111,6 +111,7 @@
                         :language="defaultLanguage" :ref="el => { zoneMaps[zone.id + '-' + i] = el }" v-model="form"
                         @pointUpdated="handlePointUpdated"
                         @mobStatusUpdated="handleMobStatusUpdate"
+                        @point-occupied-updated="handleOccupiedUpdate"
                          />
                 </template>
             </div>
@@ -335,7 +336,7 @@ import CheckBold from "vue-material-design-icons/CheckBold.vue";
 import { formatCoordinate, getDisplayName, languages } from "@/helpers";
 import { useToast } from "vue-toastification";
 
-const emit = defineEmits(['pointUpdated', 'mapFinalized', 'clipboardImport', 'pauseUpdates', 'resumeUpdates', 'metaDetailsUpdated', 'mobStatusUpdated'])
+const emit = defineEmits(['pointUpdated', 'mapFinalized', 'clipboardImport', 'pauseUpdates', 'resumeUpdates', 'metaDetailsUpdated', 'mobStatusUpdated', 'point-occupied-updated'])
 
 const processUpdate = function (payload) {
     if ('point_data' in payload) {
@@ -571,6 +572,10 @@ const handlePointUpdated = function (point, mob, zone_id, instance_number) {
 
 const handleMobStatusUpdate = function(mob, instance, status) {
     emit('mobStatusUpdated', mob, instance, status)
+}
+
+const handleOccupiedUpdate = function(point, instance, newValue) {
+    emit('point-occupied-updated', point, instance, newValue)
 }
 
 const getAllZoneSpawnPoints = function(zone) {
@@ -951,6 +956,11 @@ onBeforeMount(() => {
         form.mob_status = props.scout.mob_status
     } else {
         form.mob_status = {}
+    }
+    if (props?.scout?.occupied_points) {
+        form.occupied_points = props.scout.occupied_points
+    } else {
+        form.occupied_points = {}
     }
 
     props.expac.forEach((expansion) => {

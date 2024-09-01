@@ -12,6 +12,7 @@ Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
     Route::post('/scout/{scout:slug}/{password?}', 'MainController@update')->name('scout.update');
     Route::post('/scoutmeta/{scout:slug}/{password?}', 'MainController@updateMeta')->name('scout.updateMeta');
     Route::post('/scoutmobstatus/{scout:slug}/{password?}', 'MainController@updateMobStatus')->name('scout.updateMobStatus');
+    Route::post('/scoutoccupied/{scout:slug}/{password?}', 'MainController@updateOccupiedPoint')->name('scout.updateOccupiedPoint');
     Route::get('/scoutupdates/{scout:slug}/{password?}', 'MainController@getUpdates')->name('scout.updatelist');
     Route::post('/clone/{scout:slug}', 'MainController@clone')->name('scout.clone');
     Route::post('/finalize/{scout:slug}/{password?}', 'MainController@finalize')->name('scout.finalize');

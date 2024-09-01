@@ -8,6 +8,8 @@
         @dblclick.prevent="(e) => dblClickMap(e, zone)">
         <PointStatusDialog :x="contextX" :y="contextY" :point="selectedPoint" ref="contextMenuRef" v-show="showingContextMenu" v-model="model"
         :instance="props.instance"
+        :occupied="isPointOccupied(selectedPoint)"
+        @point-occupied-updated="handleOccupiedUpdate"
          />
         <div class="absolute mob-list">
             <ol class="block list-decimal pl-4">
@@ -102,12 +104,46 @@ onBeforeMount(() => {
     }
 })
 
+/**
+ * Show the occupy/unoccupy context menu to the user
+ * @param {Object} point
+ * @param {PointerEvent} e
+ */
 const showContext = function(point, e) {
     selectedPoint.value = point
     contextX.value = e.srcElement.offsetLeft + 15
     contextY.value = e.srcElement.offsetTop - 10
     showingContextMenu.value = true
-    //contextMenuRef.value.point = point
+}
+
+/**
+ * Check whether a point has been marked as occupied by a B/S rank by the reporter
+ * @param {Object} point
+ */
+const isPointOccupied = function(point) {
+    if(point && point?.id) {
+        if(model.value.occupied_points) {
+            return (point.id in model.value.occupied_points
+                    && props.instance in model.value.occupied_points[point.id]
+                    && model.value.occupied_points[point.id][props.instance] == 1
+                )
+        }
+    }
+    return false
+}
+
+/**
+ * Process a point occupy/unoccupy event
+ * @param {Object} point Point object
+ * @param {Number} instance instance number
+ * @param {Number} occupiedValue 1 = occupied, 0 = unoccupied
+ */
+const handleOccupiedUpdate = function(point, instance, occupiedValue) {
+    //console.log(point, instance, occupiedValue)
+    model.value.occupied_points = model.value.occupied_points || {}
+    model.value.occupied_points[point.id] = model.value.occupied_points[point.id] || {}
+    model.value.occupied_points[point.id][instance] = occupiedValue
+    emit('point-occupied-updated', point, instance, occupiedValue)
 }
 
 const getDeadMobStatus = function(mob, instance) {
@@ -216,6 +252,9 @@ const isPointDisabled = function(point_id) {
     }
     let spawnPoint = getSpawnPointById(point_id)
     if(spawnPoint) {
+        if(isPointOccupied(getSpawnPointById(point_id))) {
+            return true
+        }
         // Check if it's one of the spots that's B or S rank only
         // But if we don't have finalized data yet, keep it open just in case
         if(spawnPoint?.valid_mobs?.length === 0 && !props.zone.allow_custom_points) {
@@ -332,5 +371,5 @@ const getValidMobsForPoint = function(point) {
     })
 }
 
-const emit = defineEmits(['pointUpdated', 'mobStatusUpdated'])
+const emit = defineEmits(['pointUpdated', 'mobStatusUpdated', 'point-occupied-updated'])
 </script>

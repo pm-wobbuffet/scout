@@ -88,6 +88,7 @@ class StoreScoutRequest extends FormRequest
             'scouts'                        =>  'array',
             'scouts.*'                      =>  'string',
             'mob_status'                    =>  'array|nullable',
+            'occupied_points'               =>  'array|nullable',
         ];
     }
 

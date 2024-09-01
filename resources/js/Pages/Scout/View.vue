@@ -11,6 +11,7 @@
         @metaDetailsUpdated="handleMetaDetailUpdate"
         @resumeUpdates="handleResumeUpdates"
         @mobStatusUpdated="handleMobStatusUpdate"
+        @point-occupied-updated="handlePointOccupiedUpdate"
         :editmode="props.scout.collaborator_password != null && !props.scout.finalized_at"
         :newly-created="props.flash?.newly_created"
         :defaultId="props.defaultId"
@@ -83,6 +84,24 @@ const handleClipboardImport = function(assignments, point_data, custom_points, i
 const handleMapFinalized = function() {
     router.post(route('scout.finalize',
     {scout: props.scout, password: props.scout.collaborator_password} ))
+}
+
+const handlePointOccupiedUpdate = function(point, instance, newValue) {
+    axios.post(route('scout.updateOccupiedPoint', {scout: props.scout, password: props.scout.collaborator_password}),{
+        point_id: point.id,
+        instance_number: instance,
+        status: newValue
+    })
+    .then((response) => {
+        mapRef.value.processUpdate(response.data)
+        if(response.data.collision) {
+            toast.error("Another user has already modified that point. Your data has been refreshed.")
+        }
+    })
+    .catch(function (error) {
+        toast.error("An error happened while updating. Please refresh the page.")
+        console.log(error);
+    });
 }
 
 const handleMobStatusUpdate = function(mob, instance, status) {
