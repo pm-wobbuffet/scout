@@ -31,7 +31,8 @@
         </div>
         <button v-for="point in zone.spawn_points.concat(getCustomSpawnPoints())"
             class=""
-            :class="`point-taken-by-${getTakenMob(point.id)?.mob_index}`"
+            :class="calculatePointDisplayClasses(point)"
+            :data-class="`point-taken-by-${getTakenMob(point.id)?.mob_index}`"
             :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
             :data-title="`${point.x},${point.y}`"
             :disabled="isPointDisabled(point.id) && !isPointSelected(point.id)"
@@ -104,12 +105,28 @@ onBeforeMount(() => {
     }
 })
 
+const calculatePointDisplayClasses = function(point) {
+    let ret = {}
+    let mobId = getTakenMob(point.id)
+    if(mobId.mob_index != '') {
+        ret[`point-taken-by-${mobId.mob_index}`] = true
+    }
+    if(isPointOccupied(point)) {
+        ret['point-occupied'] = true
+    }
+    //console.log(point.id, ret)
+    return ret
+}
+
 /**
  * Show the occupy/unoccupy context menu to the user
  * @param {Object} point
  * @param {PointerEvent} e
  */
 const showContext = function(point, e) {
+    if(isPointSelected(point.id)) {
+        return
+    }
     selectedPoint.value = point
     contextX.value = e.srcElement.offsetLeft + 15
     contextY.value = e.srcElement.offsetTop - 10

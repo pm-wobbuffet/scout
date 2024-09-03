@@ -1,15 +1,15 @@
 <template>
     <div
-        class="context-menu absolute text-nowrap text-sm bg-white dark:bg-gray-400 dark:text-gray-50 flex items-center border-black z-[100] p-0"
+        class="context-menu absolute text-nowrap text-sm bg-white dark:bg-gray-400 dark:text-white flex items-center border-black z-[100] p-0"
         :style="{ top: y + 'px', left: x + 'px' }"
         >
         <a href="#" class="p-1 hover:bg-slate-400 dark:hover:bg-slate-500"
         v-show="!occupied"
-        @click="emitClick(point, instance, 1)"
+        @click.prevent="emitClick(point, instance, 1)"
         >Mark Point Occupied</a>
         <a href="#" class="p-1 hover:bg-slate-400 dark:hover:bg-slate-500"
         v-show="occupied"
-        @click="emitClick(point, instance, 0)"
+        @click.prevent="emitClick(point, instance, 0)"
         >Mark Point Unoccupied</a>
     </div>
 </template>

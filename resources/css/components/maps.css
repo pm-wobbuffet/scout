@@ -51,9 +51,12 @@ main.map-main-window {
         &.point-taken-by-2 {
             @apply bg-blue-300 text-white font-bold text-center !important;
         }
+        &.point-occupied {
+            @apply bg-red-400/45 !important;
+        }
 
         &:disabled {
-            @apply bg-black/10 ring-opacity-30 !important;
+            @apply bg-black/10 ring-opacity-30;
         }
         &.custom-point {
             @apply bg-green-300 w-[30px] h-[30px] scale-50 hover:scale-150;
