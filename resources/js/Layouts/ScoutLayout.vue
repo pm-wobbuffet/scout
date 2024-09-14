@@ -3,7 +3,7 @@
         <slot />
     </div>
     <footer>
-        Created by Kaiden Alenko of Adamantoise. This is intended as a temporary site until the better tools have updated maps and spawn points.
+        Created by Kaiden Alenko of Adamantoise.
         Source available on <a href="https://github.com/pm-wobbuffet/scout">Github</a>
         <br>
         Instructions for using this tool <a href="https://docs.google.com/document/d/15ukwF02H7_N2GnBEALsJEAt2RzJZQ1N5kbmdhDjSi1s/edit?usp=sharing">can
