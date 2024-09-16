@@ -269,8 +269,8 @@
                                     <div v-for="mob in form.point_data[zone.id][i]">
                                         <div>
                                             {{ zone.mobs.find((el) => el.id == mob.mob_id).name }}
-                                            ({{ formatCoordinate(mob.x) }},
-                                            {{ formatCoordinate(mob.y) }})
+                                            ({{ formatCoordinate(mob.x ?? getPointById(zone, mob.point_id)?.['x']) }},
+                                            {{ formatCoordinate(mob.y ?? getPointById(zone, mob.point_id)?.['y']) }})
                                         </div>
                                     </div>
                                 </fieldset>
@@ -496,7 +496,7 @@ const getExportTextValue = computed(() => {
                             if(zone.default_instances > 1) {
                                 ret += intToInstanceMapping[i]
                             }
-                            ret += ` ( ${formatCoordinate(mob.x)} , ${formatCoordinate(mob.y)} ) `
+                            ret += ` ( ${formatCoordinate(mob.x ?? getPointById(zone, mob.point_id)?.['x'])} , ${formatCoordinate(mob.y ?? getPointById(zone, mob.point_id)?.['y'])} ) `
                             if(zone.default_instances > 1) {
                                 ret += `Instance ${intToName(i)}`
                             }
