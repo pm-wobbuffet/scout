@@ -270,7 +270,8 @@ const isPointDisabled = function(point_id) {
     let spawnPoint = getSpawnPointById(point_id)
     if(spawnPoint) {
         if(isPointOccupied(getSpawnPointById(point_id))) {
-            return true
+            // Firefox won't allow you to contextmenu on a disabled point
+            //return true
         }
         // Check if it's one of the spots that's B or S rank only
         // But if we don't have finalized data yet, keep it open just in case
@@ -332,6 +333,13 @@ const assignMob = function(point) {
     let curMobOnPoint = getTakenMob(point.id)
     let validMobs = getValidMobsForPoint(point)
     //console.log(curMobOnPoint, validMobs)
+
+    // is the point marked as occupied?
+    // make sure we still allow them to cycle through mobs if one was already placed somehow
+    // before the point was marked as occupied
+    if(isPointOccupied(point) && curMobOnPoint.mob_index == '') {
+        return
+    }
 
     if(curMobOnPoint.mob_index != '') {
         //console.log(`Removing ${curMobOnPoint.name} from ${point.id}`)
