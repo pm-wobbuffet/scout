@@ -1976,6 +1976,15 @@
                 "name_fr": "La Fournée",
                 "name_ja": "アースンシャイア",
                 "name_de": "Irdehalde"
+            },
+            {
+                "type": 60453,
+                "x": 37.3,
+                "y": 16.8,
+                "name": "Dock Poga",
+                "name_fr": "Embarcadère de Poga",
+                "name_ja": "ポガ停船所",
+                "name_de": "Poga-Dock"
             }
         ],
         "mobs": [
