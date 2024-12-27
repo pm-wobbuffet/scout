@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full min-h-[100vh]">
+    <div class="min-w-full min-h-[100vh]">
         <nav
             class="flex flex-wrap gap-1 w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] main-nav flex-grow-1">
             <div class="shrink">
@@ -21,13 +21,13 @@
                     <Popover class="self-center mr-auto basis-0 shrink ml-2 relative">
                     <PopoverButton
                         class="border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 dark:border-slate-500 rounded-sm"
-                        title="Change the sort order of zones">
+                        title="Change the sort order and instance count of zones">
                         <SortIcon />
                     </PopoverButton>
                     <PopoverPanel
                         class="absolute min-w-max mt-1 z-50 text-sm left-1/2 -translate-x-1/2 bg-white dark:bg-slate-700 dark:text-slate-300 border border-black p-4 text-black">
-                        <div class="text-center border-b font-bold text-xl mb-2">Sort Order</div>
-                        <div class="grid gap-2 items-center" style="grid-template-columns: 1fr auto;">
+                        <div class="text-center border-b font-bold text-xl mb-2">Sort Order/Instances</div>
+                        <div class="grid gap-2 items-center" style="grid-template-columns: 1fr auto auto;">
                             <template v-for="expac in getActiveExpac()">
                                 <template v-for="(zone, index) in expac.zones" :key="`zone-sort-row-${zone.id}`">
                                     <div class="text-md font-bold">{{ getDisplayName(zone, defaultLanguage) }}</div>
@@ -41,6 +41,9 @@
                                             <ArrowUpIcon />
                                         </button>
                                     </div>
+                                    <input type="number" v-model="zone.default_instances" class="w-[4ch] p-0 text-center dark:bg-slate-800 dark:text-white disabled:opacity-20" min="1"
+                                    title="Update the instance counts (can only be done on a fresh scout report)"
+                                    :disabled="props?.scout">
                                 </template>
                             </template>
                         </div>
@@ -121,21 +124,25 @@
                 </div>
                 <div class="grid grid-cols-2 gap-1 p-1 scale-90">
                     <a href="#"
-                        class="inline-flex rounded-md bg-blue-400 dark:bg-blue-900 px-3 text-white dark:text-slate-300 py-1 mr-1 font-bold">
+                        class="inline-flex rounded-md bg-blue-400 dark:bg-blue-900 px-3 text-white dark:text-slate-300 py-1 mr-1 font-bold"
+                        title="Scroll up to the top of the screen">
                         <ArrowUpIcon /> Top
                     </a>
                     <a href="#"
                         class="inline-flex rounded-md bg-blue-700 dark:bg-blue-800 px-3 text-white dark:text-slate-300 py-1 font-bold"
-                        v-if="props.scout" @click.prevent="showShareDialog">
+                        v-if="props.scout" @click.prevent="showShareDialog"
+                        title="Save the scout report to the database and share with others if desired">
                         <ExportIcon /> Share
                     </a>
                     <a href="#"
                         class="inline-flex rounded-md bg-blue-700 px-3 dark:bg-blue-800 text-white dark:text-slate-300 py-1 font-bold"
-                        v-else @click.prevent="submitForm">
+                        v-else @click.prevent="submitForm"
+                        title="Save the scout report to the database and share with others if desired">
                         <ExportIcon /> Share
                     </a>
                     <button class="inline-flex rounded-md bg-slate-500 dark:bg-yellow-800 py-1 px-3 font-bold text-white dark:text-slate-300 mr-1"
                         v-if="props.editmode && !props.scout?.finalized_at"
+                        title="Import mob coordinates by pasting in chat logs"
                         @click.prevent="showImportDialog">
                         <ClipboardTextMultipleOutlineIcon />Import
                     </button>
@@ -316,7 +323,7 @@
 
 <script setup>
 //  instance 1, 2, 3 icons for later
-import { computed, nextTick, onBeforeMount, onMounted, ref, watch } from "vue";
+import { computed, isReadonly, nextTick, onBeforeMount, onMounted, ref, watch } from "vue";
 import ZoneMap from '@/Components/Map/ZoneMap.vue';
 import { useForm, Link } from "@inertiajs/vue3";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
