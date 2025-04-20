@@ -2,14 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Mob;
-use App\Models\Scout;
 use App\Models\SpawnPoint;
 use App\Models\Zone;
 use App\Traits\CalculatesNearestPoint;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
-class UpdateScoutAPIRequest extends FormRequest
+class UpdatePointOccupiedAPIRequest extends FormRequest
 {
     use CalculatesNearestPoint;
 
@@ -20,21 +19,35 @@ class UpdateScoutAPIRequest extends FormRequest
     {
         $scout = $this->route('scout');
         if(!$scout) {
+            Log::debug("No Scouting report was found for this request, {req}", ['req' => $this]);
             return false;
         }
         // Check to make sure they supplied the correct collaborator_password
         // to prevent unauthorized users from supplying updates
         if($scout->collaborator_password !== $this->collaborator_password) {
+            Log::debug("An invalid collaborator password was submitted for this request, {req}", ['req' => $this]);
             return false;
         }
+
+        // Make sure we don't make any changes to an existing map that's finalized
+        if(!is_null($scout->finalized_at)) {
+            Log::debug("An API request was made to update a finalized scouting report, {req}", ['req' => $this]);
+            return false;
+        }
+
         return true;
     }
 
+    /**
+     * Do any necessary transforms on incoming user data to make a proper final request
+     *
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         // Grab a reference to the zone
         $zone = Zone::query()
-        ->with(['mobs', 'spawn_points'])
+        ->with(['spawn_points'])
         ->where('id', $this->zone_id)->firstOrFail();
 
         // If no instance number is specified, default to 1.
@@ -59,14 +72,7 @@ class UpdateScoutAPIRequest extends FormRequest
             // Pull in point details
             $this->merge([
                 'point'     =>  SpawnPoint::where('id', $this->point_id)->first()->toArray(),
-            ]);
-        }
-
-        // The javascript client posts a mob_index, but for ease of use, allow
-        // API clients to simply specify the mob key from the NotoriousMonster table.
-        if(!is_null($this->mob_id)) {
-            $this->merge([
-                'mob'   =>  Mob::where('id', $this->mob_id)->first()->toArray(),
+                'distance'  =>  0,
             ]);
         }
     }
@@ -80,15 +86,12 @@ class UpdateScoutAPIRequest extends FormRequest
     {
         return [
             'collaborator_password' =>  'required',
+            'point_id'              =>  'numeric',
             'zone_id'               =>  'required|numeric',
             'instance_number'       =>  'numeric',
-            'point_id'              =>  'numeric',
-            'point'                 =>  'array',
-            'x'                     =>  'required|numeric',
-            'y'                     =>  'required|numeric',
-            'mob_id'                =>  'numeric|nullable',
-            'mob'                   =>  'array',
-            'distance'              =>  'nullable|numeric',
+            'x'                     =>  'numeric|required',
+            'y'                     =>  'numeric|required',
+            'status'                =>  'numeric|required',
         ];
     }
 }

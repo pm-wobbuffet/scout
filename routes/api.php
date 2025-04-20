@@ -20,6 +20,7 @@ Route::group([
         Route::get('/expansions', 'ExpansionController@index');
 
         Route::match(['PUT', 'PATCH'],'/scout/{scout}/bulkupdate', 'ScoutController@bulkUpdate');
+        Route::match(['POST', 'PATCH'], '/scout/{scout}/occupypoint', 'ScoutController@updateOccupiedPoint');
         Route::apiResource('scout', 'ScoutController');
 
     }

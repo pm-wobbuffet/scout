@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BulkUpdateScoutAPIRequest;
 use App\Http\Requests\StoreScoutRequest;
+use App\Http\Requests\UpdatePointOccupiedAPIRequest;
+use App\Http\Requests\UpdatePointOccupiedRequest;
 use App\Http\Requests\UpdateScoutAPIRequest;
 use App\Http\Requests\UpdateScoutRequest;
 use App\Models\Scout;
@@ -84,6 +86,41 @@ class ScoutController extends Controller
             'collaborate_url'       =>  route('scout.view', [$scout, $scout->collaborator_password]),
             'processed_sightings'   =>  $request->validated('sightings'),
         ]);
+    }
+
+    public function updateOccupiedPoint(UpdatePointOccupiedAPIRequest $request, Scout $scout)
+    {
+        // Get details from the request
+        $point_id = $request->validated('point_id');
+        $instance = $request->validated('instance_number');
+        $status = $request->validated('status');
+        $distance = $request->distance;
+        if($distance && floatval($distance) > 2) {
+            return [
+                'error'             =>  'The specified point is either B or S rank only.',
+                'distance'          =>  $distance,
+                'occupied_points'   =>  $scout->occupied_points,
+            ];
+        }
+        // Grab a reference to the currently occupied point
+        $p = $scout->occupied_points;
+        if(!isset($p[$point_id])) {
+            $p[$point_id] = [];
+        }
+        // update the status of this instance point. (1 = occupied, 0 = unoccupied)
+        $p[$point_id][$instance] = $status;
+        $scout->occupied_points = $p;
+        // Make sure to credit the user if a username was supplied
+        if($request->has('update_user') && $request->input('update_user') !== 'Anonymous') {
+            if(!in_array($request->input('update_user'), $scout->scouts)) {
+                $scout->scouts = [...$scout->scouts, $request->input('update_user')];
+            }
+        }
+        $scout->save();
+        return [
+            'success'           =>  1,
+            'occupied_points'   => $scout->occupied_points,
+        ];
     }
 
     /**
