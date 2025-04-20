@@ -34,9 +34,9 @@
             :class="calculatePointDisplayClasses(point)"
             :data-class="`point-taken-by-${getTakenMob(point.id)?.mob_index}`"
             :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
-            :data-title="`${point.x},${point.y}`"
+            :data-title="getPointTitleDisplay(point)"
             :disabled="isPointDisabled(point.id) && !isPointSelected(point.id)"
-            :data-coords="`${point.x}, ${point.y}`"
+            :data-coords="getPointTitleDisplay(point)"
             @click.stop.prevent="assignMob(point)"
             @contextmenu.stop.prevent="showContext(point, $event)"
             @dblclick.stop.prevent="false">{{ getTakenMob(point.id)?.mob_index ?? '' }}</button>
@@ -116,6 +116,13 @@ const calculatePointDisplayClasses = function(point) {
     }
     //console.log(point.id, ret)
     return ret
+}
+
+const getPointTitleDisplay = function(point) {
+    if (isPointOccupied(point)) {
+        return `${point.x},${point.y} (Occupied By B/S Rank)`
+    }
+    return `${point.x},${point.y}`
 }
 
 /**

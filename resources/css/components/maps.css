@@ -39,17 +39,21 @@ main.map-main-window {
     }
 
     button {
-        @apply rounded-full bg-black/50 absolute h-[20px] w-[20px] translate-x-[-50%] translate-y-[-50%] ring-2 ring-black flex items-center justify-center;
+        @apply rounded-full bg-black/50 absolute h-[20px] w-[20px] translate-x-[-50%] translate-y-[-50%] ring-2 ring-black flex items-center justify-center p-0;
         @apply hover:ring-2 hover:ring-white hover:ring-opacity-50;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+        text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
         line-height: 100%;
 
         &.point-taken-by-1 {
-            @apply bg-green-300 text-white font-bold text-center !important;
+            @apply bg-green-500 text-white font-bold text-center !important;
         }
 
         &.point-taken-by-2 {
-            @apply bg-blue-300 text-white font-bold text-center !important;
+            @apply bg-blue-500 text-white font-bold text-center !important;
         }
         &.point-occupied {
             @apply bg-red-400/45 !important;

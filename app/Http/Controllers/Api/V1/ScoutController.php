@@ -97,8 +97,9 @@ class ScoutController extends Controller
         $distance = $request->distance;
         if($distance && floatval($distance) > 2) {
             return [
-                'error'             =>  'The specified point is either B or S rank only.',
+                'error'             =>  'The specified point was not within range of a known A rank spawn point.',
                 'distance'          =>  $distance,
+                'closest_point'     =>  $point_id,
                 'occupied_points'   =>  $scout->occupied_points,
             ];
         }
