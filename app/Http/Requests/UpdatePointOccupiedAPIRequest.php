@@ -7,6 +7,7 @@ use App\Models\Zone;
 use App\Traits\CalculatesNearestPoint;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class UpdatePointOccupiedAPIRequest extends FormRequest
 {
@@ -46,9 +47,13 @@ class UpdatePointOccupiedAPIRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         // Grab a reference to the zone
-        $zone = Zone::query()
-        ->with(['spawn_points'])
-        ->where('id', $this->zone_id)->firstOrFail();
+        if($this->has('zone_id')) {
+            $zone = Zone::query()
+            ->with(['spawn_points'])
+            ->where('id', $this->zone_id)->firstOrFail();
+        } else {
+            $zone = null;
+        }
 
         // If no instance number is specified, default to 1.
         // Unsure if this is good for the future, but I also chose to have
@@ -61,6 +66,9 @@ class UpdatePointOccupiedAPIRequest extends FormRequest
         }
         // Check to see if the user supplied one of our pre-defined point IDs for
         // this sighting.
+        if(!$this->has('point_id') && is_null($zone)) {
+            return;
+        }
         if(!$this->has('point_id')) {
             $point = $this->findClosestSpawnPoint($zone, floatval($this->x), floatval($this->y));
             $this->merge([
@@ -86,11 +94,17 @@ class UpdatePointOccupiedAPIRequest extends FormRequest
     {
         return [
             'collaborator_password' =>  'required',
-            'point_id'              =>  'numeric',
-            'zone_id'               =>  'required|numeric',
+            'point_id'              =>  [
+                'numeric',
+                Rule::requiredIf(!$this->has('zone_id'))
+            ],
+            'zone_id'               =>  [
+                'numeric',
+                Rule::requiredIf(!$this->has('point_id'))
+            ],
             'instance_number'       =>  'numeric',
-            'x'                     =>  'numeric|required',
-            'y'                     =>  'numeric|required',
+            'x'                     =>  'numeric|required_with:zone_id',
+            'y'                     =>  'numeric|required_with:zone_id',
             'status'                =>  'numeric|required',
         ];
     }
