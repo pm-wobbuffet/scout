@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('scout_dead_mobs', function (Blueprint $table) {
+        Schema::create('scout_custom_points', function (Blueprint $table) {
             $table->id();
             $table->foreignId('scout_id')->references('id')->on('scouts')->onDelete('cascade');
-            $table->foreignId('mob_id')->references('id')->on('mobs')->onDelete('cascade');
-            $table->unsignedInteger('instance_number')->default(1);
+            $table->foreignId('zone_id')->references('id')->on('zones')->onDelete('cascade');
+            $table->decimal('x', 3, 1)->default(0.0);
+            $table->decimal('y', 3, 1)->default(0.0);
             $table->timestamps();
 
-            $table->unique(['scout_id','mob_id', 'instance_number'], 'scout_mob_instance_unique');
+            // Only allow a single x, y entry for a given zone in a scout report
+            $table->unique(['scout_id', 'zone_id', 'x', 'y']);
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('scout_dead_mobs');
+        Schema::dropIfExists('scout_custom_points');
     }
 };

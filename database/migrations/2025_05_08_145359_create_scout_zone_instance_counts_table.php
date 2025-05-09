@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('zone_id')->references('id')->on('zones')->onDelete('cascade');
             $table->unsignedInteger('instance_count')->default(1);
             $table->timestamps();
+
+            $table->unique(['scout_id', 'zone_id']);
         });
     }
 
