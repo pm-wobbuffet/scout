@@ -2,7 +2,7 @@
     <div class="bg-black">
         <slot />
     </div>
-    <footer>
+    <footer class="sticky bottom-0">
         Created by Kaiden Alenko of Adamantoise.
         Source available on <a href="https://github.com/pm-wobbuffet/scout">Github</a>
         <br>
