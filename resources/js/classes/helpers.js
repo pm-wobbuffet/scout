@@ -7,13 +7,16 @@ export const languages = [
 ]
 
 export const getDisplayName = function(obj, language) {
-    if('names' in obj) {
+    if(obj && 'names' in obj) {
         if(language in obj['names']) {
             return obj['names'][language]
         }
         return obj['name']
     }
-    return obj['name'] ?? 'Unknown'
+    if(obj && 'name' in obj) {
+        return obj['name']
+    }
+    return 'Unknown'
 }
 
 export const formatCoordinate = function(coord) {
