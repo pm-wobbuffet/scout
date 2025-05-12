@@ -28,7 +28,6 @@ let scout_report = ref(null);
 onBeforeMount(() => {
     scouter = new Scouter(props.expac)
     scout_report.value = new ScoutReport({}, scouter)
-    console.log(scout_report)
 })
 </script>
 

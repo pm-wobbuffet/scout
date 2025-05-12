@@ -2,7 +2,8 @@
     <div class="expansion-list-container flex">
         <button type="button" v-for="expansion in getExpansions()" :key="expansion.id"
             class="text-center border p-1 px-4 expac-list-item"
-            :class="{ 'selected-expansion': expansion.id == selectedExp }">
+            :class="{ 'selected-expansion': expansion.id == props.scoutReport.getSelectedExpansion() }"
+            @click="setSelectedExpansion(expansion.id)">
             <div>{{ expansion.abbreviation }}</div>
             <div class="text-sm">
                 {{ getMappedMobsForExpac(expansion) }} / {{ mobCount(expansion) }}
@@ -17,7 +18,6 @@ import Scouter from '@/classes/Scouter';
 import { onBeforeMount } from 'vue';
 
 const props = defineProps({
-    selectedExp: Number,
     scoutReport: ScoutReport
 })
 /** @var Scouter scouter */
@@ -39,5 +39,10 @@ const mobCount = function (expac) {
         total_mobs += (zone.mobs.length ?? 0) * props.scoutReport.getInstanceCountForZone(zone.id)
     })
     return total_mobs
+}
+
+const setSelectedExpansion = function(expacId) {
+    console.log("Setting selected Expansion", expacId)
+    props.scoutReport.setSelectedExpansion(expacId)
 }
 </script>

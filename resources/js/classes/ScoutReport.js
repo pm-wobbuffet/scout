@@ -6,6 +6,7 @@ export default class ScoutReport {
     instance_data = {}
     scout_names = []
     mob_status = {}
+    selected_expansion_id = 7
     /** @type Scouter */
     scouter_instance = null
 
@@ -43,5 +44,21 @@ export default class ScoutReport {
             return this.instance_data[zone_id]
         }
         return 1
+    }
+
+    isZoneScoutingComplete(zone_id, instance_number) {
+        return false
+    }
+
+    getFoundMobCount(zone_id, instance_number) {
+        return 0
+    }
+
+    getSelectedExpansion() {
+        return this.selected_expansion_id
+    }
+
+    setSelectedExpansion(expansion_id) {
+        this.selected_expansion_id = expansion_id
     }
 }

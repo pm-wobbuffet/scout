@@ -1,0 +1,54 @@
+<template>
+    <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800">
+        <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300"
+            v-if="props.scoutReport.title != ''">
+            <div class="text-sm max-w-[200px] overflow-hidden overflow-ellipsis" :title="props.scoutReport.title">{{
+                props.scoutReport.title }}
+            </div>
+        </div>
+        <div>
+            <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
+                {{ getDisplayName(activeExpansion, 'en') }}
+            </div>
+            <ul class="text-sm">
+                <template v-for="zone in activeExpansion.zones">
+                    <li v-for="i in props.scoutReport.getInstanceCountForZone(zone.id)" class="hover:bg-slate-200 dark:hover:bg-slate-700 ml-2 pr-2"
+                        :class="{ 'line-through': props.scoutReport.isZoneScoutingComplete(zone, i) }"><a class="text-blue-500"
+                            :href="`#zonemap-${zone.id}-${i}`">{{ getDisplayName(zone,
+                                'en') }}</a>
+                        <span class="ml-1 font-bold text-blue-800 dark:text-blue-400"
+                            v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
+                            }}</span>
+                        <i class="text-sm ml-2 text-black dark:text-slate-200">{{ props.scoutReport.getFoundMobCount(zone.id, i)
+                        }}/{{ zone.mobs.length }}
+                        </i>
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </aside>
+</template>
+
+<script setup>
+import ScoutReport from '@/classes/ScoutReport';
+import { getDisplayName } from '@/classes/helpers';
+import { onBeforeMount, ref, computed } from 'vue';
+
+
+const props = defineProps({
+    scoutReport: ScoutReport,
+})
+
+const scouter = ref(null)
+const activeExpansion = computed(() => {
+    return scouter.value.getExpacById(props.scoutReport.getSelectedExpansion())
+})
+onBeforeMount(() => {
+    scouter.value = props.scoutReport.scouter_instance
+    //activeExpansion.value = scouter.value.getExpacById(props.scoutReport.getSelectedExpansion())
+})
+
+
+</script>
+
+<style lang="scss" scoped></style>
