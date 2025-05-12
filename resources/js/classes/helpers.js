@@ -23,3 +23,9 @@ export const formatCoordinate = function(coord) {
     // Should probably only return 1 decimal place like the in-game format
     return (Math.round(coord * 10) / 10).toFixed(1)
 }
+
+export const convertCoordToPercent = function(coord, zone) {
+    let c = (coord - 1) / (zone.max_coord_size) * 100
+    c = c.toString() + '%'
+    return c
+}

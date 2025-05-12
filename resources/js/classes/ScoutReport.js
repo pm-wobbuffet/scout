@@ -6,7 +6,7 @@ export default class ScoutReport {
     instance_data = {}
     scout_names = []
     mob_status = {}
-    selected_expansion_id = 7
+    selected_expansion_id = 6
     /** @type Scouter */
     scouter_instance = null
 
@@ -56,6 +56,10 @@ export default class ScoutReport {
 
     getSelectedExpansion() {
         return this.selected_expansion_id
+    }
+
+    getZonesByExpansion() {
+        return this.scouter_instance.getZonesByExpansion(this.selected_expansion_id)
     }
 
     setSelectedExpansion(expansion_id) {

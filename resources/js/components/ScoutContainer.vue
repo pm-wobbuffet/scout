@@ -15,7 +15,8 @@
             </div>
         </nav>
         <ZoneListContainer
-        :scout-report="props.scoutReport" />
+        :scout-report="props.scoutReport"
+        :editmode="props.editmode" />
     </div>
 </template>
 

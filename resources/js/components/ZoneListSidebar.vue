@@ -1,5 +1,5 @@
 <template>
-    <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800">
+    <aside class="sticky top-0 left-0 md:left-auto border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800 text-nowrap whitespace-nowrap">
         <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300"
             v-if="props.scoutReport.title != ''">
             <div class="text-sm max-w-[200px] overflow-hidden overflow-ellipsis" :title="props.scoutReport.title">{{

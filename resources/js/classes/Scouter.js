@@ -31,8 +31,24 @@ export default class Scouter {
         })
     }
 
+    /**
+     * Retrieve a zone's data by its primary ID
+     * @param {Number} id 
+     * @returns 
+     */
     getZoneById(id) {
         return this.zone_data[id]
     }
+
+    getZonesByExpansion(expansion_id) {
+        let ret = []
+        for( let [zone_id, zone_data] of Object.entries(this.zone_data) ) {
+            if(zone_data.expansion_id == expansion_id) {
+                ret.push(zone_data)
+            }
+        }
+        return ret
+    }
+
 
 }
