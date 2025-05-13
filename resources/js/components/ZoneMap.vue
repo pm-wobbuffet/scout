@@ -7,6 +7,7 @@
             <ol class="block list-decimal pl-4">
                 <li v-for="(mob, index) in props.zone.mobs" :class="`group mob-number-${index} dead-mob-${getDeadMobStatus(mob, props.instance)}`"
                 title="Toggle this mob as being dead/alive. Dead mobs will count toward scouting completion for this zone."
+                :key="`moblist-mob-${mob.id}-${props.instance}`"
                 @click="toggleMobStatus(mob)">
                     <div class="flex items-center">
                     <span>{{ getDisplayName(mob, props.language ?? 'en') }}</span>
@@ -19,15 +20,18 @@
         </div>
 
         <div v-for="aetheryte in zone.aetherytes" class="aetheryte"
+            :key="`aetheryte-${aetheryte.id}-${props.instance}`"
             :style="{ 'left': convertCoordToPercent(aetheryte.x, props.zone), 'top': convertCoordToPercent(aetheryte.y, props.zone) }"
             :data-title="getDisplayName(aetheryte, 'en')">
         </div>
 
         <button v-for="point in scoutReport.getSpawnPointsForZone(zone)"
+            :key="`point-${point.id}-${props.instance}`"
             class=""
             :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
             :data-coords="getPointTitleDisplay(point)"
-            >2</button>
+            :data-title="getPointTitleDisplay(point)"
+            ></button>
 
         <div class="zone-name">
             {{ getDisplayName(zone, 'en') }}
@@ -65,17 +69,17 @@ const getDeadMobStatus = function(mob, instance) {
 /* Events and things */
 const handleMouseOver = function(event){
     is_hovered.value = true
-    let {x, y} = getXYForEvent(event)
+    const {x, y} = getXYForEvent(event)
     x_hover.value = x
     y_hover.value = y
 }
 
-const handleMouseOut = function(event) {
+const handleMouseOut = function() {
     is_hovered.value = false
 }
 const getXYForEvent = function(event) {
-    let x = Number(event.offsetX / event.srcElement.clientWidth * props.zone.max_coord_size + 1).toFixed(1)
-    let y = Number(event.offsetY / event.srcElement.clientHeight * props.zone.max_coord_size + 1).toFixed(1)
+    const x = Number(event.offsetX / event.srcElement.clientWidth * props.zone.max_coord_size + 1).toFixed(1)
+    const y = Number(event.offsetY / event.srcElement.clientHeight * props.zone.max_coord_size + 1).toFixed(1)
     return {'x': x, 'y': y}
 }
 
@@ -85,7 +89,7 @@ const getPointTitleDisplay = function(point) {
         return `${point.x},${point.y} (Occupied By B/S Rank)`
     }
         */
-    return `${point.x},${point.y}`
+    return `${point.x}, ${point.y}`
 }
 
 </script>

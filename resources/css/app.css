@@ -127,7 +127,7 @@
     hsl(0 0% 98%);
   --mob-button-min-width: 8px;
   --mob-button-width: 2rem;
-  --mob-button-max-width: 24px;
+  --mob-button-max-width: 16px;
 }
 
 .dark {

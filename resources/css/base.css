@@ -140,9 +140,9 @@ main.map-main-window {
         line-height: 100%;
     }
 
-    button::after {
+    button:hover:after {
         content: attr(data-coords);
-        @apply z-[1000] hidden hover:block absolute top-[-1.5rem] text-sm font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none;
+        @apply z-[1000] absolute top-[-1.5rem] text-xs font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none font-sans;
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
     }
 }
