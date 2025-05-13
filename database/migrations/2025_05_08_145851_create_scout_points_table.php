@@ -15,15 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('scout_id')->references('id')->on('scouts')->onDelete('cascade');
             $table->foreignId('zone_id')->references('id')->on('zones')->onDelete('cascade');
-            $table->foreignId('point_id')->references('id')->on('spawn_points')->onDelete('cascade')->nullable();
-            $table->foreignId('custom_point_id')->references('id')->on('scout_custom_points')->onDelete('cascade')->nullable();
+            $table->morphs('point');
             $table->unsignedInteger('instance_number')->default(1);
-            $table->foreignId('mob_id')->references('id')->on('mobs')->onDelete('cascade')->nullable()->default(null);
+            $table->foreignId('mob_id')->nullable()->references('id')->on('mobs')->onDelete('cascade')->default(null);
             $table->decimal('x',3,1)->nullable()->default(null);
             $table->decimal('y',3,1)->nullable()->default(null);
             $table->timestamps();
 
-            $table->unique(['scout_id', 'zone_id', 'point_id', 'custom_point_id', 'instance_number'],'scout_points_unique_idx');
+            $table->unique(['scout_id', 'zone_id', 'point_id', 'instance_number'],'scout_points_unique_idx');
         });
     }
 
