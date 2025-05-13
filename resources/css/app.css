@@ -125,6 +125,9 @@
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
   --sidebar:
     hsl(0 0% 98%);
+  --mob-button-min-width: 8px;
+  --mob-button-width: 2rem;
+  --mob-button-max-width: 24px;
 }
 
 .dark {

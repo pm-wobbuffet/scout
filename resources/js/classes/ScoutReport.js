@@ -65,4 +65,8 @@ export default class ScoutReport {
     setSelectedExpansion(expansion_id) {
         this.selected_expansion_id = expansion_id
     }
+
+    getSpawnPointsForZone(zone) {
+        return zone.spawn_points
+    }
 }

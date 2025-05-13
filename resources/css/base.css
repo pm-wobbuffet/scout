@@ -62,11 +62,11 @@ main.map-main-window {
     @apply flex-row flex-grow-[999] flex flex-wrap gap-2 items-center justify-center;
 }
 .map-image-list-grid {
-    @apply grid grid-cols-[repeat(auto-fill,_minmax(450px,1fr))] flex-grow-[999] gap-2;
+    @apply grid grid-cols-[repeat(auto-fill,_minmax(500px,1fr))] flex-grow-[999] gap-2;
 }
 
 .map-container-block {
-    @apply border border-slate-200 relative bg-contain select-none min-w-[400px] md:min-w-[45%] aspect-square max-w-[100%] dark:brightness-75;
+    @apply border border-slate-200 relative bg-contain select-none min-w-[400px] md:min-w-[50%] aspect-square max-w-[100%] dark:brightness-75;
     background-image: var(--map-bg-image);
 
     .mob-list {
@@ -101,8 +101,12 @@ main.map-main-window {
     }
 
     button {
-        @apply rounded-full bg-black/50 absolute h-[20px] w-[20px] translate-x-[-50%] translate-y-[-50%] ring-2 ring-black flex items-center justify-center p-0;
+        @apply rounded-full bg-black/50 absolute translate-x-[-50%] translate-y-[-50%] ring-2 ring-black flex items-center justify-center p-0 text-center font-mono cursor-pointer;
         @apply hover:ring-2 hover:ring-white;
+        
+        width: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
+        height: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
+        font-size: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
         text-shadow:
         -1px -1px 0 #000,
         1px -1px 0 #000,

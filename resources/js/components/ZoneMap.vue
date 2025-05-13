@@ -23,6 +23,12 @@
             :data-title="getDisplayName(aetheryte, 'en')">
         </div>
 
+        <button v-for="point in scoutReport.getSpawnPointsForZone(zone)"
+            class=""
+            :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
+            :data-coords="getPointTitleDisplay(point)"
+            >2</button>
+
         <div class="zone-name">
             {{ getDisplayName(zone, 'en') }}
             <span v-if="zone.default_instances > 1">{{ instance }}</span>
@@ -71,6 +77,15 @@ const getXYForEvent = function(event) {
     let x = Number(event.offsetX / event.srcElement.clientWidth * props.zone.max_coord_size + 1).toFixed(1)
     let y = Number(event.offsetY / event.srcElement.clientHeight * props.zone.max_coord_size + 1).toFixed(1)
     return {'x': x, 'y': y}
+}
+
+const getPointTitleDisplay = function(point) {
+    /*
+    if (isPointOccupied(point)) {
+        return `${point.x},${point.y} (Occupied By B/S Rank)`
+    }
+        */
+    return `${point.x},${point.y}`
 }
 
 </script>
