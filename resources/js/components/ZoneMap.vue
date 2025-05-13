@@ -19,12 +19,6 @@
             </ol>
         </div>
 
-        <div v-for="aetheryte in zone.aetherytes" class="aetheryte"
-            :key="`aetheryte-${aetheryte.id}-${props.instance}`"
-            :style="{ 'left': convertCoordToPercent(aetheryte.x, props.zone), 'top': convertCoordToPercent(aetheryte.y, props.zone) }"
-            :data-title="getDisplayName(aetheryte, 'en')">
-        </div>
-
         <button v-for="point in scoutReport.getSpawnPointsForZone(zone)"
             :key="`point-${point.id}-${props.instance}`"
             class=""
@@ -32,6 +26,12 @@
             :data-coords="getPointTitleDisplay(point)"
             :data-title="getPointTitleDisplay(point)"
             ></button>
+
+        <div v-for="aetheryte in zone.aetherytes" class="aetheryte"
+            :key="`aetheryte-${aetheryte.id}-${props.instance}`"
+            :style="{ 'left': convertCoordToPercent(aetheryte.x, props.zone), 'top': convertCoordToPercent(aetheryte.y, props.zone) }"
+            :data-title="getDisplayName(aetheryte, 'en')">
+        </div>
 
         <div class="zone-name">
             {{ getDisplayName(zone, 'en') }}

@@ -1,6 +1,6 @@
 export default class ScoutReport {
 
-    title = 'Untitled Scout Report'
+    title = 'A REALLY LONG Untitled Scout Report'
     custom_points = []
     point_data = []
     instance_data = {}

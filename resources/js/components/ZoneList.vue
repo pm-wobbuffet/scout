@@ -2,6 +2,9 @@
     <div class="map-image-list-grid order-2">
         <template v-for="zone in props.scoutReport.getZonesByExpansion()" :id="`zone-${zone.id}`">
             <ZoneMap v-for="i in props.scoutReport.getInstanceCountForZone(zone.id)"
+            :id="`zonemap-${zone.id}-${i}`"
+            :data-zone-id="`${zone.id}`"
+            :data-instance="i"
             :zone="zone"
             :instance="i"
             :editmode="props.editmode"
