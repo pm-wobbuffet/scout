@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Migration;
 
 use App\Models\Scout;
+use App\Models\ScoutCustomPoint;
 use App\Models\SpawnPoint;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -50,7 +51,8 @@ class MigrateOldScoutsToNewFormat extends Command
                         );
                     }
                 }
-
+            }
+            if($scout->occupied_points) {
                 foreach($scout->occupied_points as $point_id => $instances) {
                     foreach($instances as $instance => $is_occupied) {
                         $p = SpawnPoint::whereId($point_id)->firstOrFail();
@@ -69,6 +71,25 @@ class MigrateOldScoutsToNewFormat extends Command
                         'instance_number','mob_id','created_at', 'updated_at'],
                         ['mob_id', 'updated_at']);
                     }
+                }
+            }
+            // Convert custom_points to database stored custom points
+            // Need to reassign the ID and keep a mapping
+            if($scout->custom_points) {
+                foreach($scout->custom_points as $point) {
+                    //$this->info(var_dump($point));
+                    $s = DB::table('scout_custom_points')
+                    ->upsert([
+                        'scout_id'      => $scout->id,
+                        'zone_id'       => $point['zone_id'],
+                        'x'             => $point['x'],
+                        'y'             => $point['y'],
+                        'created_at'    => Carbon::now(),
+                        'updated_at'    => Carbon::now(),
+                    ],
+                    ['scout_id', 'zone_id', 'x', 'y'],
+                    ['updated_at']
+                    );
                 }
             }
             $this->info('Scout retrieved');
