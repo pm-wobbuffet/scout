@@ -3,7 +3,7 @@
     <ScoutLayout>
         <ScoutContainer
         :scout-report="scout_report"
-        :editmode="true"
+        :editmode="props.scout.collaborator_password && props.scout.finalized_at === null"
         :defaultId="props.defaultId"
         ></ScoutContainer>
     </ScoutLayout>
@@ -24,7 +24,7 @@ const props = defineProps({
 })
 
 let scouter = null;
-let scout_report = ref(null);
+const scout_report = ref(null);
 
 onBeforeMount(() => {
     scouter = new Scouter(props.expac)

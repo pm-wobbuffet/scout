@@ -114,22 +114,22 @@ main.map-main-window {
         1px 1px 0 #000;
         line-height: 100%;
 
+        &.point-disabled {
+           @apply bg-black/10 cursor-not-allowed ring-black/50; 
+        }
+        &:disabled {
+            @apply bg-black/10 cursor-not-allowed ring-black/50;
+        }
+        &.point-occupied {
+            @apply bg-red-400/45;
+        }
+        
         &.point-taken-by-1 {
             @apply bg-green-500 text-white font-bold text-center;
         }
 
         &.point-taken-by-2 {
             @apply bg-blue-500 text-white font-bold text-center;
-        }
-        &.point-occupied {
-            @apply bg-red-400/45;
-        }
-
-        &.point-disabled {
-           @apply bg-black/10 cursor-not-allowed ring-black/50; 
-        }
-        &:disabled {
-            @apply bg-black/10;
         }
         &.custom-point {
             @apply bg-green-300 w-[30px] h-[30px] scale-50 hover:scale-150;

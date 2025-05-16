@@ -3,6 +3,7 @@
         <!-- Main map area -->
          <ZoneList
          :scout-report="props.scoutReport"
+         :editmode="props.editmode"
          />
         <!-- Control buttons -->
         <!-- List of current expac zones and status -->
@@ -16,8 +17,6 @@
 import ScoutReport from '@/classes/ScoutReport';
 import ZoneListSidebar from '@/components/ZoneListSidebar.vue';
 import ZoneList from '@/components/ZoneList.vue';
-
-import { watch, getCurrentInstance, onBeforeMount, ref, onMounted, toRef } from 'vue';
 
 const props = defineProps({
     scoutReport: ScoutReport,

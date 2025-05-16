@@ -17,17 +17,20 @@
             </ol>
         </div>
 
-        <button v-for="point in scoutReport.getSpawnPointsForZone(zone)" :key="`point-${point.id}-${props.instance}`"
-            class="" :class="calculatePointDisplayClasses(point)"
-            :style="{ 'left': convertCoordToPercent(point.x, zone), 'top': convertCoordToPercent(point.y, zone) }"
-            :data-coords="getPointTitleDisplay(point)" :data-title="getPointTitleDisplay(point)">{{
-                getMobIndexForDisplay(point) }}</button>
-
         <div v-for="aetheryte in zone.aetherytes" class="aetheryte" :key="`aetheryte-${aetheryte.id}-${props.instance}`"
             :style="{ 'left': convertCoordToPercent(aetheryte.x, props.zone), 'top': convertCoordToPercent(aetheryte.y, props.zone) }"
             :data-title="getDisplayName(aetheryte, 'en')">
         </div>
 
+        <ZoneMapPoint
+            v-for="point in scoutReport.getSpawnPointsForZone(zone)"
+            :key="`point-${point.id}-${props.instance}`"
+            :point="point"
+            :zone="props.zone"
+            :instance="props.instance"
+            :editmode="props.editmode"
+            :scout-report="props.scoutReport"
+        />
         <div class="zone-name">
             {{ getDisplayName(zone, 'en') }}
             <span v-if="zone.default_instances > 1">{{ instance }}</span>
@@ -39,6 +42,7 @@
 <script setup>
 import { getDisplayName, convertCoordToPercent } from '@/classes/helpers';
 import ScoutReport from '@/classes/ScoutReport';
+import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
 import { SkullIcon } from 'lucide-vue-next';
 import { ref } from "vue";
 
@@ -55,41 +59,6 @@ const y_hover = ref(0)
 
 const toggleMobStatus = function (mob) {
     return true
-}
-
-const calculatePointDisplayClasses = function (point) {
-    let ret = {}
-    const mobPoint = props.scoutReport.getMobOnPoint(point.id, props.instance)
-
-    if (mobPoint.length > 0) {
-        const mobInfo = props.scoutReport.scouter_instance.getMobById(mobPoint[0].mob_id)
-        if (mobInfo === null) {
-            // Occupied point
-            ret['point-occupied'] = true
-        } else {
-            if ('mob_index' in mobInfo && mobInfo.mob_index != '') {
-                ret[`point-taken-by-${mobInfo.mob_index}`] = true
-            }
-        }
-    } else {
-        // See if scouting is complete
-        if(props.scoutReport.isZoneScoutingComplete(props.scoutReport.scouter_instance.getZoneById(point.zone_id), props.instance)) {
-            ret['point-disabled'] = true
-        }
-    }
-    return ret
-}
-
-const getMobIndexForDisplay = function (point) {
-    const mobPoint = props.scoutReport.getMobOnPoint(point.id, props.instance)
-
-    if (mobPoint.length > 0) {
-        const mobInfo = props.scoutReport.scouter_instance.getMobById(mobPoint[0].mob_id)
-        if (mobInfo && 'mob_index' in mobInfo && mobInfo.mob_index != '') {
-            return mobInfo.mob_index
-        }
-    }
-    return ''
 }
 
 const getDeadMobStatus = function (mob, instance) {
@@ -111,15 +80,6 @@ const getXYForEvent = function (event) {
     const x = Number(event.offsetX / event.srcElement.clientWidth * props.zone.max_coord_size + 1).toFixed(1)
     const y = Number(event.offsetY / event.srcElement.clientHeight * props.zone.max_coord_size + 1).toFixed(1)
     return { 'x': x, 'y': y }
-}
-
-const getPointTitleDisplay = function (point) {
-    /*
-    if (isPointOccupied(point)) {
-        return `${point.x},${point.y} (Occupied By B/S Rank)`
-    }
-        */
-    return `${point.x}, ${point.y} PID: ${point.id}`
 }
 
 </script>

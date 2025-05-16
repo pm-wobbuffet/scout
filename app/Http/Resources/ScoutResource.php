@@ -16,14 +16,17 @@ class ScoutResource extends JsonResource
     public function toArray(Request $request): array
     {
         //return parent::toArray($request);
+        //dd($this->resource);
+        //dd($request);
         return [
             'id'                    => $this->id,
             'title'                 => $this->title,
             'slug'                  => $this->slug,
-            'collaborator_password' => $this->when(in_array('collaborator_password', $this->getVisible()),$this->collaborator_password),
+            'collaborator_password' => $this->when($request->route('password') == $this->collaborator_password, $this->collaborator_password),
             'dead_mobs'             => ScoutDeadMobResource::collection($this->whenLoaded('dead_mobs')),
             'instance_data'         => ScoutZoneInstanceCountResource::collection($this->whenLoaded('instances')),
             'points'                => ScoutPointResource::collection($this->whenLoaded('points')),
+            'finalized_at'          => $this->finalized_at,
         ];
     }
 }

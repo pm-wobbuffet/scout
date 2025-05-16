@@ -6,7 +6,7 @@ export default class ScoutReport {
     instance_data = {}
     scout_names = []
     dead_mobs = []
-    selected_expansion_id = 6
+    selected_expansion_id = 4   // TODO: calculate me
     /** @type Scouter */
     scouter_instance = null
 
@@ -51,9 +51,15 @@ export default class ScoutReport {
         return 1
     }
 
-    getMobOnPoint(point_id, instance) {
+    getMobOnPoint(point_id, instance_number) {
         return this.point_data.filter((mobpoint) => {
-            return mobpoint.point_id == point_id && mobpoint.instance_number == instance
+            return mobpoint.point_id == point_id && mobpoint.instance_number == instance_number
+        })
+    }
+
+    isMobAssigned(mob_id, instance_number) {
+        return this.point_data.some((mobpoint) => {
+            return mobpoint.mob_id == mob_id && mobpoint.instance_number == instance_number
         })
     }
 
