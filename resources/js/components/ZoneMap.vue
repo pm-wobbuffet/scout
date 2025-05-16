@@ -58,6 +58,7 @@ const x_hover = ref(0)
 const y_hover = ref(0)
 
 const toggleMobStatus = function (mob) {
+    console.log(mob)
     return true
 }
 

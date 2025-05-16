@@ -1,6 +1,6 @@
 export default class ScoutReport {
 
-    title = 'Untitled Scout Report'
+    title = ''
     custom_points = []
     point_data = []
     instance_data = {}
@@ -51,24 +51,54 @@ export default class ScoutReport {
         return 1
     }
 
+    /**
+     * Return the ScoutPoint associated with a point in a specific instance
+     * returns empty array if no mob was found on that point
+     * Note, an occupied point will return an array with an element that has mob_id = NULL
+     * @param {Number} point_id 
+     * @param {Number} instance_number 
+     * @returns Array
+     */
     getMobOnPoint(point_id, instance_number) {
         return this.point_data.filter((mobpoint) => {
             return mobpoint.point_id == point_id && mobpoint.instance_number == instance_number
         })
     }
 
+    /**
+     * Whether a given mob in a particular instance is flagged as being assigned to a point anywhere
+     * in the zone
+     * @param {Number} mob_id - The Mob ID number of interest
+     * @param {Number} instance_number - The specific instance number (1 should be used if default/no instance)
+     * @returns Boolean
+     */
     isMobAssigned(mob_id, instance_number) {
         return this.point_data.some((mobpoint) => {
             return mobpoint.mob_id == mob_id && mobpoint.instance_number == instance_number
         })
     }
 
+    /**
+     * Whether a given mob is marked as being sniped/dead.
+     * Sniped/Dead mobs should count toward zone scouting completion.
+     * @param {Number} mob_id - The Mob ID number of interest
+     * @param {Number} instance_number The specific instance number (1 should be used if default/no instance)
+     * @returns Boolean
+     */
     isMobDead(mob_id, instance_number) {
         return this.dead_mobs.some((el) => {
             return el.mob_id == mob_id && el.instance_number == instance_number
         })
     }
 
+    /**
+     * Whether a specific zone+instance is considered as complete from a scouting standpoint.
+     * A zone is complete if all mobs are accounted for, either via actual sighting or being marked
+     * as sniped/dead
+     * @param {Object} zone The zone ID of interest
+     * @param {Number} instance_number The specific zone instance to test
+     * @returns Boolean
+     */
     isZoneScoutingComplete(zone, instance_number) {
         // Get total mobs already found
         let mobCount = this.getFoundMobCountForZone(zone.id, instance_number)
@@ -84,6 +114,13 @@ export default class ScoutReport {
         return mobCount === expectedMobs.length
     }
 
+    /**
+     * Return the total number of mobs found for a given expansion during a scouting session.
+     * This does not include mobs marked as dead.
+     * Used for display in the top header and OpenGraph summaries in Discord embeds
+     * @param {Number} expac_id The expansion ID to test
+     * @returns Number
+     */
     getFoundMobCountForExpansion(expac_id) {
         let foundCount = 0
         this.point_data.forEach((point) => {
@@ -98,6 +135,13 @@ export default class ScoutReport {
         return foundCount
     }
 
+    /**
+     * Returns the total number of mobs found in a given instanced zone.
+     * Does not include mobs marked as dead or B/S rank occupied spots.
+     * @param {Number} zone_id The specific zone of interest
+     * @param {Number} instance_number The specific instance of a given zone to test
+     * @returns Number
+     */
     getFoundMobCountForZone(zone_id, instance_number) {
         let foundCount = 0
         this.point_data.forEach((point) => {
