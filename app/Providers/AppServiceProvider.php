@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\ScoutResource;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -40,6 +41,9 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('api', function(Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+
+        // Disable stupid JSON data wrapping
+        ScoutResource::withoutWrapping();
         
         // Add shorthand ways of referring to FQCNs for morphable relations
         Relation::enforceMorphMap([

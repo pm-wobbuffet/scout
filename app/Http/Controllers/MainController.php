@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ScoutResource;
 use App\Models\Expansion;
 use App\Models\Scout;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -26,11 +27,12 @@ class MainController extends Controller
 
     public function view(Request $request, Scout $scout, string $password = ''): \Inertia\Response|\Illuminate\Http\JsonResponse
     {
-        $scout->load(['updates']);
+        $scout->load(['updates', 'dead_mobs', 'instances', 'points']);
         $scout->loadMax('updates', 'id');
         if ($password && $password === $scout->collaborator_password) {
             $scout->makeVisible(['collaborator_password']);
         }
+        //dd($scout->instances);
 
         $expansions = $this->getExpansionsData();
         $exp_totals = $this->calculateExpTotals($expansions, $scout);
@@ -40,9 +42,9 @@ class MainController extends Controller
         // Set OpenGraph settings for discord display
         $this->setOpenGraphDetails($scout, $exp_totals);
 
-        return Inertia::render('Scout/View', [
-            'expac' =>  $expansions,
-            'scout' =>  $scout,
+        return Inertia::render('scout/View', [
+            'expac'     =>  $expansions,
+            'scout'     =>  new ScoutResource($scout),
             'defaultId' =>  intval(env('DEFAULT_EXPANSION_ID', 7)),
         ]);
     }

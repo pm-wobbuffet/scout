@@ -125,6 +125,9 @@ main.map-main-window {
             @apply bg-red-400/45;
         }
 
+        &.point-disabled {
+           @apply bg-black/10 cursor-not-allowed ring-black/50; 
+        }
         &:disabled {
             @apply bg-black/10;
         }

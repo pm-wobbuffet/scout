@@ -31,7 +31,7 @@ const getExpansions = function () {
 }
 
 const getMappedMobsForExpac = function (expac) {
-    return 1
+    return props.scoutReport.getFoundMobCountForExpansion(expac.id)
 }
 const mobCount = function (expac) {
     let total_mobs = 0

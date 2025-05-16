@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Sqids\Sqids;
 
@@ -67,4 +68,21 @@ class Scout extends Model
     {
         return $this->hasMany(ScoutUpdate::class);
     }
+
+    public function dead_mobs(): HasMany
+    {
+        return $this->hasMany(ScoutDeadMob::class);
+    }
+
+    public function instances(): BelongsToMany
+    {
+        return $this->belongsToMany(Zone::class, 'scout_zone_instance_counts')
+        ->withPivot(['instance_count']);
+    }
+
+    public function points(): HasMany
+    {
+        return $this->hasMany(ScoutPoint::class);
+    }
+
 }

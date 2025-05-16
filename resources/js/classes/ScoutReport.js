@@ -1,11 +1,11 @@
 export default class ScoutReport {
 
-    title = 'A REALLY LONG Untitled Scout Report'
+    title = 'Untitled Scout Report'
     custom_points = []
     point_data = []
     instance_data = {}
     scout_names = []
-    mob_status = {}
+    dead_mobs = []
     selected_expansion_id = 6
     /** @type Scouter */
     scouter_instance = null
@@ -15,10 +15,15 @@ export default class ScoutReport {
         this.scouter_instance = scouter_instance
 
         if('instance_data' in initial_data) {
-            this.instance_data = initial_data.instance_data
+            initial_data.instance_data.forEach((el) => {
+                this.instance_data[el.zone_id] = el.instance_count
+            })
         } else {
             this.instance_data = this.constructDefaultInstanceData()
         }
+        this.point_data = initial_data.points ?? []
+        this.dead_mobs = initial_data.dead_mobs ?? []
+        this.title = initial_data.title
     }
 
 
@@ -46,12 +51,59 @@ export default class ScoutReport {
         return 1
     }
 
-    isZoneScoutingComplete(zone_id, instance_number) {
-        return false
+    getMobOnPoint(point_id, instance) {
+        return this.point_data.filter((mobpoint) => {
+            return mobpoint.point_id == point_id && mobpoint.instance_number == instance
+        })
     }
 
-    getFoundMobCount(zone_id, instance_number) {
-        return 0
+    isMobDead(mob_id, instance_number) {
+        return this.dead_mobs.some((el) => {
+            return el.mob_id == mob_id && el.instance_number == instance_number
+        })
+    }
+
+    isZoneScoutingComplete(zone, instance_number) {
+        // Get total mobs already found
+        let mobCount = this.getFoundMobCountForZone(zone.id, instance_number)
+        let expectedMobs = this.scouter_instance.getMobsForZone(zone.id)
+
+        // Look for dead mobs to add to count
+        expectedMobs.forEach((mob) => {
+            if(this.isMobDead(mob.id, instance_number)) {
+                mobCount++
+            }
+        })
+        
+        return mobCount === expectedMobs.length
+    }
+
+    getFoundMobCountForExpansion(expac_id) {
+        let foundCount = 0
+        this.point_data.forEach((point) => {
+            if(
+                this.scouter_instance.spawn_points[point.point_id] &&
+                this.scouter_instance.spawn_points[point.point_id].expansion_id == expac_id &&
+                point.mob_id !== null
+            ) {
+                foundCount += 1
+            }
+        })
+        return foundCount
+    }
+
+    getFoundMobCountForZone(zone_id, instance_number) {
+        let foundCount = 0
+        this.point_data.forEach((point) => {
+            if(
+                point.zone_id == zone_id &&
+                point.instance_number == instance_number &&
+                point.mob_id !== null
+            ) {
+                foundCount += 1
+            }
+        })
+        return foundCount
     }
 
     getSelectedExpansion() {

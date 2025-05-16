@@ -23,7 +23,7 @@
                             v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
                             }}</span>
                         <i class="text-sm ml-2 text-black dark:text-slate-200">{{
-                            props.scoutReport.getFoundMobCount(zone.id, i)
+                            props.scoutReport.getFoundMobCountForZone(zone.id, i)
                             }}/{{ zone.mobs.length }}
                         </i>
                     </li>

@@ -221,8 +221,8 @@ class MigrateOldScoutsToNewFormat extends Command
                             'point_id'          => $pid,
                             'instance_number'   => intval($instance) ?? 1,
                             'mob_id'            => isset($point['mob_id']) && (intval($point['mob_id']) > 0) ? intval($point['mob_id']) : null,
-                            'x'                 => isset($point['x']) ? intval($point['x']) : null,
-                            'y'                 => isset($point['y']) ? intval($point['y']) : null,
+                            'x'                 => isset($point['x']) ? floatval($point['x']) : null,
+                            'y'                 => isset($point['y']) ? floatval($point['y']) : null,
                             'created_at'    => Carbon::now(),
                             'updated_at'    => Carbon::now(),
                         ], [

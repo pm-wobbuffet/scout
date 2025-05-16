@@ -14,6 +14,7 @@ export default class Scouter {
                     this.mob_data[mob.id] = mob
                 })
                 zone.spawn_points.forEach((spawn_point) => {
+                    spawn_point['expansion_id'] = el.id
                     this.spawn_points[spawn_point.id] = spawn_point
                 })
             })
@@ -29,6 +30,30 @@ export default class Scouter {
         return this.expansion_data.find((val, idx) => {
             return val.id == id
         })
+    }
+
+    /**
+     * Return the mob by a given ID or null if no mob is found
+     * Null should be used to indicate occupied points in a final ZoneMap
+     * @param {Number} id 
+     * @returns Object
+     */
+    getMobById(id) {
+        if(id in this.mob_data) {
+            return this.mob_data[id]
+        }
+        return null
+    }
+
+    getMobsForZone(zone_id) {
+        let ret = []
+        for( let [mob_id, mob_data] of Object.entries(this.mob_data)) {
+            //console.log(mob_data, zone_id)
+            if(mob_data.zone_id == zone_id) {
+                ret.push(mob_data)
+            }
+        }
+        return ret
     }
 
     /**
