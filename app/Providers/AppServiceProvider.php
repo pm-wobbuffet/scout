@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Http\Resources\ExpansionResource;
 use App\Http\Resources\ScoutResource;
+use App\Listeners\ReverbMessageListener;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
@@ -46,6 +48,11 @@ class AppServiceProvider extends ServiceProvider
         // Disable stupid JSON data wrapping
         ScoutResource::withoutWrapping();
         ExpansionResource::withoutWrapping();
+
+        // Add in reverb event listeners
+        Event::listen(
+            ReverbMessageListener::class,
+        );
         
         // Add shorthand ways of referring to FQCNs for morphable relations
         Relation::enforceMorphMap([
