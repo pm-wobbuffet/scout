@@ -3,7 +3,9 @@
         :style="{ 'left': convertCoordToPercent(props.point.x, zone), 'top': convertCoordToPercent(props.point.y, props.zone) }"
         :data-coords="getPointTitleDisplay(props.point)" 
         :data-title="getPointTitleDisplay(props.point)"
-        :disabled="isPointDisabled && !isPointSelected">{{
+        :disabled="isPointDisabled && !isPointSelected"
+        @click.stop.prevent="assignMob"
+        >{{
             mobOnPoint?.mob_index ?? '' }}</button>
 </template>
 
@@ -16,9 +18,17 @@ const props = defineProps({
     zone: Object,
     point: Object,
     instance: Number,
-    scoutReport: ScoutReport,
+    scoutReport: Object,
     editmode: Boolean,
 })
+
+const assignMob = function() {
+    // End early if we're not in edit mode
+    if(!props.editmode) return
+    if(isPointOccupied === true) return
+
+    props.scoutReport.cycleMobOnPoint(props.point, props.instance)
+}
 
 const isPointDisabled = computed(() => {
     if (!props.editmode && !isPointSelected.value) {

@@ -19,7 +19,7 @@ import ScoutReport from '@/classes/ScoutReport';
 import ZoneMap from '@/components/ZoneMap.vue';
 
 const props = defineProps({
-    scoutReport: ScoutReport,
+    scoutReport: Object,
     editmode: Boolean,
 })
 </script>

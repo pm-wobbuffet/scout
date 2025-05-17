@@ -7,14 +7,14 @@ export default class Scouter {
     
     constructor(data) {
         this.expansion_data = data
-        this.expansion_data.forEach((el) => {
-            el.zones.forEach((zone) => {
+        this.expansion_data.forEach((expansion) => {
+            expansion.zones.forEach((zone) => {
                 this.zone_data[zone.id] = zone
                 zone.mobs.forEach((mob) => {
                     this.mob_data[mob.id] = mob
                 })
                 zone.spawn_points.forEach((spawn_point) => {
-                    spawn_point['expansion_id'] = el.id
+                    spawn_point['expansion_id'] = expansion.id
                     this.spawn_points[spawn_point.id] = spawn_point
                 })
             })
@@ -54,6 +54,10 @@ export default class Scouter {
             }
         }
         return ret
+    }
+
+    getValidMobsForPoint(point) {
+
     }
 
     /**

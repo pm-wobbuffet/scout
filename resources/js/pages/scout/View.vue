@@ -13,9 +13,10 @@
 import { Head } from '@inertiajs/vue3';
 import ScoutLayout from '@/layouts/ScoutLayout.vue';
 import Scouter from '@/classes/Scouter';
-import { onBeforeMount, ref } from 'vue';
+import { inject, onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue';
 import ScoutReport from '@/classes/ScoutReport';
 import ScoutContainer from '@/components/ScoutContainer.vue';
+import '../../echo';
 
 const props = defineProps({
     expac: Array,
@@ -25,10 +26,23 @@ const props = defineProps({
 
 let scouter = null;
 const scout_report = ref(null);
+const emitter = inject('emitter')
 
 onBeforeMount(() => {
     scouter = new Scouter(props.expac)
     scout_report.value = new ScoutReport(props.scout, scouter)
+})
+onMounted(() => {
+    emitter.on('mob:markalive', (obj) => {
+        console.log(obj)
+    })
+    emitter.on('point:assign-mob', (obj) => {
+        console.log(obj)
+    })
+})
+onBeforeUnmount(() => {
+    emitter.off('mob:markalive')
+    emitter.off('point:assign-mob')
 })
 </script>
 

@@ -50,7 +50,7 @@ const props = defineProps({
     zone: Object,
     instance: Number,
     editmode: Boolean,
-    scoutReport: ScoutReport,
+    scoutReport: Object,
 })
 
 const is_hovered = ref(false)
@@ -58,12 +58,7 @@ const x_hover = ref(0)
 const y_hover = ref(0)
 
 const toggleMobStatus = function (mob) {
-    console.log(mob)
-    return true
-}
-
-const getDeadMobStatus = function (mob, instance) {
-    return 0
+    props.scoutReport.toggleMobStatus(mob.id, props.instance)
 }
 
 /* Events and things */

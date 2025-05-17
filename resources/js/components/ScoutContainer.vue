@@ -27,7 +27,7 @@ import ExpansionListHeader from '@/components/ExpansionListHeader.vue';
 import ZoneListContainer from '@/components/ZoneListContainer.vue';
 
 const props = defineProps({
-    scoutReport: ScoutReport,
+    scoutReport: Object,
     editmode: Boolean,
     newlyCreated: Boolean,
     defaultId: Number,

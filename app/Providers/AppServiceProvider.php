@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\ExpansionResource;
 use App\Http\Resources\ScoutResource;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Disable stupid JSON data wrapping
         ScoutResource::withoutWrapping();
+        ExpansionResource::withoutWrapping();
         
         // Add shorthand ways of referring to FQCNs for morphable relations
         Relation::enforceMorphMap([

@@ -18,6 +18,7 @@ class ScoutPointResource extends JsonResource
             'zone_id'           => $this->zone_id,
             'mob_id'            => $this->mob_id,
             'instance_number'   => $this->instance_number,
+            'point_type'        => $this->point_type,
             'point_id'          => $this->point_id,
             'x'                 => $this->x,
             'y'                 => $this->y,

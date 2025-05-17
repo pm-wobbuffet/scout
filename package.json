@@ -35,6 +35,7 @@
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^1.0",
         "lucide-vue-next": "^0.468.0",
+        "mitt": "^3.0.1",
         "postcss": "^8.5.3",
         "reka-ui": "^2.2.0",
         "tailwind-merge": "^3.2.0",

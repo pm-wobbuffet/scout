@@ -40,7 +40,7 @@ import { onBeforeMount, ref, computed, onMounted, onUnmounted, onUpdated } from 
 
 
 const props = defineProps({
-    scoutReport: ScoutReport,
+    scoutReport: Object,
 })
 
 const scouter = ref(null)

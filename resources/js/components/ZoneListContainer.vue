@@ -19,7 +19,7 @@ import ZoneListSidebar from '@/components/ZoneListSidebar.vue';
 import ZoneList from '@/components/ZoneList.vue';
 
 const props = defineProps({
-    scoutReport: ScoutReport,
+    scoutReport: Object,
     editmode: Boolean,
 })
 </script>

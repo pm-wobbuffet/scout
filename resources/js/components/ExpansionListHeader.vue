@@ -18,7 +18,7 @@ import Scouter from '@/classes/Scouter';
 import { onBeforeMount } from 'vue';
 
 const props = defineProps({
-    scoutReport: ScoutReport
+    scoutReport: Object
 })
 /** @var Scouter scouter */
 let scouter = null

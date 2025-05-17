@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ExpansionResource;
 use App\Http\Resources\ScoutResource;
 use App\Models\Expansion;
 use App\Models\Scout;
@@ -20,7 +21,8 @@ class MainController extends Controller
     {
         $expansions = $this->getExpansionsData();
         return Inertia::render('Index', [
-            'expac'     =>  $expansions,
+            'expac'     =>  ExpansionResource::collection($expansions),
+            //'expac'     => $expansions,
             'defaultId' =>  intval(env('DEFAULT_EXPANSION_ID', 7)),
         ]);
     }
@@ -98,7 +100,6 @@ class MainController extends Controller
                     $query->select(['mobs.id', 'name', 'mob_index', 'zone_id']);
                 }
             ])
-            ->withCount(['zones', 'mobs'])
             ->orderBy('id')
             ->get();
     }
