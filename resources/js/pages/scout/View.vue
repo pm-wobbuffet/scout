@@ -45,7 +45,7 @@ onMounted(() => {
         console.log(obj)
         outbound.send_event('ScoutAssignMob', {
             slug: props.scout.slug,
-            collaborator_password: props.scout.slug,
+            collaborator_password: props.scout.collaborator_password,
             ...obj
         }, channelName)
     })
