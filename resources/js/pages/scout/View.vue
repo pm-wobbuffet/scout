@@ -16,6 +16,7 @@ import { inject, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, ref } f
 import ScoutReport from '@/classes/ScoutReport';
 import ScoutContainer from '@/components/ScoutContainer.vue';
 import { useEchoPublic } from '@laravel/echo-vue';
+import axios from 'axios';
 
 const props = defineProps({
     expac: Array,
@@ -32,33 +33,49 @@ if (props.scout.collaborator_password && props.scout.collaborator_password !== '
     channelName += `.${props.scout.collaborator_password}`
 }
 
+const t = useEchoPublic(
+    channelName,
+    ['ScoutAssignMob', 'App\\Events\\ScoutAsssignMob'],
+    (e) => {
+        console.log('ScoutAssignMob event received')
+        console.log(e.points)
+        //props.scoutReport.updatePointData(e.data.data)
+    }
+)
+t.listen()
+
 onBeforeMount(() => {
     scouter = new Scouter(props.expac)
     scout_report.value = new ScoutReport(props.scout, scouter)
 })
 onMounted(() => {
 
+    // Grab reference to Pusher instance so we can use send_events
+    //const outbound = t.channel().pusher
+
     emitter.on('mob:markalive', (obj) => {
         console.log(obj)
     })
     emitter.on('point:assign-mob', (obj) => {
-        console.log(obj)
-        outbound.send_event('ScoutAssignMob', JSON.stringify({
+        axios.post(route('scout.assignmob', { scout: props.scout, password: props.scout.collaborator_password }), {
             slug: props.scout.slug,
             collaborator_password: props.scout.collaborator_password,
             ...obj
-        }), channelName)
+        },).then((response) => {
+            //console.log(response)
+        }).catch((error) => {
+            //console.log(error)
+        })
+
+        // outbound.send_event('ScoutAssignMob', {
+        //     slug: props.scout.slug,
+        //     collaborator_password: props.scout.collaborator_password,
+        //     ...obj
+        // }, channelName)
     })
 
-    const t = useEchoPublic(
-        channelName,
-        'PointAssignMob',
-        (e) => {
-            console.log(e)
-        }
-    )
-    // Grab reference to Pusher instance so we can use send_events
-    const outbound = t.channel().pusher
+
+
 })
 
 onBeforeUnmount(() => {

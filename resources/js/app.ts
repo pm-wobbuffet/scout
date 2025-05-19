@@ -43,7 +43,6 @@ createInertiaApp({
 
 configureEcho({
     broadcaster: "reverb",
-    pingInterval: 1500,
 });
 window.emitter = emitter;
 

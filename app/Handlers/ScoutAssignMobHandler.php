@@ -71,7 +71,7 @@ class ScoutAssignMobHandler {
         
         Broadcast::on($message->channel)
         ->as('ScoutAssignMob')
-        ->with(json_decode(json_encode($data,true),true)))
+        ->with((array) $data)
         ->toOthers()
         ->sendNow();
     }

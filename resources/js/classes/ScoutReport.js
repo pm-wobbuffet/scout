@@ -30,6 +30,9 @@ export default class ScoutReport {
         this.emitter = emitter
     }
 
+    updatePointData(new_points) {
+        this.point_data = new_points
+    }
 
     /**
      * Return a key-value pair of a zone id with its current defualt_instances count from the DB

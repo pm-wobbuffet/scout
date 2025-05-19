@@ -2,29 +2,39 @@
 
 namespace App\Events;
 
+use App\Models\Scout;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use stdClass;
 
-class ScoutAssignMobEvent
+class ScoutAssignMobEvent implements ShouldDispatchAfterCommit, ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public readonly stdClass $data;
+    private readonly Scout $scout;
+    public readonly array $points;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(stdClass $data) 
+    public function __construct(Scout $scout, Collection $points) 
     {
-        $this->data = $data;
-        Log::info("Hopefully broadcasting on {$this->data->slug}.{$this->data->collaborator_password}");
+        $this->scout = $scout;
+        $this->points = $points->toArray();
+    }
+
+    public function broadcastAs(): string
+    {
+        return 'ScoutAssignMob';
     }
 
     /**
@@ -35,8 +45,8 @@ class ScoutAssignMobEvent
     public function broadcastOn(): array
     {
         return [
-            new Channel("scouts.{$this->data->slug}"),
-            new Channel("scouts.{$this->data->slug}.{$this->data->collaborator_password}"),
+            new Channel("scouts.{$this->scout->slug}"),
+            new Channel("scouts.{$this->scout->slug}.{$this->scout->collaborator_password}"),
         ];
     }
 }
