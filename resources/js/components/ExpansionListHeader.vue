@@ -1,12 +1,12 @@
 <template>
-    <div class="expansion-list-container flex">
+    <div class="flex flex-wrap flex-row expac-list place-self-center m-auto expansion-list-container max-w-[100%] overflow-x-auto">
         <button type="button" v-for="expansion in getExpansions()" :key="expansion.id"
             class="text-center border p-1 px-4 expac-list-item"
             :class="{ 'selected-expansion': expansion.id == props.scoutReport.getSelectedExpansion() }"
             @click="setSelectedExpansion(expansion.id)">
             <div>{{ expansion.abbreviation }}</div>
-            <div class="text-sm">
-                {{ getMappedMobsForExpac(expansion) }} / {{ mobCount(expansion) }}
+            <div class="text-sm whitespace-nowrap text-nowrap">
+                {{ getMappedMobsForExpac(expansion) }}/{{ mobCount(expansion) }}
             </div>
         </button>
     </div>

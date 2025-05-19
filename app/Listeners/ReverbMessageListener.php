@@ -23,10 +23,12 @@ class ReverbMessageListener
      */
     public function handle(MessageReceived $event): void
     {
+        /*
         $message = json_decode($event->message);
 
         if($message->event == 'ScoutAssignMob') {
             (new ScoutAssignMobHandler())->handle($message);
         }
+            */
     }
 }

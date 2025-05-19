@@ -1,10 +1,10 @@
 <template>
     <aside
         class="sticky top-0 left-0 md:left-auto border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800 text-nowrap whitespace-nowrap">
-        <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300"
+        <div class="font-bold bg-slate-300 pl-1 hidden md:block dark:bg-slate-700 dark:text-slate-300"
             v-if="props.scoutReport.title != ''">
-            <div class="text-sm max-w-[200px] overflow-hidden overflow-ellipsis" :title="props.scoutReport.title">{{
-                props.scoutReport.title }}
+            <div class="text-sm max-w-[200px] overflow-hidden overflow-ellipsis" :title="props.scoutReport.title"
+            >{{ props.scoutReport.title }}
             </div>
         </div>
         <div>
@@ -15,14 +15,15 @@
                 <template v-for="zone in activeExpansion.zones">
                     <li v-for="i in props.scoutReport.getInstanceCountForZone(zone.id)" :id="`zonelink-${zone.id}-${i}`"
                         class="hover:bg-slate-200 dark:hover:bg-slate-700 ml-2 pr-2" :class="{
-                            'line-through': props.scoutReport.isZoneScoutingComplete(zone, i),
                             'hidden md:block': !(`${zone.id}-${i}` in visibleMaps)
-                        }"><a class="text-blue-500" :href="`#zonemap-${zone.id}-${i}`">{{ getDisplayName(zone,
+                        }"><a class="text-blue-500" :href="`#zonemap-${zone.id}-${i}`"
+                        :class="{'line-through': props.scoutReport.isZoneScoutingComplete(zone, i)}"
+                        >{{ getDisplayName(zone,
                             'en') }}</a>
                         <span class="ml-1 font-bold text-blue-800 dark:text-blue-400"
                             v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
                             }}</span>
-                        <i class="text-sm ml-2 text-black dark:text-slate-200">{{
+                        <i class="text-sm ml-2 text-black dark:text-slate-200 font-mono">{{
                             props.scoutReport.getFoundMobCountForZone(zone.id, i)
                             }}/{{ zone.mobs.length }}
                         </i>

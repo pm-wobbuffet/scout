@@ -8,6 +8,7 @@ import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import emitter from './mitt';
 import { configureEcho } from '@laravel/echo-vue';
+import axios from 'axios';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -34,7 +35,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .provide('emitter', emitter)
             .mount(el);
-        
+
     },
     progress: {
         color: '#4B5563',
@@ -44,7 +45,11 @@ createInertiaApp({
 configureEcho({
     broadcaster: "reverb",
 });
-window.emitter = emitter;
+if (window) {
+    window.axios = axios;
+    window.emitter = emitter;
+}
+
 
 // This will set light / dark mode on page load...
 initializeTheme();

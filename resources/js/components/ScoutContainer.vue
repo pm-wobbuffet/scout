@@ -1,14 +1,12 @@
 <template>
     <div class="min-w-full min-h-[100vh]">
         <nav
-            class="z-10 flex flex-col md:flex-row flex-wrap gap-1 w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] main-nav flex-grow-1">
-            <div class="shrink">
+            class="z-10 flex flex-col md:flex-row flex-wrap gap-1 w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] main-nav flex-grow-1 max-w-[100%] overflow-auto">
+            <div class="shrink hidden md:block">
                 <a href="/"><img src="/turtleknife.png" height="40" width="90" class="inline"
                         alt="The turtle says to murder" /></a>
             </div>
-            <div class="flex flex-wrap flex-row expac-list place-self-center m-auto">
-                <ExpansionListHeader :scout-report="props.scoutReport" />
-            </div>
+            <ExpansionListHeader :scout-report="props.scoutReport" />
             <div class="flex shrink">
                 <div class="flex">Settings</div>
                 <div>export</div>

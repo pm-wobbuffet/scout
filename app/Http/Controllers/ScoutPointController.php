@@ -2,28 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ScoutAssignMobEvent;
+use App\Events\ScoutAssignMob;
+use App\Events\ScoutClearPoint;
+use App\Events\ScoutUpdateMobStatus;
 use App\Http\Requests\Scout\AssignMobRequest;
+use App\Http\Requests\Scout\ClearPointRequest;
+use App\Http\Requests\Scout\UpdateMobStatusRequest;
 use App\Models\Scout;
+use App\Models\ScoutDeadMob;
 use App\Models\ScoutPoint;
+use App\UpdatesScoutReports;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ScoutPointController extends Controller
 {
-    //
+    use UpdatesScoutReports;
 
     public function assignMob(AssignMobRequest $request, Scout $scout, string $password = '')
     {
-        if(!$password || ($scout->collaborator_password !== $password)) {
-            abort(403, 'Unauthorized action.');
-        }
+        $this->authorizeUpdate($scout, $password);
+
         // Delete any existing entries for this mob+instance
         ScoutPoint::where('scout_id', $scout->id)
         ->where('point_type', $request->validated('point_type'))
         ->where('point_id', $request->validated('point_id'))
         ->where('instance_number', $request->validated('instance_number'))
         ->delete();
+        ScoutPoint::where('scout_id', $scout->id)
+        ->where('mob_id', $request->validated('mob_id'))
+        ->where('instance_number', $request->validated('instance_number'))
+        ->delete();
+        
 
         // Add new mob onto this point
         $point = $scout->points()->create([
@@ -36,8 +47,62 @@ class ScoutPointController extends Controller
             'updated_at'        => Carbon::now(),
         ]);
         
-        ScoutAssignMobEvent::dispatch($scout, $scout->points);
-        return response()->json($scout->points);
+        broadcast(
+        new ScoutAssignMob(
+            $scout, 
+            $request->validated('zone_id'),
+            $scout->points->where('zone_id', $request->validated('zone_id'))->values()
+        ))->toOthers();
+        return response()->json(['success' => true]);
+    }
+
+    public function clearPoint(ClearPointRequest $request, Scout $scout, string $password)
+    {
+        $this->authorizeUpdate($scout, $password);
+
+        ScoutPoint::query()
+        ->where('scout_id', $scout->id)
+        ->where('point_type', $request->validated('point_type'))
+        ->where('point_id', $request->validated('point_id'))
+        ->where('instance_number', $request->validated('instance_number', 1))
+        ->delete();
+
+        broadcast(
+            new ScoutClearPoint(
+                $scout,
+                $request->validated('point_id'),
+                $request->validated('point_type'),
+                $request->validated('instance_number', 1)
+            ))->toOthers();
+        return response()->json(['success' => true]);
+    }
+
+    public function updateMobStatus(UpdateMobStatusRequest $request, Scout $scout, string $password): JsonResponse 
+    {
+        $this->authorizeUpdate($scout, $password);
+        // Delete any existing dead mobs matching this
+        ScoutDeadMob::query()
+        ->where('scout_id', $scout->id)
+        ->where('mob_id', $request->validated('mob_id'))
+        ->where('instance_number', $request->validated('instance_number'))
+        ->delete();
+
+        // TODO: Check and make sure the mob isn't already assigned to the map
+
+        if($request->validated('is_dead')) {
+            $scout->dead_mobs()->create([
+                'mob_id'            => $request->validated('mob_id'),
+                'instance_number'   => $request->validated('instance_number'),
+            ]);
+        }
+        broadcast(new ScoutUpdateMobStatus(
+            $scout, 
+            $request->validated('mob_id'),
+            $request->validated('instance_number'),
+            $request->validated('is_dead')
+        ))->toOthers();
+
+        return response()->json(['success'=> true]);
     }
 
 }

@@ -10,31 +10,32 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
-use stdClass;
 
-class ScoutAssignMobEvent implements ShouldDispatchAfterCommit, ShouldBroadcastNow
+class ScoutClearPoint implements ShouldDispatchAfterCommit, ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private readonly Scout $scout;
-    public readonly array $points;
+    public readonly int $id;
+    public readonly string $point_type;
+    public readonly int $instance_number;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(Scout $scout, Collection $points) 
+    public function __construct(Scout $scout, int $point_id, string $point_type, int $instance_number)
     {
         $this->scout = $scout;
-        $this->points = $points->toArray();
+        $this->id = $point_id;
+        $this->point_type = $point_type;
+        $this->instance_number = $instance_number;
     }
 
     public function broadcastAs(): string
     {
-        return 'ScoutAssignMob';
+        return 'ScoutClearPoint';
     }
 
     /**

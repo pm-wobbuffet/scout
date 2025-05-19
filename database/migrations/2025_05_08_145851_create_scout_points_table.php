@@ -22,7 +22,8 @@ return new class extends Migration
             $table->decimal('y',3,1)->nullable()->default(null);
             $table->timestamps();
 
-            $table->unique(['scout_id', 'zone_id', 'point_id', 'instance_number'],'scout_points_unique_idx');
+            $table->unique(['scout_id', 'zone_id', 'point_type', 'point_id', 'instance_number'],'scout_points_point_unique_idx');
+            $table->unique(['scout_id', 'mob_id', 'instance_number'], 'scout_points_mob_unique_idx');
         });
     }
 

@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ScoutDeadMob extends Model
 {
-    //
+    
+    protected $guarded = ['id'];
 }

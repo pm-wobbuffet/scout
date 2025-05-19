@@ -15,6 +15,12 @@ export default class Scouter {
                 })
                 zone.spawn_points.forEach((spawn_point) => {
                     spawn_point['expansion_id'] = expansion.id
+                    // If for some reason the spawn point type was omitted from
+                    // the data array, default to 'spawn_point' since these are all
+                    // verified spawn points
+                    if(!spawn_point.point_type || spawn_point.point_type === null) {
+                        spawn_point['point_type'] = 'spawn_point'
+                    }
                     this.spawn_points[spawn_point.id] = spawn_point
                 })
             })

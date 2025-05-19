@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\ScoutAssignMobEvent;
+use App\Events\ScoutAssignMob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Queue\InteractsWithQueue;
@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 class ScoutEventsSubscriber
 {
 
-    public function handleScoutAssignMobEvent(ScoutAssignMobEvent $event): void
+    public function handleScoutAssignMobEvent(ScoutAssignMob $event): void
     {
 
     }
@@ -18,7 +18,7 @@ class ScoutEventsSubscriber
     public function subscribe(Dispatcher $events):void 
     {
         $events->listen(
-            ScoutAssignMobEvent::class,
+            ScoutAssignMob::class,
             [self::class, 'handleScoutAssignMobEvent']
         );
     }

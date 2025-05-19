@@ -16,8 +16,7 @@ export default class ScoutReport {
     constructor(initial_data, scouter_instance) {
 
         this.scouter_instance = scouter_instance
-
-        if('instance_data' in initial_data) {
+        if ('instance_data' in initial_data) {
             initial_data.instance_data.forEach((el) => {
                 this.instance_data[el.zone_id] = el.instance_count
             })
@@ -30,8 +29,39 @@ export default class ScoutReport {
         this.emitter = emitter
     }
 
-    updatePointData(new_points) {
-        this.point_data = new_points
+    // TODO: work on making serializable version for local use
+    // in case of browser closing/accidentally navigating away
+    // or if the user just wants to keep it local
+    serialize() {
+        return JSON.stringify({
+            title: this.title,
+            custom_points: this.custom_points,
+            point_data: this.point_data,
+            instance_data: this.instance_data,
+            scout_names: this.scout_names,
+            dead_mobs: this.dead_mobs
+        })
+    }
+
+    unserialize(data) {
+        const deets = JSON.parse(data)
+        this.point_data = deets.point_data ?? []
+        this.instance_data = deets.instance_data ?? {}
+        this.dead_mobs = deets.dead_mobs ?? []
+    }
+
+    updatePointDataForZone(zone_id, new_points) {
+        console.log(`Updating point data for zone ${zone_id} `, new_points)
+        // Remove any previous points for this zone
+        this.point_data = this.point_data.filter((el) => {
+            return el.zone_id != zone_id
+        })
+        if (new_points && new_points.length) {
+            new_points.forEach((el) => {
+                this.point_data.push(el)
+            })
+        }
+
     }
 
     /**
@@ -46,10 +76,18 @@ export default class ScoutReport {
         return retVal
     }
 
+    sendClearPointSignal(point, instance_number) {
+        this.emitter.emit('point:clear', {
+            point_type: point.point_type ?? 'spawn_point',
+            point_id: point.id,
+            instance_number: instance_number
+        })
+    }
+
     cycleMobOnPoint(point, instance_number) {
         // Get the list of valid mobs for this point
         let valid_mobs = []
-        if(point.valid_mobs) {
+        if (point.valid_mobs) {
             valid_mobs = point.valid_mobs
         } else {
             // This is a custom point, by default we assume all A rank mobs
@@ -57,21 +95,28 @@ export default class ScoutReport {
             valid_mobs = this.scouter_instance.getZoneById(point.zone_id).mobs
         }
         const remainingMobs = valid_mobs.filter((mob) => {
-            if(this.isMobDead(mob.id, instance_number) || this.isMobAssigned(mob.id, instance_number)) return false
+            if (this.isMobDead(mob.id, instance_number) || this.isMobAssigned(mob.id, instance_number)) return false
             return true
         })
-        
+
         // Does a mob already exist on this point?
         const curMob = this.getMobOnPoint(point.id, instance_number)
-        if(curMob.length > 0) {
-            this.removeMobFromPoint(point.id, instance_number)
+        if (curMob.length > 0) {
+            this.removeMobFromPoint(point, instance_number)
         }
-        // If there are no other valid mobs left to pick from (i.e. ARR zone with only 1 mob, return early)
-        if(remainingMobs.length < 1) return
-        
+
+        if (remainingMobs.length < 1) {
+            this.sendClearPointSignal(point, instance_number)
+            return
+        }
+
         // If we're on the last mob of a particular zone, return early so we cycle back to a "blank" state
         const zoneMobs = this.scouter_instance.getMobsForZone(point.zone_id)
-        if(curMob[0] && curMob[0]?.mob_id == zoneMobs[zoneMobs.length - 1].id) return
+        if (curMob[0] && curMob[0]?.mob_id == zoneMobs[zoneMobs.length - 1].id) {
+            // Send clear point 
+            this.sendClearPointSignal(point, instance_number)
+            return
+        }
 
         this.assignMobToPoint(point.id, remainingMobs[0].id, point.zone_id, instance_number, 'spawn_point')
     }
@@ -82,7 +127,7 @@ export default class ScoutReport {
      * @returns 
      */
     getInstanceCountForZone(zone_id) {
-        if(zone_id in this.instance_data) {
+        if (zone_id in this.instance_data) {
             return this.instance_data[zone_id]
         }
         return 1
@@ -102,31 +147,37 @@ export default class ScoutReport {
         })
     }
 
-    removeMobFromPoint(point_id, instance_number) {
-        this.point_data = this.point_data.filter((point) => {
-            if(point.point_id == point_id
-                && point.instance_number == instance_number
+    /**
+     * Remove an existing mob (if available) from the mob list
+     * Works by filtering out any point matching point.id and instance
+     * from the point_data[] array
+     * @param {Object} point
+     * @param {Number} point.id
+     * @param {String} point.point_type 
+     * @param {Number} instance_number 
+     */
+    removeMobFromPoint(point, instance_number) {
+        this.point_data = this.point_data.filter((pt) => {
+            if (pt.point_type == (point.point_type ?? 'spawn_point')
+                && pt.point_id == point.id
+                && pt.instance_number == instance_number
             ) {
                 return false
             }
             return true
         })
-        this.emitter.emit('point:clear-point', {
-            point_id: point_id,
-            instance_number: instance_number
-        })
     }
 
     assignMobToPoint(point_id, mob_id, zone_id, instance_number, spawn_point_type) {
         this.point_data.push({
-            'point_id' : point_id,
+            'point_id': point_id,
             'mob_id': mob_id,
             'instance_number': instance_number,
             'zone_id': zone_id,
             'point_type': spawn_point_type
         })
         this.emitter.emit('point:assign-mob', {
-            'point_id' : point_id,
+            'point_id': point_id,
             'mob_id': mob_id,
             'instance_number': instance_number,
             'zone_id': zone_id,
@@ -175,11 +226,11 @@ export default class ScoutReport {
 
         // Look for dead mobs to add to count
         expectedMobs.forEach((mob) => {
-            if(this.isMobDead(mob.id, instance_number)) {
+            if (this.isMobDead(mob.id, instance_number)) {
                 mobCount++
             }
         })
-        
+
         return mobCount === expectedMobs.length
     }
 
@@ -193,7 +244,7 @@ export default class ScoutReport {
     getFoundMobCountForExpansion(expac_id) {
         let foundCount = 0
         this.point_data.forEach((point) => {
-            if(
+            if (
                 this.scouter_instance.spawn_points[point.point_id] &&
                 this.scouter_instance.spawn_points[point.point_id].expansion_id == expac_id &&
                 point.mob_id !== null
@@ -214,7 +265,7 @@ export default class ScoutReport {
     getFoundMobCountForZone(zone_id, instance_number) {
         let foundCount = 0
         this.point_data.forEach((point) => {
-            if(
+            if (
                 point.zone_id == zone_id &&
                 point.instance_number == instance_number &&
                 point.mob_id !== null
@@ -241,33 +292,33 @@ export default class ScoutReport {
         return zone.spawn_points
     }
 
+    addDeadMobToList(mob_id, instance_number) {
+        this.dead_mobs.push({
+            'mob_id': mob_id,
+            'instance_number': instance_number
+        })
+    }
+    removeDeadMobFromList(mob_id, instance_number) {
+        this.dead_mobs = this.dead_mobs.filter((mob) => {
+            return !(mob.mob_id == mob_id && mob.instance_number == instance_number)
+        })
+    }
+
     toggleMobStatus(mob_id, instance_number) {
-        if(this.isMobDead(mob_id, instance_number)) {
+        if (this.isMobDead(mob_id, instance_number)) {
             // remove any line that matches this from the dead_mobs array
-            this.dead_mobs = this.dead_mobs.filter((mob) => {
-                return ! (mob.mob_id == mob_id && mob.instance_number == instance_number)
-            })
-            emitter.emit('mob:markalive', {
-                mob_id: mob_id,
-                instance_number: instance_number
-            })
+            this.removeDeadMobFromList(mob_id, instance_number)
+            emitter.emit('mob:status', { mob_id: mob_id, instance_number: instance_number, is_dead: 0 })
 
         } else {
             // Add a new entry for the dead mob
             // Make sure the mob isn't already assigned to a point - in this case
             // a user needs to un-assign the mob first
-            if(this.isMobAssigned(mob_id, instance_number)) {
+            if (this.isMobAssigned(mob_id, instance_number)) {
                 return false
             }
-
-            this.dead_mobs.push({
-                'mob_id': mob_id,
-                'instance_number': instance_number
-            })
-            emitter.emit('mob:markdead', {
-                mob_id: mob_id,
-                instance_number: instance_number
-            })
+            this.addDeadMobToList(mob_id, instance_number)
+            emitter.emit('mob:status', { mob_id: mob_id, instance_number: instance_number, is_dead: 1 })
         }
     }
 }

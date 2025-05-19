@@ -20,12 +20,18 @@ class AssignMobRequest extends FormRequest
         // If only a point_id was submitted, we can pluck the zone from it if needed
         if(!$this->has('zone_id') && $this->has('point_id') && $this->has('point_type')) 
         {
-            if($this->point_type == 'spawn_point') {
-                $point = SpawnPoint::where('id', $this->point_id)->first();
+            if($this->input('point_type') == 'spawn_point') {
+                $point = SpawnPoint::where('id', $this->input('point_id'))->first();
                 $this->merge([
                     'point_id' => $point->id,
                 ]);
             }
+        }
+
+        if(!$this->has('instance_number')) {
+            $this->merge([
+                'instance_number' => 1,
+            ]);
         }
     }
 

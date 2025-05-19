@@ -10,6 +10,8 @@ Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
     Route::get('/scout/{scout:slug}/{password?}', 'MainController@view')->name('scout.view');
 
     Route::post('/scoutpoint/{scout:slug}/{password?}', 'ScoutPointController@assignMob')->name('scout.assignmob');
+    Route::post('/scoutpointclear/{scout:slug}/{password?}','ScoutPointController@clearPoint')->name('scout.clearpoint');
+    Route::post('/scoutupdatemob/{scout:slug}/{password?}','ScoutPointController@updateMobStatus')->name('scout.updatemobstatus');
 });
 
 /*

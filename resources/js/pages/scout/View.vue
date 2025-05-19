@@ -15,7 +15,7 @@ import Scouter from '@/classes/Scouter';
 import { inject, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, ref } from 'vue';
 import ScoutReport from '@/classes/ScoutReport';
 import ScoutContainer from '@/components/ScoutContainer.vue';
-import { useEchoPublic } from '@laravel/echo-vue';
+import { useEchoPublic, useEcho } from '@laravel/echo-vue';
 import axios from 'axios';
 
 const props = defineProps({
@@ -33,54 +33,53 @@ if (props.scout.collaborator_password && props.scout.collaborator_password !== '
     channelName += `.${props.scout.collaborator_password}`
 }
 
-const t = useEchoPublic(
-    channelName,
-    ['ScoutAssignMob', 'App\\Events\\ScoutAsssignMob'],
-    (e) => {
-        console.log('ScoutAssignMob event received')
-        console.log(e.points)
-        //props.scoutReport.updatePointData(e.data.data)
+
+useEchoPublic(channelName, '.ScoutAssignMob', (e) => {
+    scout_report.value.updatePointDataForZone(e.zone_id, e.points)
+})
+useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
+    scout_report.value.removeMobFromPoint(e, e.instance_number)
+})
+useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
+    if (e.is_dead) {
+        scout_report.value.addDeadMobToList(e.mob_id, e.instance_number)
+    } else {
+        scout_report.value.removeDeadMobFromList(e.mob_id, e.instance_number)
     }
-)
-t.listen()
+})
 
 onBeforeMount(() => {
     scouter = new Scouter(props.expac)
     scout_report.value = new ScoutReport(props.scout, scouter)
 })
 onMounted(() => {
-
-    // Grab reference to Pusher instance so we can use send_events
-    //const outbound = t.channel().pusher
-
-    emitter.on('mob:markalive', (obj) => {
-        console.log(obj)
+    emitter.on('mob:status', (obj) => {
+        axios.post(route('scout.updatemobstatus', { scout: props.scout, password: props.scout.collaborator_password }), {
+            slug: props.scout.slug,
+            collaborator_password: props.scout.collaborator_password,
+            ...obj
+        })
     })
     emitter.on('point:assign-mob', (obj) => {
         axios.post(route('scout.assignmob', { scout: props.scout, password: props.scout.collaborator_password }), {
             slug: props.scout.slug,
             collaborator_password: props.scout.collaborator_password,
             ...obj
-        },).then((response) => {
-            //console.log(response)
-        }).catch((error) => {
-            //console.log(error)
         })
-
-        // outbound.send_event('ScoutAssignMob', {
-        //     slug: props.scout.slug,
-        //     collaborator_password: props.scout.collaborator_password,
-        //     ...obj
-        // }, channelName)
     })
-
-
-
+    emitter.on('point:clear', (obj) => {
+        axios.post(route('scout.clearpoint', { scout: props.scout, password: props.scout.collaborator_password }), {
+            slug: props.scout.slug,
+            collaborator_password: props.scout.collaborator_password,
+            ...obj
+        })
+    })
 })
 
 onBeforeUnmount(() => {
-    emitter.off('mob:markalive')
+    emitter.off('point:clear')
     emitter.off('point:assign-mob')
+    emitter.off('mob:status')
 })
 </script>
 
