@@ -12,10 +12,10 @@
 import { Head } from '@inertiajs/vue3';
 import ScoutLayout from '@/layouts/ScoutLayout.vue';
 import Scouter from '@/classes/Scouter';
-import { inject, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, ref } from 'vue';
+import { inject, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, provide, ref } from 'vue';
 import ScoutReport from '@/classes/ScoutReport';
 import ScoutContainer from '@/components/ScoutContainer.vue';
-import { useEchoPublic, useEcho } from '@laravel/echo-vue';
+import { useEchoPublic, useEcho, configureEcho } from '@laravel/echo-vue';
 import axios from 'axios';
 
 const props = defineProps({
@@ -27,6 +27,13 @@ const props = defineProps({
 let scouter = null;
 const scout_report = ref(null);
 const emitter = inject('emitter')
+const wsConnection = ref('disconnected');
+
+provide('connectionStatus', wsConnection)
+
+configureEcho({
+    broadcaster: "reverb",
+});
 
 let channelName = `scouts.${props.scout.slug}`
 if (props.scout.collaborator_password && props.scout.collaborator_password !== '') {
@@ -34,25 +41,30 @@ if (props.scout.collaborator_password && props.scout.collaborator_password !== '
 }
 
 
-useEchoPublic(channelName, '.ScoutAssignMob', (e) => {
-    scout_report.value.updatePointDataForZone(e.zone_id, e.points)
-})
-useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
-    scout_report.value.removeMobFromPoint(e, e.instance_number)
-})
-useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
-    if (e.is_dead) {
-        scout_report.value.addDeadMobToList(e.mob_id, e.instance_number)
-    } else {
-        scout_report.value.removeDeadMobFromList(e.mob_id, e.instance_number)
-    }
-})
 
 onBeforeMount(() => {
     scouter = new Scouter(props.expac)
     scout_report.value = new ScoutReport(props.scout, scouter)
 })
 onMounted(() => {
+    const t = useEchoPublic(channelName, '.ScoutAssignMob', (e) => {
+        scout_report.value.updatePointDataForZone(e.zone_id, e.points)
+    })
+
+    t.channel().pusher.connection.bind('state_change', (states) => {
+        wsConnection.value = states.current
+    })
+
+    useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
+        scout_report.value.removeMobFromPoint(e, e.instance_number)
+    })
+    useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
+        if (e.is_dead) {
+            scout_report.value.addDeadMobToList(e.mob_id, e.instance_number)
+        } else {
+            scout_report.value.removeDeadMobFromList(e.mob_id, e.instance_number)
+        }
+    })
     emitter.on('mob:status', (obj) => {
         axios.post(route('scout.updatemobstatus', { scout: props.scout, password: props.scout.collaborator_password }), {
             slug: props.scout.slug,

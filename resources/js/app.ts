@@ -42,9 +42,7 @@ createInertiaApp({
     },
 });
 
-configureEcho({
-    broadcaster: "reverb",
-});
+
 if (window) {
     window.axios = axios;
     window.emitter = emitter;
