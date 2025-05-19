@@ -43,11 +43,11 @@ onMounted(() => {
     })
     emitter.on('point:assign-mob', (obj) => {
         console.log(obj)
-        outbound.send_event('ScoutAssignMob', {
+        outbound.send_event('ScoutAssignMob', JSON.stringify({
             slug: props.scout.slug,
             collaborator_password: props.scout.collaborator_password,
             ...obj
-        }, channelName)
+        }), channelName)
     })
 
     const t = useEchoPublic(

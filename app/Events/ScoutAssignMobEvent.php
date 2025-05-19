@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use stdClass;
 
 class ScoutAssignMobEvent
@@ -23,6 +24,7 @@ class ScoutAssignMobEvent
     public function __construct(stdClass $data) 
     {
         $this->data = $data;
+        Log::info("Hopefully broadcasting on {$this->data->slug}.{$this->data->collaborator_password}");
     }
 
     /**
