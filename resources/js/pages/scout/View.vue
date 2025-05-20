@@ -28,6 +28,11 @@ let scouter = null;
 const scout_report = ref(null);
 const emitter = inject('emitter')
 const wsConnection = ref('disconnected');
+// Hold a timeout reference for the fallback ajax polling mechanism.
+const ajaxTimeout = ref(null);
+// Time between AJAX polls in ms
+// Only used when WS connection fails
+const ajaxRefreshInterval = 10000;
 
 provide('connectionStatus', wsConnection)
 
@@ -40,31 +45,49 @@ if (props.scout.collaborator_password && props.scout.collaborator_password !== '
     channelName += `.${props.scout.collaborator_password}`
 }
 
+const t = useEchoPublic(channelName, '.ScoutAssignMob', (e) => {
+    scout_report.value.updatePointDataForZone(e.zone_id, e.points)
+})
 
+t.channel().pusher.connection.bind('state_change', (states) => {
+    wsConnection.value = states.current
+})
+
+useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
+    scout_report.value.removeMobFromPoint(e, e.instance_number)
+})
+useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
+    if (e.is_dead) {
+        scout_report.value.addDeadMobToList(e.mob_id, e.instance_number)
+    } else {
+        scout_report.value.removeDeadMobFromList(e.mob_id, e.instance_number)
+    }
+})
+
+const pollForUpdates = function () {
+    // is the websocket connection active? if so, can ignore for now
+    if (wsConnection.value === 'connected') {
+        ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
+        return
+    }
+    console.log('AJAX polling fallback triggered')
+
+    axios.get(route('scout.updatelist', { scout: props.scout, password: props.scout.collaborator_password }))
+        .then((response) => {
+            console.log(response)
+            scout_report.value.processAJAXUpdate(response.data)
+            ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
+        }).catch((error) => {
+            ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
+        })
+    //ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
+}
 
 onBeforeMount(() => {
     scouter = new Scouter(props.expac)
     scout_report.value = new ScoutReport(props.scout, scouter)
 })
 onMounted(() => {
-    const t = useEchoPublic(channelName, '.ScoutAssignMob', (e) => {
-        scout_report.value.updatePointDataForZone(e.zone_id, e.points)
-    })
-
-    t.channel().pusher.connection.bind('state_change', (states) => {
-        wsConnection.value = states.current
-    })
-
-    useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
-        scout_report.value.removeMobFromPoint(e, e.instance_number)
-    })
-    useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
-        if (e.is_dead) {
-            scout_report.value.addDeadMobToList(e.mob_id, e.instance_number)
-        } else {
-            scout_report.value.removeDeadMobFromList(e.mob_id, e.instance_number)
-        }
-    })
     emitter.on('mob:status', (obj) => {
         axios.post(route('scout.updatemobstatus', { scout: props.scout, password: props.scout.collaborator_password }), {
             slug: props.scout.slug,
@@ -86,9 +109,16 @@ onMounted(() => {
             ...obj
         })
     })
+
+    // Ajax fallback
+    if (props.scout.collaborator_password && !props.scout.finalized_at) {
+        ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
+    }
+
 })
 
 onBeforeUnmount(() => {
+    clearTimeout(ajaxTimeout.value)
     emitter.off('point:clear')
     emitter.off('point:assign-mob')
     emitter.off('mob:status')

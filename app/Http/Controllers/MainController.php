@@ -6,12 +6,15 @@ use App\Http\Resources\ExpansionResource;
 use App\Http\Resources\ScoutResource;
 use App\Models\Expansion;
 use App\Models\Scout;
+use App\UpdatesScoutReports;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class MainController extends Controller
 {
+    use UpdatesScoutReports;
+
     /**
      * Show a blank map for the user to start their scouting journey
      *
@@ -49,6 +52,14 @@ class MainController extends Controller
             'scout'     =>  new ScoutResource($scout),
             'defaultId' =>  intval(env('DEFAULT_EXPANSION_ID', 7)),
         ]);
+    }
+
+    public function getUpdates(Request $request, Scout $scout, string $password = ''): ScoutResource
+    {
+        $this->authorizeUpdate($scout, $password);
+        $scout->load(['updates', 'dead_mobs', 'instances', 'points']);
+        $scout->loadMax('updates', 'id');
+        return new ScoutResource($scout);
     }
 
 
