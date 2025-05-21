@@ -338,4 +338,33 @@ export default class ScoutReport {
             emitter.emit('mob:status', { mob_id: mob_id, instance_number: instance_number, is_dead: 1 })
         }
     }
+
+    setOccupiedStatus(point, instance, is_occupied) {
+        const rowData = {
+            mob_id: null,
+            instance_number: instance,
+            point_id: point.id,
+            zone_id: point.zone_id,
+        }
+        if (is_occupied) {
+            // Wanting to mark the point as occupied
+            // Make sure a mob isn't on the point
+            if (this.getMobOnPoint(point.id, instance)) return
+            this.point_data.push(rowData)
+            emitter.emit('occupy:status', {occupied: 1, ...rowData})
+        } else {
+            this.point_data = this.point_data.filter((mobpoint) => {
+                if (
+                    mobpoint.point_id == point.id &&
+                    mobpoint.zone_id == point.zone_id &&
+                    mobpoint.instance_number == instance &&
+                    mobpoint.mob_id === null
+                ) {
+                    return false
+                }
+                return true
+            })
+            emitter.emit('occupy:status', {occupied: 0, rowData})
+        }
+    }
 }

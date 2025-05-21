@@ -109,6 +109,13 @@ onMounted(() => {
             ...obj
         })
     })
+    emitter.on('occupy:status', (obj) => {
+        console.log(obj)
+        axios.post(route('scout.updateOccupiedPoint',{scout: props.scout, password: props.scout.collaborator_password}), obj)
+        .catch((error) => {
+            console.error(error)
+        })
+    })
 
     // Ajax fallback
     if (props.scout.collaborator_password && !props.scout.finalized_at) {

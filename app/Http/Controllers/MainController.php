@@ -62,6 +62,12 @@ class MainController extends Controller
         return new ScoutResource($scout);
     }
 
+    public function updateOccupiedPoint(Request $request, Scout $scout, string $password = '')
+    {
+        $this->authorizeUpdate($scout, $password);
+        dd($request);
+    }
+
 
 
     /* Private methods */

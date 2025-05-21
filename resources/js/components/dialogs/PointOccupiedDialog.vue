@@ -2,9 +2,9 @@
     <div class="context-menu absolute text-nowrap text-sm flex items-center z-[9999] p-0" ref="contextDiv"
         :style="computedStyle">
         <a href="#" class="p-1 hover:bg-slate-400 dark:hover:bg-slate-500" v-show="!occupied"
-            @click.prevent="emitClick(point, instance, 1)">Mark Point Occupied</a>
+            @click.prevent="emitClick(1)">Mark Point Occupied</a>
         <a href="#" class="p-1 hover:bg-slate-400 dark:hover:bg-slate-500" v-show="occupied"
-            @click.prevent="emitClick(point, instance, 0)">Mark Point Unoccupied</a>
+            @click.prevent="emitClick(0)">Mark Point Unoccupied</a>
     </div>
 </template>
 
@@ -13,14 +13,27 @@ import { computed, inject, onMounted, onUpdated, ref } from 'vue'
 
 const { point, x, y, instance, parentWidth } = defineProps(['point', 'x', 'y', 'instance', 'parent-width'])
 const model = defineModel()
-const emit = defineEmits(['point-occupied-updated'])
+const emit = defineEmits(['point-occupied', 'point-unoccupied', 'dialog-closed'])
 const scoutReport = inject('scoutReport')
 const contextDiv = ref(null)
 
-const emitClick = function (point, instance, newValue) 
+const emitClick = function (isOccupied) 
 {
-    emit('point-occupied-updated', point, instance, newValue)
+    if(isOccupied) {
+        emit('point-occupied', point, instance)
+        scoutReport.value.setOccupiedStatus(point, instance, 1)
+        return
+    }
+    emit('point-unoccupied', point, instance)
+    scoutReport.value.setOccupiedStatus(point, instance, 0)
 }
+
+
+onMounted(() => {
+    document.body.addEventListener('click', (e) => {
+        emit('dialog-closed')
+    })
+})
 
 const computedStyle = computed(() => {
     if(!point) {

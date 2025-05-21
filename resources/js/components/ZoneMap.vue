@@ -9,6 +9,7 @@
             ref="occupied-dialog"
             :instance="props.instance"
             :parent-width="parentWidth"
+            @dialogClosed="closeOccupyDialog"
             />
         <div class="absolute mob-list">
             <ol class="block list-decimal pl-4">
@@ -93,7 +94,6 @@ const getXYForEvent = function (event) {
 }
 
 const handleContextMenu = function (e, point) {
-    console.log(e, e.target.parentElement, e.target.parentElement.offsetWidth)
     const mob = props.scoutReport.getMobOnPoint(point.id, props.instance)
     // Don't allow points that have mobs on them to be marked occupied
     if (mob && mob.mob_id != null) {
@@ -103,7 +103,11 @@ const handleContextMenu = function (e, point) {
     contextX.value = e.srcElement.offsetLeft + 15
     contextY.value = e.srcElement.offsetTop - 10
     parentWidth.value = e.srcElement.parentElement.offsetWidth
+    showingContextMenu.value = true
+}
 
+const closeOccupyDialog = () => {
+    showingContextMenu.value = false
 }
 
 </script>
