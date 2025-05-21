@@ -35,6 +35,7 @@ const ajaxTimeout = ref(null);
 const ajaxRefreshInterval = 10000;
 
 provide('connectionStatus', wsConnection)
+provide('scoutReport', scout_report)
 
 configureEcho({
     broadcaster: "reverb",
@@ -74,7 +75,6 @@ const pollForUpdates = function () {
 
     axios.get(route('scout.updatelist', { scout: props.scout, password: props.scout.collaborator_password }))
         .then((response) => {
-            console.log(response)
             scout_report.value.processAJAXUpdate(response.data)
             ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
         }).catch((error) => {

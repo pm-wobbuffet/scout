@@ -21,6 +21,7 @@ const props = defineProps({
 
 let scouter = null;
 let scout_report = ref(null);
+provide('scoutReport', scout_report)
 
 onBeforeMount(() => {
     scouter = new Scouter(props.expac)

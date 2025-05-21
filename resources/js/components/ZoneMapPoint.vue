@@ -55,10 +55,10 @@ const isPointDisabled = computed(() => {
 
 const isPointOccupied = computed(() => {
     const m = props.scoutReport.getMobOnPoint(props.point.id, props.instance)
-    if (m.length < 1) {
+    if (!m) {
         return false
     }
-    if (m[0].mob_id === null) {
+    if (m.mob_id === null) {
         return true
     }
     return false
@@ -75,10 +75,10 @@ const isPointSelected = computed(() => {
 
 const mobOnPoint = computed(() => {
     const a = props.scoutReport.getMobOnPoint(props.point.id, props.instance)
-    if (a.length < 1) {
+    if (!a) {
         return false
     }
-    return props.scoutReport.scouter_instance.getMobById(a[0].mob_id)
+    return props.scoutReport.scouter_instance.getMobById(a.mob_id)
 })
 
 const calculatePointDisplayClasses = function (point) {

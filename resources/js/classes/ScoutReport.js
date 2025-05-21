@@ -38,7 +38,7 @@ export default class ScoutReport {
         } else {
             this.instance_data = this.constructDefaultInstanceData()
         }
-        this.point_data = data.points
+        this.point_data = data.points ?? []
         this.dead_mobs = data.dead_mobs ?? []
         this.title = data.title
     }
@@ -117,9 +117,8 @@ export default class ScoutReport {
             return true
         })
 
-        // Does a mob already exist on this point?
-        const curMob = this.getMobOnPoint(point.id, instance_number)
-        if (curMob.length > 0) {
+        // Does a mob already exist on this point? 
+        if (this.getMobOnPoint(point.id, instance_number)) {
             this.removeMobFromPoint(point, instance_number)
         }
 
@@ -157,12 +156,12 @@ export default class ScoutReport {
      * Note, an occupied point will return an array with an element that has mob_id = NULL
      * @param {Number} point_id 
      * @param {Number} instance_number 
-     * @returns Array
+     * @returns Object
      */
     getMobOnPoint(point_id, instance_number) {
         return this.point_data.filter((mobpoint) => {
             return mobpoint.point_id == point_id && mobpoint.instance_number == instance_number
-        })
+        })[0] ?? null
     }
 
     /**
