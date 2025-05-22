@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Scout\PointOccupancyChanged;
+use App\Http\Requests\Scout\UpdateOccupiedPointRequest;
 use App\Http\Resources\ExpansionResource;
 use App\Http\Resources\ScoutResource;
 use App\Models\Expansion;
 use App\Models\Scout;
 use App\UpdatesScoutReports;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -62,10 +65,41 @@ class MainController extends Controller
         return new ScoutResource($scout);
     }
 
-    public function updateOccupiedPoint(Request $request, Scout $scout, string $password = '')
+    public function updateOccupiedPoint(UpdateOccupiedPointRequest $request, Scout $scout, string $password = '')
     {
         $this->authorizeUpdate($scout, $password);
-        dd($request);
+        // If the request has a mob_id (which should be null, but explicitly set)
+        // we're marking as occupied, else unoccupy a spot
+        if ($request->has('mob_id')) {
+            $scout->occupied_pts()->updateOrCreate([
+                'point_type' => $request->validated('point_type'),
+                'point_id'  => $request->validated('point_id'),
+                'instance_number' => $request->validated('instance_number', 1),
+                'zone_id'   => $request->validated('zone_id'),
+            ], [
+                'updated_at' => Carbon::now(),
+                'created_at' => Carbon::now(),
+                'mob_id' => null,
+            ]);
+        } else {
+            $scout->occupied_pts()
+                ->where('point_type', $request->validated('point_type'))
+                ->where('point_id', $request->validated('point_id'))
+                ->where('instance_number', $request->validated('instance_number', 1))
+                ->where('zone_id', $request->validated('zone_id'))
+                ->delete();
+        }
+        $points = $scout->points
+                ->where('zone_id', $request->validated('zone_id'))
+                ->where('instance_number', $request->validated('instance_number', 1));
+        broadcast(new PointOccupancyChanged(
+            $scout, 
+            $points, 
+            $request->validated('zone_id'),
+            $request->validated('instance_number', 1)))
+        ->toOthers();
+        return response()->json($points);
+
     }
 
 

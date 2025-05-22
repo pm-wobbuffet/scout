@@ -3,7 +3,6 @@
         :style="{ 'left': convertCoordToPercent(props.point.x, zone), 'top': convertCoordToPercent(props.point.y, props.zone) }"
         :data-coords="getPointTitleDisplay(props.point)" 
         :data-title="getPointTitleDisplay(props.point)"
-        :disabled="isPointDisabled && !isPointSelected"
         @click.stop.prevent="assignMob"
         >{{
             mobOnPoint?.mob_index ?? '' }}</button>
@@ -91,6 +90,9 @@ const calculatePointDisplayClasses = function (point) {
         ret['point-disabled'] = true
     }
 
+    if(isPointDisabled.value) {
+        ret['point-disabled'] = true
+    }
     if (mobOnPoint.value !== false) {
         if (mobOnPoint.value === null) {
             ret['point-occupied'] = true
@@ -99,6 +101,7 @@ const calculatePointDisplayClasses = function (point) {
             ret['point-disabled'] = false
         }
     }
+    
     return ret
 }
 

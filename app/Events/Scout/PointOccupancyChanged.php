@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Scout;
 
 use App\Models\Scout;
 use Illuminate\Broadcasting\Channel;
@@ -13,10 +13,8 @@ use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
-use stdClass;
 
-class ScoutAssignMob implements ShouldDispatchAfterCommit, ShouldBroadcastNow
+class PointOccupancyChanged implements ShouldDispatchAfterCommit, ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -28,18 +26,17 @@ class ScoutAssignMob implements ShouldDispatchAfterCommit, ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct(Scout $scout, int $zone_id, int $instance_number, Collection $points) 
+    public function __construct(Scout $scout, Collection $points, int $zone_id, int $instance_number)
     {
         $this->scout = $scout;
-        $this->points = $points->toArray();
+        $this->points = $points->values()->toArray();
         $this->zone_id = $zone_id;
         $this->instance_number = $instance_number;
     }
 
-
     public function broadcastAs(): string
     {
-        return 'ScoutAssignMob';
+        return 'UpdatePointOccupancy';
     }
 
     /**

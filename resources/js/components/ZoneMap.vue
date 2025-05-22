@@ -64,7 +64,7 @@ const y_hover = ref(0)
 
 // Variables used by the Occupied contextmenu
 const PointOccupiedDialogRef = useTemplateRef('occupied-dialog')
-const showingContextMenu = ref(true)
+const showingContextMenu = ref(false)
 const selectedPoint = ref(null)
 const contextX = ref(0)
 const contextY = ref(0)

@@ -68,11 +68,11 @@ export default class ScoutReport {
         this.dead_mobs = deets.dead_mobs ?? []
     }
 
-    updatePointDataForZone(zone_id, new_points) {
-        console.log(`Updating point data for zone ${zone_id} `, new_points)
+    updatePointDataForZone(zone_id, instance_number, new_points) {
+        console.log(`Updating point data for zone ${zone_id} ${instance_number} `, new_points)
         // Remove any previous points for this zone
         this.point_data = this.point_data.filter((el) => {
-            return el.zone_id != zone_id
+            return (el.zone_id != zone_id || (el.zone_id == zone_id && (el.instance_number != instance_number)))
         })
         if (new_points && new_points.length) {
             new_points.forEach((el) => {
@@ -118,7 +118,8 @@ export default class ScoutReport {
         })
 
         // Does a mob already exist on this point? 
-        if (this.getMobOnPoint(point.id, instance_number)) {
+        const curMob = this.getMobOnPoint(point.id, instance_number)
+        if (curMob) {
             this.removeMobFromPoint(point, instance_number)
         }
 
@@ -129,7 +130,7 @@ export default class ScoutReport {
 
         // If we're on the last mob of a particular zone, return early so we cycle back to a "blank" state
         const zoneMobs = this.scouter_instance.getMobsForZone(point.zone_id)
-        if (curMob[0] && curMob[0]?.mob_id == zoneMobs[zoneMobs.length - 1].id) {
+        if (curMob && curMob?.mob_id == zoneMobs[zoneMobs.length - 1].id) {
             // Send clear point 
             this.sendClearPointSignal(point, instance_number)
             return
@@ -344,6 +345,7 @@ export default class ScoutReport {
             mob_id: null,
             instance_number: instance,
             point_id: point.id,
+            point_type: point.point_type ?? 'spawn_point',
             zone_id: point.zone_id,
         }
         if (is_occupied) {
@@ -351,7 +353,7 @@ export default class ScoutReport {
             // Make sure a mob isn't on the point
             if (this.getMobOnPoint(point.id, instance)) return
             this.point_data.push(rowData)
-            emitter.emit('occupy:status', {occupied: 1, ...rowData})
+            emitter.emit('occupy:status', rowData)
         } else {
             this.point_data = this.point_data.filter((mobpoint) => {
                 if (
@@ -364,7 +366,8 @@ export default class ScoutReport {
                 }
                 return true
             })
-            emitter.emit('occupy:status', {occupied: 0, rowData})
+            delete rowData.mob_id
+            emitter.emit('occupy:status', rowData)
         }
     }
 }

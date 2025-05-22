@@ -6,9 +6,14 @@ export default class Scouter {
     spawn_points = {}
     
     constructor(data) {
+        // Initialize sort order array
+        const userSort = JSON.parse(localStorage.getItem('sortOrders') ?? '{}')
         this.expansion_data = data
         this.expansion_data.forEach((expansion) => {
             expansion.zones.forEach((zone) => {
+                if(zone.id in userSort) {
+                    zone.sort_priority = userSort[zone.id]
+                }
                 this.zone_data[zone.id] = zone
                 zone.mobs.forEach((mob) => {
                     this.mob_data[mob.id] = mob
@@ -82,7 +87,10 @@ export default class Scouter {
                 ret.push(zone_data)
             }
         }
-        return ret
+        // Apply user sort
+        return ret.sort((a, b) => {
+            return a.sort_priority - b.sort_priority
+        })
     }
 
 

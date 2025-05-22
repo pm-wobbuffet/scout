@@ -51,6 +51,7 @@ class ScoutPointController extends Controller
         new ScoutAssignMob(
             $scout, 
             $request->validated('zone_id'),
+            $request->validated('instance_number', 1),
             $scout->points->where('zone_id', $request->validated('zone_id'))->values()
         ))->toOthers();
         return response()->json(['success' => true]);

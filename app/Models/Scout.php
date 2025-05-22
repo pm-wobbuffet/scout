@@ -85,4 +85,10 @@ class Scout extends Model
         return $this->hasMany(ScoutPoint::class);
     }
 
+    public function occupied_pts(): HasMany
+    {
+        return $this->hasMany(ScoutPoint::class)
+        ->whereNull('mob_id');
+    }
+
 }

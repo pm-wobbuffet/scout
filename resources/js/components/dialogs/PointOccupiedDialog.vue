@@ -20,11 +20,11 @@ const contextDiv = ref(null)
 const emitClick = function (isOccupied) 
 {
     if(isOccupied) {
-        emit('point-occupied', point, instance)
+        //emit('point-occupied', point, instance)
         scoutReport.value.setOccupiedStatus(point, instance, 1)
         return
     }
-    emit('point-unoccupied', point, instance)
+    //emit('point-unoccupied', point, instance)
     scoutReport.value.setOccupiedStatus(point, instance, 0)
 }
 

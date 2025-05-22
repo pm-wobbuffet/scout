@@ -123,16 +123,19 @@ main.map-main-window {
         1px 1px 0 #000;
         line-height: 100%;
 
-        &.point-disabled {
-           @apply bg-black/10 cursor-not-allowed ring-black/50; 
-        }
+        
         &:disabled {
             @apply bg-black/10 cursor-not-allowed ring-black/50;
         }
         &.point-occupied {
             @apply bg-red-400/45;
         }
-        
+        &.point-disabled {
+           @apply bg-black/10 cursor-not-allowed ring-black/50; 
+        }
+        &.point-occupied.point-disabled {
+            @apply bg-red-400/45;
+        }
         &.point-taken-by-1 {
             @apply bg-green-500 text-white font-bold text-center;
         }
