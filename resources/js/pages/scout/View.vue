@@ -12,10 +12,10 @@
 import { Head } from '@inertiajs/vue3';
 import ScoutLayout from '@/layouts/ScoutLayout.vue';
 import Scouter from '@/classes/Scouter';
-import { computed, inject, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, provide, ref } from 'vue';
+import { computed, inject, onBeforeMount, onBeforeUnmount, onMounted, provide, ref } from 'vue';
 import ScoutReport from '@/classes/ScoutReport';
 import ScoutContainer from '@/components/ScoutContainer.vue';
-import { useEchoPublic, useEcho, configureEcho } from '@laravel/echo-vue';
+import { useEchoPublic, configureEcho } from '@laravel/echo-vue';
 import axios from 'axios';
 
 const props = defineProps({
@@ -34,11 +34,6 @@ const ajaxTimeout = ref(null);
 // Only used when WS connection fails
 const ajaxRefreshInterval = 10000;
 
-provide('connectionStatus', wsConnection)
-provide('scoutReport', scout_report)
-provide('scout', props.scout)
-
-
 configureEcho({
     broadcaster: "reverb",
 });
@@ -46,6 +41,9 @@ configureEcho({
 const editmode = computed(() => {
     return props.scout.collaborator_password && props.scout.finalized_at === null
 })
+provide('connectionStatus', wsConnection)
+provide('scoutReport', scout_report)
+provide('scout', props.scout)
 provide('editmode', editmode)
 
 let channelName = `scouts.${props.scout.slug}`
@@ -86,6 +84,7 @@ const pollForUpdates = function () {
             scout_report.value.processAJAXUpdate(response.data)
             ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
         }).catch((error) => {
+            console.error(`Error message received`, error)
             ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
         })
     //ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)

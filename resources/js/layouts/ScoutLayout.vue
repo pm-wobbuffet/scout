@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-black">
+    <div>
         <slot />
     </div>
     <footer class="text-sm">

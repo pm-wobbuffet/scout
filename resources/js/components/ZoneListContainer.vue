@@ -14,7 +14,6 @@
 </template>
 
 <script setup>
-import ScoutReport from '@/classes/ScoutReport';
 import ZoneListSidebar from '@/components/ZoneListSidebar.vue';
 import ZoneList from '@/components/ZoneList.vue';
 

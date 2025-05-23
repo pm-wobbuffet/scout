@@ -19,8 +19,6 @@
 </template>
 
 <script setup>
-import ScoutReport from '@/classes/ScoutReport';
-import { onBeforeMount, onMounted, ref } from 'vue';
 import ExpansionListHeader from '@/components/ExpansionListHeader.vue';
 import ZoneListContainer from '@/components/ZoneListContainer.vue';
 import AppearanceTabs from '@/components/AppearanceTabs.vue';

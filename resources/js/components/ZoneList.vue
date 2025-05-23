@@ -1,7 +1,8 @@
 <template>
     <div class="map-image-list-grid order-2">
-        <template v-for="zone in props.scoutReport.getZonesByExpansion()" :id="`zone-${zone.id}`">
+        <template v-for="zone in props.scoutReport.getZonesByExpansion()" :key="`zone-${zone.id}`">
             <ZoneMap v-for="i in props.scoutReport.getInstanceCountForZone(zone.id)"
+            :key="`zonemap-${zone.id}-${i}`"
             :id="`zonemap-${zone.id}-${i}`"
             :data-zone-id="`${zone.id}`"
             :data-instance="i"
@@ -15,7 +16,6 @@
 </template>
 
 <script setup>
-import ScoutReport from '@/classes/ScoutReport';
 import ZoneMap from '@/components/ZoneMap.vue';
 
 const props = defineProps({

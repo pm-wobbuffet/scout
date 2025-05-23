@@ -59,7 +59,6 @@ export default class Scouter {
     getMobsForZone(zone_id) {
         let ret = []
         for( let [mob_id, mob_data] of Object.entries(this.mob_data)) {
-            //console.log(mob_data, zone_id)
             if(mob_data.zone_id == zone_id) {
                 ret.push(mob_data)
             }

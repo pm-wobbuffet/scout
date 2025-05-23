@@ -1,7 +1,7 @@
 nav {
     .expansion-list-container {
         .expac-list-item {
-            @apply border-r-0 bg-[rgba(0,0,0,0.4)] hover:bg-[rgba(0,0,255,0.1)] cursor-pointer dark:border-slate-500 transition-colors duration-150;
+            @apply border-r-0 bg-[rgba(0,0,0,0.4)] hover:bg-[rgba(0,0,255,0.1)] cursor-pointer dark:border-slate-500 transition-colors duration-300;
             &.selected-expansion {
                 @apply bg-blue-200/25;
             }
@@ -32,7 +32,7 @@ dialog::backdrop {
 
 aside {
     div.scout-report-options {
-        @apply grid md:grid-cols-2 gap-2 p-1 text-xs items-center;
+        @apply grid md:grid-cols-2 gap-1 p-1 text-xs items-center;
 
         a, button {
             @apply inline-flex gap-1 items-center rounded-md font-bold p-1 cursor-pointer text-white dark:text-neutral-200 hover:brightness-110 transition-all duration-150;
@@ -81,7 +81,7 @@ main.map-main-window {
     @apply flex-row flex-grow-[999] flex flex-wrap gap-2 items-center justify-center;
 }
 .map-image-list-grid {
-    @apply grid grid-cols-[repeat(auto-fill,_minmax(500px,1fr))] flex-grow-[999] gap-2 max-w-[100vw];
+    @apply grid grid-cols-[repeat(auto-fill,_minmax(500px,1fr))] flex-grow-[999] gap-2 max-w-[100vw] md:max-w-[calc(100vw_-_var(--sidebar-width))];
 }
 
 .map-container-block {

@@ -8,7 +8,7 @@ export default class ScoutReport {
     instance_data = {}
     scout_names = []
     dead_mobs = []
-    selected_expansion_id = 4   // TODO: calculate me
+    selected_expansion_id = 7
     emitter = null
     /** @type Scouter */
     scouter_instance = null
@@ -17,6 +17,9 @@ export default class ScoutReport {
 
         this.scouter_instance = scouter_instance
         this.handleDataFields(initial_data)
+        if(this.point_data.length > 0) {
+            this.getDefaultSelectedExpansion()
+        }
         this.emitter = emitter
     }
 
@@ -127,6 +130,14 @@ export default class ScoutReport {
         }
 
         this.assignMobToPoint(point.id, remainingMobs[0].id, point.zone_id, instance_number, 'spawn_point')
+    }
+
+    getDefaultSelectedExpansion() {
+        this.scouter_instance.expansion_data.forEach((expac) => {
+            if(this.getFoundMobCountForExpansion(expac.id) > 0) {
+                this.selected_expansion_id = expac.id
+            }
+        })
     }
 
     /**
