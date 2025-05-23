@@ -1,7 +1,7 @@
 nav {
     .expansion-list-container {
         .expac-list-item {
-            @apply border-r-0 bg-[rgba(0,0,0,0.3)] hover:bg-[rgba(0,0,0,0.1)] cursor-pointer dark:border-slate-500;
+            @apply border-r-0 bg-[rgba(0,0,0,0.4)] hover:bg-[rgba(0,0,255,0.1)] cursor-pointer dark:border-slate-500 transition-colors duration-150;
             &.selected-expansion {
                 @apply bg-blue-200/25;
             }
@@ -35,7 +35,7 @@ aside {
         @apply grid md:grid-cols-2 gap-2 p-1 text-xs items-center;
 
         a, button {
-            @apply inline-flex gap-1 items-center rounded-md font-bold p-1 cursor-pointer;
+            @apply inline-flex gap-1 items-center rounded-md font-bold p-1 cursor-pointer text-white dark:text-neutral-200 hover:brightness-110 transition-all duration-150;
         }
     }
 }

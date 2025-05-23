@@ -26,17 +26,17 @@
         <button
         class="inline-flex rounded-md bg-red-400 dark:bg-red-800"
         >
-        <LockIcon /> Finalize
+        <FileLockIcon/> Finalize
         </button>
         <a href="#"
-                    class="inline-flex justify-self-center rounded-md bg-green-700 dark:bg-green-800"
+            class="inline-flex rounded-md bg-green-700 dark:bg-green-800"
         ><ClipboardListIcon /> Details
         </a>
     </div>
 </template>
 
 <script setup>
-import { ArrowUp, ClipboardIcon, ClipboardListIcon, ImportIcon, LockIcon, ShareIcon } from 'lucide-vue-next';
+import { ArrowUp, ClipboardIcon, ClipboardListIcon, FileLockIcon, ImportIcon, LockIcon, ShareIcon } from 'lucide-vue-next';
 import { inject } from 'vue';
 
 const scoutReport = inject('scoutReport')

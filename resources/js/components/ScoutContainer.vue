@@ -7,8 +7,8 @@
                         alt="The turtle says to murder" /></a>
             </div>
             <ExpansionListHeader :scout-report="props.scoutReport" />
-            <div class="flex shrink">
-                <div class="flex">Settings</div>
+            <div class="flex flex-col md:flex-row gap-1 shrink">
+                <AppearanceTabs />
                 <div>export</div>
             </div>
         </nav>
@@ -23,6 +23,7 @@ import ScoutReport from '@/classes/ScoutReport';
 import { onBeforeMount, onMounted, ref } from 'vue';
 import ExpansionListHeader from '@/components/ExpansionListHeader.vue';
 import ZoneListContainer from '@/components/ZoneListContainer.vue';
+import AppearanceTabs from '@/components/AppearanceTabs.vue';
 
 const props = defineProps({
     scoutReport: Object,
