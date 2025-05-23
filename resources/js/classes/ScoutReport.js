@@ -16,16 +16,6 @@ export default class ScoutReport {
     constructor(initial_data, scouter_instance) {
 
         this.scouter_instance = scouter_instance
-        // if ('instance_data' in initial_data) {
-        //     initial_data.instance_data.forEach((el) => {
-        //         this.instance_data[el.zone_id] = el.instance_count
-        //     })
-        // } else {
-        //     this.instance_data = this.constructDefaultInstanceData()
-        // }
-        // this.point_data = initial_data.points ?? []
-        // this.dead_mobs = initial_data.dead_mobs ?? []
-        // this.title = initial_data.title
         this.handleDataFields(initial_data)
         this.emitter = emitter
     }

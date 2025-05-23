@@ -10,7 +10,7 @@
 import { Head } from '@inertiajs/vue3';
 import ScoutLayout from '@/layouts/ScoutLayout.vue';
 import Scouter from '@/classes/Scouter';
-import { onBeforeMount, onMounted, ref, watch } from 'vue';
+import { onBeforeMount, onMounted, ref, watch, provide } from 'vue';
 import ScoutReport from '@/classes/ScoutReport';
 import ScoutContainer from '@/components/ScoutContainer.vue';
 

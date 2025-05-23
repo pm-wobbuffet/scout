@@ -30,6 +30,16 @@ dialog::backdrop {
     backdrop-filter: blur(1px);
 }
 
+aside {
+    div.scout-report-options {
+        @apply grid md:grid-cols-2 gap-2 p-1 text-xs items-center;
+
+        a, button {
+            @apply inline-flex gap-1 items-center rounded-md font-bold p-1 cursor-pointer;
+        }
+    }
+}
+
 footer {
     @apply bg-slate-800 text-slate-200 p-4;
     a {

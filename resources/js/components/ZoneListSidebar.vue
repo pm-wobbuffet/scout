@@ -7,6 +7,8 @@
                 props.scoutReport.title }}
             </div>
         </div>
+        <ScoutReportOptions
+        />
         <div>
             <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
                 {{ getDisplayName(activeExpansion, 'en') }}
@@ -62,6 +64,7 @@
 <script setup>
 import ScoutReport from '@/classes/ScoutReport';
 import { getDisplayName } from '@/classes/helpers';
+import ScoutReportOptions from '@/components/ui/ScoutReportOptions.vue';
 import { onBeforeMount, ref, computed, onMounted, onUnmounted, onUpdated, inject } from 'vue';
 
 

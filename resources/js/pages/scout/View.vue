@@ -3,7 +3,7 @@
     <Head title="Viewing Scouting Report" />
     <ScoutLayout>
         <ScoutContainer :scout-report="scout_report"
-            :editmode="props.scout.collaborator_password && props.scout.finalized_at === null"
+            :editmode="editmode"
             :defaultId="props.defaultId"></ScoutContainer>
     </ScoutLayout>
 </template>
@@ -12,7 +12,7 @@
 import { Head } from '@inertiajs/vue3';
 import ScoutLayout from '@/layouts/ScoutLayout.vue';
 import Scouter from '@/classes/Scouter';
-import { inject, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, provide, ref } from 'vue';
+import { computed, inject, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, provide, ref } from 'vue';
 import ScoutReport from '@/classes/ScoutReport';
 import ScoutContainer from '@/components/ScoutContainer.vue';
 import { useEchoPublic, useEcho, configureEcho } from '@laravel/echo-vue';
@@ -36,10 +36,17 @@ const ajaxRefreshInterval = 10000;
 
 provide('connectionStatus', wsConnection)
 provide('scoutReport', scout_report)
+provide('scout', props.scout)
+
 
 configureEcho({
     broadcaster: "reverb",
 });
+
+const editmode = computed(() => {
+    return props.scout.collaborator_password && props.scout.finalized_at === null
+})
+provide('editmode', editmode)
 
 let channelName = `scouts.${props.scout.slug}`
 if (props.scout.collaborator_password && props.scout.collaborator_password !== '') {
