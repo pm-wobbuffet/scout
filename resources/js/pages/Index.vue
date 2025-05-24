@@ -19,9 +19,11 @@ const props = defineProps({
     defaultId: Number,
 })
 
-let scouter = null;
-let scout_report = ref(null);
+let scouter = null
+let scout_report = ref(null)
+let editmode = ref(true)
 provide('scoutReport', scout_report)
+provide('editmode', editmode)
 
 onBeforeMount(() => {
     scouter = new Scouter(props.expac)

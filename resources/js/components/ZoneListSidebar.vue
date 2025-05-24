@@ -103,7 +103,6 @@ const visibleMaps = ref({})
 
 onBeforeMount(() => {
     scouter.value = props.scoutReport.scouter_instance
-    //activeExpansion.value = scouter.value.getExpacById(props.scoutReport.getSelectedExpansion())
 })
 
 onMounted(() => {
