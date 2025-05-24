@@ -11,7 +11,7 @@ use App\Http\Requests\Scout\UpdateMobStatusRequest;
 use App\Models\Scout;
 use App\Models\ScoutDeadMob;
 use App\Models\ScoutPoint;
-use App\UpdatesScoutReports;
+use App\Traits\UpdatesScoutReports;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
