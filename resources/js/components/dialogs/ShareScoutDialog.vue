@@ -13,7 +13,7 @@
                     <h1 class="font-bold text-xl mb-1">Share View-Only Map</h1>
                     <p class="text-sm">This link provides a view only copy of the map. Users cannot submit changes to
                         the map.</p>
-                    <div class="bg-(--secondary) text-white p-4 mb-4 relative cursor-pointer">
+                    <div class="bg-(--secondary) text-(--secondary-foreground) p-4 mb-4 relative cursor-pointer">
                         <span>{{ route('scout.view', { scout: scout.slug }) }}?{{ cacheBusterAppend }}</span>
                         <div class="absolute bottom-0 right-0.5">
                             <CopyIcon />
@@ -28,9 +28,9 @@
                             safety
                             you may wish to limit to one person working on a zone at a time.
                         </p>
-                        <div class="bg-(--secondary) text-white p-4 mb-4 relative cursor-pointer">
+                        <div class="bg-(--secondary) text-(--secondary-foreground) p-4 mb-4 relative cursor-pointer">
                             <span>{{ route('scout.view', { scout: scout.slug, password: scout.collaborator_password })
-                                }}?{{ cacheBusterAppend }}</span>
+                            }}?{{ cacheBusterAppend }}</span>
                             <div class="absolute bottom-0 right-0.5">
                                 <CopyIcon />
                             </div>
