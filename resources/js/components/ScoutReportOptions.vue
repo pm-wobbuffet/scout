@@ -17,15 +17,17 @@
             v-if="editmode && scout && scout?.finalized_at === null">
             <FileLockIcon /> Finalize
         </button>
-        <a href="#" class="inline-flex rounded-md bg-green-700 dark:bg-green-800">
+        <ScoutDetailsDialog />
+        <!-- <a href="#" class="inline-flex rounded-md bg-green-700 dark:bg-green-800">
             <ClipboardListIcon /> Details
-        </a>
+        </a> -->
     </div>
 </template>
 
 <script setup>
+import ScoutDetailsDialog from '@/components/dialogs/ScoutDetailsDialog.vue';
 import ShareScoutDialog from '@/components/dialogs/ShareScoutDialog.vue';
-import { ArrowUp, ClipboardListIcon, FileLockIcon, ImportIcon, ShareIcon } from 'lucide-vue-next';
+import { ArrowUp, FileLockIcon, ImportIcon, ShareIcon } from 'lucide-vue-next';
 import { inject } from 'vue';
 
 const scout = inject('scout', null)

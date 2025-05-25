@@ -373,4 +373,8 @@ export default class ScoutReport {
             emitter.emit('occupy:status', rowData)
         }
     }
+
+    setTitle(ev) {
+        console.log(ev)
+    }
 }
