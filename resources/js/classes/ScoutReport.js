@@ -17,7 +17,7 @@ export default class ScoutReport {
 
         this.scouter_instance = scouter_instance
         this.handleDataFields(initial_data)
-        if(this.point_data.length > 0) {
+        if (this.point_data.length > 0) {
             this.getDefaultSelectedExpansion()
         }
         this.emitter = emitter
@@ -82,7 +82,9 @@ export default class ScoutReport {
     constructDefaultInstanceData() {
         let retVal = {}
         for (let [key, value] of Object.entries(this.scouter_instance.zone_data)) {
-            retVal[key] = value.default_instances
+            if (value.default_instances > 1) {
+                retVal[key] = value.default_instances
+            }
         }
         return retVal
     }
@@ -134,7 +136,7 @@ export default class ScoutReport {
 
     getDefaultSelectedExpansion() {
         this.scouter_instance.expansion_data.forEach((expac) => {
-            if(this.getFoundMobCountForExpansion(expac.id) > 0) {
+            if (this.getFoundMobCountForExpansion(expac.id) > 0) {
                 this.selected_expansion_id = expac.id
             }
         })

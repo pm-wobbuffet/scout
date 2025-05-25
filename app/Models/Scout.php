@@ -25,17 +25,17 @@ class Scout extends Model
 
     protected static function booted(): void
     {
-        static::creating(function(Scout $scout) {
-            if(is_null($scout->scouts)) {
+        static::creating(function (Scout $scout) {
+            if (is_null($scout->scouts)) {
                 $scout->scouts = [];
             }
-            if(is_null($scout->title)) {
+            if (is_null($scout->title)) {
                 $scout->title = '';
             }
-            if(is_null($scout->mob_status)) {
+            if (is_null($scout->mob_status)) {
                 $scout->mob_status = [];
             }
-            if(is_null($scout->occupied_points)) {
+            if (is_null($scout->occupied_points)) {
                 $scout->occupied_points = [];
             }
         });
@@ -44,6 +44,7 @@ class Scout extends Model
             // Create an sqid ID to serve as a slug for the submission
             $sqids = new Sqids(minLength: 10, alphabet: env('SQID_ALPHABET'));
             $scout->slug = $sqids->encode([$scout->id]);
+            $scout->collaborator_password = str(bin2hex(random_bytes(4)));
             $scout->save();
         });
     }
@@ -77,7 +78,7 @@ class Scout extends Model
     public function instances(): BelongsToMany
     {
         return $this->belongsToMany(Zone::class, 'scout_zone_instance_counts')
-        ->withPivot(['instance_count']);
+            ->withPivot(['instance_count'])->withTimestamps();
     }
 
     public function points(): HasMany
@@ -88,7 +89,6 @@ class Scout extends Model
     public function occupied_pts(): HasMany
     {
         return $this->hasMany(ScoutPoint::class)
-        ->whereNull('mob_id');
+            ->whereNull('mob_id');
     }
-
 }

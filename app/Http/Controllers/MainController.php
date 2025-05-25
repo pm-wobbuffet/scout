@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Scout\PointOccupancyChanged;
+use App\Http\Requests\Scout\StoreScoutRequest;
 use App\Http\Requests\Scout\UpdateOccupiedPointRequest;
 use App\Http\Resources\ExpansionResource;
 use App\Http\Resources\ScoutResource;
@@ -54,6 +55,26 @@ class MainController extends Controller
             'scout' => new ScoutResource($scout),
             'defaultId' => intval(env('DEFAULT_EXPANSION_ID', 7)),
         ]);
+    }
+
+    public function store(StoreScoutRequest $request)
+    {
+        //dd($request->all());
+        $scout = Scout::create($request->all());
+        if ($request->has('points')) {
+            $scout->points()->createMany($request->input('points'));
+        }
+        if ($request->has('instance_data')) {
+            foreach ($request->input('instance_data') as $zone_id => $instance_count) {
+                $scout->instances()->attach($zone_id, ['instance_count' => $instance_count]);
+            }
+        }
+        if ($request->has('dead_mobs')) {
+            $scout->dead_mobs()->createMany($request->input('dead_mobs'));
+        }
+        //dd($scout);
+        return redirect()->route('scout.view', [$scout->slug, $scout->collaborator_password])
+            ->with(['newly_created' => true]);
     }
 
     public function getUpdates(Request $request, Scout $scout, string $password = ''): ScoutResource
@@ -115,7 +136,7 @@ class MainController extends Controller
             $seen_mobs = 0;
             $expac->zones->each(function ($item) use (&$total_mobs, &$seen_mobs, $scout, $instances) {
                 // $total_mobs += $item->total_mobs;
-                $total_mobs += $item->mobs->count() * $instances[$item->id];
+                $total_mobs += $item->mobs->count() * ($instances[$item->id] ?? 1);
                 // $seen_mobs += count($scout['point_data'][$item->id] ?? []) ?? 0;
                 if (isset($scout->point_data[$item->id])) {
                     // There are scouted instances

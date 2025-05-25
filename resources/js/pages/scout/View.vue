@@ -2,9 +2,7 @@
 
     <Head title="Viewing Scouting Report" />
     <ScoutLayout>
-        <ScoutContainer :scout-report="scout_report"
-            :editmode="editmode"
-            :defaultId="props.defaultId"></ScoutContainer>
+        <ScoutContainer :scout-report="scout_report" :editmode="editmode" :defaultId="props.defaultId"></ScoutContainer>
     </ScoutLayout>
 </template>
 
@@ -22,6 +20,7 @@ const props = defineProps({
     expac: Array,
     scout: Object,
     defaultId: Number,
+    newly_created: Boolean,
 })
 
 let scouter = null;
@@ -52,7 +51,7 @@ if (props.scout.collaborator_password && props.scout.collaborator_password !== '
 }
 
 const t = useEchoPublic(channelName, ['.ScoutAssignMob', '.UpdatePointOccupancy'], (e) => {
-    console.log('Update Zone Points requested arrived for', e.zone_id, e.points)
+    //console.log('Update Zone Points requested arrived for', e.zone_id, e.points)
     scout_report.value.updatePointDataForZone(e.zone_id, e.instance_number, e.points)
 })
 
@@ -71,7 +70,7 @@ useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
     }
 })
 
-const pollForUpdates = function () {
+const pollForUpdates = () => {
     // is the websocket connection active? if so, can ignore for now
     if (wsConnection.value === 'connected') {
         ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
@@ -118,15 +117,24 @@ onMounted(() => {
     })
     emitter.on('occupy:status', (obj) => {
         console.log(obj)
-        axios.post(route('scout.updateOccupiedPoint',{scout: props.scout, password: props.scout.collaborator_password}), obj)
-        .catch((error) => {
-            console.error(error)
-        })
+        axios.post(route('scout.updateOccupiedPoint', { scout: props.scout, password: props.scout.collaborator_password }), obj)
+            .catch((error) => {
+                console.error(error)
+            })
     })
 
     // Ajax fallback
     if (props.scout.collaborator_password && !props.scout.finalized_at) {
         ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
+    }
+
+    // Was this a redirect from the log submission?
+    if (props?.newly_created == true) {
+        // Clear out any stored scout info, since they've made a successful submission
+        if (window && window.localStorage) {
+            localStorage.removeItem('scout-in-progress')
+        }
+        emitter.emit('show:share')
     }
 
 })
