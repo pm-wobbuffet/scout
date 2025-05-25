@@ -20,7 +20,7 @@ const props = defineProps({
     expac: Array,
     scout: Object,
     defaultId: Number,
-    newly_created: Boolean,
+    flash: Object,
 })
 
 let scouter = null;
@@ -44,6 +44,7 @@ provide('connectionStatus', wsConnection)
 provide('scoutReport', scout_report)
 provide('scout', props.scout)
 provide('editmode', editmode)
+provide('newly_created', props.flash?.newly_created)
 
 let channelName = `scouts.${props.scout.slug}`
 if (props.scout.collaborator_password && props.scout.collaborator_password !== '') {

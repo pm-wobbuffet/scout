@@ -48,6 +48,19 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'flash' => $this->getInterestedFlashValues($request),
         ];
+    }
+
+    private function getInterestedFlashValues(Request $request): array
+    {
+        $ret = [];
+        if ($request->session()->has('message')) {
+            $ret['message'] = $request->session()->get('message');
+        }
+        if ($request->session()->has('newly_created')) {
+            $ret['newly_created'] = $request->session()->get('newly_created');
+        }
+        return $ret;
     }
 }

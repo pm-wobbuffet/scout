@@ -5,10 +5,6 @@
             Top
         </a>
         <ShareScoutDialog v-if="scout" />
-        <!-- <a href="#" class="bg-blue-700 dark:bg-blue-800 text-white dark:text-slate-300" v-if="scout"
-            @click.prevent="showShareDialog" title="Share the scout report with others">
-            <ShareIcon /> Share
-        </a> -->
         <a href="#" class="bg-blue-700 dark:bg-blue-800 text-white dark:text-slate-300" v-else
             @click.prevent="submitScout" title="Save the scout report to the database and share with others if desired">
             <ShareIcon /> Share
@@ -29,10 +25,9 @@
 
 <script setup>
 import ShareScoutDialog from '@/components/dialogs/ShareScoutDialog.vue';
-import { ArrowUp, ClipboardIcon, ClipboardListIcon, FileLockIcon, ImportIcon, LockIcon, ShareIcon } from 'lucide-vue-next';
+import { ArrowUp, ClipboardListIcon, FileLockIcon, ImportIcon, ShareIcon } from 'lucide-vue-next';
 import { inject } from 'vue';
 
-const scoutReport = inject('scoutReport', null)
 const scout = inject('scout', null)
 const editmode = inject('editmode', false)
 const emitter = inject('emitter')
