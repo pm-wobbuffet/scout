@@ -6,7 +6,7 @@ export default class ScoutReport {
     custom_points = []
     point_data = []
     instance_data = {}
-    scout_names = []
+    scouts = []
     dead_mobs = []
     selected_expansion_id = 7
     emitter = null
@@ -14,7 +14,6 @@ export default class ScoutReport {
     scouter_instance = null
 
     constructor(initial_data, scouter_instance) {
-
         this.scouter_instance = scouter_instance
         this.handleDataFields(initial_data)
         if (this.point_data.length > 0) {
@@ -34,6 +33,7 @@ export default class ScoutReport {
         this.point_data = data.points ?? []
         this.dead_mobs = data.dead_mobs ?? []
         this.title = data.title
+        this.scouts = data.scouts ?? []
     }
 
     processAJAXUpdate(data) {
@@ -49,7 +49,7 @@ export default class ScoutReport {
             custom_points: this.custom_points,
             point_data: this.point_data,
             instance_data: this.instance_data,
-            scout_names: this.scout_names,
+            scouts: this.scouts,
             dead_mobs: this.dead_mobs
         })
     }
@@ -59,10 +59,10 @@ export default class ScoutReport {
         this.point_data = deets.point_data ?? []
         this.instance_data = deets.instance_data ?? {}
         this.dead_mobs = deets.dead_mobs ?? []
+        this.scouts = deets.scouts ?? []
     }
 
     updatePointDataForZone(zone_id, instance_number, new_points) {
-        console.log(`Updating point data for zone ${zone_id} ${instance_number} `, new_points)
         // Remove any previous points for this zone
         this.point_data = this.point_data.filter((el) => {
             return (el.zone_id != zone_id || (el.zone_id == zone_id && (el.instance_number != instance_number)))
@@ -72,7 +72,6 @@ export default class ScoutReport {
                 this.point_data.push(el)
             })
         }
-
     }
 
     /**

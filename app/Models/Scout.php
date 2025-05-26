@@ -26,9 +26,6 @@ class Scout extends Model
     protected static function booted(): void
     {
         static::creating(function (Scout $scout) {
-            if (is_null($scout->scouts)) {
-                $scout->scouts = [];
-            }
             if (is_null($scout->title)) {
                 $scout->title = '';
             }
@@ -55,7 +52,6 @@ class Scout extends Model
             'instance_data'     =>  'array',
             'point_data'        =>  'array',
             'custom_points'     =>  'array',
-            'scouts'            =>  'array',
             'mob_status'        =>  'array',
             'occupied_points'   =>  'array',
             'finalized_at'      =>  'datetime',
@@ -90,5 +86,10 @@ class Scout extends Model
     {
         return $this->hasMany(ScoutPoint::class)
             ->whereNull('mob_id');
+    }
+
+    public function scouts(): HasMany
+    {
+        return $this->hasMany(ScoutScout::class);
     }
 }
