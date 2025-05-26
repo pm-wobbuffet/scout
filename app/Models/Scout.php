@@ -53,6 +53,7 @@ class Scout extends Model
             'point_data'        =>  'array',
             'custom_points'     =>  'array',
             'mob_status'        =>  'array',
+            'scouts_old'        =>  'array',
             'occupied_points'   =>  'array',
             'finalized_at'      =>  'datetime',
         ];
@@ -90,6 +91,6 @@ class Scout extends Model
 
     public function scouts(): HasMany
     {
-        return $this->hasMany(ScoutScout::class);
+        return $this->hasMany(ScoutScouter::class)->orderBy('id');
     }
 }

@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ScoutScout extends Model
+class ScoutScouter extends Model
 {
     //
-    protected $table = 'scout_scouts';
+    protected $table = 'scout_scouters';
     protected $guarded = ['id'];
 
     public $timestamps = false;

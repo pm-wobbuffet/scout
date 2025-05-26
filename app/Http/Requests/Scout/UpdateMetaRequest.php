@@ -4,7 +4,7 @@ namespace App\Http\Requests\Scout;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreScoutRequest extends FormRequest
+class UpdateMetaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,11 +21,8 @@ class StoreScoutRequest extends FormRequest
      */
     public function rules(): array
     {
-        // TODO: make sure these fields are defined, array substructures checked
         return [
-            'points'                => 'array|nullable',
-            'dead_mobs'             => 'array|nullable',
-            'instance_data'         => 'array|nullable',
+            'title'                 => 'string|nullable',
             'scouts'                => 'array|nullable',
             'scouts.*.scout_name'   => 'string',
         ];

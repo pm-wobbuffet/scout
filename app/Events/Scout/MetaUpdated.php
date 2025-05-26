@@ -11,29 +11,29 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PointOccupancyChanged implements ShouldDispatchAfterCommit, ShouldBroadcastNow
+class MetaUpdated implements ShouldDispatchAfterCommit, ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private readonly Scout $scout;
-    public readonly array $points;
-    public readonly int $zone_id;
-    public readonly int $instance_number;
-
+    public readonly string $title;
+    public readonly array $scouts;
     /**
      * Create a new event instance.
      */
-    public function __construct(Scout $scout, Collection $points, int $zone_id, int $instance_number)
+    public function __construct(Scout $scout, string $title, array|Collection $scouts)
     {
         $this->scout = $scout;
-        $this->points = $points->values()->toArray();
-        $this->zone_id = $zone_id;
-        $this->instance_number = $instance_number;
+        $this->title = $title;
+        if ($scouts instanceof Collection) {
+            $scouts = $scouts->toArray();
+        }
+        $this->scouts = $scouts;
     }
 
     public function broadcastAs(): string
     {
-        return 'UpdatePointOccupancy';
+        return 'UpdateMeta';
     }
 
     /**

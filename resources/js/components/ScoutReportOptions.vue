@@ -18,9 +18,6 @@
             <FileLockIcon /> Finalize
         </button>
         <ScoutDetailsDialog />
-        <!-- <a href="#" class="inline-flex rounded-md bg-green-700 dark:bg-green-800">
-            <ClipboardListIcon /> Details
-        </a> -->
     </div>
 </template>
 

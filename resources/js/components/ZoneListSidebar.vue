@@ -18,7 +18,8 @@
                         :key="`zonelink-${zone.id}-${i}`"
                         class="flex items-center hover:bg-slate-200 dark:hover:bg-slate-700 ml-2 pr-2" :class="{
                             'hidden md:flex': !(`${zone.id}-${i}` in visibleMaps)
-                        }"><a class="block text-blue-500 max-w-(--sidebar-max-link-width) overflow-hidden text-ellipsis wrap-normal"
+                        }"><a
+                            class="block text-blue-500 max-w-(--sidebar-max-link-width) overflow-hidden text-ellipsis wrap-normal"
                             :href="`#zonemap-${zone.id}-${i}`"
                             :class="{ 'line-through': props.scoutReport.isZoneScoutingComplete(zone, i) }">{{
                                 getDisplayName(zone,
@@ -34,31 +35,16 @@
                 </template>
             </ul>
         </div>
-        <div class="text-sm px-2" v-if="connectionStatus != null">
-            <div v-if="connectionStatus === 'connected'">
-                <div class="inline-block rounded-full bg-green-300 w-[10px] h-[10px] mr-1"></div>
-                Connected
-            </div>
-            <div v-else-if="connectionStatus === 'disconnected'"
-                title="Websocket connection disconnected. Collab functions will be slower">
-                <div class="inline-block rounded-full bg-red-300 w-[10px] h-[10px] mr-1"></div>
-                Degraded
-            </div>
-            <div v-else-if="connectionStatus === 'connecting'">
-                <div class="inline-block rounded-full bg-yellow-300 w-[10px] h-[10px] mr-1"></div>
-                Connecting
-            </div>
-            <div v-else-if="connectionStatus === 'initializing'">
-                <div class="inline-block rounded-full bg-yellow-300 w-[10px] h-[10px] mr-1"></div>
-                Initializing
-            </div>
-            <div v-else-if="connectionStatus === 'unavailable'"
-                title="Websocket connection unavailable. Collab functions will be slower">
-                <div class="inline-block rounded-full bg-red-600 w-[10px] h-[10px] mr-1"></div>
-                Unavailable
-            </div>
-            <div v-else>
-                {{ connectionStatus }}
+        <ConnectionStatus :connection-status="connectionStatus" class="text-sm px-2" v-if="connectionStatus != null" />
+        <div v-if="props.scoutReport.scouts.length > 0">
+            <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">Scouts</div>
+            <div>
+                <ul class="text-sm">
+                    <li v-for="(scout, index) in props.scoutReport.scouts" :key="`scoutname-${index}`"
+                        class="ml-2 pr-2 text-blue-800 dark:text-blue-400 overflow-ellipsis" :title="scout.scout_name">
+                        {{ scout.scout_name }}
+                    </li>
+                </ul>
             </div>
         </div>
     </aside>
@@ -67,6 +53,7 @@
 <script setup>
 import { getDisplayName } from '@/classes/helpers';
 import ScoutReportOptions from '@/components/ScoutReportOptions.vue';
+import ConnectionStatus from '@/components/ui/zonelist/ConnectionStatus.vue';
 import { onBeforeMount, ref, computed, onMounted, onUnmounted, onUpdated, inject } from 'vue';
 
 

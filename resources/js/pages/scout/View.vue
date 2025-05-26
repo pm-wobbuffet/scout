@@ -51,25 +51,31 @@ if (props.scout.collaborator_password && props.scout.collaborator_password !== '
     channelName += `.${props.scout.collaborator_password}`
 }
 
-const t = useEchoPublic(channelName, ['.ScoutAssignMob', '.UpdatePointOccupancy'], (e) => {
-    //console.log('Update Zone Points requested arrived for', e.zone_id, e.points)
-    scout_report.value.updatePointDataForZone(e.zone_id, e.instance_number, e.points)
-})
+if (props.scout.finalized_at === null) {
+    const t = useEchoPublic(channelName, ['.ScoutAssignMob', '.UpdatePointOccupancy'], (e) => {
+        //console.log('Update Zone Points requested arrived for', e.zone_id, e.points)
+        scout_report.value.updatePointDataForZone(e.zone_id, e.instance_number, e.points)
+    })
 
-t.channel().pusher.connection.bind('state_change', (states) => {
-    wsConnection.value = states.current
-})
+    t.channel().pusher.connection.bind('state_change', (states) => {
+        wsConnection.value = states.current
+    })
 
-useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
-    scout_report.value.removeMobFromPoint(e, e.instance_number)
-})
-useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
-    if (e.is_dead) {
-        scout_report.value.addDeadMobToList(e.mob_id, e.instance_number)
-    } else {
-        scout_report.value.removeDeadMobFromList(e.mob_id, e.instance_number)
-    }
-})
+    useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
+        scout_report.value.removeMobFromPoint(e, e.instance_number)
+    })
+    useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
+        if (e.is_dead) {
+            scout_report.value.addDeadMobToList(e.mob_id, e.instance_number)
+        } else {
+            scout_report.value.removeDeadMobFromList(e.mob_id, e.instance_number)
+        }
+    })
+    useEchoPublic(channelName, '.UpdateMeta', (e) => {
+        scout_report.value.title = e.title ?? ''
+        scout_report.value.scouts = e.scouts ?? []
+    })
+}
 
 const pollForUpdates = () => {
     // is the websocket connection active? if so, can ignore for now
@@ -77,7 +83,7 @@ const pollForUpdates = () => {
         ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
         return
     }
-    console.log('AJAX polling fallback triggered')
+    //console.log('AJAX polling fallback triggered')
 
     axios.get(route('scout.updatelist', { scout: props.scout, password: props.scout.collaborator_password }))
         .then((response) => {
@@ -117,11 +123,16 @@ onMounted(() => {
         })
     })
     emitter.on('occupy:status', (obj) => {
-        console.log(obj)
         axios.post(route('scout.updateOccupiedPoint', { scout: props.scout, password: props.scout.collaborator_password }), obj)
             .catch((error) => {
                 console.error(error)
             })
+    })
+    emitter.on('meta:updated', () => {
+        axios.post(route('scout.updateMeta', { scout: props.scout, password: props.scout.collaborator_password }), {
+            title: scout_report.value.title,
+            scouts: scout_report.value.scouts,
+        })
     })
 
     // Ajax fallback
@@ -130,9 +141,9 @@ onMounted(() => {
     }
 
     // Was this a redirect from the log submission?
-    if (props?.newly_created == true) {
+    if (props?.flash?.newly_created == true) {
         // Clear out any stored scout info, since they've made a successful submission
-        if (window && window.localStorage) {
+        if (window && localStorage) {
             localStorage.removeItem('scout-in-progress')
         }
         emitter.emit('show:share')
@@ -145,6 +156,7 @@ onBeforeUnmount(() => {
     emitter.off('point:clear')
     emitter.off('point:assign-mob')
     emitter.off('mob:status')
+    emitter.off('meta:updated')
 })
 </script>
 

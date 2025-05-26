@@ -12,10 +12,12 @@ import { DialogPortal } from 'reka-ui';
 import { inject, ref, useTemplateRef } from 'vue';
 import Input from '@/components/ui/input/Input.vue';
 import { useForm } from '@inertiajs/vue3';
+import Button from '@/components/ui/button/Button.vue';
 
 const scoutReport = inject('scoutReport')
 const newScoutName = ref('')
 const scoutInput = useTemplateRef('scoutref')
+const emitter = inject('emitter')
 
 const form = useForm({
     title: scoutReport.value.title ?? '',
@@ -23,11 +25,11 @@ const form = useForm({
 })
 
 const removeScout = (idx) => {
-    form.scouts.splice(idx, 1)
+    scoutReport.value.scouts.splice(idx, 1)
 }
 
 const addScout = () => {
-    form.scouts.push({
+    scoutReport.value.scouts.push({
         'scout_name': newScoutName.value,
     })
     newScoutName.value = ''
@@ -37,10 +39,16 @@ const addScout = () => {
     document.getElementById('txtNewScout').focus()
 }
 
+const handleOpen = (isOpen) => {
+    if (!isOpen) {
+        emitter.emit('meta:updated')
+    }
+}
+
 </script>
 
 <template>
-    <Dialog>
+    <Dialog @update:open="handleOpen">
         <DialogTrigger as-child>
             <button type="button" class="bg-green-700 dark:bg-green-800">
                 <ClipboardListIcon /> Details
@@ -55,22 +63,21 @@ const addScout = () => {
                 <div class="grid grid-cols-2 items-center gap-2 w-full" style="grid-template-columns: auto 1fr;">
                     <div>Title</div>
                     <div>
-                        <Input maxlength="100" name="title" v-model="form.title" :default-value="form.title"
+                        <Input maxlength="100" name="title" v-model="scoutReport.title"
                             title="You can optionally enter a descriptive title for the scouting report" />
                     </div>
 
-                    <div>Scouts</div>
+                    <div class="self-start">Scouts</div>
                     <div>
-                        <div v-for="(scout, index) in form.scouts" :key="`scoutrow-${index}`"
+                        <div v-for="(scout, index) in scoutReport.scouts" :key="`scoutrow-${index}`"
                             class="grid grid-cols-[1fr_80px] gap-1 mb-1">
-                            <Input v-model="form.scouts[index].scout_name" />
-                            <button title="Remove this scout from the report" type="button" class="text-sm"
-                                @click="removeScout(index)">Remove</button>
+                            <Input v-model="scoutReport.scouts[index].scout_name" />
+                            <Button size="sm" variant="destructive" @click="removeScout(index)">Remove</Button>
                         </div>
                         <div class="grid grid-cols-[1fr_80px] gap-1">
                             <Input id="txtNewScout" v-model="newScoutName" ref="scoutref"
                                 @keypress.enter.prevent="addScout" />
-                            <button type="button" title="Add Scout" class="text-sm" @click="addScout">Add</button>
+                            <Button size="sm" variant="default" @click="addScout">Add</Button>
                         </div>
                     </div>
                 </div>

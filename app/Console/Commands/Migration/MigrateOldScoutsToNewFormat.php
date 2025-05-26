@@ -80,19 +80,22 @@ class MigrateOldScoutsToNewFormat extends Command
                 }
             }
         }
-        if($scout->mob_status && is_array($scout->mob_status)) {
+        if ($scout->mob_status && is_array($scout->mob_status)) {
             foreach ($scout->mob_status as $mob_id => $instances) {
                 foreach ($instances as $instance => $is_dead) {
                     if ($is_dead) {
                         DB::table('scout_dead_mobs')
-                        ->upsert([
-                            'scout_id'          => $scout->id,
-                            'mob_id'            => $mob_id,
-                            'instance_number'   => $instance,
-                            'created_at'        => Carbon::now(),
-                            'updated_at'        => Carbon::now(),
-                        ],['scout_id', 'mob_id', 'instance_number'],
-                    ['updated_at']);
+                            ->upsert(
+                                [
+                                    'scout_id'          => $scout->id,
+                                    'mob_id'            => $mob_id,
+                                    'instance_number'   => $instance,
+                                    'created_at'        => Carbon::now(),
+                                    'updated_at'        => Carbon::now(),
+                                ],
+                                ['scout_id', 'mob_id', 'instance_number'],
+                                ['updated_at']
+                            );
                     }
                 }
             }
@@ -238,6 +241,13 @@ class MigrateOldScoutsToNewFormat extends Command
                         ]);
                 }
             }
+        }
+
+        // Were there scout names listed?
+        foreach ($scout->scouts_old as $scout_name) {
+            $scout->scouts()->create(
+                ['scout_name' => $scout_name]
+            );
         }
     }
 }

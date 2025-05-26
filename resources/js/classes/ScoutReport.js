@@ -32,7 +32,7 @@ export default class ScoutReport {
         }
         this.point_data = data.points ?? []
         this.dead_mobs = data.dead_mobs ?? []
-        this.title = data.title
+        this.title = data.title ?? ''
         this.scouts = data.scouts ?? []
     }
 
@@ -60,6 +60,25 @@ export default class ScoutReport {
         this.instance_data = deets.instance_data ?? {}
         this.dead_mobs = deets.dead_mobs ?? []
         this.scouts = deets.scouts ?? []
+        this.title = deets.title ?? ''
+    }
+
+    // Clear a scout report to default status
+    reset() {
+        this.unserialize("{}")
+    }
+    // Used to determine if a scout report data string has actual data
+    isEmpty(data) {
+        const t = JSON.parse(data)
+        if (
+            (t.point_data && t.point_data.length > 0)
+            || (t.dead_mobs && t.dead_mobs.length > 0)
+            || (t.scouts && t.scouts.length > 0)
+            || (t.title != '' && t.title !== null && t.title !== undefined)
+        ) {
+            return false
+        }
+        return true
     }
 
     updatePointDataForZone(zone_id, instance_number, new_points) {

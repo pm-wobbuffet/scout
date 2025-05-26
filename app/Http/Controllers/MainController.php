@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Scout\MetaUpdated;
 use App\Events\Scout\PointOccupancyChanged;
 use App\Http\Requests\Scout\StoreScoutRequest;
+use App\Http\Requests\Scout\UpdateMetaRequest;
 use App\Http\Requests\Scout\UpdateOccupiedPointRequest;
 use App\Http\Resources\ExpansionResource;
 use App\Http\Resources\ScoutResource;
@@ -12,6 +14,7 @@ use App\Models\Scout;
 use App\Traits\UpdatesScoutReports;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -57,24 +60,58 @@ class MainController extends Controller
         ]);
     }
 
+    /**
+     * Store a scouting report to the database
+     * Sends the user to the newly created report on success
+     * @param \App\Http\Requests\Scout\StoreScoutRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(StoreScoutRequest $request)
     {
-        //dd($request->all());
         $scout = Scout::create($request->all());
         if ($request->has('points')) {
-            $scout->points()->createMany($request->input('points'));
+            $scout->points()->createMany($request->validated('points'));
         }
         if ($request->has('instance_data')) {
-            foreach ($request->input('instance_data') as $zone_id => $instance_count) {
+            foreach ($request->validated('instance_data') as $zone_id => $instance_count) {
                 $scout->instances()->attach($zone_id, ['instance_count' => $instance_count]);
             }
         }
         if ($request->has('dead_mobs')) {
-            $scout->dead_mobs()->createMany($request->input('dead_mobs'));
+            $scout->dead_mobs()->createMany($request->validated('dead_mobs'));
         }
-        //dd($scout);
+        if ($request->has('scouts') && $request->validated('scouts') !== null) {
+            $scout->scouts()->createMany($request->validated('scouts'));
+        }
         return redirect()->route('scout.view', [$scout->slug, $scout->collaborator_password])
             ->with(['newly_created' => true]);
+    }
+
+    /**
+     * Updates the metadata for a scout request, including title and scouter list
+     * @param \App\Http\Requests\Scout\UpdateMetaRequest $request
+     * @param \App\Models\Scout $scout
+     * @param string $password
+     * @return JsonResponse
+     */
+    public function updateMeta(UpdateMetaRequest $request, Scout $scout, string $password): JsonResponse
+    {
+        $this->authorizeUpdate($scout, $password);
+
+        $scout->title = $request->validated('title');
+        $scout->scouts()->delete();
+        foreach ($request->validated('scouts') as $scouter) {
+            $scout->scouts()->updateOrCreate([
+                'scout_name' => $scouter['scout_name'],
+            ]);
+        }
+        $scout->save();
+        broadcast(new MetaUpdated(
+            $scout,
+            $scout->title,
+            $scout->scouts,
+        ))->toOthers();
+        return response()->json(['success' => true]);
     }
 
     public function getUpdates(Request $request, Scout $scout, string $password = ''): ScoutResource
