@@ -9,10 +9,11 @@
             @click.prevent="submitScout" title="Save the scout report to the database and share with others if desired">
             <ShareIcon /> Share
         </a>
-        <button class="bg-slate-500 dark:bg-yellow-800" v-if="editmode && ((!scout) || scout?.finalized_at === null)"
+        <ImportPointsDialog v-if="editmode && ((!scout) || scout?.finalized_at === null)" />
+        <!-- <button class="bg-slate-500 dark:bg-yellow-800" v-if="editmode && ((!scout) || scout?.finalized_at === null)"
             title="Import mob coordinates by pasting in chat logs" @click.prevent="showImportDialog">
             <ImportIcon /> Import
-        </button>
+        </button> -->
         <button class="inline-flex rounded-md bg-red-400 dark:bg-red-800"
             v-if="editmode && scout && scout?.finalized_at === null">
             <FileLockIcon /> Finalize
@@ -22,6 +23,7 @@
 </template>
 
 <script setup>
+import ImportPointsDialog from '@/components/dialogs/ImportPointsDialog.vue';
 import ScoutDetailsDialog from '@/components/dialogs/ScoutDetailsDialog.vue';
 import ShareScoutDialog from '@/components/dialogs/ShareScoutDialog.vue';
 import { ArrowUp, FileLockIcon, ImportIcon, ShareIcon } from 'lucide-vue-next';

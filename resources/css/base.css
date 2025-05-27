@@ -46,9 +46,7 @@ footer {
         @apply underline;
     }
 }
-textarea {
-    @apply bg-white dark:bg-slate-500 text-black font-mono;
-}
+
 button:disabled {
     @apply cursor-not-allowed;
 }

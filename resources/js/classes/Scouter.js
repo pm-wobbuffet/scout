@@ -4,14 +4,14 @@ export default class Scouter {
     expansion_data = []
     zone_data = {}
     spawn_points = {}
-    
+
     constructor(data) {
         // Initialize sort order array
         const userSort = JSON.parse(localStorage.getItem('sortOrders') ?? '{}')
         this.expansion_data = data
         this.expansion_data.forEach((expansion) => {
             expansion.zones.forEach((zone) => {
-                if(zone.id in userSort) {
+                if (zone.id in userSort) {
                     zone.sort_priority = userSort[zone.id]
                 }
                 this.zone_data[zone.id] = zone
@@ -23,13 +23,13 @@ export default class Scouter {
                     // If for some reason the spawn point type was omitted from
                     // the data array, default to 'spawn_point' since these are all
                     // verified spawn points
-                    if(!spawn_point.point_type || spawn_point.point_type === null) {
+                    if (!spawn_point.point_type || spawn_point.point_type === null) {
                         spawn_point['point_type'] = 'spawn_point'
                     }
                     this.spawn_points[spawn_point.id] = spawn_point
                 })
             })
-        })        
+        })
     }
 
     /**
@@ -50,7 +50,7 @@ export default class Scouter {
      * @returns Object
      */
     getMobById(id) {
-        if(id in this.mob_data) {
+        if (id in this.mob_data) {
             return this.mob_data[id]
         }
         return null
@@ -58,8 +58,8 @@ export default class Scouter {
 
     getMobsForZone(zone_id) {
         let ret = []
-        for( let [mob_id, mob_data] of Object.entries(this.mob_data)) {
-            if(mob_data.zone_id == zone_id) {
+        for (let [mob_id, mob_data] of Object.entries(this.mob_data)) {
+            if (mob_data.zone_id == zone_id) {
                 ret.push(mob_data)
             }
         }
@@ -79,10 +79,25 @@ export default class Scouter {
         return this.zone_data[id]
     }
 
+    getZoneByName(zoneName) {
+        for (let zone_id in this.zone_data) {
+            let z = this.zone_data[zone_id]
+            if (z.name == zoneName
+                || z.names['en'] == zoneName
+                || z.names['de'] == zoneName
+                || z.names['ja'] == zoneName
+                || z.names['fr'] == zoneName
+            ) {
+                return z
+            }
+        }
+        return false
+    }
+
     getZonesByExpansion(expansion_id) {
         let ret = []
-        for( let [zone_id, zone_data] of Object.entries(this.zone_data) ) {
-            if(zone_data.expansion_id == expansion_id) {
+        for (let [zone_id, zone_data] of Object.entries(this.zone_data)) {
+            if (zone_data.expansion_id == expansion_id) {
                 ret.push(zone_data)
             }
         }
