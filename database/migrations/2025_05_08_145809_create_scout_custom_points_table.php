@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('scout_custom_points', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('scout_id')->references('id')->on('scouts')->onDelete('cascade');
-            $table->foreignId('zone_id')->references('id')->on('zones')->onDelete('cascade');
+            $table->foreignId('scout_id')->references('id')->on('scouts');
+            $table->foreignId('zone_id')->references('id')->on('zones');
             $table->decimal('x', 3, 1)->default(0.0);
             $table->decimal('y', 3, 1)->default(0.0);
             $table->timestamps();

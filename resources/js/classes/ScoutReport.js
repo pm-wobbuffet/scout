@@ -115,6 +115,71 @@ export default class ScoutReport {
         })
     }
 
+    importMobFromClipboard(mobInfo) {
+        const closestPoint = this.getClosestPoint(mobInfo.zone, mobInfo.x, mobInfo.y)
+        if (!closestPoint.point) {
+            // Need to decide on custom points here
+        }
+        //console.log(`Getting mobs assigned for ${mobInfo.zone.id} instance ${mobInfo.instance}`)
+        let mobsAssigned = this.getFoundMobsForZone(mobInfo.zone.id, mobInfo.instance)
+        let mobOnPoint = this.getMobOnPoint(closestPoint.point.id, mobInfo.instance)
+        if (mobOnPoint !== null) {
+            // The point specified already has a mob on it, don't overwrite it for safety
+            return false
+        }
+
+        let validMobsForPoint = closestPoint.point.valid_mobs.filter((testMob) => {
+            return !mobsAssigned.includes(testMob.id)
+        })
+        // If the text line did not include a mob_id, we need to go fishing to find the mob
+        if (!mobInfo.mob.id) {
+            // TODO: refactor me from the original
+        }
+
+        if (mobInfo.mob.id && mobInfo.zone.id && mobInfo.x && mobInfo.y) {
+            console.log('Adding point to list')
+            if (closestPoint.point) {
+                this.point_data.push({
+                    point_type: 'spawn_point',
+                    point_id: closestPoint.point.id,
+                    mob_id: mobInfo.mob.id,
+                    zone_id: mobInfo.zone.id,
+                    x: mobInfo.x,
+                    y: mobInfo.y
+                })
+            }
+        }
+        //console.log(mobsAssigned, mobOnPoint, validMobsForPoint)
+
+    }
+
+    getClosestPoint(zone, x, y) {
+        const d = (point) => {
+            return Math.pow(point.x - x, 2) + Math.pow(point.y - y, 2)
+        }
+        const trueDistance = (pointOne, pointTwo) => {
+            return Math.sqrt(Math.pow(pointTwo.x - pointOne.x, 2) + Math.pow(pointTwo.y - pointOne.y, 2))
+        }
+
+        const spawnPts = this.getSpawnPointsForZone(zone)
+        if (spawnPts.length > 0) {
+            let closest = spawnPts.reduce((a, b) => {
+                return d(a) < d(b) ? a : b
+            })
+            let distance = trueDistance({ x: x, y: y }, closest)
+            return {
+                'point': closest,
+                'distance': distance,
+            }
+        }
+
+        // return false to signal that the script should decide if a custom spawn point is required
+        return {
+            'point': false,
+            'distance': false,
+        }
+    }
+
     cycleMobOnPoint(point, instance_number) {
         // Get the list of valid mobs for this point
         let valid_mobs = []
@@ -207,7 +272,7 @@ export default class ScoutReport {
         })
     }
 
-    assignMobToPoint(point_id, mob_id, zone_id, instance_number, spawn_point_type) {
+    assignMobToPoint(point_id, mob_id, zone_id, instance_number, spawn_point_type, skip_emit = false) {
         this.point_data.push({
             'point_id': point_id,
             'mob_id': mob_id,
@@ -215,13 +280,15 @@ export default class ScoutReport {
             'zone_id': zone_id,
             'point_type': spawn_point_type
         })
-        this.emitter.emit('point:assign-mob', {
-            'point_id': point_id,
-            'mob_id': mob_id,
-            'instance_number': instance_number,
-            'zone_id': zone_id,
-            'point_type': spawn_point_type
-        })
+        if (!skip_emit) {
+            this.emitter.emit('point:assign-mob', {
+                'point_id': point_id,
+                'mob_id': mob_id,
+                'instance_number': instance_number,
+                'zone_id': zone_id,
+                'point_type': spawn_point_type
+            })
+        }
     }
 
     /**
@@ -315,6 +382,17 @@ export default class ScoutReport {
         return foundCount
     }
 
+    // Return an actual array of the found mob IDs
+    getFoundMobsForZone(zone_id, instance_number) {
+        return this.point_data.filter((pt) => {
+            return (
+                pt.zone_id == zone_id
+                && pt.instance_number == instance_number
+                && pt.mob_id !== null
+            )
+        }).map((x) => x.mob_id)
+    }
+
     getSelectedExpansion() {
         return this.selected_expansion_id
     }
@@ -390,9 +468,5 @@ export default class ScoutReport {
             delete rowData.mob_id
             emitter.emit('occupy:status', rowData)
         }
-    }
-
-    setTitle(ev) {
-        console.log(ev)
     }
 }

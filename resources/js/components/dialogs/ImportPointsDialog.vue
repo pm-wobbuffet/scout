@@ -51,10 +51,6 @@ const scoutReport = inject('scoutReport')
 const emitter = inject('emitter')
 const failLines = ref('')
 const txtChatInput = ref(`
-----------
-- The moon has 3 instances
------
-
 Mousse Princess Mare Lamentorum ( 17.1  , 24.7 ) Z: 0.8
 Lunatender Queen Mare Lamentorum ( 24.1  , 23.7 ) Z: 0.7
 Lunatender Queen Mare Lamentorum ( 17.5  , 24.9 ) Z: 0.9
@@ -91,7 +87,9 @@ const importCoordinates = () => {
             failLines.value += `${row.line}: ${row.reason}`
         })
     }
-    console.log(fail, success)
+    success.forEach((mobSighting) => {
+        scoutReport.value.importMobFromClipboard(mobSighting.info)
+    })
 }
 </script>
 

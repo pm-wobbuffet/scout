@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('scout_zone_instance_counts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('scout_id')->references('id')->on('scouts')->onDelete('cascade');
-            $table->foreignId('zone_id')->references('id')->on('zones')->onDelete('cascade');
+            $table->foreignId('scout_id')->references('id')->on('scouts');
+            $table->foreignId('zone_id')->references('id')->on('zones');
             $table->unsignedInteger('instance_count')->default(1);
             $table->timestamps();
 

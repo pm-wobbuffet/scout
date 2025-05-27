@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('scout_points', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('scout_id')->references('id')->on('scouts')->onDelete('cascade');
-            $table->foreignId('zone_id')->references('id')->on('zones')->onDelete('cascade');
+            $table->foreignId('scout_id')->references('id')->on('scouts');
+            $table->foreignId('zone_id')->references('id')->on('zones');
             $table->morphs('point');
             $table->unsignedInteger('instance_number')->default(1);
-            $table->foreignId('mob_id')->nullable()->references('id')->on('mobs')->onDelete('cascade')->default(null);
-            $table->decimal('x',3,1)->nullable()->default(null);
-            $table->decimal('y',3,1)->nullable()->default(null);
+            $table->foreignId('mob_id')->nullable()->references('id')->on('mobs')->default(null);
+            $table->decimal('x', 3, 1)->nullable()->default(null);
+            $table->decimal('y', 3, 1)->nullable()->default(null);
             $table->timestamps();
 
-            $table->unique(['scout_id', 'zone_id', 'point_type', 'point_id', 'instance_number'],'scout_points_point_unique_idx');
+            $table->unique(['scout_id', 'zone_id', 'point_type', 'point_id', 'instance_number'], 'scout_points_point_unique_idx');
             $table->unique(['scout_id', 'mob_id', 'instance_number'], 'scout_points_mob_unique_idx');
         });
     }
