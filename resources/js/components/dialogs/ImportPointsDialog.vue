@@ -88,6 +88,7 @@ const importCoordinates = () => {
         })
     }
     success.forEach((mobSighting) => {
+        console.log(mobSighting)
         scoutReport.value.importMobFromClipboard(mobSighting.info)
     })
 }

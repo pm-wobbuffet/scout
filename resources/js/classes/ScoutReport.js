@@ -142,6 +142,7 @@ export default class ScoutReport {
                 this.point_data.push({
                     point_type: 'spawn_point',
                     point_id: closestPoint.point.id,
+                    instance_number: mobInfo.instance,
                     mob_id: mobInfo.mob.id,
                     zone_id: mobInfo.zone.id,
                     x: mobInfo.x,
