@@ -51,31 +51,9 @@ const scoutReport = inject('scoutReport')
 const emitter = inject('emitter')
 const failLines = ref('')
 const txtChatInput = ref(`
-Mousse Princess Mare Lamentorum ( 17.1  , 24.7 ) Z: 0.8
-Lunatender Queen Mare Lamentorum ( 24.1  , 23.7 ) Z: 0.7
-Lunatender Queen Mare Lamentorum ( 17.5  , 24.9 ) Z: 0.9
-Mousse Princess Mare Lamentorum ( 24.0  , 23.4 ) Z: 0.7
-Mousse Princess Mare Lamentorum ( 17.2  , 24.8 ) Z: 0.9
-Lunatender Queen Mare Lamentorum ( 24.4  , 23.7 ) Z: 0.7
-Hulder Labyrinthos ( 10.7  , 19.1 ) Z: 2.3
-Storsie Labyrinthos ( 12.2  , 35.7 ) Z: 2.1
-Sugriva Thavnair ( 17.5  , 16.6 ) Z: 0.9
-Aegeiros Garlemald ( 29.0  , 20.8 ) Z: 0.5
-Minerva Garlemald ( 9.8  , 11.3 ) Z: 0.5
-Gurangatch Elpis ( 18.6  , 24.5 ) Z: 1.6
-Petalodus Elpis ( 12.8  , 9.9 ) Z: 4.7
+Lakeland ( 35.6  , 27.0 ) Z: 0.3
+Lakeland ( 27.1  , 37.3 ) Z: 0.3
 
-Nariphon Lakeland ( 35.6  , 27.0 ) Z: 0.3
-Nuckelavee Lakeland ( 27.1  , 37.3 ) Z: 0.3
-Huracan Kholusia ( 22.2  , 14.3 ) Z: 3.6
-Li'l Murderer Kholusia ( 34.3  , 24.6 ) Z: 0.5
-Sugaar Amh Araeng ( 32.4  , 33.5 ) Z: 0.4
-O Poorest Pauldia Il Mheg ( 19.5  , 34.6 ) Z: 0.4
-The Mudman Il Mheg ( 24.4  , 36.9 ) Z: 0.1
-Grassman The Rak'tika Greatwood ( 9.4  , 19.0 ) Z: 0.3
-Supay The Rak'tika Greatwood ( 12.0  , 35.8 ) Z: 0.1
-Baal The Tempest ( 28.9  , 22.8 ) Z: -2.0
-Rusalka The Tempest ( 37.5  , 15.9 ) Z: -1.4
 `)
 
 const importCoordinates = () => {

@@ -131,9 +131,11 @@ export default class ScoutReport {
         let validMobsForPoint = closestPoint.point.valid_mobs.filter((testMob) => {
             return !mobsAssigned.includes(testMob.id)
         })
-        // If the text line did not include a mob_id, we need to go fishing to find the mob
-        if (!mobInfo.mob.id) {
+        // If the text line did not include a mob id, we need to go fishing to find the mob
+        if (!mobInfo.mob?.id) {
             // TODO: refactor me from the original
+            let otherMobForZone = mobInfo.zone.mobs.find((m) => m.id == mobsAssigned[0])
+
         }
 
         if (mobInfo.mob.id && mobInfo.zone.id && mobInfo.x && mobInfo.y) {
