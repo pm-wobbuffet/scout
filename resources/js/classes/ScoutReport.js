@@ -125,32 +125,86 @@ export default class ScoutReport {
         let mobOnPoint = this.getMobOnPoint(closestPoint.point.id, mobInfo.instance)
         if (mobOnPoint !== null) {
             // The point specified already has a mob on it, don't overwrite it for safety
-            return false
+            if (mobOnPoint.mob_id === mobInfo.mob.id) {
+                return {
+                    status: 'success',
+                    mobInfo: mobInfo
+                }
+            }
+            return {
+                status: 'failure',
+                reason: 'The specified point already contains an assigned mob',
+                mobInfo: mobInfo,
+            }
         }
 
         let validMobsForPoint = closestPoint.point.valid_mobs.filter((testMob) => {
             return !mobsAssigned.includes(testMob.id)
         })
+        let validMobIdsForPoint = validMobsForPoint.map((x) => x.id)
         // If the text line did not include a mob id, we need to go fishing to find the mob
         if (!mobInfo.mob?.id) {
             // TODO: refactor me from the original
             let otherMobForZone = mobInfo.zone.mobs.find((m) => m.id == mobsAssigned[0])
+            if (otherMobForZone) {
+                // Grab the point assignment data for the other mob in the zone
+                // We'll need this info to check if it was assigned by import later
+                otherMobForZone.point_assignment = this.point_data.find((el) => {
+                    return el.zone_id == mobInfo.zone.id
+                        && el.instance_number == mobInfo.instance
+                        && el.mob_id == otherMobForZone.id
+                })
+            }
+            console.log(validMobsForPoint, otherMobForZone)
+            // TODO: stub out function to check if other point was valid for this mob
+            // in a zone/instance where one mob is already assigned
+            if (
+                validMobsForPoint.length < 1
+                && otherMobForZone
+                // Check to make sure the mob was assigned by import
+                // so we don't overwrite a user-assigned mob
+                && otherMobForZone.point_assignment?.assigned_by_import
+                // make sure the other mob in the zone is still valid for here
+                //&& validMobIdsForPoint.includes(otherMobForZone.id)
+            ) {
+                let otherPt = otherMobForZone.point_assignment
+                console.log(`Need to place a mob, other mob is already assigned in the zone`, otherMobForZone, otherPt)
+            }
+
+            if (validMobsForPoint.length < 1) {
+                return {
+                    status: 'failure',
+                    reason: 'No more valid mobs remain to place on this point',
+                    mobInfo: mobInfo,
+                }
+            }
+            mobInfo.mob = validMobsForPoint[0]
 
         }
 
-        if (mobInfo.mob.id && mobInfo.zone.id && mobInfo.x && mobInfo.y) {
-            console.log('Adding point to list')
+        if (mobInfo.mob?.id && mobInfo.zone.id && mobInfo.x && mobInfo.y) {
+            //console.log('Adding point to list')
             if (closestPoint.point) {
-                this.point_data.push({
+                const pData = {
                     point_type: 'spawn_point',
                     point_id: closestPoint.point.id,
                     instance_number: mobInfo.instance,
                     mob_id: mobInfo.mob.id,
                     zone_id: mobInfo.zone.id,
                     x: mobInfo.x,
-                    y: mobInfo.y
-                })
+                    y: mobInfo.y,
+                    assigned_by_import: true,
+                }
+                this.point_data.push(pData)
+                return {
+                    status: 'success',
+                    point_data: pData,
+                }
             }
+        }
+        return {
+            status: 'failure',
+            reason: 'An unknown failure has occurred'
         }
         //console.log(mobsAssigned, mobOnPoint, validMobsForPoint)
 

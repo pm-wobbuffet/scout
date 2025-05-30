@@ -97,6 +97,7 @@ export const parseLog = (logLines, scoutReport) => {
             })
         }
     })
+    currentlyParsing = false
     return assignments
 }
 
