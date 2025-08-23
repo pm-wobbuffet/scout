@@ -16,14 +16,21 @@
                 <textarea rows="6" class="w-full p-1 font-mono border-2 rounded-md" v-model="txtChatInput"></textarea>
             </form>
 
-            <div class="text-red-600" v-if="failLines != ''">
-                {{ failLines }}
+            <div class="text-red-600 font-mono" v-if="failLines">
+                <ul>
+                    <li v-for="line in failLines">
+                        {{ line.line }}: {{ line.reason }}
+                    </li>
+                </ul>
+            </div>
+            <div v-if="true">
+                {{ linesImportedMessage }}
             </div>
 
             <DialogFooter class="gap-2">
                 <Button variant="default" @click="importCoordinates">Import</Button>
                 <DialogClose as-child>
-                    <Button variant="secondary">Close</Button>
+                    <Button variant="secondary" @click="linesImportedMessage = ''">Close</Button>
                 </DialogClose>
             </DialogFooter>
         </DialogContent>
@@ -49,7 +56,8 @@ import { inject, ref } from 'vue';
 
 const scoutReport = inject('scoutReport')
 const emitter = inject('emitter')
-const failLines = ref('')
+const failLines = ref([])
+const linesImportedMessage = ref('')
 const txtChatInput = ref(`
 Lakeland ( 35.6  , 27.0 ) Z: 0.3
 Lakeland ( 27.1  , 37.3 ) Z: 0.3
@@ -59,11 +67,11 @@ const txtChatInput = ref(`
 
 const importCoordinates = () => {
     //console.log(txtChatInput.value)
-    failLines.value = ''
+    failLines.value = []
+    let updatedZones = {}
     const { fail, success } = parseLog(txtChatInput.value, scoutReport)
 
     success.forEach((mobSighting) => {
-        //console.log(mobSighting)
         const res = scoutReport.value.importMobFromClipboard(mobSighting.info)
         if (res.status && res.status == 'failure') {
             fail.push({
@@ -71,13 +79,21 @@ const importCoordinates = () => {
                 reason: res.reason,
             })
         }
+        // Track the zones we updated as part of this import to send server-side
+        updatedZones[`${mobSighting.info.zone.id}-${mobSighting.info.instance}`] = 1
     })
 
     if (fail && fail.length > 0) {
         fail.forEach((row) => {
-            failLines.value += `${row.line}: ${row.reason}`
+            failLines.value.push(row)
         })
     }
+
+    txtChatInput.value = ''
+    linesImportedMessage.value = `${success.length - fail.length} lines successfully imported.`
+    emitter.emit('import:zones-updated', {
+        zonelist: Object.keys(updatedZones)
+    })
 }
 </script>
 

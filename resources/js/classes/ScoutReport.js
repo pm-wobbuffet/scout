@@ -116,7 +116,7 @@ export default class ScoutReport {
     }
 
     importMobFromClipboard(mobInfo) {
-        const closestPoint = this.getClosestPoint(mobInfo.zone, mobInfo.x, mobInfo.y)
+        let closestPoint = this.getClosestPoint(mobInfo.zone, mobInfo.x, mobInfo.y)
         if (!closestPoint.point) {
             // Need to decide on custom points here
         }
@@ -125,11 +125,8 @@ export default class ScoutReport {
         let mobOnPoint = this.getMobOnPoint(closestPoint.point.id, mobInfo.instance)
         if (mobOnPoint !== null) {
             // The point specified already has a mob on it, don't overwrite it for safety
-            if (mobOnPoint.mob_id === mobInfo.mob.id) {
-                return {
-                    status: 'success',
-                    mobInfo: mobInfo
-                }
+            if (mobOnPoint.mob_id === mobInfo?.mob?.id) {
+                return { status: 'success', mobInfo: mobInfo }
             }
             return {
                 status: 'failure',
@@ -141,11 +138,12 @@ export default class ScoutReport {
         let validMobsForPoint = closestPoint.point.valid_mobs.filter((testMob) => {
             return !mobsAssigned.includes(testMob.id)
         })
-        let validMobIdsForPoint = validMobsForPoint.map((x) => x.id)
         // If the text line did not include a mob id, we need to go fishing to find the mob
         if (!mobInfo.mob?.id) {
             // TODO: refactor me from the original
             let otherMobForZone = mobInfo.zone.mobs.find((m) => m.id == mobsAssigned[0])
+            let currentMobToTest = mobInfo.zone.mobs.find((m) => m.id != mobsAssigned[0])
+
             if (otherMobForZone) {
                 // Grab the point assignment data for the other mob in the zone
                 // We'll need this info to check if it was assigned by import later
@@ -155,9 +153,6 @@ export default class ScoutReport {
                         && el.mob_id == otherMobForZone.id
                 })
             }
-            console.log(validMobsForPoint, otherMobForZone)
-            // TODO: stub out function to check if other point was valid for this mob
-            // in a zone/instance where one mob is already assigned
             if (
                 validMobsForPoint.length < 1
                 && otherMobForZone
@@ -168,7 +163,17 @@ export default class ScoutReport {
                 //&& validMobIdsForPoint.includes(otherMobForZone.id)
             ) {
                 let otherPt = otherMobForZone.point_assignment
-                console.log(`Need to place a mob, other mob is already assigned in the zone`, otherMobForZone, otherPt)
+                this.removeMobFromPoint({ id: otherPt.point_id, point_type: otherPt.spawn_point_type }, mobInfo.instance)
+                // Replace the old point's data with the new mob in its place
+                this.point_data.push({
+                    ...otherPt,
+                    mob_id: currentMobToTest.id
+                })
+                // Recalculate valid mobs for the point
+                mobsAssigned = this.getFoundMobsForZone(mobInfo.zone.id, mobInfo.instance)
+                validMobsForPoint = closestPoint.point.valid_mobs.filter((testMob) => {
+                    return !mobsAssigned.includes(testMob.id)
+                })
             }
 
             if (validMobsForPoint.length < 1) {
@@ -179,14 +184,12 @@ export default class ScoutReport {
                 }
             }
             mobInfo.mob = validMobsForPoint[0]
-
         }
 
         if (mobInfo.mob?.id && mobInfo.zone.id && mobInfo.x && mobInfo.y) {
-            //console.log('Adding point to list')
             if (closestPoint.point) {
                 const pData = {
-                    point_type: 'spawn_point',
+                    point_type: closestPoint.point.point_type,
                     point_id: closestPoint.point.id,
                     instance_number: mobInfo.instance,
                     mob_id: mobInfo.mob.id,
@@ -206,8 +209,6 @@ export default class ScoutReport {
             status: 'failure',
             reason: 'An unknown failure has occurred'
         }
-        //console.log(mobsAssigned, mobOnPoint, validMobsForPoint)
-
     }
 
     getClosestPoint(zone, x, y) {
@@ -448,6 +449,16 @@ export default class ScoutReport {
                 && pt.mob_id !== null
             )
         }).map((x) => x.mob_id)
+    }
+
+    /**
+     * Return all current point data for the specified zones
+     * @param {Array} zoneInstanceList - list if zoneid+instance in "zoneid-instancenumber" format
+     */
+    getAllPointDataForZones(zoneInstanceList) {
+        return this.point_data.filter((pt) => {
+            return zoneInstanceList.includes(`${pt.zone_id}-${pt.instance_number}`)
+        })
     }
 
     getSelectedExpansion() {

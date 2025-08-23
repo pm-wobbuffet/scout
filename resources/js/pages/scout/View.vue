@@ -134,6 +134,10 @@ onMounted(() => {
             scouts: scout_report.value.scouts,
         })
     })
+    emitter.on('import:zones-updated', (args) => {
+        const zonePointData = scout_report.value.getAllPointDataForZones(args.zonelist)
+        console.log(zonePointData)
+    })
 
     // Ajax fallback
     if (props.scout.collaborator_password && !props.scout.finalized_at) {
