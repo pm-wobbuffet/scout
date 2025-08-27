@@ -130,6 +130,8 @@
   --mob-button-max-width: 20px;
   --sidebar-width: 200px;
   --sidebar-max-link-width: 150px;
+  --mob-one-color: var(--color-green-500);
+  --mob-two-color: var(--color-blue-500);
 }
 
 .dark {

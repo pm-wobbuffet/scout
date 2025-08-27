@@ -90,10 +90,16 @@ main.map-main-window {
         @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] text-lg font-bold rounded-br-lg;
 
         .mob-number-0 {
+            /*
             @apply text-green-300;
+            */
+            color: color-mix(in srgb, var(--mob-one-color) 50%, white 50% );
         }
         .mob-number-1 {
+            /*
             @apply text-blue-300;
+            */
+            color: color-mix(in srgb, var(--mob-two-color) 50%, white 50% );
         }
         .dead-mob-1 {
             @apply line-through;
@@ -145,11 +151,11 @@ main.map-main-window {
             @apply bg-red-400/45;
         }
         &.point-taken-by-1 {
-            @apply bg-green-500 text-white font-bold text-center;
+            @apply bg-[var(--mob-one-color)] text-white font-bold text-center;
         }
 
         &.point-taken-by-2 {
-            @apply bg-blue-500 text-white font-bold text-center;
+            @apply bg-[var(--mob-two-color)] text-white font-bold text-center;
         }
         &.custom-point {
             @apply bg-green-300 w-[30px] h-[30px] scale-50 hover:scale-150;
