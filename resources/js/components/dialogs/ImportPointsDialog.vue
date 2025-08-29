@@ -1,19 +1,21 @@
 <template>
-    <Dialog>
+    <Dialog v-bind:open="dialogOpen">
         <DialogTrigger as-child>
             <button class="bg-slate-500 dark:bg-yellow-800" title="Import mob coordinates by pasting in chat logs"
-                @click.prevent="showImportDialog">
+                @click="dialogOpen = true">
                 <ImportIcon /> Import
             </button>
         </DialogTrigger>
-        <DialogContent class="min-w-[700px] max-w-[100%]">
+        <DialogContent class="min-w-[700px] max-w-[100%]" @escape-key-down="dialogOpen = false"
+            @pointer-down-outside="dialogOpen = false">
             <DialogHeader>
                 <DialogTitle>Import Points</DialogTitle>
                 <DialogDescription>Paste in chat logs below to parse for coordinates.</DialogDescription>
             </DialogHeader>
 
             <form>
-                <textarea rows="6" class="w-full p-1 font-mono border-2 rounded-md" v-model="txtChatInput"></textarea>
+                <textarea rows="6" class="w-full p-1 font-mono border-2 rounded-md" v-model="txtChatInput"
+                    @paste="handlePaste"></textarea>
             </form>
 
             <div class="text-red-600 font-mono" v-if="failLines">
@@ -30,7 +32,7 @@
             <DialogFooter class="gap-2">
                 <Button variant="default" @click="importCoordinates">Import</Button>
                 <DialogClose as-child>
-                    <Button variant="secondary" @click="linesImportedMessage = ''">Close</Button>
+                    <Button variant="secondary" @click="linesImportedMessage = ''; dialogOpen = false">Close</Button>
                 </DialogClose>
             </DialogFooter>
         </DialogContent>
@@ -56,14 +58,18 @@ import { inject, ref } from 'vue';
 
 const scoutReport = inject('scoutReport')
 const emitter = inject('emitter')
+const dialogOpen = ref(false)
 const failLines = ref([])
 const linesImportedMessage = ref('')
-const txtChatInput = ref(`
-Lakeland ( 35.6  , 27.0 ) Z: 0.3
+const txtChatInput = ref(`Lakeland ( 35.6  , 27.0 ) Z: 0.3
 Lakeland ( 27.1  , 37.3 ) Z: 0.3
 Kholusia ( 22.2  , 14.3 ) Z: 3.6
-Kholusia ( 34.3  , 24.6 ) Z: 0.5
-`)
+Kholusia ( 34.3  , 24.6 ) Z: 0.5`)
+
+const handlePaste = (event) => {
+    const pastedData = (event.clipboardData || window.clipboardData).getData('text')
+    importCoordinates()
+}
 
 const importCoordinates = () => {
     //console.log(txtChatInput.value)
@@ -91,9 +97,11 @@ const importCoordinates = () => {
 
     txtChatInput.value = ''
     linesImportedMessage.value = `${success.length - fail.length} lines successfully imported.`
-    emitter.emit('import:zones-updated', {
-        zonelist: Object.keys(updatedZones)
-    })
+    if (success.length - fail.length > 0) {
+        emitter.emit('import:zones-updated', {
+            zonelist: Object.keys(updatedZones)
+        })
+    }
 }
 </script>
 

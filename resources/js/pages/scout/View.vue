@@ -75,6 +75,9 @@ if (props.scout.finalized_at === null) {
         scout_report.value.title = e.title ?? ''
         scout_report.value.scouts = e.scouts ?? []
     })
+    useEchoPublic(channelName, '.UpdateZonesOccupancy', (e) => {
+        scout_report.value.handleZoneOccupancyUpdate(e)
+    })
 }
 
 const pollForUpdates = () => {

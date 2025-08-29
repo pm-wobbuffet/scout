@@ -461,6 +461,18 @@ export default class ScoutReport {
         })
     }
 
+    handleZoneOccupancyUpdate(e) {
+        this.deleteAllPointDataForZone(e.zonelist)
+        this.point_data = [...this.point_data, ...e.points]
+        this.custom_points = e.custom_points
+    }
+
+    deleteAllPointDataForZone(zoneInstanceList) {
+        this.point_data = this.point_data.filter((pt) => {
+            return !zoneInstanceList.includes(`${pt.zone_id}-${pt.instance_number}`)
+        })
+    }
+
     getSelectedExpansion() {
         return this.selected_expansion_id
     }

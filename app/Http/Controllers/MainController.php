@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\Scout\MetaUpdated;
 use App\Events\Scout\PointOccupancyChanged;
+use App\Events\Scout\ZoneMultipleOccupancyChanged;
 use App\Http\Requests\Scout\HandleImportedPointsRequest;
 use App\Http\Requests\Scout\StoreScoutRequest;
 use App\Http\Requests\Scout\UpdateMetaRequest;
@@ -171,8 +172,23 @@ class MainController extends Controller
         $p = $scout->points()->whereIn(
             DB::raw("CONCAT(zone_id,'-',instance_number)"),
             $request->validated('zonelist')
-        )->get(); // TODO: Change to delete() when i'm happy with the rest of this
+        )->delete();
 
+        // TODO: Handle meta update if a reporter was passed for this point
+
+        $created_points = $scout->points()->createMany($request->validated('point_data'));
+        broadcast(new ZoneMultipleOccupancyChanged(
+            $scout,
+            $created_points,
+            $scout->custom_points,
+            $request->validated('zonelist')
+        ));
+
+        return response()->json([
+            'zonelist'          => $request->validated('zonelist'),
+            'zone_points'       => $created_points,
+            'custom_points'     => $scout->custom_points,
+        ]);
     }
 
     /* Private methods */
