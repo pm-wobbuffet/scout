@@ -136,7 +136,10 @@ onMounted(() => {
     })
     emitter.on('import:zones-updated', (args) => {
         const zonePointData = scout_report.value.getAllPointDataForZones(args.zonelist)
-        console.log(zonePointData)
+        axios.patch(route('scout.importPoints', { scout: props.scout, password: props.scout.collaborator_password }), {
+            zonelist: args.zonelist,
+            point_data: zonePointData
+        });
     })
 
     // Ajax fallback

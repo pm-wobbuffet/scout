@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\Scout\MetaUpdated;
 use App\Events\Scout\PointOccupancyChanged;
+use App\Http\Requests\Scout\HandleImportedPointsRequest;
 use App\Http\Requests\Scout\StoreScoutRequest;
 use App\Http\Requests\Scout\UpdateMetaRequest;
 use App\Http\Requests\Scout\UpdateOccupiedPointRequest;
@@ -16,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class MainController extends Controller
@@ -159,6 +161,18 @@ class MainController extends Controller
             ->toOthers();
 
         return response()->json($points);
+    }
+
+    public function handleImportedPoints(HandleImportedPointsRequest $request, Scout $scout, string $password = '')
+    {
+        $this->authorizeUpdate($scout, $password);
+        // Remove any existing points that are associated with an entry in the zonelist submitted
+        // since we're assuming the user provides a complete list of points in the zone now (occupied or A rank taken combined)
+        $p = $scout->points()->whereIn(
+            DB::raw("CONCAT(zone_id,'-',instance_number)"),
+            $request->validated('zonelist')
+        )->get(); // TODO: Change to delete when i'm happy with the rest of this
+
     }
 
     /* Private methods */
