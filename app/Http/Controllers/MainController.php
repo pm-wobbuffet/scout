@@ -171,7 +171,7 @@ class MainController extends Controller
         $p = $scout->points()->whereIn(
             DB::raw("CONCAT(zone_id,'-',instance_number)"),
             $request->validated('zonelist')
-        )->get(); // TODO: Change to delete when i'm happy with the rest of this
+        )->get(); // TODO: Change to delete() when i'm happy with the rest of this
 
     }
 

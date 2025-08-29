@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Scout;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\DB;
 
 class HandleImportedPointsRequest extends FormRequest
 {
@@ -12,6 +13,22 @@ class HandleImportedPointsRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    protected function prepareForValidation(): void
+    {
+        // Check to see if custom points were submitted. If so, we need to see if they already exist in the database
+        foreach ($this->point_data as $point) {
+            if ($point->point_type === 'custom_spawn_point') {
+                if ($point->point_id < 0) {
+                    // The point has only been created locally, we need to persist it to the DB and substitute in its
+                    // valid > 0 value.
+                    $this->scout->custom_points()->where('zone_id', $point->zone_id)
+                        ->where('x', $point->x)
+                        ->where('y', $point->y);
+                }
+            }
+        }
     }
 
     /**

@@ -83,6 +83,11 @@ class Scout extends Model
         return $this->hasMany(ScoutPoint::class);
     }
 
+    public function custom_points(): HasMany
+    {
+        return $this->hasMany(ScoutCustomPoint::class);
+    }
+
     public function occupied_pts(): HasMany
     {
         return $this->hasMany(ScoutPoint::class)
