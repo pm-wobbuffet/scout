@@ -419,6 +419,11 @@ export default class ScoutReport {
             if (
                 this.scouter_instance.spawn_points[point.point_id] &&
                 this.scouter_instance.spawn_points[point.point_id].expansion_id == expac_id &&
+                // This line fixes an issue where if the instance count is lowered
+                // on user update, phantom mobs were still counting toward the total.
+                // For now I'm not removing the mobs from the point list just in case
+                // the instance count change was accidental, they can recover their data
+                point.instance_number <= this.getInstanceCountForZone(point.zone_id) &&
                 point.mob_id !== null
             ) {
                 foundCount += 1
