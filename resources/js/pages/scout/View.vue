@@ -53,7 +53,7 @@ if (props.scout.collaborator_password && props.scout.collaborator_password !== '
 
 if (props.scout.finalized_at === null) {
     const t = useEchoPublic(channelName, ['.ScoutAssignMob', '.UpdatePointOccupancy'], (e) => {
-        //console.log('Update Zone Points requested arrived for', e.zone_id, e.points)
+        console.log('Update Zone Points requested arrived for', e.zone_id, e.points)
         scout_report.value.updatePointDataForZone(e.zone_id, e.instance_number, e.points)
     })
 
@@ -77,6 +77,9 @@ if (props.scout.finalized_at === null) {
     })
     useEchoPublic(channelName, '.UpdateZonesOccupancy', (e) => {
         scout_report.value.handleZoneOccupancyUpdate(e)
+    })
+    useEchoPublic(channelName, '.UpdateInstanceCounts', (e) => {
+        scout_report.value.instance_data = e.instance_data
     })
 }
 
@@ -142,6 +145,11 @@ onMounted(() => {
         axios.patch(route('scout.importPoints', { scout: props.scout, password: props.scout.collaborator_password }), {
             zonelist: args.zonelist,
             point_data: zonePointData
+        });
+    })
+    emitter.on('instances:updated', (args) => {
+        axios.post(route('scout.updateinstances', { scout: props.scout, password: props.scout.collaborator_password }), {
+            ...args
         });
     })
 

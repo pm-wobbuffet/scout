@@ -16,6 +16,8 @@ Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
     Route::post('/scoutoccupied/{scout:slug}/{password?}', 'MainController@updateOccupiedPoint')->name('scout.updateOccupiedPoint');
     Route::post('/scoutmeta/{scout:slug}/{password?}', 'MainController@updateMeta')->name('scout.updateMeta');
     Route::patch('/scoutimport/{scout:slug}/{password?}', 'MainController@handleImportedPoints')->name('scout.importPoints');
+
+    Route::post('/scoutinstances/{scout:slug}/{password?}', 'ScoutController@updateInstances')->name('scout.updateinstances');
 });
 
 /*

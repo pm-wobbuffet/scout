@@ -299,8 +299,7 @@ export default class ScoutReport {
         // Handle event for updating
         this.instance_data[zone_id] = count
         this.emitter.emit('instances:updated', {
-            zone_id: zone_id,
-            count: count,
+            instance_data: this.instance_data
         })
     }
 
