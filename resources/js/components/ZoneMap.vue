@@ -1,16 +1,9 @@
 <template>
     <div class="map-container-block" :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`"
         @mousemove.self="handleMouseOver" @mouseout="handleMouseOut">
-        <PointOccupiedDialog 
-            :x="contextX" 
-            :y="contextY" 
-            :point="selectedPoint" 
-            v-show="showingContextMenu"
-            ref="occupied-dialog"
-            :instance="props.instance"
-            :parent-width="parentWidth"
-            @dialogClosed="closeOccupyDialog"
-            />
+        <PointOccupiedDialog :x="contextX" :y="contextY" :point="selectedPoint" v-show="showingContextMenu"
+            ref="occupied-dialog" :instance="props.instance" :parent-width="parentWidth"
+            @dialogClosed="closeOccupyDialog" />
         <div class="absolute mob-list">
             <ol class="block list-decimal pl-4">
                 <li v-for="(mob, index) in props.zone.mobs"
@@ -37,7 +30,7 @@
             @contextmenu.prevent.stop="handleContextMenu($event, point)" />
         <div class="zone-name">
             {{ getDisplayName(zone, 'en') }}
-            <span v-if="zone.default_instances > 1">{{ instance }}</span>
+            <span v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ instance }}</span>
             <div v-if="is_hovered">({{ x_hover }},{{ y_hover }})</div>
         </div>
     </div>

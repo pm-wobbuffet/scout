@@ -295,6 +295,15 @@ export default class ScoutReport {
         return 1
     }
 
+    setInstanceCountForZone(zone_id, count) {
+        // Handle event for updating
+        this.instance_data[zone_id] = count
+        this.emitter.emit('instances:updated', {
+            zone_id: zone_id,
+            count: count,
+        })
+    }
+
     /**
      * Return the ScoutPoint associated with a point in a specific instance
      * returns empty array if no mob was found on that point
