@@ -65,7 +65,18 @@ const updateInstanceCount = (event) => {
 
 const changeZoneSort = (initial_index, target_index) => {
     expansion_id = scoutReport.value.getSelectedExpansion()
-
+    zones = scoutReport.value.getZonesByExpansion(expansion_id)
+    const userSort = JSON.parse(localStorage.getItem('sortOrders') ?? '{}')
+    zOne = zones[initial_index]
+    zTwo = zones[target_index]
+    if (zOne && zTwo) {
+        let origFirstVal = zOne.sort_priority
+        zOne.sort_priority = zTwo.sort_priority
+        zTwo.sort_priority = origFirstVal
+        userSort[zOne.id] = zOne.sort_priority
+        userSort[zTwo.id] = zTwo.sort_priority
+        localStorage.setItem('sortOrders', JSON.stringify(userSort))
+    }
 }
 
 </script>
