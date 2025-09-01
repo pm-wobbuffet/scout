@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="flex flex-col md:flex-row gap-1 shrink">
-                <AppearanceTabs />
+                <!--<AppearanceTabs />-->
                 <div>export</div>
             </div>
         </nav>
@@ -25,7 +25,7 @@
 <script setup>
 import ExpansionListHeader from '@/components/ExpansionListHeader.vue';
 import ZoneListContainer from '@/components/ZoneListContainer.vue';
-import AppearanceTabs from '@/components/AppearanceTabs.vue';
+//import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import SettingsPopover from '@/components/dialogs/SettingsDialog.vue';
 import SortOrderPopover from '@/components/popovers/SortOrderPopover.vue';
 
