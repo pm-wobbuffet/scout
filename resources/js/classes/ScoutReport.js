@@ -1,3 +1,4 @@
+import { getScouterName } from "@/classes/helpers"
 import emitter from "@/mitt"
 
 export default class ScoutReport {
@@ -344,7 +345,8 @@ export default class ScoutReport {
             'mob_id': mob_id,
             'instance_number': instance_number,
             'zone_id': zone_id,
-            'point_type': spawn_point_type
+            'point_type': spawn_point_type,
+            'reporter': getScouterName()
         })
         if (!skip_emit) {
             this.emitter.emit('point:assign-mob', {
@@ -352,7 +354,8 @@ export default class ScoutReport {
                 'mob_id': mob_id,
                 'instance_number': instance_number,
                 'zone_id': zone_id,
-                'point_type': spawn_point_type
+                'point_type': spawn_point_type,
+                'reporter': getScouterName()
             })
         }
     }
@@ -507,11 +510,24 @@ export default class ScoutReport {
             'mob_id': mob_id,
             'instance_number': instance_number
         })
+        this.addScout()
     }
     removeDeadMobFromList(mob_id, instance_number) {
         this.dead_mobs = this.dead_mobs.filter((mob) => {
             return !(mob.mob_id == mob_id && mob.instance_number == instance_number)
         })
+        this.addScout()
+    }
+
+    addScout() {
+        const name = getScouterName()
+        if (!name) return
+        if (!this.scouts.some((el) => {
+            return el.scout_name === name
+        })) {
+            this.scouts.push({ 'scout_name': name })
+            emitter.emit('meta:updated')
+        }
     }
 
     toggleMobStatus(mob_id, instance_number) {

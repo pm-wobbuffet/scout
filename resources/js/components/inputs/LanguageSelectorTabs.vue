@@ -4,7 +4,7 @@
             'flex items-center justify-center rounded-md px-2 py-1.5 transition-colors',
             model === value
                 ? 'bg-blue-200/25 shadow-xs dark:bg-blue-200/25 dark:text-neutral-100'
-                : 'bg-[rgba(0,0,0,0.4)] dark:bg-slate-700 text-neutral-100 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-slate-600',
+                : 'bg-[rgba(0,0,0,0.4)] hover:bg-[rgba(0,0,255,0.1)] cursor-pointer dark:border-slate-500 transition-colors duration-300',
         ]">{{ label }}</button>
     </div>
 </template>

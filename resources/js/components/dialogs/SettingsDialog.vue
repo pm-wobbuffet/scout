@@ -49,7 +49,7 @@
                         <h1>Mob 1 Background Color</h1>
                     </div>
                     <div>
-                        <Input type="color" />
+                        <Input type="color" v-model="settings.mobOneColor" />
                     </div>
                 </div>
                 <div class="settingRow">
@@ -57,7 +57,7 @@
                         <h1>Mob 2 Background Color</h1>
                     </div>
                     <div>
-                        <Input type="color" />
+                        <Input type="color" v-model="settings.mobTwoColor" />
                     </div>
                 </div>
                 <div class="settingRow">
@@ -97,33 +97,16 @@ import Button from '@/components/ui/button/Button.vue';
 import Input from '@/components/ui/input/Input.vue';
 import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import { SettingsIcon } from 'lucide-vue-next';
-import { onMounted, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import LanguageSelectorTabs from '@/components/inputs/LanguageSelectorTabs.vue';
+import { useUserSettings } from '@/composables/useUserSettings';
 
-const dialogOpen = ref(true)
-const settings = ref({})
-
-const grabSettings = () => {
-    // Grab already saved settings for merge
-    const userSettings = localStorage.getItem('userSettings') || {}
-    const defaultSettings = {
-        lang: 'en',
-        mobOneColor: null,
-        mobTwoColor: null,
-        dayNightMode: null,
-        displayName: null,
-    }
-    settings.value = { ...defaultSettings, ...userSettings }
-}
+const dialogOpen = ref(false)
+const settings = inject('settings')
 
 const handleOpen = () => {
-    grabSettings()
     dialogOpen.value = true
 }
-
-onMounted(() => {
-    grabSettings()
-})
 </script>
 
 <style type="scss">

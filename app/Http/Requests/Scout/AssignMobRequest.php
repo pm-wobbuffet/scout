@@ -18,9 +18,8 @@ class AssignMobRequest extends FormRequest
     public function prepareForValidation(): void
     {
         // If only a point_id was submitted, we can pluck the zone from it if needed
-        if(!$this->has('zone_id') && $this->has('point_id') && $this->has('point_type')) 
-        {
-            if($this->input('point_type') == 'spawn_point') {
+        if (!$this->has('zone_id') && $this->has('point_id') && $this->has('point_type')) {
+            if ($this->input('point_type') == 'spawn_point') {
                 $point = SpawnPoint::where('id', $this->input('point_id'))->first();
                 $this->merge([
                     'point_id' => $point->id,
@@ -28,7 +27,7 @@ class AssignMobRequest extends FormRequest
             }
         }
 
-        if(!$this->has('instance_number')) {
+        if (!$this->has('instance_number')) {
             $this->merge([
                 'instance_number' => 1,
             ]);
@@ -49,6 +48,7 @@ class AssignMobRequest extends FormRequest
             'point_type'            => 'string|required',
             'point_id'              => 'numeric|required',
             'zone_id'               => 'numeric',
+            'reporter'              => 'string|nullable',
         ];
     }
 }

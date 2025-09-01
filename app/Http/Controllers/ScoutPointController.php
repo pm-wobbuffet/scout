@@ -43,9 +43,14 @@ class ScoutPointController extends Controller
             'zone_id'           => $request->validated('zone_id'),
             'instance_number'   => $request->validated('instance_number'),
             'mob_id'            => $request->validated('mob_id'),
+            'reporter'          => $request->validated('reporter'),
             'created_at'        => Carbon::now(),
             'updated_at'        => Carbon::now(),
         ]);
+        // Handle meta update
+        if ($request->has('reporter')) {
+            $this->addScouterToScoutReport($scout, $request->validated('reporter'));
+        }
 
         broadcast(
             new ScoutAssignMob(
