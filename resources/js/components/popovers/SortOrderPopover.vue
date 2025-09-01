@@ -18,16 +18,20 @@
                         <td class="py-1 font-semibold">{{ getDisplayName(zone) }}</td>
                         <td class="zone-sort-buttons">
                             <button class="border disabled:opacity-25 disabled:border-0 mr-1"
-                                :disabled="index == scoutReport.getZonesByExpansion().length - 1">
+                                :disabled="index == scoutReport.getZonesByExpansion().length - 1"
+                                @click="changeZoneSort(index, index + 1)">
                                 <ArrowDownIcon />
                             </button>
-                            <button class="border disabled:opacity-25 disabled:border-0" :disabled="index == 0">
+                            <button class="border disabled:opacity-25 disabled:border-0" :disabled="index == 0"
+                                @click="changeZoneSort(index, index - 1)">
                                 <ArrowUpIcon />
                             </button>
                         </td>
                         <td>
-                            <input type="number" class="border max-w-[3rem] text-center" min="1" :data-zone-id="zone.id"
-                                :value="scoutReport.getInstanceCountForZone(zone.id)" @input="updateInstanceCount" />
+                            <input type="number"
+                                class="border border-gray-600 max-w-[3rem] text-center dark:bg-slate-600" min="1"
+                                :data-zone-id="zone.id" :value="scoutReport.getInstanceCountForZone(zone.id)"
+                                @input="updateInstanceCount" />
                         </td>
                     </tr>
                 </table>
@@ -64,11 +68,11 @@ const updateInstanceCount = (event) => {
 }
 
 const changeZoneSort = (initial_index, target_index) => {
-    expansion_id = scoutReport.value.getSelectedExpansion()
-    zones = scoutReport.value.getZonesByExpansion(expansion_id)
+    const expansion_id = scoutReport.value.getSelectedExpansion()
+    const zones = scoutReport.value.getZonesByExpansion(expansion_id)
     const userSort = JSON.parse(localStorage.getItem('sortOrders') ?? '{}')
-    zOne = zones[initial_index]
-    zTwo = zones[target_index]
+    const zOne = zones[initial_index]
+    const zTwo = zones[target_index]
     if (zOne && zTwo) {
         let origFirstVal = zOne.sort_priority
         zOne.sort_priority = zTwo.sort_priority
