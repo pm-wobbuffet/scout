@@ -15,14 +15,14 @@
                 </DialogDescription>
             </DialogHeader>
 
-            <form id="frmSettings">
+            <form id="frmSettings" onsubmit="return false">
                 <div class="settingRow">
                     <div class="setting">
                         <h1>Display Name</h1>
                         <span>Your name as displayed on the scout list.</span>
                     </div>
                     <div>
-                        <Input name="displayName" />
+                        <Input name="displayName" v-model="settings.displayName" />
                     </div>
                 </div>
                 <div class="settingRow">
@@ -32,12 +32,7 @@
                             elements.</span>
                     </div>
                     <div class="flex">
-                        <ToggleGroupRoot class="m-auto inline-flex gap-1 rounded-lg" type="single">
-                            <ToggleGroupItem class="toggleGroupItem" value="en">EN</ToggleGroupItem>
-                            <ToggleGroupItem class="toggleGroupItem" value="de">DE</ToggleGroupItem>
-                            <ToggleGroupItem class="toggleGroupItem" value="fr">FR</ToggleGroupItem>
-                            <ToggleGroupItem class="toggleGroupItem" value="jp">JP</ToggleGroupItem>
-                        </ToggleGroupRoot>
+                        <LanguageSelectorTabs v-model="settings.lang" />
                     </div>
                 </div>
                 <div class="settingRow">
@@ -97,20 +92,20 @@ import {
     DialogTitle,
     DialogTrigger
 } from '@/components/ui/dialog';
-import { ToggleGroupItem, ToggleGroupRoot } from 'reka-ui'
 import Button from '@/components/ui/button/Button.vue';
 //import Label from '@/components/ui/label/Label.vue';
 import Input from '@/components/ui/input/Input.vue';
 import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import { SettingsIcon } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import LanguageSelectorTabs from '@/components/inputs/LanguageSelectorTabs.vue';
 
 const dialogOpen = ref(true)
 const settings = ref({})
 
-const handleOpen = () => {
+const grabSettings = () => {
     // Grab already saved settings for merge
-    const userSettings = localStorage.getItem('userSettings')
+    const userSettings = localStorage.getItem('userSettings') || {}
     const defaultSettings = {
         lang: 'en',
         mobOneColor: null,
@@ -119,9 +114,16 @@ const handleOpen = () => {
         displayName: null,
     }
     settings.value = { ...defaultSettings, ...userSettings }
+}
 
+const handleOpen = () => {
+    grabSettings()
     dialogOpen.value = true
 }
+
+onMounted(() => {
+    grabSettings()
+})
 </script>
 
 <style type="scss">
