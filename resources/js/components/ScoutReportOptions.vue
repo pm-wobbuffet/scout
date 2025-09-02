@@ -10,10 +10,6 @@
             <ShareIcon /> Share
         </a>
         <ImportPointsDialog v-if="editmode && ((!scout) || scout?.finalized_at === null)" />
-        <!-- <button class="bg-slate-500 dark:bg-yellow-800" v-if="editmode && ((!scout) || scout?.finalized_at === null)"
-            title="Import mob coordinates by pasting in chat logs" @click.prevent="showImportDialog">
-            <ImportIcon /> Import
-        </button> -->
         <button class="inline-flex rounded-md bg-red-400 dark:bg-red-800"
             v-if="editmode && scout && scout?.finalized_at === null">
             <FileLockIcon /> Finalize
