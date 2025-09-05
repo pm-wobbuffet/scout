@@ -2,6 +2,7 @@ nav {
     .expansion-list-container {
         .expac-list-item {
             @apply border-r-0 bg-[rgba(0,0,0,0.4)] hover:bg-[rgba(0,0,255,0.1)] cursor-pointer dark:border-slate-500 transition-colors duration-300;
+
             &.selected-expansion {
                 @apply bg-blue-200/25;
             }
@@ -10,14 +11,16 @@ nav {
         .expac-list-item:first-of-type {
             @apply rounded-l-md;
         }
-        
+
         .expac-list-item:last-of-type {
             @apply border-r rounded-r-md;
         }
     }
 }
 
-html, body, .map-main-window {
+html,
+body,
+.map-main-window {
     @apply bg-white dark:bg-slate-700;
 }
 
@@ -25,16 +28,18 @@ html, body, .map-main-window {
 dialog {
     @apply p-4 rounded-lg border-2 border-black bg-white dark:bg-slate-700 text-black dark:text-slate-300;
 }
+
 dialog::backdrop {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0,0,0,0.8);
     backdrop-filter: blur(1px);
 }
 
 aside {
     div.scout-report-options {
-        @apply grid md:grid-cols-2 gap-1 p-1 text-xs items-center;
+        @apply grid sm:grid-cols-2 gap-1 p-1 text-xs items-center;
 
-        a, button {
+        a,
+        button {
             @apply inline-flex gap-1 items-center rounded-md font-bold p-1 cursor-pointer text-white dark:text-neutral-200 hover:brightness-110 transition-all duration-150;
         }
     }
@@ -42,6 +47,7 @@ aside {
 
 footer {
     @apply bg-slate-800 text-slate-200 p-4;
+
     a {
         @apply underline;
     }
@@ -57,6 +63,7 @@ div.selected-zone {
 
 select {
     @apply text-black p-1 pl-4 pr-8 rounded-md bg-white dark:bg-slate-300;
+
     option {
         @apply text-black;
     }
@@ -78,6 +85,7 @@ main.map-main-window {
 .map-image-list {
     @apply flex-row flex-grow-[999] flex flex-wrap gap-2 items-center justify-center;
 }
+
 .map-image-list-grid {
     @apply grid grid-cols-[repeat(auto-fill,_minmax(500px,1fr))] flex-grow-[999] gap-2 max-w-[100vw] md:max-w-[calc(100vw_-_var(--sidebar-width))];
 }
@@ -93,14 +101,16 @@ main.map-main-window {
             /*
             @apply text-green-300;
             */
-            color: color-mix(in srgb, var(--mob-one-color) 50%, white 50% );
+            color: color-mix(in srgb, var(--mob-one-color) 50%, white 50%);
         }
+
         .mob-number-1 {
             /*
             @apply text-blue-300;
             */
-            color: color-mix(in srgb, var(--mob-two-color) 50%, white 50% );
+            color: color-mix(in srgb, var(--mob-two-color) 50%, white 50%);
         }
+
         .dead-mob-1 {
             @apply line-through;
         }
@@ -108,48 +118,53 @@ main.map-main-window {
 
     .zone-name {
         @apply text-slate-900 text-xl font-bold pr-4 pt-2 text-right;
-        text-shadow: 1px 1px 1px rgba(255, 255, 255, 1),
-                     -1px 1px 1px rgba(255, 255, 255, 1),
-                     1px -1px 1px rgba(255, 255, 255, 1);
+        text-shadow: 1px 1px 1px rgba(255,255,255,1),
+            -1px 1px 1px rgba(255,255,255,1),
+            1px -1px 1px rgba(255,255,255,1);
     }
 
     .aetheryte {
         @apply translate-x-[-50%] translate-y-[-50%] cursor-pointer h-[32px] w-[32px] text-white absolute;
         background-image: url('/60453.png');
     }
+
     .aetheryte:hover::after {
         content: attr(data-title);
         @apply z-[1001] absolute top-[-0.5rem] left-1/2 translate-x-[-50%] text-xs font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+        text-shadow: 1px 1px 1px rgba(0,0,0,1);
     }
 
     button {
         @apply rounded-full bg-black/50 absolute translate-x-[-50%] translate-y-[-50%] ring-2 ring-black flex items-center justify-center p-0 text-center font-mono cursor-pointer;
         @apply hover:ring-2 hover:ring-white;
-        
+
         width: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
         height: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
         font-size: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
         text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px 1px 0 #000,
+            1px 1px 0 #000;
         line-height: 100%;
 
-        
+
         &:disabled {
             @apply bg-black/10 cursor-not-allowed ring-black/50;
         }
+
         &.point-occupied {
             @apply bg-red-400/45;
         }
+
         &.point-disabled {
-           @apply bg-black/10 cursor-not-allowed ring-black/50; 
+            @apply bg-black/10 cursor-not-allowed ring-black/50;
         }
+
         &.point-occupied.point-disabled {
             @apply bg-red-400/45;
         }
+
         &.point-taken-by-1 {
             @apply bg-[var(--mob-one-color)] text-white font-bold text-center;
         }
@@ -157,6 +172,7 @@ main.map-main-window {
         &.point-taken-by-2 {
             @apply bg-[var(--mob-two-color)] text-white font-bold text-center;
         }
+
         &.custom-point {
             @apply bg-green-300 w-[30px] h-[30px] scale-50 hover:scale-150;
             text-shadow: none;
@@ -165,13 +181,13 @@ main.map-main-window {
 
     .button-mob-marker {
         @apply absolute h-[20px] w-[20px] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center text-white;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+        text-shadow: 1px 1px 2px rgba(0,0,0,1);
         line-height: 100%;
     }
 
     button:hover:after {
         content: attr(data-coords);
         @apply z-[1000] absolute top-[-1.5rem] text-xs font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none font-sans;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+        text-shadow: 1px 1px 1px rgba(0,0,0,1);
     }
 }
