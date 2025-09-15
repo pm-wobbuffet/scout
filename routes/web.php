@@ -20,12 +20,12 @@ Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
     Route::post('/scoutinstances/{scout:slug}/{password?}', 'ScoutController@updateInstances')->name('scout.updateinstances');
 });
 
-Route::group([
-    'namespace' => '\\App\\Http\\Controllers\\Admin',
-    'prefix'    => 'admin',
-], function () {
-    Route::get('/', 'MainController@dashboard')->name('dashboard');
-});
+Route::middleware(['auth', 'is_admin'])
+    ->prefix('admin')
+    ->namespace('\\App\\Http\\Controllers\\Admin')
+    ->group(function () {
+        Route::get('/dashboard', 'MainController@dashboard')->name('dashboard');
+    });
 
 require __DIR__ . '/auth.php';
 /*

@@ -41,7 +41,7 @@ const submit = () => {
                 <div class="grid gap-2">
                     <Label for="name">Userame</Label>
                     <Input id="name" type="text" required autofocus :tabindex="1" autocomplete="username"
-                        v-model="form.name" placeholder="your username" />
+                        v-model="form.name" placeholder="Username" />
                     <InputError :message="form.errors.name" />
                 </div>
 
