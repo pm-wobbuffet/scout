@@ -7,7 +7,6 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import emitter from './mitt';
-import { configureEcho } from '@laravel/echo-vue';
 import axios from 'axios';
 
 // Extend ImportMeta interface for Vite...
