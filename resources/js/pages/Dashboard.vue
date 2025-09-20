@@ -54,8 +54,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <tr>
                                 <th>ID#</th>
                                 <th>Title</th>
-                                <th>Date Created</th>
-                                <th>Date Updated</th>
+                                <th>Created At</th>
                                 <th>Collab</th>
                                 <th>Share</th>
                             </tr>
