@@ -2,9 +2,11 @@
 
 @import "tw-animate-css";
 @import "./base.css";
+@import "vue-toastification/dist/index.css";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+
 
 @custom-variant dark (&:is(.dark *));
 

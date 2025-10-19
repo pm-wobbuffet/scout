@@ -22,9 +22,13 @@ Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
 
 Route::middleware(['auth', 'is_admin'])
     ->prefix('admin')
+    ->name('admin.')
     ->namespace('\\App\\Http\\Controllers\\Admin')
     ->group(function () {
         Route::get('/dashboard', 'MainController@dashboard')->name('dashboard');
+        Route::get('/zones', 'ZoneController@index')->name('zones');
+        Route::patch('/zones/instance_counts', 'ZoneController@instanceCounts')->name('zones.instances');
+        Route::get('/zones/{zone}', 'ZoneController@edit')->name('zones.edit');
     });
 
 require __DIR__ . '/auth.php';

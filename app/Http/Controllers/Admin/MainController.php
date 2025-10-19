@@ -12,6 +12,5 @@ class MainController extends Controller
     public function dashboard(Request $request)
     {
         return Inertia::render('admin/Dashboard', []);
-        //return 'hi';
     }
 }

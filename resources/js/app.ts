@@ -8,6 +8,7 @@ import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import emitter from './mitt';
 import axios from 'axios';
+import Toast from 'vue-toastification';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -37,6 +38,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(Toast, {})
             .provide('emitter', emitter)
             .mount(el);
 

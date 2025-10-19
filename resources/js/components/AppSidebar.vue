@@ -21,7 +21,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Zones',
-        href: '/',
+        href: route('admin.zones'),
         icon: Map,
     },
     {
