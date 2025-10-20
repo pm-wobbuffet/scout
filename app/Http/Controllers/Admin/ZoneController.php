@@ -19,6 +19,8 @@ class ZoneController extends Controller
     public function instanceCounts(UpdateInstanceCountRequest $request)
     {
         foreach ($request->validated('instance_counts') as $zone_id => $number_of_instances) {
+            $number_of_instances = intval($number_of_instances);
+            $number_of_instances = ($number_of_instances < 1) ? 1 : $number_of_instances;
             Zone::where('id', $zone_id)->update([
                 'default_instances' => $number_of_instances,
             ]);
@@ -28,7 +30,7 @@ class ZoneController extends Controller
 
     public function edit(Zone $zone)
     {
-        return Inertia::render('admin/Zones/Edit.vue', [
+        return Inertia::render('admin/Zones/Edit', [
             'zone'  => $zone,
         ]);
     }

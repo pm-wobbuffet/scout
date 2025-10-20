@@ -28,7 +28,7 @@ Route::middleware(['auth', 'is_admin'])
         Route::get('/dashboard', 'MainController@dashboard')->name('dashboard');
         Route::get('/zones', 'ZoneController@index')->name('zones');
         Route::patch('/zones/instance_counts', 'ZoneController@instanceCounts')->name('zones.instances');
-        Route::get('/zones/{zone}', 'ZoneController@edit')->name('zones.edit');
+        Route::get('/zones/{zone}/edit', 'ZoneController@edit')->name('zones.edit');
     });
 
 require __DIR__ . '/auth.php';

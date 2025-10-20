@@ -5,11 +5,11 @@
         <div class="p-2 w-full">
             <form @submit.prevent="submit()">
                 <table class="m-auto">
-                    <thead class="sticky">
-                        <tr>
-                            <th>Zone</th>
-                            <th>Instance Count</th>
-                            <th>Options</th>
+                    <thead class="sticky top-0">
+                        <tr class="bg-gray-300 dark:bg-gray-800">
+                            <th class="p-1">Zone</th>
+                            <th class="p-1">Instance Count</th>
+                            <th class="p-1">Options</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
@@ -19,17 +19,19 @@
                             </td>
                             <td>
                                 <Input :id="`instance-count-${zone.id}`" v-model="form.instance_counts[zone.id]"
-                                    :default-value="zone.default_instances" type="number" min="1"
+                                    :default-value="zone.default_instances" type="number" min="1" @click="this.select()"
                                     class="max-w-[100px]" />
                                 <InputError class="mt-2" :message="form.errors.instance_counts"></InputError>
                             </td>
                             <td class="p-1">
-                                <Button variant="secondary" type="button">Edit</Button>
+                                <Link :href="route('admin.zones.edit', { 'zone': zone })">Edit</Link>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <Button variant="default" type="submit" class="mt-2 block mx-auto">Update Instance
+                <Button variant="default" type="submit" class="mt-2 block mx-auto" :disabled="form.processing">
+                    {{ form.processing ? 'Updating' : 'Update' }}
+                    Instance
                     Counts</Button>
             </form>
         </div>
