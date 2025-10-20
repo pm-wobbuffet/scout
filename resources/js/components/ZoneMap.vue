@@ -42,8 +42,6 @@ import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
 import { SkullIcon } from 'lucide-vue-next';
 import { ref, useTemplateRef } from "vue";
-import VueZoomable from "vue-zoomable";
-import "vue-zoomable/dist/style.css";
 
 const props = defineProps({
     zone: Object,

@@ -21,7 +21,7 @@ class MainController extends Controller
             'total_scouts'  => $scouts,
             'multi_zones'   => $multi_zone,
             'last_day'      => $last_day,
-            'last_twenty'   => Scout::orderBy('id', 'DESC')->limit(20)->get(),
+            'last_twenty'   => Scout::orderBy('id', 'DESC')->limit(20)->get()->makeVisible(['collaborator_password']),
         ]);
     }
 }

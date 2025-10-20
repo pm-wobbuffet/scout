@@ -72,7 +72,8 @@ const props = defineProps({
                                 <td>{{ report.title }}</td>
                                 <td>{{ formatDateTime(report.created_at) }}</td>
                                 <td>
-                                    <Link :href="route('scout.view', { scout: report.slug, password: report.password })"
+                                    <Link
+                                        :href="route('scout.view', { scout: report.slug, password: report.collaborator_password })"
                                         class="inline-block p-1 border-gray-600 border rounded-sm cursor-pointer">
                                     Collab</Link>
                                 </td>

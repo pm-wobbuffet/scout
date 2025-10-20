@@ -10,7 +10,6 @@
 
 <script setup>
 import ZoneMap from '@/components/ZoneMap.vue';
-import VueZoomable from "vue-zoomable";
 
 const props = defineProps({
     scoutReport: Object,
