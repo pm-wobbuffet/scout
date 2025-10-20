@@ -14,9 +14,20 @@
             <div class="grid gap-6">
                 <div class="grid gap-2">
                     <Label for="name">Instance Count</Label>
-                    <Input id="default_instances" type="number" required:tabindex="2"
+                    <Input id="default_instances" type="number" required tabindex="2"
                         v-model="form.zone.default_instances" min="1" max="10" />
                     <InputError for="form.zone.default_instances" />
+                </div>
+            </div>
+            <div class="grid gap-6">
+                <div class="grid gap-2">
+                    <Label for="name">Expansion</Label>
+                    <select id="expansion_id" v-model="form.zone.expansion_id">
+                        <option v-for="(name, id) in props.expansions" :key="`exp-option-${id}`" :value="id">
+                            {{ name }}
+                        </option>
+                    </select>
+                    <InputError for="form.zone.expansion_id" />
                 </div>
             </div>
             <div class="grid gap-6">
@@ -34,6 +45,12 @@
                     <Label for="names.fr">French</Label>
                     <Input id="names.fr" type="text" :tabindex="6" v-model="form.zone.names.fr" />
                     <InputError for="form.zone.names.fr" />
+                    <Label for="names.ch">Chinese</Label>
+                    <Input id="names.ch" type="text" :tabindex="7" v-model="form.zone.names.ch" />
+                    <InputError for="form.zone.names.ch" />
+                    <Label for="names.ko">Korean</Label>
+                    <Input id="names.ko" type="text" :tabindex="8" v-model="form.zone.names.ko" />
+                    <InputError for="form.zone.names.ko" />
                 </div>
             </div>
         </form>
@@ -56,6 +73,7 @@ const toast = useToast()
 
 const props = defineProps({
     zone: Object,
+    expansions: Object,
 })
 
 const form = useForm({
@@ -64,7 +82,7 @@ const form = useForm({
 const breadcrumbs = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: '/admin/dashboard',
     },
     {
         title: 'Zones',

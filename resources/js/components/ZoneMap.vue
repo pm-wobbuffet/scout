@@ -1,6 +1,7 @@
 <template>
-    <div class="map-container-block" :style="`--map-bg-image: url('/maps/${zone.map_id}.png')`"
+    <div class="map-container-block" :style="`--map-bg-image: url('/maps/${zone.map_id}.png');`"
         @mousemove.self="handleMouseOver" @mouseout="handleMouseOut">
+        <div class="absolute top-0 left-0 size-full bg-cover" style="background-image: var(--map-bg-image);" />
         <PointOccupiedDialog :x="contextX" :y="contextY" :point="selectedPoint" v-show="showingContextMenu"
             ref="occupied-dialog" :instance="props.instance" :parent-width="parentWidth"
             @dialogClosed="closeOccupyDialog" />
@@ -18,12 +19,10 @@
                 </li>
             </ol>
         </div>
-
         <div v-for="aetheryte in zone.aetherytes" class="aetheryte" :key="`aetheryte-${aetheryte.id}-${props.instance}`"
             :style="{ 'left': convertCoordToPercent(aetheryte.x, props.zone), 'top': convertCoordToPercent(aetheryte.y, props.zone) }"
             :data-title="getDisplayName(aetheryte, 'en')">
         </div>
-
         <ZoneMapPoint v-for="point in scoutReport.getSpawnPointsForZone(zone)"
             :key="`point-${point.id}-${props.instance}`" :point="point" :zone="props.zone" :instance="props.instance"
             :editmode="props.editmode" :scout-report="props.scoutReport"
@@ -43,6 +42,8 @@ import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
 import { SkullIcon } from 'lucide-vue-next';
 import { ref, useTemplateRef } from "vue";
+import VueZoomable from "vue-zoomable";
+import "vue-zoomable/dist/style.css";
 
 const props = defineProps({
     zone: Object,

@@ -52,7 +52,7 @@ import { onBeforeMount } from 'vue';
 const breadcrumbs = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: '/admin/dashboard',
     },
     {
         title: 'Zones',

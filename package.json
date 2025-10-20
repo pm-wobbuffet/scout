@@ -37,6 +37,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "concurrently": "^9.0.1",
+        "dayjs": "^1.11.18",
         "laravel-vite-plugin": "^1.0",
         "lucide-vue-next": "^0.468.0",
         "mitt": "^3.0.1",
@@ -50,6 +51,7 @@
         "vue": "^3.5.13",
         "vue-material-design-icons": "^5.3.1",
         "vue-toastification": "^2.0.0-rc.5",
+        "vue-zoomable": "^1.2.8",
         "ziggy-js": "^2.4.2"
     },
     "optionalDependencies": {

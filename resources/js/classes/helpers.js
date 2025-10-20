@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 
 export const languages = [
     { 'abbrev': 'en', 'name': 'English' },
@@ -34,4 +35,12 @@ export const getScouterName = function () {
     const settings = JSON.parse(localStorage.getItem('userSettings') || '{}')
     if (!settings) return null
     return settings?.displayName
+}
+
+export const formatDateTime = function (dateTimeString, formatString) {
+    const date = dayjs(dateTimeString)
+    if (formatString == null || formatString == "") {
+        formatString = 'YYYY MMM DD H:mm:ss'
+    }
+    return date.format(formatString)
 }

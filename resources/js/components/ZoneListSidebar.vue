@@ -11,6 +11,10 @@
         <div>
             <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
                 {{ getDisplayName(activeExpansion, 'en') }}
+                <span class="text-xs">
+                    {{ getMappedMobsForExpac(activeExpansion) }} /
+                    {{ mobCount(activeExpansion) }}
+                </span>
             </div>
             <ul class="text-sm">
                 <template v-for="zone in activeExpansion.zones">
@@ -60,6 +64,17 @@ import { onBeforeMount, ref, computed, onMounted, onUnmounted, onUpdated, inject
 const props = defineProps({
     scoutReport: Object,
 })
+
+const getMappedMobsForExpac = expac => {
+    return props.scoutReport.getFoundMobCountForExpansion(expac.id)
+}
+const mobCount = expac => {
+    let total_mobs = 0
+    expac.zones.forEach((zone) => {
+        total_mobs += (zone.mobs.length ?? 0) * props.scoutReport.getInstanceCountForZone(zone.id)
+    })
+    return total_mobs
+}
 
 const scouter = ref(null)
 const activeExpansion = computed(() => {

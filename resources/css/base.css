@@ -24,13 +24,12 @@ body,
     @apply bg-white dark:bg-slate-700;
 }
 
-
 dialog {
     @apply p-4 rounded-lg border-2 border-black bg-white dark:bg-slate-700 text-black dark:text-slate-300;
 }
 
 dialog::backdrop {
-    background: rgba(0,0,0,0.8);
+    background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(1px);
 }
 
@@ -92,7 +91,7 @@ main.map-main-window {
 
 .map-container-block {
     @apply border border-slate-200 relative bg-contain select-none min-w-[400px] md:min-w-[50%] aspect-square max-w-[100vw] dark:brightness-75;
-    background-image: var(--map-bg-image);
+    /* background-image: var(--map-bg-image); */
 
     .mob-list {
         @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] text-lg font-bold rounded-br-lg;
@@ -118,20 +117,21 @@ main.map-main-window {
 
     .zone-name {
         @apply text-slate-900 text-xl font-bold pr-4 pt-2 text-right;
-        text-shadow: 1px 1px 1px rgba(255,255,255,1),
-            -1px 1px 1px rgba(255,255,255,1),
-            1px -1px 1px rgba(255,255,255,1);
+        text-shadow:
+            1px 1px 1px rgba(255, 255, 255, 1),
+            -1px 1px 1px rgba(255, 255, 255, 1),
+            1px -1px 1px rgba(255, 255, 255, 1);
     }
 
     .aetheryte {
         @apply translate-x-[-50%] translate-y-[-50%] cursor-pointer h-[32px] w-[32px] text-white absolute;
-        background-image: url('/60453.png');
+        background-image: url("/60453.png");
     }
 
     .aetheryte:hover::after {
         content: attr(data-title);
         @apply z-[1001] absolute top-[-0.5rem] left-1/2 translate-x-[-50%] text-xs font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none;
-        text-shadow: 1px 1px 1px rgba(0,0,0,1);
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
     }
 
     button {
@@ -147,7 +147,6 @@ main.map-main-window {
             -1px 1px 0 #000,
             1px 1px 0 #000;
         line-height: 100%;
-
 
         &:disabled {
             @apply bg-black/10 cursor-not-allowed ring-black/50;
@@ -181,13 +180,13 @@ main.map-main-window {
 
     .button-mob-marker {
         @apply absolute h-[20px] w-[20px] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center text-white;
-        text-shadow: 1px 1px 2px rgba(0,0,0,1);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
         line-height: 100%;
     }
 
     button:hover:after {
         content: attr(data-coords);
         @apply z-[1000] absolute top-[-1.5rem] text-xs font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none font-sans;
-        text-shadow: 1px 1px 1px rgba(0,0,0,1);
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
     }
 }

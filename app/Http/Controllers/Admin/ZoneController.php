@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Zone\UpdateInstanceCountRequest;
+use App\Models\Expansion;
 use App\Models\Zone;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -32,6 +33,7 @@ class ZoneController extends Controller
     {
         return Inertia::render('admin/Zones/Edit', [
             'zone'  => $zone,
+            'expansions' => Expansion::orderBy('id')->get()->pluck('name', 'id')->toArray(),
         ]);
     }
 }
