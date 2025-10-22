@@ -18,6 +18,7 @@ Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
     Route::patch('/scoutimport/{scout:slug}/{password?}', 'MainController@handleImportedPoints')->name('scout.importPoints');
 
     Route::post('/scoutinstances/{scout:slug}/{password?}', 'ScoutController@updateInstances')->name('scout.updateinstances');
+    Route::post('/finalize/{scout:slug}/{password?}', 'ScoutController@finalize')->name('scout.finalize');
 });
 
 Route::middleware(['auth', 'is_admin'])

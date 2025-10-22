@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import ScoutLayout from '@/layouts/ScoutLayout.vue';
 import Scouter from '@/classes/Scouter';
 import { computed, inject, onBeforeMount, onBeforeUnmount, onMounted, provide, ref } from 'vue';
@@ -26,7 +26,7 @@ const props = defineProps({
 let scouter = null;
 const scout_report = ref(null);
 const emitter = inject('emitter')
-const wsConnection = ref('disconnected');
+const wsConnection = ref(null);
 // Hold a timeout reference for the fallback ajax polling mechanism.
 const ajaxTimeout = ref(null);
 // Time between AJAX polls in ms
@@ -80,6 +80,9 @@ if (props.scout.finalized_at === null) {
     })
     useEchoPublic(channelName, '.UpdateInstanceCounts', (e) => {
         scout_report.value.instance_data = e.instance_data
+    })
+    useEchoPublic(channelName, '.FinalizeReport', (e) => {
+        router.get(route('scout.view', { scout: props.scout }))
     })
 }
 
@@ -151,6 +154,12 @@ onMounted(() => {
         axios.post(route('scout.updateinstances', { scout: props.scout, password: props.scout.collaborator_password }), {
             ...args
         });
+    })
+    emitter.on('scout:finalize', (args) => {
+        axios.post(route('scout.finalize', { scout: props.scout, password: props.scout.collaborator_password }))
+            .then(() => {
+                router.get(route('scout.view', { scout: props.scout }))
+            })
     })
 
     // Ajax fallback

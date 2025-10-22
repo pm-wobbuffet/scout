@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Events\Scout;
+
+use App\Models\Scout;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
+
+class Finalized implements ShouldDispatchAfterCommit, ShouldBroadcastNow
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    private Scout $scout;
+    public $finalized_at;
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(Scout $scout)
+    {
+        $this->scout = $scout;
+        $this->finalized_at = $scout->finalized_at;
+    }
+
+    public function broadcastAs(): string
+    {
+        return 'FinalizeReport';
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return array<int, \Illuminate\Broadcasting\Channel>
+     */
+    public function broadcastOn(): array
+    {
+        return [
+            new Channel("scouts.{$this->scout->slug}"),
+            new Channel("scouts.{$this->scout->slug}.{$this->scout->collaborator_password}"),
+        ];
+    }
+}

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Scout\Finalized;
 use App\Events\Scout\InstanceCountsUpdated;
 use App\Http\Requests\Scout\UpdateInstanceCountRequest;
 use App\Models\Scout;
 use App\Traits\UpdatesScoutReports;
+use Carbon\Carbon;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 
@@ -39,5 +41,16 @@ class ScoutController extends Controller
         */
         broadcast(new InstanceCountsUpdated($scout))->toOthers();
         return response()->json($scout->instances);
+    }
+
+    public function finalize(Scout $scout, string $password = ''): \Illuminate\Http\RedirectResponse
+    {
+        $this->authorizeUpdate($scout, $password);
+
+        $scout->update([
+            'finalized_at' => Carbon::now(),
+        ]);
+        broadcast(new Finalized($scout))->toOthers();
+        return to_route('scout.view', [$scout]);
     }
 }
