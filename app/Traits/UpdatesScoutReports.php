@@ -30,4 +30,15 @@ trait UpdatesScoutReports
             $scout->scouts,
         ));
     }
+
+    public function handleCustomPoints(Scout $scout, $custom_points)
+    {
+        $pts = [];
+        foreach ($custom_points as $point) {
+            // If ID < 0, it's a custom point that's not been processed.
+            if (intval($point['id']) < 0) {
+            }
+        }
+        return $pts;
+    }
 }

@@ -41,9 +41,6 @@ export default class ScoutReport {
         this.handleDataFields(data)
     }
 
-    // TODO: work on making serializable version for local use
-    // in case of browser closing/accidentally navigating away
-    // or if the user just wants to keep it local
     serialize() {
         return JSON.stringify({
             title: this.title,
@@ -58,7 +55,7 @@ export default class ScoutReport {
     unserialize(data) {
         const deets = JSON.parse(data)
         this.point_data = deets.point_data ?? []
-        this.instance_data = deets.instance_data ?? {}
+        this.instance_data = deets.instance_data ?? this.constructDefaultInstanceData()
         this.dead_mobs = deets.dead_mobs ?? []
         this.scouts = deets.scouts ?? []
         this.title = deets.title ?? ''
@@ -69,6 +66,7 @@ export default class ScoutReport {
         this.unserialize("{}")
     }
     // Used to determine if a scout report data string has actual data
+
     isEmpty(data) {
         const t = JSON.parse(data)
         if (
@@ -237,6 +235,20 @@ export default class ScoutReport {
             'point': false,
             'distance': false,
         }
+    }
+
+    createCustomPoint(zone, x, y) {
+        const custom_point = {
+            "id": -1 * Date.now(),
+            "x": x,
+            "y": y,
+            "zone_id": zone.id,
+            "scout_id": null,
+            "valid_mobs": zone.mobs,
+            "point_type": "custom_spawn_point",
+        }
+        this.custom_points.push(custom_point)
+        return custom_point
     }
 
     cycleMobOnPoint(point, instance_number) {
@@ -502,7 +514,7 @@ export default class ScoutReport {
     }
 
     getSpawnPointsForZone(zone) {
-        return zone.spawn_points
+        return [...zone.spawn_points, ...this.custom_points.filter((el) => el.zone_id == zone.id)]
     }
 
     addDeadMobToList(mob_id, instance_number) {

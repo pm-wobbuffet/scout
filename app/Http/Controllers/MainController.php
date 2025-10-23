@@ -71,7 +71,11 @@ class MainController extends Controller
      */
     public function store(StoreScoutRequest $request)
     {
-        $scout = Scout::create($request->all());
+        $scout = Scout::create($request->validated());
+
+        if ($request->has('custom_points')) {
+            $custom_points = $this->handleCustomPoints($scout, $request->validated('custom_points'));
+        }
         if ($request->has('points')) {
             $scout->points()->createMany($request->validated('points'));
         }

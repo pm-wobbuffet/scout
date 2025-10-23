@@ -103,6 +103,7 @@ onMounted(() => {
                 instance_data: scout_report.value?.instance_data,
                 scouts: scout_report.value?.scouts,
                 dead_mobs: scout_report.value?.dead_mobs,
+                custom_points: scout_report.value?.custom_points,
             }))
             .post(route('scout.store'), {
                 preserveState: false
