@@ -1,10 +1,8 @@
 <template>
     <button class="" :class="calculatePointDisplayClasses(props.point)"
         :style="{ 'left': convertCoordToPercent(props.point.x, zone), 'top': convertCoordToPercent(props.point.y, props.zone) }"
-        :data-coords="getPointTitleDisplay(props.point)" 
-        :data-title="getPointTitleDisplay(props.point)"
-        @click.stop.prevent="assignMob"
-        >{{
+        :data-coords="getPointTitleDisplay(props.point)" :data-title="getPointTitleDisplay(props.point)"
+        @click.stop.prevent="assignMob">{{
             mobOnPoint?.mob_index ?? '' }}</button>
 </template>
 
@@ -21,10 +19,10 @@ const props = defineProps({
     editmode: Boolean,
 })
 
-const assignMob = function() {
+const assignMob = function () {
     // End early if we're not in edit mode
-    if(!props.editmode) return
-    if(isPointOccupied === true) return
+    if (!props.editmode) return
+    if (isPointOccupied === true) return
 
     props.scoutReport.cycleMobOnPoint(props.point, props.instance)
 }
@@ -37,23 +35,23 @@ const isPointDisabled = computed(() => {
         return true
     }
     const remainingAvailableMobs = props.point.valid_mobs.filter((mob) => {
-        if(props.scoutReport.isMobDead(mob.id, props.instance)) {
+        if (props.scoutReport.isMobDead(mob.id, props.instance)) {
             return false
         }
-        if(props.scoutReport.isMobAssigned(mob.id, props.instance)) {
+        if (props.scoutReport.isMobAssigned(mob.id, props.instance)) {
             return false
         }
         return true
     })
-    
-    if(remainingAvailableMobs.length === 0) {
+
+    if (remainingAvailableMobs.length === 0) {
         return true
     }
     return false
 })
 
 const isPointOccupied = computed(() => {
-    const m = props.scoutReport.getMobOnPoint(props.point.id, props.instance)
+    const m = props.scoutReport.getMobOnPoint(props.point, props.instance)
     if (!m) {
         return false
     }
@@ -65,15 +63,16 @@ const isPointOccupied = computed(() => {
 
 const isPointSelected = computed(() => {
     return props.scoutReport.point_data.some((mobpoint) => {
-        return mobpoint.mob_id !== null 
-                && mobpoint.mob_id > 0 
-                && mobpoint.instance_number == props.instance
-                && mobpoint.point_id == props.point.id
+        return mobpoint.mob_id !== null
+            && mobpoint.mob_id > 0
+            && mobpoint.instance_number == props.instance
+            && mobpoint.point_id == props.point.id
+            && mobpoint.point_type == props.point.point_type
     })
 })
 
 const mobOnPoint = computed(() => {
-    const a = props.scoutReport.getMobOnPoint(props.point.id, props.instance)
+    const a = props.scoutReport.getMobOnPoint(props.point, props.instance)
     if (!a) {
         return false
     }
@@ -84,13 +83,13 @@ const calculatePointDisplayClasses = function (point) {
     const ret = {}
 
     if (props.scoutReport.isZoneScoutingComplete(
-        props.scoutReport.scouter_instance.getZoneById(point.zone_id), 
+        props.scoutReport.scouter_instance.getZoneById(point.zone_id),
         props.instance
-    ) || !props.editmode ) {
+    ) || !props.editmode) {
         ret['point-disabled'] = true
     }
 
-    if(isPointDisabled.value) {
+    if (isPointDisabled.value) {
         ret['point-disabled'] = true
     }
     if (mobOnPoint.value !== false) {
@@ -101,7 +100,7 @@ const calculatePointDisplayClasses = function (point) {
             ret['point-disabled'] = false
         }
     }
-    
+
     return ret
 }
 

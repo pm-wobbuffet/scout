@@ -17,9 +17,8 @@ const emit = defineEmits(['point-occupied', 'point-unoccupied', 'dialog-closed']
 const scoutReport = inject('scoutReport')
 const contextDiv = ref(null)
 
-const emitClick = function (isOccupied) 
-{
-    if(isOccupied) {
+const emitClick = function (isOccupied) {
+    if (isOccupied) {
         //emit('point-occupied', point, instance)
         scoutReport.value.setOccupiedStatus(point, instance, 1)
         return
@@ -36,22 +35,22 @@ onMounted(() => {
 })
 
 const computedStyle = computed(() => {
-    if(!point) {
-        return {top: '0px', left: '0px'}
+    if (!point) {
+        return { top: '0px', left: '0px' }
     }
-    if(x + contextDiv.value.offsetWidth >= parentWidth) {
+    if (x + contextDiv.value.offsetWidth >= parentWidth) {
         // Need to right align
-        return {top: `${y}px`, left: `${x - contextDiv.value.offsetWidth - 30}px`}
+        return { top: `${y}px`, left: `${x - contextDiv.value.offsetWidth - 30}px` }
     }
-    return {top: `${y}px`, left: `${x}px`}
+    return { top: `${y}px`, left: `${x}px` }
 })
 
 const occupied = computed(() => {
-    if(!point) {
+    if (!point) {
         return
     }
-    const mob = scoutReport.value.getMobOnPoint(point.id, instance)
-    if(!mob) {
+    const mob = scoutReport.value.getMobOnPoint(point, instance)
+    if (!mob) {
         return false
     }
     return (mob.mob_id === null)

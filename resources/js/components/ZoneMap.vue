@@ -28,7 +28,7 @@
             :key="`point-${point.id}-${props.instance}`" :point="point" :zone="props.zone" :instance="props.instance"
             :editmode="props.editmode" :scout-report="props.scoutReport"
             @contextmenu.prevent.stop="handleContextMenu($event, point)" @dblclick.stop="" />
-        <div class="absolute flex items-center bottom-1 left-1 text-center text-xs bg-[rgba(0,0,0,0.5)] hover:bg-black font-bold px-2 py-1"
+        <div class="absolute flex items-center bottom-1 left-1 text-center text-xs bg-[rgba(0,0,0,0.5)] hover:bg-black font-bold px-2 py-1 text-white dark:text-slate-200"
             v-if="props.zone.allow_custom_points && props.editmode == true">
             <TriangleAlert class="text-yellow-600 font-bold text-xl" />
             <span>Spawn points unknown. Double click or use Import to add spawn points.</span>
@@ -77,7 +77,7 @@ const toggleMobStatus = function (mob) {
 /* Events and things */
 
 const handleContextMenu = function (e, point) {
-    const mob = props.scoutReport.getMobOnPoint(point.id, props.instance)
+    const mob = props.scoutReport.getMobOnPoint(point, props.instance)
     // Don't allow points that have mobs on them to be marked occupied
     if (mob && mob.mob_id != null) {
         return

@@ -15,6 +15,7 @@ class StoreScoutRequest extends FormRequest
     {
         // TODO: make sure these fields are defined, array substructures checked
         return [
+            'custom_points'         => 'array|nullable',
             'points'                => 'array|nullable',
             'dead_mobs'             => 'array|nullable',
             'instance_data'         => 'array|nullable',

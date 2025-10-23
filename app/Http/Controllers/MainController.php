@@ -41,7 +41,7 @@ class MainController extends Controller
 
     public function view(Request $request, Scout $scout, string $password = ''): \Inertia\Response|\Illuminate\Http\JsonResponse
     {
-        $scout->load(['updates', 'dead_mobs', 'instances', 'points', 'scouts']);
+        $scout->load(['updates', 'dead_mobs', 'instances', 'points', 'scouts', 'custom_points']);
         $scout->loadMax('updates', 'id');
         if ($password && $password === $scout->collaborator_password) {
             $scout->makeVisible(['collaborator_password']);
@@ -74,7 +74,7 @@ class MainController extends Controller
         $scout = Scout::create($request->validated());
 
         if ($request->has('custom_points')) {
-            $custom_points = $this->handleCustomPoints($scout, $request->validated('custom_points'));
+            $custom_points_mapping = $this->handleCustomPoints($scout, $request->validated('custom_points'));
         }
         if ($request->has('points')) {
             $scout->points()->createMany($request->validated('points'));

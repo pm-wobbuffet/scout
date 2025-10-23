@@ -26,6 +26,7 @@ class ScoutResource extends JsonResource
             'dead_mobs'             => ScoutDeadMobResource::collection($this->whenLoaded('dead_mobs')),
             'instance_data'         => ScoutZoneInstanceCountResource::collection($this->whenLoaded('instances')),
             'points'                => ScoutPointResource::collection($this->whenLoaded('points')),
+            'custom_points'         => $this->whenLoaded('custom_points'),
             'scouts'                => $this->whenLoaded('scouts'),
             'finalized_at'          => $this->finalized_at,
         ];

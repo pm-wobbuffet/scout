@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Events\Scout\MetaUpdated;
 use App\Models\Scout;
+use App\Models\ScoutCustomPoint;
 
 trait UpdatesScoutReports
 {
@@ -37,6 +38,14 @@ trait UpdatesScoutReports
         foreach ($custom_points as $point) {
             // If ID < 0, it's a custom point that's not been processed.
             if (intval($point['id']) < 0) {
+                $p = new ScoutCustomPoint();
+                $p->x = $point['x'];
+                $p->y = $point['y'];
+                $p->zone_id = $point['zone_id'];
+                $p->scout_id = $scout->id;
+                $p->internal_id = $point['id']; // Save the mapping
+                $p->save();
+                $pts[$point['id']] = $p->id;
             }
         }
         return $pts;

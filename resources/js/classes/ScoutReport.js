@@ -33,6 +33,7 @@ export default class ScoutReport {
         }
         this.point_data = data.points ?? []
         this.dead_mobs = data.dead_mobs ?? []
+        this.custom_points = data.custom_points ?? []
         this.title = data.title ?? ''
         this.scouts = data.scouts ?? []
     }
@@ -121,7 +122,7 @@ export default class ScoutReport {
         }
         //console.log(`Getting mobs assigned for ${mobInfo.zone.id} instance ${mobInfo.instance}`)
         let mobsAssigned = this.getFoundMobsForZone(mobInfo.zone.id, mobInfo.instance)
-        let mobOnPoint = this.getMobOnPoint(closestPoint.point.id, mobInfo.instance)
+        let mobOnPoint = this.getMobOnPoint(closestPoint.point, mobInfo.instance)
         if (mobOnPoint !== null) {
             // The point specified already has a mob on it, don't overwrite it for safety
             if (mobOnPoint.mob_id === mobInfo?.mob?.id) {
@@ -267,7 +268,7 @@ export default class ScoutReport {
         })
 
         // Does a mob already exist on this point? 
-        const curMob = this.getMobOnPoint(point.id, instance_number)
+        const curMob = this.getMobOnPoint(point, instance_number)
         if (curMob) {
             this.removeMobFromPoint(point, instance_number)
         }
@@ -320,13 +321,13 @@ export default class ScoutReport {
      * Return the ScoutPoint associated with a point in a specific instance
      * returns empty array if no mob was found on that point
      * Note, an occupied point will return an array with an element that has mob_id = NULL
-     * @param {Number} point_id 
+     * @param {Object} point 
      * @param {Number} instance_number 
      * @returns Object
      */
-    getMobOnPoint(point_id, instance_number) {
+    getMobOnPoint(point, instance_number) {
         return this.point_data.filter((mobpoint) => {
-            return mobpoint.point_id == point_id && mobpoint.instance_number == instance_number
+            return mobpoint.point_id == point.id && mobpoint.point_type == point.point_type && mobpoint.instance_number == instance_number
         })[0] ?? null
     }
 
@@ -571,7 +572,7 @@ export default class ScoutReport {
         if (is_occupied) {
             // Wanting to mark the point as occupied
             // Make sure a mob isn't on the point
-            if (this.getMobOnPoint(point.id, instance)) return
+            if (this.getMobOnPoint(point, instance)) return
             this.point_data.push(rowData)
             emitter.emit('occupy:status', rowData)
         } else {
