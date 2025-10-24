@@ -51,7 +51,7 @@ class Scout extends Model
         return [
             'instance_data'     =>  'array',
             'point_data'        =>  'array',
-            'custom_points'     =>  'array',
+            'old_custom_points'     =>  'array',
             'mob_status'        =>  'array',
             'scouts_old'        =>  'array',
             'occupied_points'   =>  'array',

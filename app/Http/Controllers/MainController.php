@@ -41,7 +41,7 @@ class MainController extends Controller
 
     public function view(Request $request, Scout $scout, string $password = ''): \Inertia\Response|\Illuminate\Http\JsonResponse
     {
-        $scout->load(['updates', 'dead_mobs', 'instances', 'points', 'scouts', 'custom_points']);
+        $scout->load(['updates', 'dead_mobs', 'instances', 'points', 'scouts', 'custom_points', 'custom_points.zone', 'custom_points.zone.mobs']);
         $scout->loadMax('updates', 'id');
         if ($password && $password === $scout->collaborator_password) {
             $scout->makeVisible(['collaborator_password']);

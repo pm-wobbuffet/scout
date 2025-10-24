@@ -42,6 +42,7 @@ export default class ScoutReport {
         this.handleDataFields(data)
     }
 
+
     serialize() {
         return JSON.stringify({
             title: this.title,
@@ -286,7 +287,7 @@ export default class ScoutReport {
             return
         }
 
-        this.assignMobToPoint(point.id, remainingMobs[0].id, point.zone_id, instance_number, 'spawn_point')
+        this.assignMobToPoint(point.id, remainingMobs[0].id, point.zone_id, instance_number, point.point_type)
     }
 
     getDefaultSelectedExpansion() {
@@ -426,15 +427,18 @@ export default class ScoutReport {
      * Return the total number of mobs found for a given expansion during a scouting session.
      * This does not include mobs marked as dead.
      * Used for display in the top header and OpenGraph summaries in Discord embeds
+     * TODO: Needs to handle custom points properly
      * @param {Number} expac_id The expansion ID to test
      * @returns Number
      */
     getFoundMobCountForExpansion(expac_id) {
         let foundCount = 0
         this.point_data.forEach((point) => {
+            let z = this.scouter_instance.getZoneById(point.zone_id)
             if (
-                this.scouter_instance.spawn_points[point.point_id] &&
-                this.scouter_instance.spawn_points[point.point_id].expansion_id == expac_id &&
+                // this.scouter_instance.spawn_points[point.point_id] &&
+                // this.scouter_instance.spawn_points[point.point_id].expansion_id == expac_id &&
+                z.expansion_id == expac_id &&
                 // This line fixes an issue where if the instance count is lowered
                 // on user update, phantom mobs were still counting toward the total.
                 // For now I'm not removing the mobs from the point list just in case

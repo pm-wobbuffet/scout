@@ -31,10 +31,12 @@ const isPointDisabled = computed(() => {
     if (!props.editmode && !isPointSelected.value) {
         return false
     }
-    if (props.point.valid_mobs.length === 0 && !props.zone.allow_custom_points) {
+    // Need to account for custom points not having a valid_mobs array by default
+    const valid_mobs = props.point?.valid_mobs || props.zone.mobs
+    if (valid_mobs.length === 0 && !props.zone.allow_custom_points) {
         return true
     }
-    const remainingAvailableMobs = props.point.valid_mobs.filter((mob) => {
+    const remainingAvailableMobs = valid_mobs.filter((mob) => {
         if (props.scoutReport.isMobDead(mob.id, props.instance)) {
             return false
         }
