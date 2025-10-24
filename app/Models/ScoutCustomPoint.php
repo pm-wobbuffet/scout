@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ScoutCustomPoint extends Model
 {
+    protected $guarded = ['id'];
+
     public $table = 'scout_custom_points';
 
     public function scout()

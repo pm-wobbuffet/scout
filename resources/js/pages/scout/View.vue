@@ -53,8 +53,8 @@ if (props.scout.collaborator_password && props.scout.collaborator_password !== '
 
 if (props.scout.finalized_at === null) {
     const t = useEchoPublic(channelName, ['.ScoutAssignMob', '.UpdatePointOccupancy'], (e) => {
-        console.log('Update Zone Points requested arrived for', e.zone_id, e.points)
-        scout_report.value.updatePointDataForZone(e.zone_id, e.instance_number, e.points)
+        console.log('Update Zone Points requested arrived for', e.zone_id, e.instance_number, e.points, e.custom_points)
+        scout_report.value.updatePointDataForZone(e.zone_id, e.instance_number, e.points, e.custom_points)
     })
 
     t.channel().pusher.connection.bind('state_change', (states) => {

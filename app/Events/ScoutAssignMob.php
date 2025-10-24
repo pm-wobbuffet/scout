@@ -25,15 +25,18 @@ class ScoutAssignMob implements ShouldDispatchAfterCommit, ShouldBroadcastNow
     public readonly int $zone_id;
     public readonly int $instance_number;
 
+    public readonly array $custom_points;
+
     /**
      * Create a new event instance.
      */
-    public function __construct(Scout $scout, int $zone_id, int $instance_number, Collection $points) 
+    public function __construct(Scout $scout, int $zone_id, int $instance_number, Collection $points)
     {
         $this->scout = $scout;
         $this->points = $points->toArray();
         $this->zone_id = $zone_id;
         $this->instance_number = $instance_number;
+        $this->custom_points = $scout->custom_points->toArray();
     }
 
 

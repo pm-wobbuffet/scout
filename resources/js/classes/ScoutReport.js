@@ -82,7 +82,14 @@ export default class ScoutReport {
         return true
     }
 
-    updatePointDataForZone(zone_id, instance_number, new_points) {
+    updatePointDataForZone(zone_id, instance_number, new_points, custom_points) {
+        if (custom_points) {
+            this.custom_points.length = 0
+            custom_points.forEach((el) => {
+                this.custom_points.push(el)
+            })
+            //this.custom_points = custom_points
+        }
         // Remove any previous points for this zone
         this.point_data = this.point_data.filter((el) => {
             return (el.zone_id != zone_id || (el.zone_id == zone_id && (el.instance_number != instance_number)))
@@ -287,7 +294,7 @@ export default class ScoutReport {
             return
         }
 
-        this.assignMobToPoint(point.id, remainingMobs[0].id, point.zone_id, instance_number, point.point_type)
+        this.assignMobToPoint(point, remainingMobs[0].id, point.zone_id, instance_number, point.point_type)
     }
 
     getDefaultSelectedExpansion() {
@@ -353,9 +360,9 @@ export default class ScoutReport {
         })
     }
 
-    assignMobToPoint(point_id, mob_id, zone_id, instance_number, spawn_point_type, skip_emit = false) {
+    assignMobToPoint(point, mob_id, zone_id, instance_number, spawn_point_type, skip_emit = false) {
         this.point_data.push({
-            'point_id': point_id,
+            'point_id': point.id,
             'mob_id': mob_id,
             'instance_number': instance_number,
             'zone_id': zone_id,
@@ -364,12 +371,13 @@ export default class ScoutReport {
         })
         if (!skip_emit) {
             this.emitter.emit('point:assign-mob', {
-                'point_id': point_id,
+                'point_id': point.id,
                 'mob_id': mob_id,
                 'instance_number': instance_number,
                 'zone_id': zone_id,
                 'point_type': spawn_point_type,
-                'reporter': getScouterName()
+                'reporter': getScouterName(),
+                'point': point,
             })
         }
     }
