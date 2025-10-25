@@ -19,6 +19,7 @@ Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
 
     Route::post('/scoutinstances/{scout:slug}/{password?}', 'ScoutController@updateInstances')->name('scout.updateinstances');
     Route::post('/finalize/{scout:slug}/{password?}', 'ScoutController@finalize')->name('scout.finalize');
+    Route::post('/clone/{scout:slug}', 'ScoutController@clone')->name('scout.clone');
 });
 
 Route::middleware(['auth', 'is_admin'])

@@ -143,7 +143,6 @@ export default class ScoutReport {
 
     importMobFromClipboard(mobInfo) {
         let closestPoint = this.getClosestPoint(mobInfo.zone, mobInfo.x, mobInfo.y)
-        console.log(closestPoint)
         if (!closestPoint.point || closestPoint.distance >= 2) {
             // Need to decide on custom points here
             if (mobInfo.zone && mobInfo.zone.allow_custom_points) {
@@ -160,7 +159,6 @@ export default class ScoutReport {
                 }
             }
         }
-        console.log("Closest Point Found:", closestPoint)
         //console.log(`Getting mobs assigned for ${mobInfo.zone.id} instance ${mobInfo.instance}`)
         let mobsAssigned = this.getFoundMobsForZone(mobInfo.zone.id, mobInfo.instance)
         let mobOnPoint = this.getMobOnPoint(closestPoint.point, mobInfo.instance)
@@ -179,6 +177,7 @@ export default class ScoutReport {
         let validMobsForPoint = closestPoint.point.valid_mobs.filter((testMob) => {
             return !mobsAssigned.includes(testMob.id)
         })
+
         // If the text line did not include a mob id, we need to go fishing to find the mob
         if (!mobInfo.mob?.id) {
             // TODO: refactor me from the original

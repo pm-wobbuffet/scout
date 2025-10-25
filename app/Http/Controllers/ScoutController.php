@@ -53,4 +53,40 @@ class ScoutController extends Controller
         broadcast(new Finalized($scout))->toOthers();
         return to_route('scout.view', [$scout]);
     }
+
+    public function clone(Request $request, Scout $scout)
+    {
+        $sc = $scout->replicate(['collaborator_password', 'slug', 'finalized_at']);
+        $sc->collaborator_password = str(bin2hex(random_bytes(4)));
+        $sc->save();
+        // Clone the individual relations
+        $custom_point_map = [];
+        foreach ($scout->custom_points as $p) {
+            $i = $sc->custom_points()->create($p->toArray());
+            $custom_point_map[$p->id] = $i->id;
+        }
+
+        foreach ($scout->points as $p) {
+            // Map the new custom spawn point to the point_id for any applicable rows
+            if ($p->point_type == 'custom_spawn_point') {
+                if (array_key_exists($p->point_id, $custom_point_map)) {
+                    $p->point_id = $custom_point_map[$p->point_id];
+                }
+            }
+            $sc->points()->create($p->toArray());
+        }
+        foreach ($scout->instances as $i) {
+            $sc->instances()->attach($i, ['instance_count' => $i->pivot->instance_count]);
+        }
+        foreach ($scout->scouts as $s) {
+            $sc->scouts()->create($s->toArray());
+        }
+        foreach ($scout->dead_mobs as $d) {
+            $sc->dead_mobs()->create($d->toArray());
+        }
+        if ($sc) {
+            return redirect()->route('scout.view', [$sc->slug, $sc->collaborator_password])
+                ->with(['newly_created' => true]);
+        }
+    }
 }

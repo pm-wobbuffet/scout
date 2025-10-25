@@ -13,9 +13,23 @@
                     <SettingsPopover />
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row gap-1 shrink">
-                <!--<AppearanceTabs />-->
-                <div>export</div>
+            <div class="flex flex-row gap-0 shrink text-sm">
+                <button
+                    class="mr-2 flex items-center gap-x-1 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300"
+                    title="Export marks as text" @click.prevent="copyMarksAsText">
+                    <SquareArrowRight title="Export marks as text" /> Export
+                </button>
+                <button
+                    class="mr-2 flex items-center gap-x-1 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300"
+                    @click.prevent="showMarkOverlay = true">
+                    <Files class="inline-block" />
+                    Summary
+                </button>
+                <Link as="button" method="post" :href="route('scout.clone', { scout: scout })" :preserve-state="false"
+                    v-if="(scout?.id && !props.editmode)"
+                    class="bg-blue-400 p-2 rounded-md text-slate-100 flex items-center gap-x-1">
+                <Copy class="inline-block" /> Duplicate
+                </Link>
             </div>
         </nav>
         <ZoneListContainer :scout-report="props.scoutReport" :editmode="props.editmode" />
@@ -28,6 +42,9 @@ import ZoneListContainer from '@/components/ZoneListContainer.vue';
 //import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import SettingsPopover from '@/components/dialogs/SettingsDialog.vue';
 import SortOrderPopover from '@/components/popovers/SortOrderPopover.vue';
+import { SquareArrowRight, Files, Copy } from 'lucide-vue-next';
+import { inject } from 'vue';
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     scoutReport: Object,
@@ -35,5 +52,7 @@ const props = defineProps({
     newlyCreated: Boolean,
     defaultId: Number,
 })
+
+const scout = inject('scout')
 
 </script>
