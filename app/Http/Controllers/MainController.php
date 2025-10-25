@@ -230,7 +230,7 @@ class MainController extends Controller
      */
     private function getExpansionsData(): array|EloquentCollection
     {
-        return Cache::remember('expansions-data', 3600 * 24, function () {
+        return Cache::remember('expansions-data', 10, function () {
             return Expansion::query()
                 ->with([
                     'zones',

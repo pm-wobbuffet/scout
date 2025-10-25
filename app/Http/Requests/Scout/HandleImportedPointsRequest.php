@@ -14,13 +14,6 @@ use Illuminate\Support\Facades\DB;
  */
 class HandleImportedPointsRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
 
     protected function prepareForValidation(): void
     {
@@ -71,6 +64,7 @@ class HandleImportedPointsRequest extends FormRequest
             'point_data.*.point_id'         => 'required|integer',
             'point_data.*.x'                => 'numeric|nullable',
             'point_data.*.y'                => 'numeric|nullable',
+            'custom_points'                 => 'array',
         ];
     }
 }

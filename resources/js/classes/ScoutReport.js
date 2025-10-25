@@ -9,7 +9,7 @@ export default class ScoutReport {
     instance_data = {}
     scouts = []
     dead_mobs = []
-    selected_expansion_id = 7
+    selected_expansion_id = 5
     emitter = null
     /** @type Scouter */
     scouter_instance = null
@@ -142,9 +142,24 @@ export default class ScoutReport {
 
     importMobFromClipboard(mobInfo) {
         let closestPoint = this.getClosestPoint(mobInfo.zone, mobInfo.x, mobInfo.y)
-        if (!closestPoint.point) {
+        console.log(closestPoint)
+        if (!closestPoint.point || closestPoint.distance >= 2) {
             // Need to decide on custom points here
+            if (mobInfo.zone && mobInfo.zone.allow_custom_points) {
+                // This zone allows custom points, go ahead and forge up one
+                closestPoint = {
+                    point: this.createCustomPoint(mobInfo.zone, mobInfo.x, mobInfo.y),
+                    distance: 0,
+                }
+            } else {
+                return {
+                    status: 'failure',
+                    reason: 'No closest point could be found',
+                    mobInfo: mobInfo,
+                }
+            }
         }
+        console.log("Closest Point Found:", closestPoint)
         //console.log(`Getting mobs assigned for ${mobInfo.zone.id} instance ${mobInfo.instance}`)
         let mobsAssigned = this.getFoundMobsForZone(mobInfo.zone.id, mobInfo.instance)
         let mobOnPoint = this.getMobOnPoint(closestPoint.point, mobInfo.instance)
@@ -236,7 +251,7 @@ export default class ScoutReport {
         }
     }
 
-    getClosestPoint(zone, x, y) {
+    getClosestPoint(zone, x, y, max_distance = 2) {
         const d = (point) => {
             return Math.pow(point.x - x, 2) + Math.pow(point.y - y, 2)
         }
@@ -250,6 +265,12 @@ export default class ScoutReport {
                 return d(a) < d(b) ? a : b
             })
             let distance = trueDistance({ x: x, y: y }, closest)
+            if (distance > max_distance) {
+                return {
+                    'point': false,
+                    'distance': false,
+                }
+            }
             return {
                 'point': closest,
                 'distance': distance,
@@ -264,8 +285,11 @@ export default class ScoutReport {
     }
 
     createCustomPoint(zone, x, y) {
+        // Add a slight amount of randomness to the point ID
+        // since the point import dialog will likely try to 
+        // create multiple points at the same instant
         const custom_point = {
-            "id": -1 * Date.now(),
+            "id": Math.floor(-1 * Date.now() * (10 * Math.random())),
             "x": x,
             "y": y,
             "zone_id": zone.id,

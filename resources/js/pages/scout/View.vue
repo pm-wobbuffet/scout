@@ -154,7 +154,8 @@ onMounted(() => {
         const zonePointData = scout_report.value.getAllPointDataForZones(args.zonelist)
         axios.patch(route('scout.importPoints', { scout: props.scout, password: props.scout.collaborator_password }), {
             zonelist: args.zonelist,
-            point_data: zonePointData
+            point_data: zonePointData,
+            custom_points: scout_report.value.custom_points
         });
     })
     emitter.on('instances:updated', (args) => {
