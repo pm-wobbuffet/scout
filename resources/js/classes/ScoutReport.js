@@ -61,6 +61,7 @@ export default class ScoutReport {
         this.dead_mobs = deets.dead_mobs ?? []
         this.scouts = deets.scouts ?? []
         this.title = deets.title ?? ''
+        this.custom_points = deets.custom_points ?? []
     }
 
     // Clear a scout report to default status

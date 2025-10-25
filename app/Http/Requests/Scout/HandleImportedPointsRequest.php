@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Scout;
 
 use App\Models\Scout;
+use App\Models\ScoutCustomPoint;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
@@ -24,21 +25,29 @@ class HandleImportedPointsRequest extends FormRequest
                 if ($point['point_id'] < 0) {
                     // The point has only been created locally, we need to persist it to the DB and substitute in its
                     // valid > 0 value.
-                    $pt = $this->scout->custom_points()
-                        ->firstOrCreate(
-                            [
-                                'scout_id'  => $this->scout->id,
-                                'zone_id'   => $point['zone_id'],
-                                'x'         => $point['x'],
-                                'y'         => $point['y'],
-                            ],
-                            [
-                                'created_at'    => Carbon::now(),
-                                'updated_at'    => Carbon::now(),
-                            ]
-                        );
-                    $point->point_id = $pt->id;
-                    $point->spawn_point_type = 'custom_spawn_point';
+                    $pt = ScoutCustomPoint::firstOrCreate([
+                        'scout_id' => $this->scout->id,
+                        'zone_id' => $point['zone_id'],
+                        'x' => $point['x'],
+                        'y' => $point['y'],
+                    ], [
+                        'internal_id' => $point['point_id'],
+                    ]);
+                    // $pt = $this->scout->custom_points()
+                    //     ->firstOrCreate(
+                    //         [
+                    //             'scout_id'  => $this->scout->id,
+                    //             'zone_id'   => $point['zone_id'],
+                    //             'x'         => $point['x'],
+                    //             'y'         => $point['y'],
+                    //         ],
+                    //         [
+                    //             'created_at'    => Carbon::now(),
+                    //             'updated_at'    => Carbon::now(),
+                    //         ]
+                    //     );
+                    $point['point_id'] = $pt->id;
+                    //$point->spawn_point_type = 'custom_spawn_point';
                 }
             }
             $pd[] = $point;

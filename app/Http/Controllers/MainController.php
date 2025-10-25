@@ -10,6 +10,7 @@ use App\Http\Requests\Scout\StoreScoutRequest;
 use App\Http\Requests\Scout\UpdateMetaRequest;
 use App\Http\Requests\Scout\UpdateOccupiedPointRequest;
 use App\Http\Resources\ExpansionResource;
+use App\Http\Resources\ScoutCustomPointResource;
 use App\Http\Resources\ScoutResource;
 use App\Models\Expansion;
 use App\Models\Scout;
@@ -185,7 +186,7 @@ class MainController extends Controller
         broadcast(new ZoneMultipleOccupancyChanged(
             $scout,
             $created_points,
-            $scout->custom_points,
+            collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray(),
             $request->validated('zonelist')
         ));
 
