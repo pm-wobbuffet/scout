@@ -62,6 +62,7 @@ if (props.scout.finalized_at === null) {
     })
 
     useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
+        console.log("Clear Point Request received for", e)
         scout_report.value.removeMobFromPoint(e, e.instance_number)
     })
     useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
@@ -122,6 +123,12 @@ onMounted(() => {
             slug: props.scout.slug,
             collaborator_password: props.scout.collaborator_password,
             ...obj
+        }).then((data) => {
+            if ('custom_points' in data.data) {
+                // Need to update any of our custom points that have custom negative ID numbers to their newly assigned
+                // actual database ID numbers
+                scout_report.value.processCustomPointValues(data.data.custom_points)
+            }
         })
     })
     emitter.on('point:clear', (obj) => {
@@ -180,10 +187,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     clearTimeout(ajaxTimeout.value)
-    emitter.off('point:clear')
-    emitter.off('point:assign-mob')
-    emitter.off('mob:status')
-    emitter.off('meta:updated')
+    emitter.off('*')
 })
 </script>
 

@@ -29,12 +29,6 @@ class Scout extends Model
             if (is_null($scout->title)) {
                 $scout->title = '';
             }
-            if (is_null($scout->mob_status)) {
-                $scout->mob_status = [];
-            }
-            if (is_null($scout->occupied_points)) {
-                $scout->occupied_points = [];
-            }
         });
 
         static::created(function (Scout $scout) {

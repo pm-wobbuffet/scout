@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\ScoutCustomPointResource;
 use App\Models\Scout;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -36,7 +37,7 @@ class ScoutAssignMob implements ShouldDispatchAfterCommit, ShouldBroadcastNow
         $this->points = $points->toArray();
         $this->zone_id = $zone_id;
         $this->instance_number = $instance_number;
-        $this->custom_points = $scout->custom_points->toArray();
+        $this->custom_points = collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray();
     }
 
 

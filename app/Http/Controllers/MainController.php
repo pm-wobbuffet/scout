@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -39,7 +40,7 @@ class MainController extends Controller
         ]);
     }
 
-    public function view(Request $request, Scout $scout, string $password = ''): \Inertia\Response|\Illuminate\Http\JsonResponse
+    public function view(Request $request, Scout $scout, string $password = ''): \Inertia\Response|JsonResponse
     {
         $scout->load(['updates', 'dead_mobs', 'instances', 'points', 'scouts', 'custom_points', 'custom_points.zone', 'custom_points.zone.mobs']);
         $scout->loadMax('updates', 'id');
@@ -229,20 +230,22 @@ class MainController extends Controller
      */
     private function getExpansionsData(): array|EloquentCollection
     {
-        return Expansion::query()
-            ->with([
-                'zones',
-                'zones.mobs' => function ($query) {
-                    $query->select(['id', 'name', 'rank', 'mob_index', 'zone_id', 'names']);
-                },
-                'zones.aetherytes',
-                'zones.spawn_points',
-                'zones.spawn_points.valid_mobs' => function ($query) {
-                    $query->select(['mobs.id', 'name', 'mob_index', 'zone_id']);
-                },
-            ])
-            ->orderBy('id')
-            ->get();
+        return Cache::remember('expansions-data', 3600 * 24, function () {
+            return Expansion::query()
+                ->with([
+                    'zones',
+                    'zones.mobs' => function ($query) {
+                        $query->select(['id', 'name', 'rank', 'mob_index', 'zone_id', 'names']);
+                    },
+                    'zones.aetherytes',
+                    'zones.spawn_points',
+                    'zones.spawn_points.valid_mobs' => function ($query) {
+                        $query->select(['mobs.id', 'name', 'mob_index', 'zone_id']);
+                    },
+                ])
+                ->orderBy('id')
+                ->get();
+        });
     }
 
     /**

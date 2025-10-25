@@ -84,20 +84,18 @@ export default class ScoutReport {
 
     updatePointDataForZone(zone_id, instance_number, new_points, custom_points) {
         if (custom_points) {
-            this.custom_points.length = 0
-            custom_points.forEach((el) => {
-                this.custom_points.push(el)
-            })
-            //this.custom_points = custom_points
+            this.custom_points.splice(0, this.custom_points.length, ...custom_points)
         }
         // Remove any previous points for this zone
         this.point_data = this.point_data.filter((el) => {
             return (el.zone_id != zone_id || (el.zone_id == zone_id && (el.instance_number != instance_number)))
         })
+
         if (new_points && new_points.length) {
-            new_points.forEach((el) => {
-                this.point_data.push(el)
-            })
+            this.point_data = [...this.point_data, ...new_points]
+            // new_points.forEach((el) => {
+            //     this.point_data.push(el)
+            // })
         }
     }
 
@@ -117,10 +115,29 @@ export default class ScoutReport {
 
     sendClearPointSignal(point, instance_number) {
         this.emitter.emit('point:clear', {
-            point_type: point.point_type ?? 'spawn_point',
-            point_id: point.id,
+            ...point,
             instance_number: instance_number
         })
+    }
+
+    processCustomPointValues(custom_points) {
+        const pt_mapping = {}
+        custom_points.forEach((pt) => {
+            pt_mapping[pt.internal_id] = pt.id
+        })
+        // Swap out negative IDs for positive IDs sent back from server
+        this.custom_points.forEach((custom_pt) => {
+            const curId = custom_pt.id
+            if (curId < 0 && curId in pt_mapping) {
+                custom_pt.id = pt_mapping[curId]
+            }
+        })
+        this.point_data.forEach((pt) => {
+            if (pt.point_type == 'custom_spawn_point' && pt.point_id in pt_mapping) {
+                pt.point_id = pt_mapping[pt.point_id]
+            }
+        })
+
     }
 
     importMobFromClipboard(mobInfo) {

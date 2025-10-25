@@ -8,6 +8,7 @@ use App\Events\ScoutUpdateMobStatus;
 use App\Http\Requests\Scout\AssignMobRequest;
 use App\Http\Requests\Scout\ClearPointRequest;
 use App\Http\Requests\Scout\UpdateMobStatusRequest;
+use App\Http\Resources\ScoutCustomPointResource;
 use App\Models\Scout;
 use App\Models\ScoutDeadMob;
 use App\Models\ScoutPoint;
@@ -61,7 +62,7 @@ class ScoutPointController extends Controller
                     ->where('instance_number', $request->validated('instance_number'))->values()
             )
         )->toOthers();
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'custom_points' => collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray()]);
     }
 
     public function clearPoint(ClearPointRequest $request, Scout $scout, string $password)
@@ -71,14 +72,14 @@ class ScoutPointController extends Controller
         ScoutPoint::query()
             ->where('scout_id', $scout->id)
             ->where('point_type', $request->validated('point_type'))
-            ->where('point_id', $request->validated('point_id'))
+            ->where('point_id', $request->validated('id'))
             ->where('instance_number', $request->validated('instance_number', 1))
             ->delete();
 
         broadcast(
             new ScoutClearPoint(
                 $scout,
-                $request->validated('point_id'),
+                $request->validated('id'),
                 $request->validated('point_type'),
                 $request->validated('instance_number', 1)
             )

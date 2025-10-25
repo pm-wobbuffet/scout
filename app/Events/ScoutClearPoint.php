@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\ScoutCustomPointResource;
 use App\Models\Scout;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -22,15 +23,19 @@ class ScoutClearPoint implements ShouldDispatchAfterCommit, ShouldBroadcastNow
     public readonly string $point_type;
     public readonly int $instance_number;
 
+    public readonly array $custom_points;
+
     /**
      * Create a new event instance.
      */
     public function __construct(Scout $scout, int $point_id, string $point_type, int $instance_number)
     {
+        $scout->load(['custom_points']);
         $this->scout = $scout;
         $this->id = $point_id;
         $this->point_type = $point_type;
         $this->instance_number = $instance_number;
+        $this->custom_points = collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray();
     }
 
     public function broadcastAs(): string

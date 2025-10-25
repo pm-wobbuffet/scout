@@ -19,9 +19,9 @@ trait UpdatesScoutReports
         }
     }
 
-    public function addScouterToScoutReport(Scout $scout, string $reporter)
+    public function addScouterToScoutReport(Scout $scout, string|null $reporter)
     {
-        if (!$reporter || $reporter === '') return;
+        if ($reporter === null || !$reporter || $reporter === '') return;
         // If they already exist in the scout list, can return early
         if ($scout->scouts()->where('scout_name', '=', $reporter)->count() > 0) return;
         $scout->scouts()->create(['scout_name' => $reporter]);
@@ -35,6 +35,7 @@ trait UpdatesScoutReports
     public function handleCustomPoints(Scout $scout, $custom_points)
     {
         $pts = [];
+        if (!$custom_points or !is_array($custom_points)) return $pts;
         foreach ($custom_points as $point) {
             // If ID < 0, it's a custom point that's not been processed.
             if (intval($point['id']) < 0) {
