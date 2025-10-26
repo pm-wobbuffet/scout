@@ -16,8 +16,9 @@
             <div class="flex flex-row gap-0 shrink text-sm">
                 <button
                     class="mr-2 flex items-center gap-x-1 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300"
-                    title="Export marks as text" @click.prevent="copyMarksAsText">
-                    <SquareArrowRight title="Export marks as text" /> Export
+                    title="Export marks as text" @click="doCopy()">
+                    <SquareArrowRight title="Export marks as text" />
+                    <span>Export</span>
                 </button>
                 <button
                     class="mr-2 flex items-center gap-x-1 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300"
@@ -39,12 +40,14 @@
 <script setup>
 import ExpansionListHeader from '@/components/ExpansionListHeader.vue';
 import ZoneListContainer from '@/components/ZoneListContainer.vue';
-//import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import SettingsPopover from '@/components/dialogs/SettingsDialog.vue';
 import SortOrderPopover from '@/components/popovers/SortOrderPopover.vue';
 import { SquareArrowRight, Files, Copy } from 'lucide-vue-next';
-import { inject } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import { inject } from 'vue';
+import { useToast } from 'vue-toastification';
+import { useClipboard } from '@vueuse/core';
+import { intToInstanceMapping, formatCoordinate } from '@/classes/helpers';
 
 const props = defineProps({
     scoutReport: Object,
@@ -52,7 +55,56 @@ const props = defineProps({
     newlyCreated: Boolean,
     defaultId: Number,
 })
+const scout = inject('scout', null)
+const toast = useToast()
 
-const scout = inject('scout')
+const { copy, copied } = useClipboard()
+
+const doCopy = () => {
+    copy(getClipboardText())
+    if (copied) {
+        toast.success('Copied to clipboard!')
+    }
+
+}
+
+const getClipboardText = () => {
+    const intToName = (val) => {
+        return {
+            1: 'ONE',
+            2: 'TWO',
+            3: 'THREE',
+            4: 'FOUR',
+            5: 'FIVE',
+            6: 'SIX',
+        }[val] ?? ''
+    }
+    let ret = ''
+    props.scoutReport.scouter_instance.expansion_data.forEach((expac) => {
+        // Does the expansion have mobs found?
+        if (props.scoutReport.getFoundMobCountForExpansion(expac.id) > 0) {
+            expac.zones.forEach((zone) => {
+                const instance_count = props.scoutReport.getInstanceCountForZone(zone.id)
+                for (let i = 1; i <= instance_count; i++) {
+                    // Were there mobs in this zone?
+                    if (props.scoutReport.getFoundMobCountForZone(zone.id, i) < 1) continue
+                    const pts = props.scoutReport.point_data.filter((pt) => {
+                        return (pt.zone_id == zone.id && pt.instance_number == i)
+                    })
+                    pts.forEach((mobPoint) => {
+                        const mob = props.scoutReport.scouter_instance.getMobById(mobPoint.mob_id)
+                        ret += mob.name
+                        ret += ` @ \uE0BB${zone.name}`
+                        if (instance_count > 1) ret += intToInstanceMapping[i]
+                        ret += ` ( ${formatCoordinate(mobPoint.x)} , ${formatCoordinate(mobPoint.y)} )`
+                        if (instance_count > 1) ret += ` Instance ${intToName(i)}`
+                        ret += "\n"
+                    })
+                }
+            })
+        }
+    })
+    return ret
+}
 
 </script>

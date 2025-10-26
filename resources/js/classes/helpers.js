@@ -44,3 +44,13 @@ export const formatDateTime = function (dateTimeString, formatString) {
     }
     return date.format(formatString)
 }
+
+export const instanceToIntMapping = {
+    "": 1,
+    "": 2,
+    "": 3,
+    "": 4,
+    "": 5,
+    "": 6,
+}
+export const intToInstanceMapping = Object.fromEntries(Object.entries(instanceToIntMapping).map(([key, value]) => [value, key]))

@@ -33,21 +33,7 @@ class HandleImportedPointsRequest extends FormRequest
                     ], [
                         'internal_id' => $point['point_id'],
                     ]);
-                    // $pt = $this->scout->custom_points()
-                    //     ->firstOrCreate(
-                    //         [
-                    //             'scout_id'  => $this->scout->id,
-                    //             'zone_id'   => $point['zone_id'],
-                    //             'x'         => $point['x'],
-                    //             'y'         => $point['y'],
-                    //         ],
-                    //         [
-                    //             'created_at'    => Carbon::now(),
-                    //             'updated_at'    => Carbon::now(),
-                    //         ]
-                    //     );
                     $point['point_id'] = $pt->id;
-                    //$point->spawn_point_type = 'custom_spawn_point';
                 }
             }
             $pd[] = $point;

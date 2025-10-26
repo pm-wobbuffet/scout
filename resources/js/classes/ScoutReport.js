@@ -142,7 +142,7 @@ export default class ScoutReport {
     }
 
     importMobFromClipboard(mobInfo) {
-        let closestPoint = this.getClosestPoint(mobInfo.zone, mobInfo.x, mobInfo.y)
+        let closestPoint = this.getClosestPoint(mobInfo.zone, mobInfo.x, mobInfo.y, 2)
         if (!closestPoint.point || closestPoint.distance >= 2) {
             // Need to decide on custom points here
             if (mobInfo.zone && mobInfo.zone.allow_custom_points) {
@@ -180,7 +180,6 @@ export default class ScoutReport {
 
         // If the text line did not include a mob id, we need to go fishing to find the mob
         if (!mobInfo.mob?.id) {
-            // TODO: refactor me from the original
             let otherMobForZone = mobInfo.zone.mobs.find((m) => m.id == mobsAssigned[0])
             let currentMobToTest = mobInfo.zone.mobs.find((m) => m.id != mobsAssigned[0])
 
@@ -224,6 +223,12 @@ export default class ScoutReport {
                 }
             }
             mobInfo.mob = validMobsForPoint[0]
+        } else {
+            if (mobsAssigned.includes(mobInfo.mob.id)) {
+                // This mob was already on a point, remove it to prefer the pasted data
+                this.removeMob(mobInfo.mob.id, mobInfo.instance)
+            }
+
         }
 
         if (mobInfo.mob?.id && mobInfo.zone.id && mobInfo.x && mobInfo.y) {
@@ -381,6 +386,17 @@ export default class ScoutReport {
     }
 
     /**
+     * 
+     * @param {Number} mob_id The ID number of the mob to remove from a given scout report
+     * @param {Number} instance_number The instance number to remove the mob from
+     */
+    removeMob(mob_id, instance_number) {
+        this.point_data = this.point_data.filter((el) => {
+            return !(el.mob_id == mob_id && el.instance_number == instance_number)
+        })
+    }
+
+    /**
      * Remove an existing mob (if available) from the mob list
      * Works by filtering out any point matching point.id and instance
      * from the point_data[] array
@@ -390,6 +406,7 @@ export default class ScoutReport {
      * @param {Number} instance_number 
      */
     removeMobFromPoint(point, instance_number) {
+        console.log("Received mob removal request", point, instance_number)
         this.point_data = this.point_data.filter((pt) => {
             if (pt.point_type == (point.point_type ?? 'spawn_point')
                 && pt.point_id == point.id

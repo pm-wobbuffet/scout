@@ -61,10 +61,7 @@ const emitter = inject('emitter')
 const dialogOpen = ref(false)
 const failLines = ref([])
 const linesImportedMessage = ref('')
-const txtChatInput = ref(`Lakeland ( 35.6  , 27.0 ) Z: 0.3
-Lakeland ( 27.1  , 37.3 ) Z: 0.3
-Kholusia ( 22.2  , 14.3 ) Z: 3.6
-Kholusia ( 34.3  , 24.6 ) Z: 0.5`)
+const txtChatInput = ref(``)
 
 const handlePaste = (event) => {
     const pastedData = (event.clipboardData || window.clipboardData).getData('text')
