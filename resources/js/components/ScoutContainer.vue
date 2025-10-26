@@ -93,7 +93,7 @@ const getClipboardText = () => {
                     })
                     pts.forEach((mobPoint) => {
                         const mob = props.scoutReport.scouter_instance.getMobById(mobPoint.mob_id)
-                        ret += getDisplayName(mob.name)
+                        ret += getDisplayName(mob)
                         ret += ` @ \uE0BB${zone.name}`
                         if (instance_count > 1) ret += intToInstanceMapping[i]
                         ret += ` ( ${formatCoordinate(mobPoint.x)} , ${formatCoordinate(mobPoint.y)} )`
