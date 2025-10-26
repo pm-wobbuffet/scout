@@ -47,7 +47,7 @@ import { Link } from '@inertiajs/vue3';
 import { inject } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useClipboard } from '@vueuse/core';
-import { intToInstanceMapping, formatCoordinate } from '@/classes/helpers';
+import { intToInstanceMapping, formatCoordinate, getDisplayName } from '@/classes/helpers';
 
 const props = defineProps({
     scoutReport: Object,
@@ -93,7 +93,7 @@ const getClipboardText = () => {
                     })
                     pts.forEach((mobPoint) => {
                         const mob = props.scoutReport.scouter_instance.getMobById(mobPoint.mob_id)
-                        ret += mob.name
+                        ret += getDisplayName(mob.name)
                         ret += ` @ \uE0BB${zone.name}`
                         if (instance_count > 1) ret += intToInstanceMapping[i]
                         ret += ` ( ${formatCoordinate(mobPoint.x)} , ${formatCoordinate(mobPoint.y)} )`
