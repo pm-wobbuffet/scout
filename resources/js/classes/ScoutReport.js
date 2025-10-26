@@ -588,6 +588,16 @@ export default class ScoutReport {
         return [...zone.spawn_points, ...this.custom_points.filter((el) => el.zone_id == zone.id)]
     }
 
+    getSpawnPointById(point_id, point_type) {
+        if (point_type == 'spawn_point') {
+            return this.scouter_instance.getSpawnPointById(point_id)
+        }
+        // Custom spawn points, we'll need to search through the entries specific to this report
+        return this.custom_points.find((el) => {
+            return el.id == point_id
+        })
+    }
+
     addDeadMobToList(mob_id, instance_number) {
         this.dead_mobs.push({
             'mob_id': mob_id,

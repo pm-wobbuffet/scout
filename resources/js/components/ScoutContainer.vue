@@ -1,7 +1,6 @@
 <template>
     <div class="min-w-full min-h-[100vh]">
-        <nav
-            class="z-10 flex flex-col md:flex-row flex-wrap gap-1 w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] main-nav flex-grow-1 max-w-[100%] overflow-auto">
+        <nav class="main-nav">
             <div class="shrink hidden md:block">
                 <a href="/"><img src="/turtleknife.png" height="40" width="90" class="inline"
                         alt="Turtle Scout Logo, friendly turtle with a knife" /></a>
@@ -89,14 +88,17 @@ const getClipboardText = () => {
                     // Were there mobs in this zone?
                     if (props.scoutReport.getFoundMobCountForZone(zone.id, i) < 1) continue
                     const pts = props.scoutReport.point_data.filter((pt) => {
-                        return (pt.zone_id == zone.id && pt.instance_number == i)
+                        return (pt.zone_id == zone.id && pt.instance_number == i && pt.mob_id !== null)
                     })
                     pts.forEach((mobPoint) => {
+                        // TODO: get proper X and Y for points that don't have them attached to the mobPoint
+                        // i.e. a user just clicks a circle instead of imports
                         const mob = props.scoutReport.scouter_instance.getMobById(mobPoint.mob_id)
+                        const spawn_pt = props.scoutReport.getSpawnPointById(mobPoint.point_id, mobPoint.point_type)
                         ret += getDisplayName(mob)
                         ret += ` @ \uE0BB${zone.name}`
                         if (instance_count > 1) ret += intToInstanceMapping[i]
-                        ret += ` ( ${formatCoordinate(mobPoint.x)} , ${formatCoordinate(mobPoint.y)} )`
+                        ret += ` ( ${formatCoordinate(mobPoint.x ?? spawn_pt.x)} , ${formatCoordinate(mobPoint.y ?? spawn_pt.y)} )`
                         if (instance_count > 1) ret += ` Instance ${intToName(i)}`
                         ret += "\n"
                     })

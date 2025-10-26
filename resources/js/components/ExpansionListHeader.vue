@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-wrap flex-row expac-list place-self-center m-auto expansion-list-container max-w-[100%] overflow-x-auto">
+    <div class="flex flex-row expac-list place-self-center m-auto expansion-list-container max-w-[100%]">
         <button type="button" v-for="expansion in getExpansions()" :key="expansion.id"
             class="text-center border p-1 px-4 expac-list-item"
             :class="{ 'selected-expansion': expansion.id == scoutReport.getSelectedExpansion() }"

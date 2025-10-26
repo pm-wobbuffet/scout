@@ -107,5 +107,9 @@ export default class Scouter {
         })
     }
 
+    getSpawnPointById(point_id) {
+        return this.spawn_points[point_id]
+    }
+
 
 }
