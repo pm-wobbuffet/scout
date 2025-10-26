@@ -33,6 +33,59 @@
             </div>
         </nav>
         <ZoneListContainer :scout-report="props.scoutReport" :editmode="props.editmode" />
+        <div class="mark-summary-overlay" id="MarkSummaryPanel" v-if="showMarkOverlay">
+            <div class="mark-summary-panel">
+                <div class="flex w-full justify-between mb-8">
+                    <h1>Mark Summary</h1>
+                    <button class="border rounded-md px-2 bg-slate-400 font-bold text-sm"
+                        @click.prevent="showMarkOverlay = false">Close</button>
+                </div>
+                <div v-for="expansion in props.scoutReport.scouter_instance.expansion_data.toReversed()"
+                    :key="`summary-expansion-container-${expansion.id}`">
+                    <template v-if="props.scoutReport.getFoundMobCountForExpansion(expansion.id) > 0">
+                        <h2>{{ expansion.name }}</h2>
+                        <template v-for="zone in expansion.zones">
+                            <template v-for="i in props.scoutReport.getInstanceCountForZone(zone.id)">
+                                <fieldset v-if="props.scoutReport.getFoundMobCountForZone(zone.id, i)">
+                                    <legend>{{ zone.name }}
+                                        <span v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
+                                            }}</span>
+                                    </legend>
+                                    <!-- <div v-for="mob in form.point_data[zone.id][i]">
+                                        <div>
+                                            {{ zone.mobs.find((el) => el.id == mob.mob_id).name }}
+                                            ({{ formatCoordinate(mob.x ?? getPointById(zone, mob.point_id)?.['x']) }},
+                                            {{ formatCoordinate(mob.y ?? getPointById(zone, mob.point_id)?.['y']) }})
+                                        </div>
+                                    </div> -->
+                                </fieldset>
+                            </template>
+                        </template>
+                    </template>
+                </div>
+                <!-- <div v-for="expansion in expac.toReversed()" :key="expansion.id">
+                    <template v-if="getMappedMobsForExpac(expansion) > 0">
+                        <h2>{{ expansion.name }}</h2>
+                        <template v-for="zone in expansion.zones">
+                            <template v-for="i in zone.default_instances">
+                                <fieldset v-if="getFoundMobCount(zone.id, i) > 0">
+                                    <legend>{{ zone.name }}
+                                        <span v-if="zone.default_instances > 1">{{ i }}</span>
+                                    </legend>
+                                    <div v-for="mob in form.point_data[zone.id][i]">
+                                        <div>
+                                            {{ zone.mobs.find((el) => el.id == mob.mob_id).name }}
+                                            ({{ formatCoordinate(mob.x ?? getPointById(zone, mob.point_id)?.['x']) }},
+                                            {{ formatCoordinate(mob.y ?? getPointById(zone, mob.point_id)?.['y']) }})
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </template>
+</template>
+</template>
+</div> -->
+            </div>
+        </div>
     </div>
 </template>
 
@@ -43,7 +96,7 @@ import SettingsPopover from '@/components/dialogs/SettingsDialog.vue';
 import SortOrderPopover from '@/components/popovers/SortOrderPopover.vue';
 import { SquareArrowRight, Files, Copy } from 'lucide-vue-next';
 import { Link } from '@inertiajs/vue3';
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useClipboard } from '@vueuse/core';
 import { intToInstanceMapping, formatCoordinate, getDisplayName } from '@/classes/helpers';
@@ -56,6 +109,7 @@ const props = defineProps({
 })
 const scout = inject('scout', null)
 const toast = useToast()
+const showMarkOverlay = ref(true)
 
 const { copy, copied } = useClipboard()
 
