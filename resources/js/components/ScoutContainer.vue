@@ -46,44 +46,25 @@
                         <h2>{{ expansion.name }}</h2>
                         <template v-for="zone in expansion.zones">
                             <template v-for="i in props.scoutReport.getInstanceCountForZone(zone.id)">
-                                <fieldset v-if="props.scoutReport.getFoundMobCountForZone(zone.id, i)">
+                                <fieldset v-if="props.scoutReport.getFoundMobCountForZone(zone.id, i)"
+                                    :key="`fieldset-zone-${zone.id}-${i}`">
                                     <legend>{{ zone.name }}
                                         <span v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
-                                            }}</span>
+                                        }}</span>
                                     </legend>
-                                    <!-- <div v-for="mob in form.point_data[zone.id][i]">
-                                        <div>
-                                            {{ zone.mobs.find((el) => el.id == mob.mob_id).name }}
-                                            ({{ formatCoordinate(mob.x ?? getPointById(zone, mob.point_id)?.['x']) }},
-                                            {{ formatCoordinate(mob.y ?? getPointById(zone, mob.point_id)?.['y']) }})
-                                        </div>
-                                    </div> -->
+                                    <div v-for="mobPoint in props.scoutReport.getFoundMobInfoForZone(zone.id, i)"
+                                        :key="`moblist-${zone.id}-${i}-${mobPoint.id}`">
+                                        {{ getDisplayName(mobPoint.mob) }}
+                                        (
+                                        {{ formatCoordinate(mobPoint.x ?? mobPoint.spawn_point.x) }},
+                                        {{ formatCoordinate(mobPoint.y ?? mobPoint.spawn_point.y) }}
+                                        )
+                                    </div>
                                 </fieldset>
                             </template>
                         </template>
                     </template>
                 </div>
-                <!-- <div v-for="expansion in expac.toReversed()" :key="expansion.id">
-                    <template v-if="getMappedMobsForExpac(expansion) > 0">
-                        <h2>{{ expansion.name }}</h2>
-                        <template v-for="zone in expansion.zones">
-                            <template v-for="i in zone.default_instances">
-                                <fieldset v-if="getFoundMobCount(zone.id, i) > 0">
-                                    <legend>{{ zone.name }}
-                                        <span v-if="zone.default_instances > 1">{{ i }}</span>
-                                    </legend>
-                                    <div v-for="mob in form.point_data[zone.id][i]">
-                                        <div>
-                                            {{ zone.mobs.find((el) => el.id == mob.mob_id).name }}
-                                            ({{ formatCoordinate(mob.x ?? getPointById(zone, mob.point_id)?.['x']) }},
-                                            {{ formatCoordinate(mob.y ?? getPointById(zone, mob.point_id)?.['y']) }})
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </template>
-</template>
-</template>
-</div> -->
             </div>
         </div>
     </div>
@@ -109,7 +90,7 @@ const props = defineProps({
 })
 const scout = inject('scout', null)
 const toast = useToast()
-const showMarkOverlay = ref(true)
+const showMarkOverlay = ref(false)
 
 const { copy, copied } = useClipboard()
 
@@ -141,18 +122,11 @@ const getClipboardText = () => {
                 for (let i = 1; i <= instance_count; i++) {
                     // Were there mobs in this zone?
                     if (props.scoutReport.getFoundMobCountForZone(zone.id, i) < 1) continue
-                    const pts = props.scoutReport.point_data.filter((pt) => {
-                        return (pt.zone_id == zone.id && pt.instance_number == i && pt.mob_id !== null)
-                    })
-                    pts.forEach((mobPoint) => {
-                        // TODO: get proper X and Y for points that don't have them attached to the mobPoint
-                        // i.e. a user just clicks a circle instead of imports
-                        const mob = props.scoutReport.scouter_instance.getMobById(mobPoint.mob_id)
-                        const spawn_pt = props.scoutReport.getSpawnPointById(mobPoint.point_id, mobPoint.point_type)
-                        ret += getDisplayName(mob)
+                    props.scoutReport.getFoundMobInfoForZone(zone.id, i).forEach((mobPoint) => {
+                        ret += getDisplayName(mobPoint.mob)
                         ret += ` @ \uE0BB${zone.name}`
                         if (instance_count > 1) ret += intToInstanceMapping[i]
-                        ret += ` ( ${formatCoordinate(mobPoint.x ?? spawn_pt.x)} , ${formatCoordinate(mobPoint.y ?? spawn_pt.y)} )`
+                        ret += ` ( ${formatCoordinate(mobPoint.x ?? mobPoint.spawn_point.x)} , ${formatCoordinate(mobPoint.y ?? mobPoint.spawn_point.y)} )`
                         if (instance_count > 1) ret += ` Instance ${intToName(i)}`
                         ret += "\n"
                     })

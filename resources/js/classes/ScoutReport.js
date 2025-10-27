@@ -1,6 +1,8 @@
 import { getScouterName } from "@/classes/helpers"
 import emitter from "@/mitt"
-
+/**
+ * @class ScoutReport
+ */
 export default class ScoutReport {
 
     title = ''
@@ -11,9 +13,13 @@ export default class ScoutReport {
     dead_mobs = []
     selected_expansion_id = 5
     emitter = null
-    /** @type Scouter */
     scouter_instance = null
 
+    /**
+     * 
+     * @param {Object} initial_data 
+     * @param {Scouter} scouter_instance 
+     */
     constructor(initial_data, scouter_instance) {
         this.scouter_instance = scouter_instance
         this.handleDataFields(initial_data)
@@ -43,6 +49,11 @@ export default class ScoutReport {
     }
 
 
+    /**
+     * Return a JSON stringified version of important scouting report details.
+     * Used for saving unfinished reports to LocalStorage
+     * @returns string
+     */
     serialize() {
         return JSON.stringify({
             title: this.title,
@@ -54,6 +65,10 @@ export default class ScoutReport {
         })
     }
 
+    /**
+     * Unserialize and assign saved data for this scouting report
+     * @param {Object} data 
+     */
     unserialize(data) {
         const deets = JSON.parse(data)
         this.point_data = deets.point_data ?? []
@@ -64,12 +79,20 @@ export default class ScoutReport {
         this.custom_points = deets.custom_points ?? []
     }
 
-    // Clear a scout report to default status
+    /**
+     * Reset a scouting report to its default state (i.e. no user data provided)
+     * @return void
+     */
     reset() {
         this.unserialize("{}")
     }
-    // Used to determine if a scout report data string has actual data
 
+    /**
+     * Determine whether a scouting report is considered "empty".
+     * Used to decide whether to prompt the user to reload saved scouting info for a partially completed report
+     * @param {Object} data 
+     * @returns bool
+     */
     isEmpty(data) {
         const t = JSON.parse(data)
         if (
@@ -160,7 +183,7 @@ export default class ScoutReport {
             }
         }
         //console.log(`Getting mobs assigned for ${mobInfo.zone.id} instance ${mobInfo.instance}`)
-        let mobsAssigned = this.getFoundMobsForZone(mobInfo.zone.id, mobInfo.instance)
+        let mobsAssigned = this.getFoundMobIDsForZone(mobInfo.zone.id, mobInfo.instance)
         let mobOnPoint = this.getMobOnPoint(closestPoint.point, mobInfo.instance)
         if (mobOnPoint !== null) {
             // The point specified already has a mob on it, don't overwrite it for safety
@@ -209,7 +232,7 @@ export default class ScoutReport {
                     mob_id: currentMobToTest.id
                 })
                 // Recalculate valid mobs for the point
-                mobsAssigned = this.getFoundMobsForZone(mobInfo.zone.id, mobInfo.instance)
+                mobsAssigned = this.getFoundMobsIDsForZone(mobInfo.zone.id, mobInfo.instance)
                 validMobsForPoint = closestPoint.point.valid_mobs.filter((testMob) => {
                     return !mobsAssigned.includes(testMob.id)
                 })
@@ -363,6 +386,12 @@ export default class ScoutReport {
         return 1
     }
 
+    /**
+     * Update the instance count for a given zone_id, emitting an event for syncing with other clients
+     * @param {Number} zone_id 
+     * @param {Number} count the new count of instances desired for the zone
+     * @return void
+     */
     setInstanceCountForZone(zone_id, count) {
         // Handle event for updating
         this.instance_data[zone_id] = count
@@ -418,6 +447,15 @@ export default class ScoutReport {
         })
     }
 
+    /**
+     * 
+     * @param {Point} point Point Object containing id
+     * @param {Number} mob_id 
+     * @param {Number} zone_id 
+     * @param {Number} instance_number 
+     * @param {String} spawn_point_type 
+     * @param {Boolean} skip_emit Pass true to skip emitting events tied to this point assignment
+     */
     assignMobToPoint(point, mob_id, zone_id, instance_number, spawn_point_type, skip_emit = false) {
         this.point_data.push({
             'point_id': point.id,
@@ -539,8 +577,31 @@ export default class ScoutReport {
         return foundCount
     }
 
+    /**
+     * Retrieves the list of mobs already assigned in a given zone+instance
+     * Also includes convenience mob and spawn_point properties to retrieve
+     * underlying mob or spawn point info for display
+     * @param {Number} zone_id 
+     * @param {Number} instance_number 
+     * @returns array
+     */
+    getFoundMobInfoForZone(zone_id, instance_number) {
+        return this.point_data.filter((point) => {
+            return (
+                point.zone_id == zone_id &&
+                point.instance_number == instance_number &&
+                point.mob_id !== null
+            )
+        }).map((point) => {
+            // Tack on the mob info so it's easier to get names for display, etc.
+            point.mob = this.scouter_instance.getMobById(point.mob_id)
+            point.spawn_point = this.getSpawnPointById(point.point_id, point.point_type)
+            return point
+        }, this)
+    }
+
     // Return an actual array of the found mob IDs
-    getFoundMobsForZone(zone_id, instance_number) {
+    getFoundMobIDsForZone(zone_id, instance_number) {
         return this.point_data.filter((pt) => {
             return (
                 pt.zone_id == zone_id
@@ -584,10 +645,21 @@ export default class ScoutReport {
         this.selected_expansion_id = expansion_id
     }
 
+    /**
+     * Create an array with both server provided and user created spawn points in a given zone
+     * @param {Zone} zone 
+     * @returns {Array} An array containing all server-sent and user-created spawn points for a given zone
+     */
     getSpawnPointsForZone(zone) {
         return [...zone.spawn_points, ...this.custom_points.filter((el) => el.zone_id == zone.id)]
     }
 
+    /**
+     * Returns Point info about a given point_id and point_type
+     * @param {Number} point_id 
+     * @param {String} point_type The type of spawn point, "spawn_point" or "custom_spawn_point"
+     * @returns Point
+     */
     getSpawnPointById(point_id, point_type) {
         if (point_type == 'spawn_point') {
             return this.scouter_instance.getSpawnPointById(point_id)
@@ -598,6 +670,11 @@ export default class ScoutReport {
         })
     }
 
+    /**
+     * Marks a mob as dead, for purposes of zone completion counting
+     * @param {Number} mob_id 
+     * @param {Number} instance_number 
+     */
     addDeadMobToList(mob_id, instance_number) {
         this.dead_mobs.push({
             'mob_id': mob_id,
@@ -605,6 +682,12 @@ export default class ScoutReport {
         })
         this.addScout()
     }
+
+    /**
+     * Removes a mob from the list of dead mobs, for purposes of zone completion counting
+     * @param {Number} mob_id 
+     * @param {Number} instance_number 
+     */
     removeDeadMobFromList(mob_id, instance_number) {
         this.dead_mobs = this.dead_mobs.filter((mob) => {
             return !(mob.mob_id == mob_id && mob.instance_number == instance_number)
@@ -612,6 +695,11 @@ export default class ScoutReport {
         this.addScout()
     }
 
+    /**
+     * Adds the current scouter name to the list of scouters for this report
+     * Emits an event with details for use by WS scripts to send remotely
+     * @returns void
+     */
     addScout() {
         const name = getScouterName()
         if (!name) return
@@ -623,6 +711,12 @@ export default class ScoutReport {
         }
     }
 
+    /**
+     * Toggles whether a mob is considered alive or dead for purpose of counting a zone's Finish status
+     * @param {Number} mob_id 
+     * @param {Number} instance_number 
+     * @returns 
+     */
     toggleMobStatus(mob_id, instance_number) {
         if (this.isMobDead(mob_id, instance_number)) {
             // remove any line that matches this from the dead_mobs array
@@ -641,6 +735,14 @@ export default class ScoutReport {
         }
     }
 
+    /**
+     * Set the occupancy status of a point.
+     * Intended for use to mark B/S rank spawn points, not A ranks
+     * @param {Point} point 
+     * @param {Number} instance 
+     * @param {Boolean} is_occupied 
+     * @returns void
+     */
     setOccupiedStatus(point, instance, is_occupied) {
         const rowData = {
             mob_id: null,
@@ -654,7 +756,7 @@ export default class ScoutReport {
             // Make sure a mob isn't on the point
             if (this.getMobOnPoint(point, instance)) return
             this.point_data.push(rowData)
-            emitter.emit('occupy:status', rowData)
+
         } else {
             this.point_data = this.point_data.filter((mobpoint) => {
                 if (
@@ -668,7 +770,7 @@ export default class ScoutReport {
                 return true
             })
             delete rowData.mob_id
-            emitter.emit('occupy:status', rowData)
         }
+        emitter.emit('occupy:status', rowData)
     }
 }

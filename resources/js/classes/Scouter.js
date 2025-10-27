@@ -1,3 +1,6 @@
+/**
+ * @class Scouter
+ */
 export default class Scouter {
 
     mob_data = {}
