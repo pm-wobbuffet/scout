@@ -39,13 +39,8 @@
                 </form>
             </DialogContent>
         </Dialog>
-        <!--
-        <button class="inline-flex rounded-md bg-red-400 dark:bg-red-800" @click="finalizeReport()"
-            v-if="editmode && scout && scout?.finalized_at === null">
-            <FileLockIcon /> Finalize
-        </button>
-        -->
         <ScoutDetailsDialog />
+        <TomestoneDialog />
     </div>
 </template>
 
@@ -53,7 +48,7 @@
 import ImportPointsDialog from '@/components/dialogs/ImportPointsDialog.vue';
 import ScoutDetailsDialog from '@/components/dialogs/ScoutDetailsDialog.vue';
 import ShareScoutDialog from '@/components/dialogs/ShareScoutDialog.vue';
-import { ArrowUp, FileLockIcon, ImportIcon, ShareIcon } from 'lucide-vue-next';
+import { ArrowUp, CircleDollarSign, FileLockIcon, ImportIcon, ShareIcon } from 'lucide-vue-next';
 import { inject, ref } from 'vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -66,6 +61,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import TomestoneDialog from '@/components/dialogs/TomestoneDialog.vue';
 
 const scout = inject('scout', null)
 const editmode = inject('editmode', false)

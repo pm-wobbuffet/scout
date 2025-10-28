@@ -62,6 +62,7 @@ class MainController extends Controller
             'expac' => $expansions,
             'scout' => new ScoutResource($scout),
             'defaultId' => intval(env('DEFAULT_EXPANSION_ID', 7)),
+            'ajaxRefreshInterval' => intval(env('APP_AJAX_REFRESH_INTERVAL_MS', 10000)),
         ]);
     }
 
@@ -107,7 +108,7 @@ class MainController extends Controller
     {
         $this->authorizeUpdate($scout, $password);
 
-        $scout->title = $request->validated('title');
+        $scout->title = $request->validated('title', '');
         $scout->scouts()->delete();
         foreach ($request->validated('scouts') as $scouter) {
             $scout->scouts()->updateOrCreate([
@@ -117,7 +118,7 @@ class MainController extends Controller
         $scout->save();
         broadcast(new MetaUpdated(
             $scout,
-            $scout->title,
+            $scout->title ?? '',
             $scout->scouts,
         ))->toOthers();
         return response()->json(['success' => true]);

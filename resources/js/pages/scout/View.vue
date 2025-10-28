@@ -21,6 +21,7 @@ const props = defineProps({
     scout: Object,
     defaultId: Number,
     flash: Object,
+    ajaxRefreshInterval: Number,
 })
 
 let scouter = null;
@@ -31,7 +32,6 @@ const wsConnection = ref(null);
 const ajaxTimeout = ref(null);
 // Time between AJAX polls in ms
 // Only used when WS connection fails
-const ajaxRefreshInterval = 10000;
 
 configureEcho({
     broadcaster: "reverb",
@@ -90,7 +90,7 @@ if (props.scout.finalized_at === null) {
 const pollForUpdates = () => {
     // is the websocket connection active? if so, can ignore for now
     if (wsConnection.value === 'connected') {
-        ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
+        ajaxTimeout.value = setTimeout(pollForUpdates, props.ajaxRefreshInterval)
         return
     }
     //console.log('AJAX polling fallback triggered')
@@ -98,12 +98,12 @@ const pollForUpdates = () => {
     axios.get(route('scout.updatelist', { scout: props.scout, password: props.scout.collaborator_password }))
         .then((response) => {
             scout_report.value.processAJAXUpdate(response.data)
-            ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
+            ajaxTimeout.value = setTimeout(pollForUpdates, props.ajaxRefreshInterval)
         }).catch((error) => {
             console.error(`Error message received`, error)
-            ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
+            ajaxTimeout.value = setTimeout(pollForUpdates, props.ajaxRefreshInterval)
         })
-    //ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
+    //ajaxTimeout.value = setTimeout(pollForUpdates, props.ajaxRefreshInterval)
 }
 
 onBeforeMount(() => {
@@ -172,7 +172,7 @@ onMounted(() => {
 
     // Ajax fallback
     if (props.scout.collaborator_password && !props.scout.finalized_at) {
-        ajaxTimeout.value = setTimeout(pollForUpdates, ajaxRefreshInterval)
+        ajaxTimeout.value = setTimeout(pollForUpdates, props.ajaxRefreshInterval)
     }
 
     // Was this a redirect from the log submission?

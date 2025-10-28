@@ -750,6 +750,7 @@ export default class ScoutReport {
             point_id: point.id,
             point_type: point.point_type ?? 'spawn_point',
             zone_id: point.zone_id,
+            reporter: getScouterName(),
         }
         if (is_occupied) {
             // Wanting to mark the point as occupied

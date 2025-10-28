@@ -21,10 +21,10 @@ class MetaUpdated implements ShouldDispatchAfterCommit, ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct(Scout $scout, string $title, array|Collection $scouts)
+    public function __construct(Scout $scout, string|null $title, array|Collection $scouts)
     {
         $this->scout = $scout;
-        $this->title = $title;
+        $this->title = $title ?? '';
         if ($scouts instanceof Collection) {
             $scouts = $scouts->toArray();
         }
