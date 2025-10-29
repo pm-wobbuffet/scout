@@ -12,9 +12,15 @@
         <ImportPointsDialog v-if="editmode && ((!scout) || scout?.finalized_at === null)" />
         <Dialog v-model:open="showFinalizeDialog" v-if="editmode && scout && scout?.finalized_at === null">
             <DialogTrigger as-child>
-                <button class="flex rounded-md bg-red-400 dark:bg-red-800">
+                <!-- <button class="flex rounded-md bg-red-400 dark:bg-red-800">
                     <FileLockIcon /> Finalize
-                </button>
+                </button> -->
+                <ColorIconButton iconClass="bg-violet-400 dark:bg-violet-700">
+                    <template #icon>
+                        <FileLockIcon />
+                    </template>
+                    Finalize
+                </ColorIconButton>
             </DialogTrigger>
             <DialogContent>
                 <form class="space-y-6" @submit.prevent="finalizeReport()">
@@ -62,6 +68,7 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import TomestoneDialog from '@/components/dialogs/TomestoneDialog.vue';
+import ColorIconButton from '@/components/inputs/ColorIconButton.vue';
 
 const scout = inject('scout', null)
 const editmode = inject('editmode', false)

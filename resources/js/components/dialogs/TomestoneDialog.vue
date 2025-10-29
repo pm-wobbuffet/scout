@@ -1,13 +1,19 @@
 <template>
     <Dialog>
         <DialogTrigger as-child>
-            <button
+            <!-- <button
                 class="flex rounded-md border border-black/50 hover:border-black/25 dark:border-slate-300/50 p-0 gap-0 overflow-hidden">
                 <div class="bg-orange-400 dark:bg-orange-800">
                     <CircleDollarSign class="text-black dark:text-slate-300" />
                 </div>
                 <div class="text-black dark:text-slate-300">Tomes</div>
-            </button>
+            </button> -->
+            <ColorIconButton iconClass="bg-orange-400 dark:bg-orange-800">
+                <template #icon>
+                    <CircleDollarSign />
+                </template>
+                Tomes
+            </ColorIconButton>
         </DialogTrigger>
         <DialogContent class="min-w-[80%]">
             <div class="grid sm:grid-cols-2">
@@ -36,6 +42,7 @@
 </template>
 
 <script setup lang="ts">
+import ColorIconButton from '@/components/inputs/ColorIconButton.vue';
 import {
     Dialog,
     DialogClose,
