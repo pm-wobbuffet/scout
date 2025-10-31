@@ -1,34 +1,18 @@
 <template>
     <div class="scout-report-options">
-        <!-- <a href="#" class="bg-blue-400 dark:bg-blue-900 text-white dark:text-slate-300">
-            <ArrowUp />
-            Top
-        </a> -->
         <ShareScoutDialog v-if="scout" />
-        <ColorIconButton v-else :disabled="disableSubmit" @click.prevent="submitScout"
-            icon-class="bg-blue-700 dark:bg-blue-800"
+        <ScoutReportButton v-else :disabled="disableSubmit" @click.prevent="submitScout"
+            :style="{ '--bg-gradient-start': 'rgba(0, 0, 255)' }"
             title="Save the scout report to the database and share with others if desired">
-            <template #icon>
-                <ShareIcon />
-            </template>
             {{ disableSubmit ? "Sharing..." : "Share" }}
-        </ColorIconButton>
-        <!-- <button class="bg-blue-700 dark:bg-blue-800 text-white dark:text-slate-300" :disabled="disableSubmit"
-            @click.prevent="submitScout" title="Save the scout report to the database and share with others if desired">
-            <ShareIcon /> {{ disableSubmit ? "Sharing..." : "Share" }}
-        </button> -->
+        </ScoutReportButton>
         <ImportPointsDialog v-if="editmode && ((!scout) || scout?.finalized_at === null)" />
         <Dialog v-model:open="showFinalizeDialog" v-if="editmode && scout && scout?.finalized_at === null">
             <DialogTrigger as-child>
-                <!-- <button class="flex rounded-md bg-red-400 dark:bg-red-800">
-                    <FileLockIcon /> Finalize
-                </button> -->
-                <ColorIconButton iconClass="bg-violet-400 dark:bg-violet-700">
-                    <template #icon>
-                        <FileLockIcon />
-                    </template>
+                <ScoutReportButton :style="{ '--bg-gradient-start': 'var(--color-violet-400)' }"
+                    title="Finalize this scouting report and prevent further edits">
                     Finalize
-                </ColorIconButton>
+                </ScoutReportButton>
             </DialogTrigger>
             <DialogContent>
                 <form class="space-y-6" @submit.prevent="finalizeReport()">
@@ -62,7 +46,6 @@
 import ImportPointsDialog from '@/components/dialogs/ImportPointsDialog.vue';
 import ScoutDetailsDialog from '@/components/dialogs/ScoutDetailsDialog.vue';
 import ShareScoutDialog from '@/components/dialogs/ShareScoutDialog.vue';
-import { ArrowUp, CircleDollarSign, FileLockIcon, ImportIcon, ShareIcon } from 'lucide-vue-next';
 import { inject, ref } from 'vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -77,6 +60,7 @@ import {
 } from '@/components/ui/dialog';
 import TomestoneDialog from '@/components/dialogs/TomestoneDialog.vue';
 import ColorIconButton from '@/components/inputs/ColorIconButton.vue';
+import ScoutReportButton from '@/components/inputs/ScoutReportButton.vue';
 
 const scout = inject('scout', null)
 const editmode = inject('editmode', false)
@@ -96,4 +80,6 @@ const finalizeReport = () => {
 
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+@reference('tailwindcss');
+</style>

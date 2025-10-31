@@ -611,6 +611,10 @@ export default class ScoutReport {
         }).map((x) => x.mob_id)
     }
 
+    getTotalMobCountForExpansion(expac) {
+        return expac.zones.reduce((total_mobs, el) => total_mobs + (el.mobs.length ?? 0) * this.getInstanceCountForZone(el.id), 0)
+    }
+
     /**
      * Return all current point data for the specified zones
      * @param {Array} zoneInstanceList - list if zoneid+instance in "zoneid-instancenumber" format

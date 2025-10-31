@@ -1,10 +1,10 @@
 <template>
     <Dialog v-on:update:open="preOpen" :default-open="newly_created">
         <DialogTrigger as-child>
-            <button type="button" class="bg-blue-700 dark:bg-blue-800 text-white dark:text-slate-300"
-                title="Share the scout report with others">
-                <ShareIcon /> Share
-            </button>
+            <ScoutReportButton title="Share the scout report with others"
+                :style="{ '--bg-gradient-start': 'rgba(0, 0, 255)' }">
+                Share
+            </ScoutReportButton>
         </DialogTrigger>
         <DialogPortal>
             <DialogContent class="min-w-[50vw]">
@@ -72,6 +72,7 @@ import { CopyIcon, ShareIcon } from 'lucide-vue-next';
 import { inject, onMounted, ref } from 'vue';
 import { UseClipboard } from '@vueuse/components';
 import { DialogPortal } from 'reka-ui';
+import ScoutReportButton from '@/components/inputs/ScoutReportButton.vue';
 
 const scout = inject('scout')
 const cacheBusterAppend = ref(0)

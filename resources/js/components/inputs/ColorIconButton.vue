@@ -1,6 +1,7 @@
 <template>
     <button
-        class="flex items-center font-bold cursor-pointer hover:brightness-110 transition-all duration-150 flex-row rounded-none border border-black/50 hover:border-black/25 dark:border-slate-300/50 p-0 gap-0 overflow-hidden min-h-8">
+        class="flex items-center font-bold cursor-pointer hover:brightness-110 transition-all duration-150 
+        flex-row rounded-none border border-black/50 hover:border-black/25 dark:border-slate-300/50 p-0 gap-0 overflow-hidden min-h-8">
         <div :class="className">
             <div class="hidden">
                 <slot name="icon"></slot>

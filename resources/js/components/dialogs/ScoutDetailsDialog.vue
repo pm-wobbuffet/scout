@@ -13,6 +13,7 @@ import { inject, ref, useTemplateRef } from 'vue';
 import Input from '@/components/ui/input/Input.vue';
 import { useForm } from '@inertiajs/vue3';
 import Button from '@/components/ui/button/Button.vue';
+import ScoutReportButton from '@/components/inputs/ScoutReportButton.vue';
 
 const scoutReport = inject('scoutReport')
 const newScoutName = ref('')
@@ -50,9 +51,10 @@ const handleOpen = (isOpen) => {
 <template>
     <Dialog @update:open="handleOpen">
         <DialogTrigger as-child>
-            <button type="button" class="bg-green-700 dark:bg-green-800">
-                <ClipboardListIcon /> Details
-            </button>
+            <ScoutReportButton :style="{ '--bg-gradient-start': 'var(--color-green-700)' }"
+                title="Modify details such as scouting report title or the list of scouts">
+                Details
+            </ScoutReportButton>
         </DialogTrigger>
         <DialogPortal>
             <DialogContent>

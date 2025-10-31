@@ -1,28 +1,38 @@
 <template>
     <Dialog>
         <DialogTrigger as-child>
-            <!-- <button
-                class="flex rounded-md border border-black/50 hover:border-black/25 dark:border-slate-300/50 p-0 gap-0 overflow-hidden">
-                <div class="bg-orange-400 dark:bg-orange-800">
-                    <CircleDollarSign class="text-black dark:text-slate-300" />
-                </div>
-                <div class="text-black dark:text-slate-300">Tomes</div>
-            </button> -->
-            <ColorIconButton iconClass="bg-orange-400 dark:bg-orange-800">
-                <template #icon>
-                    <CircleDollarSign />
-                </template>
+            <ScoutReportButton title="Show the currency calculator for this train"
+                :style="{ '--bg-gradient-start': 'var(--color-orange-400)' }">
                 Tomes
-            </ColorIconButton>
+            </ScoutReportButton>
         </DialogTrigger>
         <DialogContent class="min-w-[80%]">
-            <div class="grid sm:grid-cols-2">
-                <div>
-                    <template v-for="expansion in scout.scouter_instance.expansion_data" :key="`expac-${expansion.id}`">
-                        {{ expansion.name }}
-                    </template>
-                </div>
-                <div>
+            <DialogHeader class="space-y-3">
+                <DialogTitle>Currency Calculator</DialogTitle>
+                <DialogDescription>
+                    Enter the number of marks for each expansion and click the checkbox beside its name to
+                    include it in the calculations
+                </DialogDescription>
+            </DialogHeader>
+            <div class="grid md:grid-cols-[max-content_1fr] gap-2">
+                <form @submit.prevent="() => { return false; }" class="w-auto pr-8">
+                    <div v-for="expansion in scout.scouter_instance.expansion_data" :key="`expac-${expansion.id}`"
+                        class="grid w-auto grid-cols-[max-content_auto_max-content] gap-2 border-b p-1 items-center">
+                        <div>
+                            <input type="checkbox" v-model="selectedExpansions" :value="expansion.id" />
+                        </div>
+                        <div>
+                            {{ expansion.name }}
+                        </div>
+                        <div>
+                            <Input type="number" class="max-w-[80px]" :model-value="mobCounts[expansion.id]" />
+                        </div>
+                    </div>
+                    <div>
+                        {{ selectedExpansions }}
+                    </div>
+                </form>
+                <div class="ml-2">
                     <fieldset>
                         <legend>Shout Macro</legend>
                         <textarea name="" id="" rows="3"></textarea>
@@ -41,8 +51,8 @@
     </Dialog>
 </template>
 
-<script setup lang="ts">
-import ColorIconButton from '@/components/inputs/ColorIconButton.vue';
+<script setup>
+import ScoutReportButton from '@/components/inputs/ScoutReportButton.vue';
 import {
     Dialog,
     DialogClose,
@@ -53,11 +63,40 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { ArrowUp, CircleDollarSign, FileLockIcon, ImportIcon, ShareIcon } from 'lucide-vue-next';
-import { inject, onMounted } from 'vue';
+import { Input } from '@/components/ui/input';
+import { inject, onMounted, ref } from 'vue';
 
 const scout = inject('scoutReport')
+const selectedExpansions = ref([])
+const mobCounts = ref({})
+
+onMounted(() => {
+    // See if the expansion has found mobs and by default check that expansion if so.
+    // The user can un-check later
+    scout.value.scouter_instance.expansion_data.forEach((expac) => {
+        if (scout.value.getFoundMobCountForExpansion(expac.id) > 0) {
+            selectedExpansions.value.push(expac.id)
+            mobCounts.value[expac.id] = scout.value.getFoundMobCountForExpansion(expac.id)
+        } else {
+            mobCounts.value[expac.id] = scout.value.getTotalMobCountForExpansion(expac)
+        }
+    })
+})
 
 </script>
 
-<style scoped></style>
+<style scoped>
+@reference "../../../css/app.css";
+
+fieldset {
+    @apply mb-4;
+}
+
+legend {
+    @apply border border-slate-900 border-b-0 px-2 rounded-t-md bg-slate-400 dark:bg-slate-800;
+}
+
+textarea {
+    @apply border border-slate-900 w-full bg-slate-200 dark:bg-slate-700;
+}
+</style>

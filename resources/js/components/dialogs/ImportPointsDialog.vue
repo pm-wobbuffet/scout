@@ -1,10 +1,9 @@
 <template>
     <Dialog v-bind:open="dialogOpen">
         <DialogTrigger as-child>
-            <button class="bg-slate-500 dark:bg-yellow-800" title="Import mob coordinates by pasting in chat logs"
-                @click="dialogOpen = true">
-                <ImportIcon /> Import
-            </button>
+            <ScoutReportButton :style="{ '--bg-gradient-start': 'var(--color-slate-500)' }">
+                Import
+            </ScoutReportButton>
         </DialogTrigger>
         <DialogContent class="min-w-[700px] max-w-[100%]" @escape-key-down="dialogOpen = false"
             @pointer-down-outside="dialogOpen = false">
@@ -41,6 +40,7 @@
 
 <script setup>
 import { parseLog } from '@/classes/text';
+import ScoutReportButton from '@/components/inputs/ScoutReportButton.vue';
 import Button from '@/components/ui/button/Button.vue';
 import {
     Dialog,
