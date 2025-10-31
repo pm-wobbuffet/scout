@@ -1,14 +1,22 @@
 <template>
     <div class="scout-report-options">
-        <a href="#" class="bg-blue-400 dark:bg-blue-900 text-white dark:text-slate-300">
+        <!-- <a href="#" class="bg-blue-400 dark:bg-blue-900 text-white dark:text-slate-300">
             <ArrowUp />
             Top
-        </a>
+        </a> -->
         <ShareScoutDialog v-if="scout" />
-        <button class="bg-blue-700 dark:bg-blue-800 text-white dark:text-slate-300" v-else :disabled="disableSubmit"
+        <ColorIconButton v-else :disabled="disableSubmit" @click.prevent="submitScout"
+            icon-class="bg-blue-700 dark:bg-blue-800"
+            title="Save the scout report to the database and share with others if desired">
+            <template #icon>
+                <ShareIcon />
+            </template>
+            {{ disableSubmit ? "Sharing..." : "Share" }}
+        </ColorIconButton>
+        <!-- <button class="bg-blue-700 dark:bg-blue-800 text-white dark:text-slate-300" :disabled="disableSubmit"
             @click.prevent="submitScout" title="Save the scout report to the database and share with others if desired">
             <ShareIcon /> {{ disableSubmit ? "Sharing..." : "Share" }}
-        </button>
+        </button> -->
         <ImportPointsDialog v-if="editmode && ((!scout) || scout?.finalized_at === null)" />
         <Dialog v-model:open="showFinalizeDialog" v-if="editmode && scout && scout?.finalized_at === null">
             <DialogTrigger as-child>

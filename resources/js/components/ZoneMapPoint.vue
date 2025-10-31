@@ -1,7 +1,7 @@
 <template>
     <button class="" :class="calculatePointDisplayClasses(props.point)"
         :style="{ 'left': convertCoordToPercent(props.point.x, zone), 'top': convertCoordToPercent(props.point.y, props.zone) }"
-        :data-coords="getPointTitleDisplay(props.point)" :data-title="getPointTitleDisplay(props.point)"
+        ref="refHook" :data-coords="getPointTitleDisplay(props.point)" :data-title="getPointTitleDisplay(props.point)"
         @click.stop.prevent="assignMob">{{
             mobOnPoint?.mob_index ?? '' }}</button>
 </template>
@@ -9,7 +9,8 @@
 <script setup>
 import ScoutReport from '@/classes/ScoutReport';
 import { convertCoordToPercent } from '@/classes/helpers';
-import { computed, onMounted } from 'vue';
+import { onLongPress } from '@vueuse/core';
+import { computed, onMounted, useTemplateRef } from 'vue';
 
 const props = defineProps({
     zone: Object,
@@ -18,6 +19,14 @@ const props = defineProps({
     scoutReport: Object,
     editmode: Boolean,
 })
+const refHook = useTemplateRef('refHook')
+
+const emit = defineEmits(['longPress'])
+onLongPress(refHook,
+    (e) => {
+        emit("longPress", e, props.point)
+    }
+)
 
 const assignMob = function () {
     // End early if we're not in edit mode
