@@ -21,16 +21,13 @@ const props = defineProps({
 <style scoped>
 @reference "../../../css/app.css";
 
-button {
-    --gradient-stop-pos: 20%;
-}
-
 button:hover {
     @apply border-(--bg-gradient-start);
     --gradient-stop-pos: 20%;
 }
 
 button {
+    --gradient-stop-pos: 20%;
     @apply box-content;
     background: linear-gradient(to right, var(--bg-gradient-start), var(--bg-gradient-start) var(--gradient-stop-pos), var(--color-white) var(--gradient-stop-pos), var(--color-white));
 

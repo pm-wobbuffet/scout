@@ -19,10 +19,11 @@
                     <div v-for="expansion in scout.scouter_instance.expansion_data" :key="`expac-${expansion.id}`"
                         class="grid w-auto grid-cols-[max-content_auto_max-content] gap-2 border-b p-1 items-center">
                         <div>
-                            <input type="checkbox" v-model="selectedExpansions" :value="expansion.id" />
+                            <input type="checkbox" v-model="selectedExpansions" :value="expansion.id"
+                                :id="`frmChk-${expansion.id}`" />
                         </div>
                         <div>
-                            {{ expansion.name }}
+                            <label :for="`frmChk-${expansion.id}`">{{ expansion.name }}</label>
                         </div>
                         <div>
                             <Input type="number" class="max-w-[80px]" :model-value="mobCounts[expansion.id]" />
@@ -47,6 +48,9 @@
                     </fieldset>
                 </div>
             </div>
+            <div>OUTPUT
+                <img :src="AlliedSealImage" title="Allied Seals" />
+            </div>
         </DialogContent>
     </Dialog>
 </template>
@@ -64,24 +68,35 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { inject, onMounted, ref } from 'vue';
+import { computed, inject, onBeforeUpdate, onMounted, ref, watch } from 'vue';
+import AlliedSealImage from '../../../images/currency/allied_seal.png';
 
 const scout = inject('scoutReport')
 const selectedExpansions = ref([])
 const mobCounts = ref({})
 
-onMounted(() => {
-    // See if the expansion has found mobs and by default check that expansion if so.
-    // The user can un-check later
+const calculateTotals = computed(() => {
+    return ''
+})
+
+const updateMobCounts = () => {
     scout.value.scouter_instance.expansion_data.forEach((expac) => {
         if (scout.value.getFoundMobCountForExpansion(expac.id) > 0) {
-            selectedExpansions.value.push(expac.id)
+            if (!selectedExpansions.value.includes(expac.id)) {
+                selectedExpansions.value.push(expac.id)
+            }
             mobCounts.value[expac.id] = scout.value.getFoundMobCountForExpansion(expac.id)
         } else {
             mobCounts.value[expac.id] = scout.value.getTotalMobCountForExpansion(expac)
         }
     })
+}
+
+onMounted(() => {
+    selectedExpansions.value = []
+    updateMobCounts()
 })
+watch(() => scout.value.point_data, () => updateMobCounts(), { deep: true })
 
 </script>
 
