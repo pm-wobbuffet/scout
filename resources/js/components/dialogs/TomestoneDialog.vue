@@ -30,7 +30,14 @@
                         </div>
                     </div>
                     <div>
-                        {{ calculateTotals }}
+                        <h2 class="font-bold">Macro Generation Mode</h2>
+                        <label class="mr-2"><input type="radio" name="generationMode" v-model="generationMode"
+                                value="total_amount" /> Total Amount Generated</label>
+                        <label><input type="radio" name="generationMode" v-model="generationMode" value="from_cap" />
+                            Highest Amount Before Cap</label>
+                    </div>
+                    <div>
+                        {{ selectedExpansions }}
                     </div>
                 </form>
                 <div class="ml-2">
@@ -49,13 +56,7 @@
                 </div>
             </div>
             <div>OUTPUT
-                <!-- <img :src="AlliedSealImage" title="Allied Seals" />
-                <img :src="CenturioSealImage" title="Centurio Seals" />
-                <img :src="SackOfNutsImage" title="Sacks of Nuts" />
-                <img :src="PoeticsImage" title="Poetics" />
-                <img :src="UncappedTomeImage" title="Heliometry" />
-                <img :src="CappedTomeImage" title="Mathematics" /> -->
-                {{ calculateTotals }}
+                {{ calculateFinalText }}
             </div>
         </DialogContent>
     </Dialog>
@@ -74,34 +75,77 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { computed, inject, onBeforeUpdate, onMounted, ref, watch } from 'vue';
-import AlliedSealImage from '@images/currency/allied_seal.png';
-import CenturioSealImage from '@images/currency/centurio_seal.png';
-import SackOfNutsImage from '@images/currency/nuts.png';
-import PoeticsImage from '@images/currency/poetics.png';
-import UncappedTomeImage from '@images/currency/heliometry.png';
-import CappedTomeImage from '@images/currency/mathematics.png';
-import { getRewardsForExpansion } from '@/classes/currency';
+import { computed, inject, onBeforeUpdate, onMounted, onUpdated, ref, watch } from 'vue';
+import { getCurrencyInfo, getRewardsForExpansion, getSortKey } from '@/classes/currency';
 
 const scout = inject('scoutReport')
 const selectedExpansions = ref([])
 const mobCounts = ref({})
+// The currency display mode. total_amount = amount generated during the train
+// from_cap = lowest amount you can have on hand without hitting cap during the train
+const generationMode = ref('total_amount')
+// the user's overriden macro text string
+const userMacroString = ref('')
 
-const calculateTotals = computed(() => {
+const calculateTotals = () => {
     const total_rewards = {}
     selectedExpansions.value.forEach((expac_id) => {
         getRewardsForExpansion(expac_id, mobCounts.value[expac_id]).forEach((r) => {
-            if (!(r.currency in total_rewards)) {
-                total_rewards[r.currency] = r.amount
-            } else {
+            if (total_rewards[r.currency]) {
                 total_rewards[r.currency] += r.amount
+            } else {
+                total_rewards[r.currency] = r.amount
             }
         })
     })
-    return total_rewards
+    const sorted_rewards = []
+    Object.keys(total_rewards).sort((a, b) => {
+        return getSortKey(a) - getSortKey(b)
+    }).forEach((currency_id) => {
+        sorted_rewards.push({ "currency": currency_id, "total": total_rewards[currency_id] })
+    })
+
+    return sorted_rewards
+}
+
+const calculateFinalText = computed(() => {
+    const macroString = getMacroString()
+    return macroString.replace('$c', generateCurrencyString())
 })
 
+const generateCurrencyString = () => {
+    let c = ""
+    if (generationMode.value == 'from_cap') {
+        // Need to calculate total rewards and subtract from max caps
+        return ""
+    } else {
+        // Only need to sum the total rewards
+        c = calculateTotals().map((curr_reward) => {
+            const c = getCurrencyInfo(curr_reward.currency)
+            return `${curr_reward.total} ${c.name}`
+        }).join(', ')
+    }
+    if (c.lastIndexOf(",") > 0) {
+        const lastCommaPos = c.lastIndexOf(",")
+        c = c.substring(0, lastCommaPos) + ", and" + c.substring(lastCommaPos + 1)
+    }
+    return c
+}
+
+const getMacroString = () => {
+    // If the user overrides the macro text with their own, just return that variant
+    // TODO: consider maybe a separate saved macro depending on the mode
+    if (userMacroString.value != "") {
+        return userMacroString.value
+    }
+    if (generationMode.value == 'from_cap') {
+        return "Tome Check! Make sure to have less than $c to prevent overcapping"
+    }
+    return "This train will generate $c"
+}
+
 const updateMobCounts = () => {
+    //console.log(mobCounts.value, selectedExpansions.value)
     scout.value.scouter_instance.expansion_data.forEach((expac) => {
         if (scout.value.getFoundMobCountForExpansion(expac.id) > 0) {
             if (!selectedExpansions.value.includes(expac.id)) {
@@ -118,6 +162,9 @@ onMounted(() => {
     selectedExpansions.value = []
     updateMobCounts()
 })
+// onUpdated(() => {
+//     updateMobCounts()
+// })
 watch(() => scout.value.point_data, () => updateMobCounts(), { deep: true })
 
 </script>
