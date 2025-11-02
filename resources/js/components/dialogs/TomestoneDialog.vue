@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div>
-                        {{ selectedExpansions }}
+                        {{ calculateTotals }}
                     </div>
                 </form>
                 <div class="ml-2">
@@ -49,7 +49,13 @@
                 </div>
             </div>
             <div>OUTPUT
-                <img :src="AlliedSealImage" title="Allied Seals" />
+                <!-- <img :src="AlliedSealImage" title="Allied Seals" />
+                <img :src="CenturioSealImage" title="Centurio Seals" />
+                <img :src="SackOfNutsImage" title="Sacks of Nuts" />
+                <img :src="PoeticsImage" title="Poetics" />
+                <img :src="UncappedTomeImage" title="Heliometry" />
+                <img :src="CappedTomeImage" title="Mathematics" /> -->
+                {{ calculateTotals }}
             </div>
         </DialogContent>
     </Dialog>
@@ -69,14 +75,30 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { computed, inject, onBeforeUpdate, onMounted, ref, watch } from 'vue';
-import AlliedSealImage from '../../../images/currency/allied_seal.png';
+import AlliedSealImage from '@images/currency/allied_seal.png';
+import CenturioSealImage from '@images/currency/centurio_seal.png';
+import SackOfNutsImage from '@images/currency/nuts.png';
+import PoeticsImage from '@images/currency/poetics.png';
+import UncappedTomeImage from '@images/currency/heliometry.png';
+import CappedTomeImage from '@images/currency/mathematics.png';
+import { getRewardsForExpansion } from '@/classes/currency';
 
 const scout = inject('scoutReport')
 const selectedExpansions = ref([])
 const mobCounts = ref({})
 
 const calculateTotals = computed(() => {
-    return ''
+    const total_rewards = {}
+    selectedExpansions.value.forEach((expac_id) => {
+        getRewardsForExpansion(expac_id, mobCounts.value[expac_id]).forEach((r) => {
+            if (!(r.currency in total_rewards)) {
+                total_rewards[r.currency] = r.amount
+            } else {
+                total_rewards[r.currency] += r.amount
+            }
+        })
+    })
+    return total_rewards
 })
 
 const updateMobCounts = () => {
