@@ -43,8 +43,8 @@
                 <div class="ml-2">
                     <fieldset class="relative">
                         <legend>Shout Macro</legend>
-                        <UseClipboard v-slot="{ copy, copied }" :source="generateShoutString">
-                            <textarea name="" id="" rows="3" v-text="generateShoutString"></textarea>
+                        <UseClipboard v-slot="{ copy, copied }" :source="() => generateShoutString()">
+                            <textarea name="" id="" rows="3" v-text="generateShoutString()"></textarea>
                             <button type="button" @click="copy()"
                                 class="absolute bottom-1 right-0 bg-slate-800 text-white border p-1">{{ copied ?
                                     'Copied!'
@@ -53,8 +53,8 @@
                     </fieldset>
                     <fieldset class="relative">
                         <legend>Party Macro</legend>
-                        <UseClipboard v-slot="{ copy, copied }" :source="generatePartyString">
-                            <textarea name="" id="" rows="3" v-text="generatePartyString"></textarea>
+                        <UseClipboard v-slot="{ copy, copied }" :source="() => generatePartyString()">
+                            <textarea name="" id="" rows="3" v-text="generatePartyString()"></textarea>
                             <button type="button" @click="copy()"
                                 class="absolute bottom-1 right-0 bg-slate-800 text-white border p-1">{{ copied ?
                                     'Copied!'
@@ -63,8 +63,8 @@
                     </fieldset>
                     <fieldset class="relative">
                         <legend>Discord Text</legend>
-                        <UseClipboard v-slot="{ copy, copied }" :source="generateDiscordString">
-                            <textarea name="" id="" rows="3" v-text="generateDiscordString"></textarea>
+                        <UseClipboard v-slot="{ copy, copied }" :source="() => generateDiscordString()">
+                            <textarea name="" id="" rows="3" v-text="generateDiscordString()"></textarea>
                             <button type="button" @click="copy()"
                                 class="absolute bottom-1 right-0 bg-slate-800 text-white border p-1">{{ copied ?
                                     'Copied!'
@@ -99,22 +99,22 @@ const selectedExpansions = ref([])
 const mobCounts = ref({})
 // The currency display mode. total_amount = amount generated during the train
 // from_cap = lowest amount you can have on hand without hitting cap during the train
-const generationMode = ref('total_amount')
+const generationMode = ref('from_cap')
 // the user's overriden macro text string
 const userMacroString = ref('')
 
 
-const generateShoutString = computed(() => {
+const generateShoutString = () => {
     if (selectedExpansions.value.length < 1) return ""
     return `/sh ${calculateFinalText.value}`
-})
+}
 
-const generatePartyString = computed(() => {
+const generatePartyString = () => {
     if (selectedExpansions.value.length < 1) return ""
     return `/p ${calculateFinalText.value}`
-})
+}
 
-const generateDiscordString = computed(() => {
+const generateDiscordString = () => {
     if (selectedExpansions.value.length < 1) return ""
     let s = calculateFinalText.value
     const emotes = getCurrencyEmoteMap()
@@ -122,7 +122,7 @@ const generateDiscordString = computed(() => {
         s = s.replace(replacement, emotes[replacement])
     }
     return s
-})
+}
 
 const calculateTotals = () => {
     const total_rewards = {}
