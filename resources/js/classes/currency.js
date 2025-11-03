@@ -145,3 +145,11 @@ export const getSortKey = (currency_id) => {
 export const getCurrencyInfo = (currency_id) => {
     return currencyList[currency_id]
 }
+
+export const getCurrencyEmoteMap = () => {
+    return Object.keys(currencyList).reduce((prevVal, el) => {
+        const curr = currencyList[el]
+        prevVal[curr.name] = curr.emote
+        return prevVal
+    }, {})
+}

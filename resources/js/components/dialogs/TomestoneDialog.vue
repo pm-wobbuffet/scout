@@ -37,26 +37,41 @@
                             Highest Amount Before Cap</label>
                     </div>
                     <div>
-                        {{ selectedExpansions }}
+
                     </div>
                 </form>
                 <div class="ml-2">
-                    <fieldset>
+                    <fieldset class="relative">
                         <legend>Shout Macro</legend>
-                        <textarea name="" id="" rows="3"></textarea>
+                        <UseClipboard v-slot="{ copy, copied }" :source="generateShoutString">
+                            <textarea name="" id="" rows="3" v-text="generateShoutString"></textarea>
+                            <button type="button" @click="copy()"
+                                class="absolute bottom-1 right-0 bg-slate-800 text-white border p-1">{{ copied ?
+                                    'Copied!'
+                                    : 'Copy' }}</button>
+                        </UseClipboard>
                     </fieldset>
-                    <fieldset>
+                    <fieldset class="relative">
                         <legend>Party Macro</legend>
-                        <textarea name="" id="" rows="3"></textarea>
+                        <UseClipboard v-slot="{ copy, copied }" :source="generatePartyString">
+                            <textarea name="" id="" rows="3" v-text="generatePartyString"></textarea>
+                            <button type="button" @click="copy()"
+                                class="absolute bottom-1 right-0 bg-slate-800 text-white border p-1">{{ copied ?
+                                    'Copied!'
+                                    : 'Copy' }}</button>
+                        </UseClipboard>
                     </fieldset>
-                    <fieldset>
+                    <fieldset class="relative">
                         <legend>Discord Text</legend>
-                        <textarea name="" id="" rows="3"></textarea>
+                        <UseClipboard v-slot="{ copy, copied }" :source="generateDiscordString">
+                            <textarea name="" id="" rows="3" v-text="generateDiscordString"></textarea>
+                            <button type="button" @click="copy()"
+                                class="absolute bottom-1 right-0 bg-slate-800 text-white border p-1">{{ copied ?
+                                    'Copied!'
+                                    : 'Copy' }}</button>
+                        </UseClipboard>
                     </fieldset>
                 </div>
-            </div>
-            <div>OUTPUT
-                {{ calculateFinalText }}
             </div>
         </DialogContent>
     </Dialog>
@@ -76,7 +91,8 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { computed, inject, onBeforeUpdate, onMounted, onUpdated, ref, watch } from 'vue';
-import { getCurrencyInfo, getRewardsForExpansion, getSortKey } from '@/classes/currency';
+import { getCurrencyEmoteMap, getCurrencyInfo, getRewardsForExpansion, getSortKey } from '@/classes/currency';
+import { UseClipboard } from '@vueuse/components';
 
 const scout = inject('scoutReport')
 const selectedExpansions = ref([])
@@ -86,6 +102,27 @@ const mobCounts = ref({})
 const generationMode = ref('total_amount')
 // the user's overriden macro text string
 const userMacroString = ref('')
+
+
+const generateShoutString = computed(() => {
+    if (selectedExpansions.value.length < 1) return ""
+    return `/sh ${calculateFinalText.value}`
+})
+
+const generatePartyString = computed(() => {
+    if (selectedExpansions.value.length < 1) return ""
+    return `/p ${calculateFinalText.value}`
+})
+
+const generateDiscordString = computed(() => {
+    if (selectedExpansions.value.length < 1) return ""
+    let s = calculateFinalText.value
+    const emotes = getCurrencyEmoteMap()
+    for (let replacement in emotes) {
+        s = s.replace(replacement, emotes[replacement])
+    }
+    return s
+})
 
 const calculateTotals = () => {
     const total_rewards = {}
@@ -117,7 +154,12 @@ const generateCurrencyString = () => {
     let c = ""
     if (generationMode.value == 'from_cap') {
         // Need to calculate total rewards and subtract from max caps
-        return ""
+        c = calculateTotals().map((curr_reward) => {
+            const c = getCurrencyInfo(curr_reward.currency)
+            let max_start = c.max_stack - curr_reward.total
+            max_start = max_start < 0 ? 0 : max_start
+            return `${max_start} ${c.name}`
+        }).join(", ")
     } else {
         // Only need to sum the total rewards
         c = calculateTotals().map((curr_reward) => {
@@ -139,9 +181,9 @@ const getMacroString = () => {
         return userMacroString.value
     }
     if (generationMode.value == 'from_cap') {
-        return "Tome Check! Make sure to have less than $c to prevent overcapping"
+        return "Tome Check! Make sure to have less than $c to prevent overcapping!"
     }
-    return "This train will generate $c"
+    return "This train will generate $c."
 }
 
 const updateMobCounts = () => {
