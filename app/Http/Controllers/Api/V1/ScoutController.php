@@ -10,13 +10,13 @@ use App\Http\Requests\UpdatePointOccupiedRequest;
 use App\Http\Requests\UpdateScoutAPIRequest;
 use App\Http\Requests\UpdateScoutRequest;
 use App\Models\Scout;
-use App\Traits\HandlesScoutUpdates;
-use App\Traits\Traits\HandlesCustomPoints;
+use App\Traits\UpdatesScoutReports;
 use Illuminate\Http\Request;
 
 class ScoutController extends Controller
 {
-    use HandlesScoutUpdates, HandlesCustomPoints;
+    #use HandlesScoutUpdates, HandlesCustomPoints;
+    use UpdatesScoutReports;
 
     /**
      * Display a listing of the resource.
