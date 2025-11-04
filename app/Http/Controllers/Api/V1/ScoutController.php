@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\StoreScoutRequest;
 use App\Http\Requests\BulkUpdateScoutAPIRequest;
-use App\Http\Requests\StoreScoutRequest;
 use App\Http\Requests\UpdatePointOccupiedAPIRequest;
 use App\Http\Requests\UpdatePointOccupiedRequest;
 use App\Http\Requests\UpdateScoutAPIRequest;
