@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\Scout\ZoneMultipleOccupancyChanged;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\StoreScoutRequest;
-use App\Http\Requests\BulkUpdateScoutAPIRequest;
+use App\Http\Requests\Api\V1\BulkUpdateScoutApiRequest;
 use App\Http\Requests\UpdatePointOccupiedAPIRequest;
 use App\Http\Requests\UpdatePointOccupiedRequest;
 use App\Http\Requests\UpdateScoutAPIRequest;
 use App\Http\Requests\UpdateScoutRequest;
+use App\Http\Resources\ScoutCustomPointResource;
 use App\Models\Scout;
 use App\Traits\UpdatesScoutReports;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ScoutController extends Controller
 {
@@ -32,6 +36,34 @@ class ScoutController extends Controller
     public function store(StoreScoutRequest $request)
     {
         $s = Scout::create($request->safe()->all());
+        if ($request->has('point_data')) {
+            $s->points()->createMany($request->point_data);
+        }
+        if ($request->validated('instance_data')) {
+            foreach ($request->validated('instance_data') as $zone_id => $instance_count) {
+                $s->instances()->attach($zone_id, ['instance_count' => $instance_count]);
+            }
+        }
+        if ($request->validated('scouts')) {
+            $s->scouts()->createMany($request->validated('scouts'));
+        }
+        if ($request->validated('mob_status') && is_array($request->validated('mob_status'))) {
+            // Convert any old mob statuses to the new format
+            $mobs = [];
+            if ($request->validated('mob_status') && is_array($request->validated('mob_status'))) {
+                foreach ($request->validated('mob_status') as $mob_id => $instances) {
+                    foreach ($instances as $instance_number => $status) {
+                        if ($status) {
+                            $mobs[] = [
+                                'mob_id' => $mob_id,
+                                'instance_number' => $instance_number,
+                            ];
+                        }
+                    }
+                }
+            }
+            $s->dead_mobs()->createMany($mobs);
+        }
         if ($s) {
             return response()->json([
                 'slug'                  => $s->slug,
@@ -57,9 +89,9 @@ class ScoutController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(BulkUpdateScoutAPIRequest $request, Scout $scout)
+    public function update(BulkUpdateScoutApiRequest $request, Scout $scout)
     {
-        $this->createBulkUpdate($scout, $request->validated('sightings'));
+        $modified_zones = $this->createBulkUpdate($scout, $request->validated('sightings'));
         // Make sure to credit the user if a username was supplied
         if ($request->has('update_user') && $request->input('update_user') !== 'Anonymous') {
             if (!in_array($request->input('update_user'), $scout->scouts)) {
@@ -67,6 +99,18 @@ class ScoutController extends Controller
             }
         }
         $scout->save();
+
+        $points = $scout->points()->whereIn(
+            DB::raw("CONCAT(zone_id,'-',instance_number)"),
+            array_keys($modified_zones)
+        )->get();
+        broadcast(new ZoneMultipleOccupancyChanged(
+            $scout,
+            $points,
+            collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray(),
+            array_keys($modified_zones),
+        ));
+
         return response()->json([
             'scout_id'              =>  $scout->slug,
             'collaborator_password' =>  $scout->collaborator_password,
@@ -76,7 +120,7 @@ class ScoutController extends Controller
         ]);
     }
 
-    public function bulkUpdate(BulkUpdateScoutAPIRequest $request, Scout $scout)
+    public function bulkUpdate(BulkUpdateScoutApiRequest $request, Scout $scout)
     {
         $this->createBulkUpdate($scout, $request->validated('sightings'));
         return response()->json([

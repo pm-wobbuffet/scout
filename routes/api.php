@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['throttle:api'])
@@ -14,7 +13,7 @@ Route::middleware(['throttle:api'])
 
         Route::get('/expansions', 'ExpansionController@index');
 
-        Route::match(['PUT', 'PATCH'], '/scout/{scout}/bulkupdate', 'ScoutController@bulkUpdate');
-        Route::match(['POST', 'PATCH'], '/scout/{scout}/occupypoint', 'ScoutController@updateOccupiedPoint');
+        Route::match(['PUT', 'PATCH'], '/scout/{scout:slug}/bulkupdate', 'ScoutController@bulkUpdate');
+        Route::match(['POST', 'PATCH'], '/scout/{scout:slug}/occupypoint', 'ScoutController@updateOccupiedPoint');
         Route::apiResource('scout', 'ScoutController');
     });

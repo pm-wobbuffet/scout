@@ -13,14 +13,30 @@ class StoreScoutRequest extends FormRequest
      */
     public function rules(): array
     {
-        // TODO: make sure these fields are defined, array substructures checked
         return [
-            'custom_points'         => 'array|nullable',
-            'points'                => 'array|nullable',
-            'dead_mobs'             => 'array|nullable',
-            'instance_data'         => 'array|nullable',
-            'scouts'                => 'array|nullable',
-            'scouts.*.scout_name'   => 'string',
+            'custom_points'                 => 'array|nullable',
+            'custom_points.*.id'            => 'numeric|required',
+            'custom_points.*.x'             => 'numeric|required',
+            'custom_points.*.y'             => 'numeric|required',
+            'custom_points.*.zone_id'       => 'numeric|required',
+            'custom_points.*.scout_id'      => 'nullable|numeric',
+            'custom_points.*.valid_mobs'    => 'nullable|array',
+            'custom_points.*.point_type'    => 'required|string',
+            'points'                        => 'array|nullable',
+            'points.*.point_type'           => 'required|string',
+            'points.*.point_id'             => 'required|numeric',
+            'points.*.instance_number'      => 'required|numeric',
+            'points.*.x'                    => 'nullable|numeric',
+            'points.*.y'                    => 'nullable|numeric',
+            'points.*.zone_id'              => 'required|numeric',
+            'points.*.mob_id'               => 'nullable|numeric',
+            'points.*.reporter'             => 'nullable|string',
+            'dead_mobs'                     => 'array|nullable',
+            'dead_mobs.*.mob_id'            => 'required|numeric',
+            'dead_mobs.*.instance_number'   => 'numeric',
+            'instance_data'                 => 'array|nullable',
+            'scouts'                        => 'array|nullable',
+            'scouts.*.scout_name'           => 'string',
         ];
     }
 }
