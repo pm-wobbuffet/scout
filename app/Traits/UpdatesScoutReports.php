@@ -69,6 +69,11 @@ trait UpdatesScoutReports
             $scout->points()->where('mob_id', $sighting['mob_id'])
                 ->where('instance_number', $sighting['instance_number'])
                 ->delete();
+            // Remove the mob from any dead mob lists
+            $scout->dead_mobs()->where('mob_id', $sighting['mob_id'])
+                ->where('instance_number', $sighting['instance_number'])
+                ->delete();
+
             $updated_zones[$sighting['zone_id'] . '-' . $sighting['instance_number']] = 1;
             $scout->points()->create([
                 'point_type'        => 'spawn_point',
