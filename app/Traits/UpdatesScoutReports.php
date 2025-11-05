@@ -20,7 +20,7 @@ trait UpdatesScoutReports
         }
     }
 
-    public function addScouterToScoutReport(Scout $scout, string|null $reporter)
+    public function addScouterToScoutReport(Scout $scout, ?string $reporter)
     {
         if ($reporter === null || !$reporter || $reporter === '') return;
         // If they already exist in the scout list, can return early

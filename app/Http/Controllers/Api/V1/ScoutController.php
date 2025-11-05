@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\Scout\PointOccupancyChanged;
 use App\Events\Scout\ZoneMultipleOccupancyChanged;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\StoreScoutRequest;
 use App\Http\Requests\Api\V1\BulkUpdateScoutApiRequest;
-use App\Http\Requests\UpdatePointOccupiedAPIRequest;
-use App\Http\Requests\UpdatePointOccupiedRequest;
-use App\Http\Requests\UpdateScoutAPIRequest;
-use App\Http\Requests\UpdateScoutRequest;
+use App\Http\Requests\Api\V1\UpdateOccupiedPointRequest;
 use App\Http\Resources\ScoutCustomPointResource;
 use App\Models\Scout;
 use App\Traits\UpdatesScoutReports;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+
 
 class ScoutController extends Controller
 {
@@ -132,7 +129,7 @@ class ScoutController extends Controller
         ]);
     }
 
-    public function updateOccupiedPoint(UpdatePointOccupiedAPIRequest $request, Scout $scout)
+    public function updateOccupiedPoint(UpdateOccupiedPointRequest $request, Scout $scout)
     {
         // Get details from the request
         $point_id = $request->validated('point_id');
@@ -140,31 +137,51 @@ class ScoutController extends Controller
         $status = $request->validated('status');
         $distance = $request->distance;
         if ($distance && floatval($distance) > 2) {
-            return [
+            return response()->json([
                 'error'             =>  'The specified point was not within range of a known A rank spawn point.',
                 'distance'          =>  $distance,
                 'closest_point'     =>  $point_id,
-                'occupied_points'   =>  $scout->occupied_points,
-            ];
+            ], 422); // 422 = Unprocessable Input
         }
-        // Grab a reference to the currently occupied point
-        $p = $scout->occupied_points;
-        if (!isset($p[$point_id])) {
-            $p[$point_id] = [];
+        $p = $scout->points()->where('point_type', $request->point->point_type)
+            ->where('point_id', $request->point->id)->first();
+        if ($p && $p->mob_id !== null) {
+            // There was a mark on this spot, don't let them do any occupied update
+            return response()->json([
+                'error' => 'An A Rank Mark was already placed on this point. Cannot mark as occupied. Remove the A rank first if needed.',
+            ], 422); // 422 = Unprocessable input
         }
-        // update the status of this instance point. (1 = occupied, 0 = unoccupied)
-        $p[$point_id][$instance] = $status;
-        $scout->occupied_points = $p;
+        if ($p) $p->delete();
+        if ($status == 1) {
+            // Mark as occupied
+            $scout->points()->create([
+                'point_type' => $request->point->point_type,
+                'point_id'  => $point_id,
+                'zone_id'   => $request->point->zone_id,
+                'instance_number' => $instance,
+                'mob_id'    => null,
+                'reporter'  => $request->input('update_user', null),
+            ]);
+        }
         // Make sure to credit the user if a username was supplied
         if ($request->has('update_user') && $request->input('update_user') !== 'Anonymous') {
-            if (!in_array($request->input('update_user'), $scout->scouts)) {
-                $scout->scouts = [...$scout->scouts, $request->input('update_user')];
-            }
+            $this->addScouterToScoutReport($scout, $request->input('update_user'));
         }
         $scout->save();
+
+        $points = $scout->points
+            ->where('zone_id', $request->validated('zone_id'))
+            ->where('instance_number', $request->validated('instance_number', 1));
+        broadcast(new PointOccupancyChanged(
+            $scout,
+            $points,
+            $request->validated('zone_id'),
+            $request->validated('instance_number', 1)
+        ))
+            ->toOthers();
         return [
             'success'           =>  1,
-            'occupied_points'   => $scout->occupied_points,
+            'occupied_points'   => $scout->points,
         ];
     }
 
