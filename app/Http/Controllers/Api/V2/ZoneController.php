@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Http\Controllers\Api\V2;
+
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\V2\SpawnPointCollection;
+use App\Http\Resources\Api\V2\ZoneCollection;
+use App\Http\Resources\Api\V2\ZoneResource;
+use App\Models\Zone;
+use Illuminate\Http\Request;
+
+class ZoneController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $zones = Zone::query()
+            ->withCount(['mobs', 'spawn_points', 'aetherytes'])
+            ->orderBy('id')
+            ->get();
+
+        return new ZoneCollection($zones);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Zone $zone)
+    {
+        $zone->load(['mobs', 'aetherytes']);
+        $zone->loadCount(['mobs', 'spawn_points', 'aetherytes']);
+        return new ZoneResource($zone);
+    }
+
+    public function spawn_points(Zone $zone)
+    {
+        $points = $zone->spawn_points()
+            ->with(['valid_mobs' => function ($query) {
+                $query->select(['mob_id'])->pluck('mob_id');
+            }])
+            ->orderBy('id')->get();
+        return new SpawnPointCollection($points);
+    }
+}

@@ -19,4 +19,10 @@ Route::middleware(['throttle:api'])
     ->prefix('v2')
     ->namespace('\\App\\Http\\Controllers\\Api\\V2')
     ->name('api.v2')
-    ->group(function () {});
+    ->group(function () {
+        Route::get('/expansions/{expansion}/zones', 'ExpansionController@zones')->name('expansions.zones');
+        Route::resource('expansions', 'ExpansionController')->only(['index', 'show']);
+        Route::get('/zones/{zone}/spawn_points', 'ZoneController@spawn_points');
+        Route::resource('zones', 'ZoneController')->only(['index', 'show']);
+        Route::resource('mobs', 'MobController')->only(['index', 'show']);
+    });

@@ -119,7 +119,18 @@ class ScoutController extends Controller
 
     public function bulkUpdate(BulkUpdateScoutApiRequest $request, Scout $scout)
     {
-        $this->createBulkUpdate($scout, $request->validated('sightings'));
+        $modified_zones = $this->createBulkUpdate($scout, $request->validated('sightings'));
+
+        $points = $scout->points()->whereIn(
+            DB::raw("CONCAT(zone_id,'-',instance_number)"),
+            array_keys($modified_zones)
+        )->get();
+        broadcast(new ZoneMultipleOccupancyChanged(
+            $scout,
+            $points,
+            collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray(),
+            array_keys($modified_zones),
+        ));
         return response()->json([
             'scout_id'              =>  $scout->slug,
             'collaborator_password' =>  $scout->collaborator_password,

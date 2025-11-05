@@ -15,4 +15,9 @@ class Mob extends Model
             'names' =>  'array',
         ];
     }
+
+    public function spawn_points()
+    {
+        return $this->belongsToMany(SpawnPoint::class, 'mobs_spawn_points');
+    }
 }
