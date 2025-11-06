@@ -8,6 +8,42 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Sqids\Sqids;
 
+/**
+ * @property int $id
+ * @property string|null $slug
+ * @property string|null $collaborator_password
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $finalized_at
+ * @property string|null $title
+ * @property int $version
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ScoutCustomPoint> $custom_points
+ * @property-read int|null $custom_points_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ScoutDeadMob> $dead_mobs
+ * @property-read int|null $dead_mobs_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Zone> $instances
+ * @property-read int|null $instances_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ScoutPoint> $occupied_pts
+ * @property-read int|null $occupied_pts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ScoutPoint> $points
+ * @property-read int|null $points_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ScoutScouter> $scouts
+ * @property-read int|null $scouts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ScoutUpdate> $updates
+ * @property-read int|null $updates_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout whereCollaboratorPassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout whereFinalizedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout whereVersion($value)
+ * @mixin \Eloquent
+ */
 class Scout extends Model
 {
     protected   $guarded = ['id'];

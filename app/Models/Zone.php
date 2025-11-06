@@ -8,6 +8,44 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property int $default_instances
+ * @property int $map_id
+ * @property int $expansion_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $size_factor
+ * @property string $max_coord_size
+ * @property int $allow_custom_points
+ * @property int $sort_priority
+ * @property array<array-key, mixed>|null $names
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Aetheryte> $aetherytes
+ * @property-read int|null $aetherytes_count
+ * @property-read \App\Models\Expansion|null $expansion
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Mob> $mobs
+ * @property-read int|null $mobs_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SpawnPoint> $spawn_points
+ * @property-read int|null $spawn_points_count
+ * @property-read mixed $total_mobs
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereAllowCustomPoints($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereDefaultInstances($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereExpansionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereMapId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereMaxCoordSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereNames($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereSizeFactor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereSortPriority($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Zone whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Zone extends Model
 {
     protected $appends = ['total_mobs'];

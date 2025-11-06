@@ -22,7 +22,7 @@ class ScoutController extends Controller
      */
     public function show(Scout $scout, Request $request)
     {
-        $scout->load(['points', 'custom_points', 'scouts', 'dead_mobs']);
+        $scout->load(['points', 'points.point', 'custom_points', 'scouts', 'dead_mobs']);
         if (!$request->has('collaborator_password')) {
             $scout->makeHidden('collaborator_password');
         }
