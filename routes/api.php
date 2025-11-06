@@ -25,4 +25,5 @@ Route::middleware(['throttle:api'])
         Route::get('/zones/{zone}/spawn_points', 'ZoneController@spawn_points');
         Route::resource('zones', 'ZoneController')->only(['index', 'show']);
         Route::resource('mobs', 'MobController')->only(['index', 'show']);
+        Route::resource('scouts', 'ScoutController')->only(['show', 'store', 'update']);
     });

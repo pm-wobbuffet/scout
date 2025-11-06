@@ -27,9 +27,12 @@ class ZoneController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Zone $zone)
+    public function show(Zone $zone, Request $request)
     {
         $zone->load(['mobs', 'aetherytes']);
+        if (boolval($request->input('show_spawn_points', false)) == true) {
+            $zone->load('spawn_points');
+        }
         $zone->loadCount(['mobs', 'spawn_points', 'aetherytes']);
         return new ZoneResource($zone);
     }

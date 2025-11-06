@@ -22,14 +22,16 @@ class MobResource extends JsonResource
             'bNpcBase'              => $this->bNpcBase,
             'mob_index'             => $this->mob_index,
             'spawn_points_count'    => $this->whenCounted('spawn_points'),
-            'spawn_points'          => $this->whenLoaded('spawn_points')->map(function (mixed $item, int $key) {
-                return [
-                    'id'    => $item->id,
-                    'x'     => $item->x,
-                    'y'     => $item->y,
-                ];
+            'spawn_points'          => $this->whenLoaded('spawn_points', function ($spawn_points) {
+                // return a smaller subset of the spawn point data
+                return $spawn_points->map(function ($item) {
+                    return [
+                        'id'    => $item->id,
+                        'x'     => $item->x,
+                        'y'     => $item->y,
+                    ];
+                });
             }),
-
         ];
     }
 }

@@ -27,6 +27,15 @@ class ZoneResource extends JsonResource
             'mobs_count'            => $this->whenCounted('mobs'),
             'aetherytes_count'      => $this->whenCounted('aetherytes'),
             'aetherytes'            => AetheryteResource::collection($this->whenLoaded('aetherytes')),
+            'spawn_points'          => $this->whenLoaded('spawn_points', function ($points) {
+                return $points->map(function ($point) {
+                    return [
+                        'id' => $point->id,
+                        'x' => $point->x,
+                        'y' => $point->y,
+                    ];
+                });
+            }),
         ];
     }
 }

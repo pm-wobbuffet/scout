@@ -21,7 +21,9 @@ class SpawnPointResource extends JsonResource
             'y'             => $this->y,
             'point_type'    => $this->point_type,
             // Only need the mob_ids for the API calls. They can ping the /mobs endpoints for info
-            'valid_mobs'    => $this->whenLoaded('valid_mobs')->pluck('mob_id'),
+            'valid_mobs'    => $this->whenLoaded('valid_mobs', function ($mobs) {
+                return $mobs->pluck('mob_id');
+            }),
         ];
     }
 }
