@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class ZoneController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display all active zones.
      */
     public function index()
     {
@@ -25,7 +25,7 @@ class ZoneController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display a single zone
      */
     public function show(Zone $zone, Request $request)
     {
@@ -37,6 +37,11 @@ class ZoneController extends Controller
         return new ZoneResource($zone);
     }
 
+    /**
+     * Display the spawn points for a given Zone
+     * @param \App\Models\Zone $zone
+     * @return SpawnPointCollection
+     */
     public function spawn_points(Zone $zone)
     {
         $points = $zone->spawn_points()
