@@ -9,6 +9,9 @@ use App\Http\Resources\Api\V2\ZoneResource;
 use App\Models\Zone;
 use Illuminate\Http\Request;
 
+/**
+ * Handle display of Zones and related data.
+ */
 class ZoneController extends Controller
 {
     /**

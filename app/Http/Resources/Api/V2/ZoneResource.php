@@ -15,14 +15,26 @@ class ZoneResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            /**
+             * The ID of the zone, maps to the key of the TerritoryType Sheet.
+             */
             'id'                    => $this->id,
+            /**
+             * Default display name (English, in Turtle scout). Used as a fallback for display.
+             */
             'name'                  => $this->name,
             /**
-             * The array of localized names for this zone, currently limited to those included in the Global client
+             * The array of localized names for this zone, currently limited to those included in the Global client.
              * @var array{'en': string, 'fr': string, 'de': string, 'ja': string}
              */
             'names'                 => $this->names,
+            /**
+             * The internal Map key for the zone, corresponding to the key in the Map Sheet.
+             */
             'map_id'                => $this->map_id,
+            /**
+             * The current number of instances this zone has. Can be overriden at the Scout Report level.
+             */
             'default_instances'     => $this->default_instances,
             'expansion_id'          => $this->expansion_id,
             /**
@@ -45,7 +57,7 @@ class ZoneResource extends JsonResource
             'aetherytes_count'      => $this->whenCounted('aetherytes'),
             'aetherytes'            => AetheryteResource::collection($this->whenLoaded('aetherytes')),
             /**
-             * The list of spawn points for this zone. Does not include any custom spawn points added on a per scout report basis.
+             * A concise array of spawn points for this zone. Does not include any custom spawn points added on a per scout report basis.
              * @var array{'id': int, 'x': float, 'y': float}[]
              */
             'spawn_points'          => $this->whenLoaded('spawn_points', function ($points) {

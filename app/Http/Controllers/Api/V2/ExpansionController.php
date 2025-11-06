@@ -26,7 +26,9 @@ class ExpansionController extends Controller
     }
 
     /**
-     * Display a single expansion
+     * Get the details of a single expansion.
+     * @param \App\Models\Expansion $expansion
+     * @return ExpansionResource
      */
     public function show(Expansion $expansion)
     {
@@ -35,8 +37,8 @@ class ExpansionController extends Controller
     }
 
     /**
-     * Display the list of zones attached to an expansion
-     * @param \App\Models\Expansion $expansion
+     * Display the list of zones attached to an expansion.
+     * @param \App\Models\Expansion $expansion The Expansion ID, corresponding to the key of the ExVersion Sheet
      * @return ZoneCollection
      */
     public function zones(Expansion $expansion): ZoneCollection

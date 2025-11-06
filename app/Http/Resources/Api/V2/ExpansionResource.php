@@ -16,6 +16,9 @@ class ExpansionResource extends JsonResource
     {
         //return parent::toArray($request);
         return [
+            /**
+             * The ID of the expansion, corresponds to the key of the ExVersion Sheet.
+             */
             'id'            => $this->id,
             /**
              * @var string

@@ -53,19 +53,20 @@ class AppServiceProvider extends ServiceProvider
         ScoutResource::withoutWrapping();
         ExpansionResource::withoutWrapping();
 
-        // Add in reverb event listeners
-        // Event::listen(
-        //     ReverbMessageListener::class,
-        // );
-
-        // Set up scramble API docs for v1 and v2
-
+        // Set up scramble API docs for v1 and v2. Disable the initial default routes
         Scramble::ignoreDefaultRoutes();
 
         // Old V1 API
         Scramble::registerApi('v1', [
             'api_path' => 'api/v1',
-            'version' => '1.0.0',
+            'info' => [
+                'version' => '1.1.0',
+                'description' => <<<EOD
+                This is the ***DEPRECATED*** internal V1 API, used by a few plugins. New plugins should not use it.
+                That said, it should remain functional for the foreseeable future as it has been rewritten
+                to transform requests to the new schema.
+                EOD,
+            ],
         ])->expose(
             ui: '/docs/api/v1',
             document: '/docs/api/v1/openapi.json'
@@ -74,7 +75,14 @@ class AppServiceProvider extends ServiceProvider
         // Newer V2 API
         Scramble::registerApi('v2', [
             'api_path' => 'api/v2',
-            'version' => '2.0.0',
+            'info' => [
+                'version' => '2.0.0',
+                'description' => <<<EOD
+                This is the currently supported version of the Turtle Scout API. It contains informational endpoints
+                (examples: Zone, Mob, Expansion) that would let you set up your own user-interfaces
+                and data endpoints (Scout) that allow you to submit and manage scout reports.
+                EOD,
+            ],
         ])->expose(
             ui: '/docs/api/v2',
             document: '/docs/api/v2/openapi.json'
