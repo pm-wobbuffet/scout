@@ -27,7 +27,7 @@ class SpawnPointResource extends JsonResource
             'y'             => $this->y,
             /**
              * The internal type of this point. Valid strings are 'spawn_point' and 'custom_spawn_point'
-             * @var string
+             * @var \App\Enums\SpawnPointTypeEnum
              */
             'point_type'    => $this->point_type,
             /**

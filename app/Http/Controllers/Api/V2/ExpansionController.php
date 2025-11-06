@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class ExpansionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get all expansions
      */
     public function index()
     {
@@ -26,7 +26,7 @@ class ExpansionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display a single expansion
      */
     public function show(Expansion $expansion)
     {

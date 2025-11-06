@@ -17,8 +17,19 @@ class ExpansionResource extends JsonResource
         //return parent::toArray($request);
         return [
             'id'            => $this->id,
+            /**
+             * @var string
+             */
             'name'          => $this->name,
+            /**
+             * The abbreviation used for navigation menus
+             * @var string
+             */
             'abbreviation'  => $this->abbreviation,
+            /**
+             * The total number of active zones assigned to this expansion
+             * @var int
+             */
             'zone_count'    => $this->whenCounted('zones'),
         ];
     }

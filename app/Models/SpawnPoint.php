@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SpawnPointTypeEnum;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,7 +35,7 @@ class SpawnPoint extends Model
     protected function pointType(): Attribute
     {
         return Attribute::make(
-            get: fn() => "spawn_point",
+            get: fn() => SpawnPointTypeEnum::SPAWN_POINT,
         );
     }
 }
