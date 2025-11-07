@@ -33,7 +33,7 @@ class ZoneResource extends JsonResource
              */
             'map_id'                => $this->map_id,
             /**
-             * The current number of instances this zone has. Can be overriden at the Scout Report level.
+             * The current number of instances this zone has. Can be overridden at the Scout Report level.
              */
             'default_instances'     => $this->default_instances,
             'expansion_id'          => $this->expansion_id,
@@ -50,7 +50,7 @@ class ZoneResource extends JsonResource
             /**
              * The number of active A rank mobs attached to this zone
              */
-            'mobs_count'            => $this->whenCounted('mobs'),
+            'mob_count'            => $this->whenCounted('mobs'),
             /**
              * The number of aetherytes active in this zone
              */
