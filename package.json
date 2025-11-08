@@ -23,6 +23,7 @@
         "pusher-js": "^8.4.0",
         "sass-embedded": "^1.89.0",
         "typescript-eslint": "^8.23.0",
+        "vite-plugin-vue-devtools": "^8.0.3",
         "vue-tsc": "^2.2.4"
     },
     "dependencies": {
