@@ -14,8 +14,9 @@ class UpdateInstanceCountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'instance_data'     => 'required|array',
-            'instance_data.*'   => 'numeric',
+            'instance_data'                     => 'required|array',
+            'instance_data.*.zone_id'           => 'numeric|min:1',
+            'instance_data.*.instance_count'    => 'numeric',
         ];
     }
 }

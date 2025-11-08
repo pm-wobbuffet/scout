@@ -35,6 +35,8 @@ class StoreScoutRequest extends FormRequest
             'dead_mobs.*.mob_id'            => 'required|numeric',
             'dead_mobs.*.instance_number'   => 'numeric',
             'instance_data'                 => 'array|nullable',
+            'instance_data.*.zone_id'       => 'numeric',
+            'instance_data.*.instance_count' => 'numeric|min:1',
             'scouts'                        => 'array|nullable',
             'scouts.*.scout_name'           => 'string',
         ];

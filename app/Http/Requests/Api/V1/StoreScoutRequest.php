@@ -48,7 +48,7 @@ class StoreScoutRequest extends FormRequest
     {
         // Convert from the old point format to the new one
         $point_data = [];
-        foreach ($this->point_data as $zone_id => $instance) {
+        foreach ($this->point_data ?? [] as $zone_id => $instance) {
             foreach ($instance as $instance_number => $mob_list) {
                 foreach ($mob_list as $mob_sighting) {
                     $point_data[] = [
@@ -70,7 +70,7 @@ class StoreScoutRequest extends FormRequest
         }
         // Look for occupied points and move them to the point_data array
         $p = SpawnPoint::select(['id', 'zone_id'])->get()->pluck('zone_id', 'id');
-        foreach ($this->occupied_points as $point_id => $instances) {
+        foreach ($this->occupied_points ?? [] as $point_id => $instances) {
             foreach ($instances as $instance_number => $status) {
                 if ($status) {
                     $point_data[] = [

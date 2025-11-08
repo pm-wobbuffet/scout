@@ -1,7 +1,7 @@
 <template>
     <Dialog v-bind:open="dialogOpen">
         <DialogTrigger as-child>
-            <ScoutReportButton :style="{ '--bg-gradient-start': 'var(--color-slate-500)' }">
+            <ScoutReportButton :style="{ '--bg-gradient-start': 'var(--color-yellow-600)' }">
                 Import
             </ScoutReportButton>
         </DialogTrigger>

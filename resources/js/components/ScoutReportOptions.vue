@@ -9,7 +9,7 @@
         <ImportPointsDialog v-if="editmode && ((!scout) || scout?.finalized_at === null)" />
         <Dialog v-model:open="showFinalizeDialog" v-if="editmode && scout && scout?.finalized_at === null">
             <DialogTrigger as-child>
-                <ScoutReportButton :style="{ '--bg-gradient-start': 'var(--color-violet-400)' }"
+                <ScoutReportButton :style="{ '--bg-gradient-start': 'var(--color-red-400)' }"
                     title="Finalize this scouting report and prevent further edits">
                     Finalize
                 </ScoutReportButton>

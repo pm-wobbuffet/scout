@@ -83,9 +83,7 @@ class MainController extends Controller
             $scout->points()->createMany($request->validated('points'));
         }
         if ($request->has('instance_data')) {
-            foreach ($request->validated('instance_data') as $zone_id => $instance_count) {
-                $scout->instances()->attach($zone_id, ['instance_count' => $instance_count]);
-            }
+            $scout->instances()->sync($request->validated('instance_data'));
         }
         if ($request->has('dead_mobs')) {
             $scout->dead_mobs()->createMany($request->validated('dead_mobs'));

@@ -20,9 +20,14 @@ class ScoutResource extends JsonResource
                 $request->input('collaborator_password') == $this->collaborator_password,
                 $this->collaborator_password
             ),
-            'title' => $this->title,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'readonly_url'      => route('scout.view', $this),
+            'collaborate_url'   => $this->when(
+                $request->input('collaborator_password') == $this->collaborator_password,
+                route('scout.view', [$this, $this->collaborator_password])
+            ),
+            'title'             => $this->title,
+            'created_at'        => $this->created_at,
+            'updated_at'        => $this->updated_at,
             /**
              * The time the report was finalized. If not null, no further changes the scouting report may be submitted.
              */

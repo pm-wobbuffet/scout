@@ -91,9 +91,10 @@ class ScoutController extends Controller
         $modified_zones = $this->createBulkUpdate($scout, $request->validated('sightings'));
         // Make sure to credit the user if a username was supplied
         if ($request->has('update_user') && $request->input('update_user') !== 'Anonymous') {
-            if (!in_array($request->input('update_user'), $scout->scouts)) {
-                $scout->scouts = [...$scout->scouts, $request->input('update_user')];
-            }
+            // $scout->scouts()->upsert([
+            //     'scout_name' => $request->validated('update_user'),
+            // ], 'scout_name');
+            $this->addScouterToScoutReport($scout, $request->input('update_user'));
         }
         $scout->save();
 
@@ -152,7 +153,7 @@ class ScoutController extends Controller
                 'error'             =>  'The specified point was not within range of a known A rank spawn point.',
                 'distance'          =>  $distance,
                 'closest_point'     =>  $point_id,
-            ], 422); // 422 = Unprocessable Input
+            ]); // Send a success status code, since that was prior API behavior, but include error details
         }
         $p = $scout->points()->where('point_type', $request->point->point_type)
             ->where('point_id', $request->point->id)->first();

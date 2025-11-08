@@ -24,8 +24,10 @@ trait UpdatesScoutReports
     {
         if ($reporter === null || !$reporter || $reporter === '') return;
         // If they already exist in the scout list, can return early
-        if ($scout->scouts()->where('scout_name', '=', $reporter)->count() > 0) return;
-        $scout->scouts()->create(['scout_name' => $reporter]);
+        //if ($scout->scouts()->where('scout_name', '=', $reporter)->count() > 0) return;
+        $scout->scouts()->upsert([
+            'scout_name' => $reporter,
+        ], 'scout_name');
         broadcast(new MetaUpdated(
             $scout,
             $scout->title,

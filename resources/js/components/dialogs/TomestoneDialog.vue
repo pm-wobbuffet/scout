@@ -2,7 +2,7 @@
     <Dialog>
         <DialogTrigger as-child>
             <ScoutReportButton title="Show the currency calculator for this train"
-                :style="{ '--bg-gradient-start': 'var(--color-orange-400)' }">
+                :style="{ '--bg-gradient-start': 'var(--color-purple-500)' }">
                 Tomes
             </ScoutReportButton>
         </DialogTrigger>

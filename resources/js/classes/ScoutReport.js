@@ -31,9 +31,10 @@ export default class ScoutReport {
 
     handleDataFields(data) {
         if ('instance_data' in data) {
-            data.instance_data.forEach((el) => {
-                this.instance_data[el.zone_id] = el.instance_count
-            })
+            // data.instance_data.forEach((el) => {
+            //     this.instance_data[el.zone_id] = el.instance_count
+            // })
+            this.instance_data = data.instance_data
         } else {
             this.instance_data = this.constructDefaultInstanceData()
         }
@@ -128,10 +129,15 @@ export default class ScoutReport {
      * @returns Object
      */
     constructDefaultInstanceData() {
-        let retVal = {}
+        //let retVal = {}
+        const retVal = []
         for (let [key, value] of Object.entries(this.scouter_instance.zone_data)) {
             if (value.default_instances > 1) {
-                retVal[key] = value.default_instances
+                //retVal[key] = value.default_instances
+                retVal.push({
+                    'zone_id': key,
+                    'instance_count': value.default_instances
+                })
             }
         }
         return retVal
@@ -380,8 +386,12 @@ export default class ScoutReport {
      * @returns 
      */
     getInstanceCountForZone(zone_id) {
-        if (zone_id in this.instance_data) {
-            return this.instance_data[zone_id]
+        const z = this.instance_data.find((el) => el.zone_id == zone_id)
+        // if (zone_id in this.instance_data) {
+        //     return this.instance_data[zone_id]
+        // }
+        if (z && z.zone_id) {
+            return z.instance_count
         }
         return 1
     }
@@ -393,8 +403,16 @@ export default class ScoutReport {
      * @return void
      */
     setInstanceCountForZone(zone_id, count) {
-        // Handle event for updating
-        this.instance_data[zone_id] = count
+        // Remove the zone from the list if it has a value already
+        this.instance_data = this.instance_data.filter((el) => {
+            return el.zone_id != zone_id
+        })
+        if (count > 1) {
+            this.instance_data.push({
+                zone_id: zone_id,
+                instance_count: count,
+            })
+        }
         this.emitter.emit('instances:updated', {
             instance_data: this.instance_data
         })

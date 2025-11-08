@@ -6,16 +6,39 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V2\StoreScoutRequest;
 use App\Http\Resources\Api\V2\ScoutResource;
 use App\Models\Scout;
+use App\Traits\UpdatesScoutReports;
 use Illuminate\Http\Request;
 
 class ScoutController extends Controller
 {
+    use UpdatesScoutReports;
+
     /**
      * Store a new Scout report
      */
     public function store(StoreScoutRequest $request)
     {
-        //
+        $scout = Scout::create($request->validated());
+        $request->merge([
+            'collaborator_password' => $scout->collaborator_password,
+        ]);
+        if ($request->has('custom_points')) {
+            $custom_points_mapping = $this->handleCustomPoints($scout, $request->validated('custom_points'));
+        }
+        if ($request->has('points')) {
+            $scout->points()->createMany($request->validated('points'));
+        }
+        if ($request->has('instance_data')) {
+            $scout->instances()->sync($request->validated('instance_data'));
+        }
+        if ($request->has('dead_mobs')) {
+            $scout->dead_mobs()->createMany($request->validated('dead_mobs'));
+        }
+        if ($request->has('scouts') && $request->validated('scouts') !== null) {
+            $scout->scouts()->createMany($request->validated('scouts'));
+        }
+
+        return new ScoutResource($scout);
     }
 
     /**

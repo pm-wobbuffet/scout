@@ -10,7 +10,7 @@
         </PopoverTrigger>
         <PopoverPortal>
             <PopoverContent side="bottom" :side-offset="5" align="center"
-                class="rounded-lg p-2 min-w-[300px] bg-white dark:bg-slate-700 shadow-sm border will-change-[transform,opacity] data-[state=open]:animate-(--animate-slide-up-and-fade)">
+                class="rounded-lg p-2 min-w-[300px] bg-white dark:bg-slate-700 shadow-sm border will-change-[transform,opacity] data-[state=open]:animate-(--animate-slide-up-and-fade) z-[100]">
                 <h1 class="text-center font-bold text-xl">Zone Order/Instances</h1>
                 <table class="w-full">
                     <tr v-for="(zone, index) in scoutReport.getZonesByExpansion()" :key="`zone-sort-row-${zone.id}`"
