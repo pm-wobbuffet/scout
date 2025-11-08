@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class MobController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get a list of all Mobs
      */
     public function index()
     {
@@ -23,7 +23,7 @@ class MobController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the details of a single Mob
      */
     public function show(Mob $mob)
     {

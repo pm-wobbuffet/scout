@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V2\StoreScoutRequest;
 use App\Http\Resources\Api\V2\ScoutResource;
 use App\Models\Scout;
 use Illuminate\Http\Request;
@@ -10,15 +11,15 @@ use Illuminate\Http\Request;
 class ScoutController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Store a new Scout report
      */
-    public function store(Request $request)
+    public function store(StoreScoutRequest $request)
     {
         //
     }
 
     /**
-     * Display the specified resource.
+     * Get info for a single Scout report
      */
     public function show(Scout $scout, Request $request)
     {

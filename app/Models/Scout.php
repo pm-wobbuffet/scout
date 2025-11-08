@@ -79,12 +79,12 @@ class Scout extends Model
     protected function casts(): array
     {
         return [
-            'instance_data'     =>  'array',
-            'point_data'        =>  'array',
-            'old_custom_points'     =>  'array',
-            'mob_status'        =>  'array',
-            'scouts_old'        =>  'array',
-            'occupied_points'   =>  'array',
+            //'instance_data'     =>  'array',
+            //'point_data'        =>  'array',
+            //'old_custom_points'     =>  'array',
+            //'mob_status'        =>  'array',
+            //'scouts_old'        =>  'array',
+            //'occupied_points'   =>  'array',
             'finalized_at'      =>  'datetime',
         ];
     }

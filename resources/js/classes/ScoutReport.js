@@ -124,7 +124,7 @@ export default class ScoutReport {
     }
 
     /**
-     * Return a key-value pair of a zone id with its current defualt_instances count from the DB
+     * Return a key-value pair of a zone id with its current default_instances count from the DB
      * @returns Object
      */
     constructDefaultInstanceData() {
