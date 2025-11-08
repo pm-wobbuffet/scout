@@ -9,7 +9,7 @@
         </div>
         <ScoutReportOptions />
         <div>
-            <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
+            <div class="font-bold bg-slate-300 pl-1 text-sm dark:bg-slate-700 dark:text-slate-300">
                 {{ getDisplayName(activeExpansion, 'en') }}
                 <span class="text-xs italic">
                     {{ getMappedMobsForExpac(activeExpansion) }} /
@@ -33,7 +33,7 @@
                             }}</span>
                         <i class="text-sm ml-2 text-black dark:text-slate-200">{{
                             props.scoutReport.getFoundMobCountForZone(zone.id, i)
-                        }}/{{ zone.mobs.length }}
+                            }}/{{ zone.mobs.length }}
                         </i>
                     </li>
                 </template>

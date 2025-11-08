@@ -6,35 +6,24 @@ use App\Models\Mob;
 use App\Models\Scout;
 use App\Models\SpawnPoint;
 use App\Models\Zone;
+use App\Traits\VerifiesScoutUpdateRequests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Validate bulk update requests from V1 schema
+ * @property array $sightings list of mob sightings to process
+ */
 class BulkUpdateScoutApiRequest extends FormRequest
 {
+    use VerifiesScoutUpdateRequests;
+
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        $scout = $this->route('scout');
-        if (!$scout) {
-            Log::debug("No Scouting report was found for this request, {req}", ['req' => $this]);
-            return false;
-        }
-        // Check to make sure they supplied the correct collaborator_password
-        // to prevent unauthorized users from supplying updates
-        if ($scout->collaborator_password !== $this->input('collaborator_password')) {
-            Log::debug("An invalid collaborator password was submitted for this request, {req}", ['req' => $this]);
-            return false;
-        }
-
-        // Make sure we don't make any changes to an existing map that's finalized
-        if (!is_null($scout->finalized_at)) {
-            Log::debug("An API request was made to update a finalized scouting report, {req}", ['req' => $this]);
-            return false;
-        }
-
-        return true;
+        return $this->verifyPermissions($this->route('scout'), $this);
     }
 
     /**

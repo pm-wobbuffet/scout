@@ -4,7 +4,6 @@ import path from 'path';
 import tailwindcss from "@tailwindcss/vite";
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
-import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
     plugins: [
@@ -21,9 +20,6 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
-        }),
-        vueDevTools({
-            appendTo: 'resources/js/app.js'
         }),
     ],
     resolve: {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V2\StoreScoutRequest;
+use App\Http\Requests\Api\V2\UpdateScoutRequest;
 use App\Http\Resources\Api\V2\ScoutResource;
 use App\Models\Scout;
 use App\Traits\UpdatesScoutReports;
@@ -56,8 +57,15 @@ class ScoutController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Scout $scout)
+    public function update(UpdateScoutRequest $request, Scout $scout)
     {
-        //
+        $this->addScouterToScoutReport($scout, $request->validated('update_user'));
+        dd($request->validated('dead_mobs'));
+        if ($request->has('dead_mobs')) {
+            // Parse mobs that are alive first
+            // @todo
+            $scout->dead_mobs()->upsert($request->validated('dead_mobs'), ['mob_id', 'instance_number']);
+        }
+        return [];
     }
 }
