@@ -53,7 +53,6 @@ if (props.scout.collaborator_password && props.scout.collaborator_password !== '
 
 if (props.scout.finalized_at === null) {
     const t = useEchoPublic(channelName, ['.ScoutAssignMob', '.UpdatePointOccupancy'], (e) => {
-        console.log('Update Zone Points requested arrived for', e.zone_id, e.instance_number, e.points, e.custom_points)
         scout_report.value.updatePointDataForZone(e.zone_id, e.instance_number, e.points, e.custom_points)
     })
 
@@ -62,7 +61,6 @@ if (props.scout.finalized_at === null) {
     })
 
     useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
-        console.log("Clear Point Request received for", e)
         scout_report.value.removeMobFromPoint(e, e.instance_number)
     })
     useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
@@ -71,6 +69,9 @@ if (props.scout.finalized_at === null) {
         } else {
             scout_report.value.removeDeadMobFromList(e.mob_id, e.instance_number)
         }
+    })
+    useEchoPublic(channelName, '.UpdateAllMobStatus', (e) => {
+        scout_report.value.setDeadMobList(e.dead_mobs)
     })
     useEchoPublic(channelName, '.UpdateMeta', (e) => {
         scout_report.value.title = e.title ?? ''

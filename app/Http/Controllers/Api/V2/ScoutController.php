@@ -7,12 +7,14 @@ use App\Http\Requests\Api\V2\StoreScoutRequest;
 use App\Http\Requests\Api\V2\UpdateScoutRequest;
 use App\Http\Resources\Api\V2\ScoutResource;
 use App\Models\Scout;
+use App\Traits\BroadcastsScoutingEvents;
 use App\Traits\UpdatesScoutReports;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ScoutController extends Controller
 {
-    use UpdatesScoutReports;
+    use UpdatesScoutReports, BroadcastsScoutingEvents;
 
     /**
      * Store a new Scout report
@@ -60,12 +62,28 @@ class ScoutController extends Controller
     public function update(UpdateScoutRequest $request, Scout $scout)
     {
         $this->addScouterToScoutReport($scout, $request->validated('update_user'));
-        dd($request->validated('dead_mobs'));
         if ($request->has('dead_mobs')) {
-            // Parse mobs that are alive first
-            // @todo
-            $scout->dead_mobs()->upsert($request->validated('dead_mobs'), ['mob_id', 'instance_number']);
+            // Remove any mobs marked as "living" from the database of dead mobs
+            $coll = collect($request->validated('dead_mobs'));
+            $living_mobs = $coll->where('is_dead', '=', 0)->map(function ($value) {
+                return "{$value['mob_id']}-{$value['instance_number']}";
+            });
+            if (count($living_mobs) > 0) {
+                $scout->dead_mobs()->whereIn(
+                    DB::raw('CONCAT(mob_id,"-",instance_number)'),
+                    $living_mobs
+                )->delete();
+            }
+            $scout->dead_mobs()->upsert(
+                $coll->where('is_dead', '=', 1)
+                    ->select(['mob_id', 'instance_number'])->toArray(),
+                ['mob_id', 'instance_number']
+            );
+            $this->ScoutMobsStatusUpdated($scout);
         }
-        return [];
+        $scout->update($request->validated());
+        $scout->save();
+        $scout->load(['points', 'scouts', 'custom_points', 'dead_mobs']);
+        return new ScoutResource($scout);
     }
 }

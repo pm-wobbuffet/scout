@@ -49,6 +49,10 @@ class ScoutPoint extends Model
 
     /* Relations */
 
+    /**
+     * The underlying SpawnPoint or CustomSpawnPoint
+     * @return SpawnPoint|ScoutCustomPoint
+     */
     public function point(): MorphTo
     {
         return $this->morphTo();

@@ -718,6 +718,14 @@ export default class ScoutReport {
     }
 
     /**
+     * Completely overwrite the dead mobs list with a server-supplied up to date copy
+     * @param {array} dead_mobs 
+     */
+    setDeadMobList(dead_mobs) {
+        this.dead_mobs = dead_mobs
+    }
+
+    /**
      * Adds the current scouter name to the list of scouters for this report
      * Emits an event with details for use by WS scripts to send remotely
      * @returns void
