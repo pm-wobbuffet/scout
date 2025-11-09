@@ -2,16 +2,23 @@
 
 namespace App\Http\Requests\Api\V2;
 
+use App\Enums\SpawnPointTypeEnum;
 use App\Models\Scout;
 use App\Models\ScoutPoint;
+use App\Models\Zone;
+use App\Traits\CalculatesNearestPoint;
 use App\Traits\VerifiesScoutUpdateRequests;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateScoutRequest extends FormRequest
 {
-    use VerifiesScoutUpdateRequests;
+    use VerifiesScoutUpdateRequests, CalculatesNearestPoint;
 
-    protected $current_mobs;
+    protected array $current_mobs;
+    protected array $bnpcbase_map;
+    protected array $mob_index_map;
+    protected array $used_zones;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -21,11 +28,18 @@ class UpdateScoutRequest extends FormRequest
         return $this->verifyPermissions($this->route('scout'), $this);
     }
 
-
     protected function prepareForValidation(): void
     {
         if ($this->has('dead_mobs')) {
             $this->getCurrentMobs($this->route('scout'));
+        }
+        if ($this->has('sightings')) {
+            $this->getMobMaps(array_reduce($this->sightings ?? [], function ($carry, $val) {
+                if ($val['zone_id'] && $val['zone_id'] !== null && !in_array($val['zone_id'], $carry)) {
+                    $carry[] = $val['zone_id'];
+                    return $carry;
+                }
+            }, []));
         }
         // Make sure every mob has a status and that we don't allow marking assigned mobs as dead
         $this->merge([
@@ -46,6 +60,47 @@ class UpdateScoutRequest extends FormRequest
                 return $mob;
             }, $this->input('dead_mobs', []))
         ]);
+        // Normalize any sighting's data
+        $this->merge([
+            'sightings' => array_map(function ($sighting) {
+                if (!array_key_exists('instance_number', $sighting)) {
+                    $sighting['instance_number'] = 1;
+                }
+                if (!array_key_exists('mob_id', $sighting)) {
+                    if (array_key_exists('bnpcbase', $sighting)) {
+                        $sighting['mob_id'] = $this->bnpcbase_map[$sighting['bnpcbase']] ?? null;
+                    } elseif (array_key_exists('mob_index', $sighting)) {
+                        $sighting['mob_id'] = $this->mob_index_map[$sighting['zone_id']][$sighting['mob_index']] ?? null;
+                    }
+                }
+                if (!array_key_exists('point_id', $sighting)) {
+                    // Need to figure out closest point
+                    $pt = $this->findClosestSpawnPoint(
+                        $this->getSpawnPointsForZone($this->used_zones[$sighting['zone_id']], $this->route('scout')),
+                        floatval($sighting['x']),
+                        floatval($sighting['y'])
+                    );
+                    if ($pt['distance'] < 2) {
+                        $sighting['point_id'] = $pt['point']->id;
+                        $sighting['point_type'] = $pt['point']->point_type;
+                    } else {
+                        $z = $this->used_zones[$sighting['zone_id']];
+                        if ($z->allow_custom_points) {
+                            $newpt = $this->addCustomPoint(
+                                $this->route('scout'),
+                                $z,
+                                floatval($sighting['x']),
+                                floatval($sighting['y'])
+                            );
+                            $sighting['point_type'] = 'custom_spawn_point';
+                            $sighting['point_id'] = $newpt->id;
+                        }
+                    }
+                }
+                unset($sighting['bnpcbase'], $sighting['mob_index']);
+                return $sighting;
+            }, $this->input('sightings', []))
+        ]);
     }
 
     /**
@@ -60,9 +115,18 @@ class UpdateScoutRequest extends FormRequest
             'update_user'           => 'string|nullable',
             'title'                 => 'string',
             'sightings'             => 'array|nullable',
-            'sightings.*.zone_id'   => 'numeric',
-            'sightings.*.mob_id'    => 'numeric',
-            'sightings.*.bnpcbase'  => 'numeric',
+            'sightings.*.zone_id'   => 'numeric|required',
+            /**
+             * You may pass either mob_id, mob_index, or bnpcbase key. The latter 2 will be coerced into a mob_id
+             */
+            'sightings.*.mob_id'    => 'numeric|required_without_all:sightings.*.mob_index,sightings.*.bnpcbase',
+            'sightings.*.mob_index' => 'numeric|required_without_all:sightings.*.mob_id,sightings.*.bnpcbase',
+            'sightings.*.bnpcbase'  => 'numeric|required_without_all:sightings.*.mob_id,sightings.*.mob_index',
+            /**
+             * You may manually pass a point_id from the database (if known). It is preferable to send only an X and Y however.
+             */
+            'sightings.*.point_id'  => 'numeric',
+            'sightings.*.point_type' => Rule::enum(SpawnPointTypeEnum::class),
             'sightings.*.x'         => 'numeric',
             'sightings.*.y'         => 'numeric',
             /**
@@ -83,6 +147,15 @@ class UpdateScoutRequest extends FormRequest
         ];
     }
 
+    private function addCustomPoint(Scout $scout, Zone $zone, float $x, float $y)
+    {
+        return $scout->custom_points()->create([
+            'zone_id' => $zone->id,
+            'x' => $x,
+            'y' => $y,
+        ]);
+    }
+
     /**
      * Populate the list of currently assigned mobs for this zone
      * @param \App\Models\Scout $scout
@@ -95,6 +168,27 @@ class UpdateScoutRequest extends FormRequest
         }
         foreach ($scout->points as $point) {
             $this->current_mobs[] = "{$point->mob_id}-{$point->instance_number}";
+        }
+    }
+
+    /**
+     * Populate the bnpc and mob index maps used for filling in missing Sighting data
+     * @param int[] $zone_list
+     * @return void
+     */
+    private function getMobMaps(array $zone_list): void
+    {
+        $z = Zone::query()
+            ->select(['id', 'name', 'allow_custom_points'])
+            ->whereIn('id', $zone_list)
+            ->with('mobs')
+            ->get();
+        foreach ($z as $zone) {
+            foreach ($zone->mobs as $mob) {
+                $this->bnpcbase_map[$mob->bNpcBase] = $mob->id;
+                $this->mob_index_map[$zone->id][$mob->mob_index] = $mob->id;
+                $this->used_zones[$zone->id] = $zone;
+            }
         }
     }
 }

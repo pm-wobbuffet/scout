@@ -235,7 +235,7 @@ class MainController extends Controller
                 ->with([
                     'zones',
                     'zones.mobs' => function ($query) {
-                        $query->select(['id', 'name', 'rank', 'mob_index', 'zone_id', 'names']);
+                        $query->select(['id', 'name', 'rank', 'mob_index', 'zone_id', 'names', 'bNpcBase']);
                     },
                     'zones.aetherytes',
                     'zones.spawn_points',

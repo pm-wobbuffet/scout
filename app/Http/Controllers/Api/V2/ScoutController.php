@@ -81,6 +81,10 @@ class ScoutController extends Controller
             );
             $this->ScoutMobsStatusUpdated($scout);
         }
+        if ($request->has('sightings')) {
+            //dd($request->validated('sightings'));
+            $scout->points()->createMany($request->validated('sightings'));
+        }
         $scout->update($request->validated());
         $scout->save();
         $scout->load(['points', 'scouts', 'custom_points', 'dead_mobs']);

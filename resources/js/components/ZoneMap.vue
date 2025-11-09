@@ -13,7 +13,7 @@
                     title="Toggle this mob as being dead/alive. Dead mobs will count toward scouting completion for this zone."
                     :key="`moblist-mob-${mob.id}-${props.instance}`" @click="toggleMobStatus(mob)">
                     <div class="flex items-center">
-                        <span>{{ getDisplayName(mob, props.language ?? 'en') }}</span>
+                        <span>{{ getDisplayName(mob, props.language ?? 'en') }} {{ mob.id }}({{ mob.bNpcBase }})</span>
                         <SkullIcon class="inline-block p-0 m-0 pl-2 group-hover:visible"
                             :class="{ 'visible': props.scoutReport.isMobDead(mob.id, props.instance), 'invisible': !props.scoutReport.isMobDead(mob.id, props.instance) }" />
                     </div>
@@ -35,7 +35,7 @@
             <span>Spawn points unknown. Double click or use Import to add spawn points.</span>
         </div>
         <div class="zone-name pointer-events-none">
-            {{ getDisplayName(zone, 'en') }}
+            {{ getDisplayName(zone, 'en') }} {{ zone.id }}
             <span v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ instance }}</span>
             <div v-if="is_hovered">({{ x_hover }},{{ y_hover }})</div>
         </div>
