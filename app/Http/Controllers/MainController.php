@@ -182,12 +182,7 @@ class MainController extends Controller
         // TODO: Handle meta update if a reporter was passed for this point
 
         $created_points = $scout->points()->createMany($request->validated('point_data'));
-        broadcast(new ZoneMultipleOccupancyChanged(
-            $scout,
-            $created_points,
-            collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray(),
-            $request->validated('zonelist')
-        ));
+        broadcast(new ZoneMultipleOccupancyChanged($scout, $request->validated('zonelist')));
 
         return response()->json([
             'zonelist'          => $request->validated('zonelist'),

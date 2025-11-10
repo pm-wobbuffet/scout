@@ -13,6 +13,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ZoneMultipleOccupancyChanged implements ShouldDispatchAfterCommit, ShouldBroadcastNow
 {
@@ -26,11 +27,14 @@ class ZoneMultipleOccupancyChanged implements ShouldDispatchAfterCommit, ShouldB
     /**
      * Create a new event instance.
      */
-    public function __construct(Scout $scout, mixed $points, array $custom_points, $zonelist)
+    public function __construct(Scout $scout, array $zonelist)
     {
         $this->scout = $scout;
-        $this->points = $points->toArray();
-        $this->custom_points = $custom_points;
+        $this->points = $scout->points()->whereIn(
+            DB::raw("CONCAT(zone_id,'-',instance_number)"),
+            $zonelist
+        )->get()->toArray();
+        $this->custom_points = $scout->custom_points->toArray();
         $this->zonelist = $zonelist;
     }
 

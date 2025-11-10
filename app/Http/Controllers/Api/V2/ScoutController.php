@@ -84,6 +84,7 @@ class ScoutController extends Controller
         if ($request->has('sightings')) {
             //dd($request->validated('sightings'));
             $scout->points()->createMany($request->validated('sightings'));
+            $this->ScoutMultipleOccupanyUpdates($scout, $request->modified_zone_instances);
         }
         $scout->update($request->validated());
         $scout->save();

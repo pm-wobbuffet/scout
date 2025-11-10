@@ -19,6 +19,13 @@ class UpdateScoutRequest extends FormRequest
     protected array $bnpcbase_map;
     protected array $mob_index_map;
     protected array $used_zones;
+    /**
+     * Hold a list of all the zone-instance_number pairs modified by this request
+     * @var array
+     */
+    public array $modified_zone_instances = [];
+
+    protected Scout $scout;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -30,77 +37,25 @@ class UpdateScoutRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        $this->scout = $this->route('scout');
+        $this->scout->load(['points', 'custom_points']);
         if ($this->has('dead_mobs')) {
-            $this->getCurrentMobs($this->route('scout'));
+            $this->formatDeadMobs();
         }
         if ($this->has('sightings')) {
-            $this->getMobMaps(array_reduce($this->sightings ?? [], function ($carry, $val) {
-                if ($val['zone_id'] && $val['zone_id'] !== null && !in_array($val['zone_id'], $carry)) {
-                    $carry[] = $val['zone_id'];
-                    return $carry;
-                }
-            }, []));
+            $this->formatSightings();
+            $this->removeDuplicateSightings();
         }
-        // Make sure every mob has a status and that we don't allow marking assigned mobs as dead
-        $this->merge([
-            'dead_mobs' => array_map(function ($mob) {
-                if (!array_key_exists('instance_number', $mob)) {
-                    $mob['instance_number'] = 1;
-                }
-                if (!array_key_exists('is_dead', $mob)) {
-                    $mob['is_dead'] = 1;
-                }
-                // Make sure the mob wasn't assigned already to a point
-                if (
-                    $mob['is_dead']
-                    && in_array("{$mob['mob_id']}-{$mob['instance_number']}", $this->current_mobs)
-                ) {
-                    return;
-                }
-                return $mob;
-            }, $this->input('dead_mobs', []))
-        ]);
-        // Normalize any sighting's data
-        $this->merge([
-            'sightings' => array_map(function ($sighting) {
-                if (!array_key_exists('instance_number', $sighting)) {
-                    $sighting['instance_number'] = 1;
-                }
-                if (!array_key_exists('mob_id', $sighting)) {
-                    if (array_key_exists('bnpcbase', $sighting)) {
-                        $sighting['mob_id'] = $this->bnpcbase_map[$sighting['bnpcbase']] ?? null;
-                    } elseif (array_key_exists('mob_index', $sighting)) {
-                        $sighting['mob_id'] = $this->mob_index_map[$sighting['zone_id']][$sighting['mob_index']] ?? null;
-                    }
-                }
-                if (!array_key_exists('point_id', $sighting)) {
-                    // Need to figure out closest point
-                    $pt = $this->findClosestSpawnPoint(
-                        $this->getSpawnPointsForZone($this->used_zones[$sighting['zone_id']], $this->route('scout')),
-                        floatval($sighting['x']),
-                        floatval($sighting['y'])
-                    );
-                    if ($pt['distance'] < 2) {
-                        $sighting['point_id'] = $pt['point']->id;
-                        $sighting['point_type'] = $pt['point']->point_type;
-                    } else {
-                        $z = $this->used_zones[$sighting['zone_id']];
-                        if ($z->allow_custom_points) {
-                            $newpt = $this->addCustomPoint(
-                                $this->route('scout'),
-                                $z,
-                                floatval($sighting['x']),
-                                floatval($sighting['y'])
-                            );
-                            $sighting['point_type'] = 'custom_spawn_point';
-                            $sighting['point_id'] = $newpt->id;
-                        }
-                    }
-                }
-                unset($sighting['bnpcbase'], $sighting['mob_index']);
-                return $sighting;
-            }, $this->input('sightings', []))
-        ]);
+    }
+
+    protected function passedValidation()
+    {
+        //
+        foreach ($this->validated('sightings', []) as $sighting) {
+            if (!in_array("{$sighting['zone_id']}-{$sighting['instance_number']}", $this->modified_zone_instances)) {
+                $this->modified_zone_instances[] = "{$sighting['zone_id']}-{$sighting['instance_number']}";
+            }
+        }
     }
 
     /**
@@ -116,6 +71,7 @@ class UpdateScoutRequest extends FormRequest
             'title'                 => 'string',
             'sightings'             => 'array|nullable',
             'sightings.*.zone_id'   => 'numeric|required',
+            'sightings.*.instance_number' => 'numeric',
             /**
              * You may pass either mob_id, mob_index, or bnpcbase key. The latter 2 will be coerced into a mob_id
              */
@@ -190,5 +146,133 @@ class UpdateScoutRequest extends FormRequest
                 $this->used_zones[$zone->id] = $zone;
             }
         }
+    }
+
+    /**
+     * Format the dead_mobs data for validation
+     * @return void
+     */
+    private function formatDeadMobs()
+    {
+        $this->getCurrentMobs($this->route('scout'));
+        // Make sure every mob has a status and that we don't allow marking assigned mobs as dead
+        $this->merge([
+            'dead_mobs' => array_map(function ($mob) {
+                if (!array_key_exists('instance_number', $mob)) {
+                    $mob['instance_number'] = 1;
+                }
+                if (!array_key_exists('is_dead', $mob)) {
+                    $mob['is_dead'] = 1;
+                }
+                // Make sure the mob wasn't assigned already to a point
+                if (
+                    $mob['is_dead']
+                    && in_array("{$mob['mob_id']}-{$mob['instance_number']}", $this->current_mobs)
+                ) {
+                    return;
+                }
+                return $mob;
+            }, $this->input('dead_mobs', []))
+        ]);
+    }
+
+    /**
+     * Format sightings array for validation
+     * @return void
+     */
+    private function formatSightings()
+    {
+        $this->getMobMaps(array_reduce($this->sightings ?? [], function ($carry, $val) {
+            if ($val['zone_id'] && $val['zone_id'] !== null && !in_array($val['zone_id'], $carry)) {
+                $carry[] = $val['zone_id'];
+                return $carry;
+            }
+        }, []));
+
+        // Normalize any sighting's data
+        $this->merge([
+            'sightings' => array_map(function ($sighting) {
+                if (!array_key_exists('instance_number', $sighting)) {
+                    $sighting['instance_number'] = 1;
+                }
+                if (!array_key_exists('mob_id', $sighting)) {
+                    if (array_key_exists('bnpcbase', $sighting)) {
+                        $sighting['mob_id'] = $this->bnpcbase_map[$sighting['bnpcbase']] ?? null;
+                    } elseif (array_key_exists('mob_index', $sighting)) {
+                        $sighting['mob_id'] = $this->mob_index_map[$sighting['zone_id']][$sighting['mob_index']] ?? null;
+                    }
+                }
+                if (!array_key_exists('reporter', $sighting) && $this->input('update_user', '') != '') {
+                    $sighting['reporter'] = $this->input('update_user');
+                }
+                if (!array_key_exists('point_id', $sighting)) {
+                    // Need to figure out closest point
+                    $pt = $this->findClosestSpawnPoint(
+                        $this->getSpawnPointsForZone($this->used_zones[$sighting['zone_id']], $this->route('scout')),
+                        floatval($sighting['x']),
+                        floatval($sighting['y'])
+                    );
+                    if ($pt['distance'] < 2) {
+                        $sighting['point_id'] = $pt['point']->id;
+                        $sighting['point_type'] = $pt['point']->point_type;
+                    } else {
+                        $z = $this->used_zones[$sighting['zone_id']];
+                        if ($z->allow_custom_points) {
+                            $newpt = $this->addCustomPoint(
+                                $this->route('scout'),
+                                $z,
+                                floatval($sighting['x']),
+                                floatval($sighting['y'])
+                            );
+                            $sighting['point_type'] = 'custom_spawn_point';
+                            $sighting['point_id'] = $newpt->id;
+                        }
+                    }
+                }
+                unset($sighting['bnpcbase'], $sighting['mob_index']);
+                return $sighting;
+            }, $this->input('sightings', []))
+        ]);
+    }
+
+    private function removeDuplicateSightings()
+    {
+        $this->replace([
+            'sightings' => array_filter($this->input('sightings', []), function ($sighting) {
+                // Is this sighting already documented? If so, don't add this to the sighting index
+                if ($this->mobSightingIsDuplicate($sighting)) {
+                    return false;
+                }
+
+                $mob_point = $this->mobAlreadyAssigned($sighting);
+                // Is the mob already on a different point?
+                $mob_point->delete();
+
+                return true;
+            })
+        ]);
+    }
+
+    /**
+     * Determine whether a sighting is a duplicate of an existing one
+     * @param array{'point_id': int,'point_type': string,'mob_id': int, 'instance_number': int} $sighting
+     * @return bool
+     */
+    private function mobSightingIsDuplicate(array $sighting)
+    {
+        return $this->scout->points
+            ->where('point_id', $sighting['point_id'])
+            ->where('point_type', $sighting['point_type'])
+            ->where('mob_id', $sighting['mob_id'])
+            ->where('instance_number', $sighting['instance_number'])
+            ->count() > 0;
+    }
+
+    private function mobAlreadyAssigned(array $sighting): ?ScoutPoint
+    {
+        return $this->scout->points
+            ->where('mob_id', $sighting['mob_id'])
+            ->where('instance_number', $sighting['instance_number'])
+            ->first();
     }
 }

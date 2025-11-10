@@ -102,12 +102,7 @@ class ScoutController extends Controller
             DB::raw("CONCAT(zone_id,'-',instance_number)"),
             array_keys($modified_zones)
         )->get();
-        broadcast(new ZoneMultipleOccupancyChanged(
-            $scout,
-            $points,
-            collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray(),
-            array_keys($modified_zones),
-        ));
+        broadcast(new ZoneMultipleOccupancyChanged($scout, array_keys($modified_zones)));
 
         return response()->json([
             'scout_id'              =>  $scout->slug,
@@ -126,12 +121,7 @@ class ScoutController extends Controller
             DB::raw("CONCAT(zone_id,'-',instance_number)"),
             array_keys($modified_zones)
         )->get();
-        broadcast(new ZoneMultipleOccupancyChanged(
-            $scout,
-            $points,
-            collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray(),
-            array_keys($modified_zones),
-        ));
+        broadcast(new ZoneMultipleOccupancyChanged($scout, array_keys($modified_zones)));
         return response()->json([
             'scout_id'              =>  $scout->slug,
             'collaborator_password' =>  $scout->collaborator_password,

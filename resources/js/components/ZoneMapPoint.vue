@@ -116,10 +116,13 @@ const calculatePointDisplayClasses = function (point) {
 }
 
 const getPointTitleDisplay = function (point) {
+    let ret = ""
     if (isPointOccupied.value) {
-        return `${point.x},${point.y} (Occupied)`
+        ret = `${point.x},${point.y} (Occupied)`
+    } else {
+        ret = `${point.x}, ${point.y} PID: ${point.id}`
     }
-    return `${point.x}, ${point.y} PID: ${point.id}`
+    return ret
 }
 
 </script>
