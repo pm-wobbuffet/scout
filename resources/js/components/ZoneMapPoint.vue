@@ -16,7 +16,7 @@ const props = defineProps({
     zone: Object,
     point: Object,
     instance: Number,
-    scoutReport: Object,
+    scoutReport: ScoutReport,
     editmode: Boolean,
 })
 const refHook = useTemplateRef('refHook')
@@ -31,7 +31,7 @@ onLongPress(refHook,
 const assignMob = function () {
     // End early if we're not in edit mode
     if (!props.editmode) return
-    if (isPointOccupied === true) return
+    if (isPointOccupied.value === true) return
 
     props.scoutReport.cycleMobOnPoint(props.point, props.instance)
 }
@@ -117,10 +117,24 @@ const calculatePointDisplayClasses = function (point) {
 
 const getPointTitleDisplay = function (point) {
     let ret = ""
+    let x = point.x
+    let y = point.y
+    /* Override x and y display for points that have override data */
+    const a = props.scoutReport.getMobOnPoint(props.point, props.instance)
+    if (a && a.x !== null) {
+        x = a.x
+    }
+    if (a && a.y !== null) {
+        y = a.y
+    }
     if (isPointOccupied.value) {
-        ret = `${point.x},${point.y} (Occupied)`
+        ret = `${x},${y} (Occupied)`
     } else {
-        ret = `${point.x}, ${point.y} PID: ${point.id}`
+        ret = `${x}, ${y} PID: ${point.id}`
+    }
+    if (a && a.reporter !== null) {
+        console.log(a)
+        ret += `(${a.reporter})`
     }
     return ret
 }

@@ -22,6 +22,7 @@ class ScoutPointResource extends JsonResource
             'point_id'          => $this->point_id,
             'x'                 => $this->x,
             'y'                 => $this->y,
+            'reporter'          => $this->reporter,
         ];
     }
 }
