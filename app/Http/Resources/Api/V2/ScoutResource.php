@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources\Api\V2;
 
-use App\Models\ScoutCustomPoint;
-use App\Models\ScoutPoint;
-use App\Models\SpawnPoint;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -38,7 +35,7 @@ class ScoutResource extends JsonResource
              * Represents the status of given spawn points within the scouting report
              * including occupancy status.
              */
-            'points' => $this->whenLoaded('points'),
+            'points' => ScoutPointResource::collection($this->whenLoaded('points')),
             /**
              * The collection of CustomPoints for the scouting report. internal_id is the originally submitted client generated ID
              */

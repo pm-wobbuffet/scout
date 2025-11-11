@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Events\Scout\MetaUpdated;
 use App\Events\Scout\PointOccupancyChanged;
-use App\Events\Scout\ZoneMultipleOccupancyChanged;
 use App\Http\Requests\Scout\HandleImportedPointsRequest;
 use App\Http\Requests\Scout\StoreScoutRequest;
 use App\Http\Requests\Scout\UpdateMetaRequest;
@@ -14,6 +13,7 @@ use App\Http\Resources\ScoutCustomPointResource;
 use App\Http\Resources\ScoutResource;
 use App\Models\Expansion;
 use App\Models\Scout;
+use App\Traits\BroadcastsScoutingEvents;
 use App\Traits\UpdatesScoutReports;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -25,7 +25,7 @@ use Inertia\Inertia;
 
 class MainController extends Controller
 {
-    use UpdatesScoutReports;
+    use UpdatesScoutReports, BroadcastsScoutingEvents;
 
     /**
      * Show a blank map for the user to start their scouting journey
@@ -182,7 +182,8 @@ class MainController extends Controller
         // TODO: Handle meta update if a reporter was passed for this point
 
         $created_points = $scout->points()->createMany($request->validated('point_data'));
-        broadcast(new ZoneMultipleOccupancyChanged($scout, $request->validated('zonelist')));
+
+        $this->ScoutMultipleOccupanyUpdates($scout, $request->validated('zonelist'));
 
         return response()->json([
             'zonelist'          => $request->validated('zonelist'),

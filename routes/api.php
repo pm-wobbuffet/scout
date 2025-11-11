@@ -18,7 +18,7 @@ Route::middleware(['throttle:api'])
 Route::middleware(['throttle:api'])
     ->prefix('v2')
     ->namespace('\\App\\Http\\Controllers\\Api\\V2')
-    ->name('api.v2')
+    ->name('api.v2.')
     ->group(function () {
         Route::get('/expansions/{expansion}/zones', 'ExpansionController@zones')->name('expansions.zones');
         Route::resource('expansions', 'ExpansionController')->only(['index', 'show']);
@@ -26,4 +26,5 @@ Route::middleware(['throttle:api'])
         Route::resource('zones', 'ZoneController')->only(['index', 'show']);
         Route::resource('mobs', 'MobController')->only(['index', 'show']);
         Route::resource('scouts', 'ScoutController')->only(['show', 'store', 'update']);
+        Route::resource('scouts.points', 'ScoutPointController');
     });

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Events\Scout\PointOccupancyChanged;
-use App\Events\Scout\ZoneMultipleOccupancyChanged;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\StoreScoutRequest;
 use App\Http\Requests\Api\V1\BulkUpdateScoutApiRequest;
 use App\Http\Requests\Api\V1\UpdateOccupiedPointRequest;
 use App\Http\Resources\ScoutCustomPointResource;
 use App\Models\Scout;
+use App\Traits\BroadcastsScoutingEvents;
 use App\Traits\UpdatesScoutReports;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 class ScoutController extends Controller
 {
     #use HandlesScoutUpdates, HandlesCustomPoints;
-    use UpdatesScoutReports;
+    use UpdatesScoutReports, BroadcastsScoutingEvents;
 
     /**
      * Display a listing of the resource.
@@ -98,11 +98,7 @@ class ScoutController extends Controller
         }
         $scout->save();
 
-        $points = $scout->points()->whereIn(
-            DB::raw("CONCAT(zone_id,'-',instance_number)"),
-            array_keys($modified_zones)
-        )->get();
-        broadcast(new ZoneMultipleOccupancyChanged($scout, array_keys($modified_zones)));
+        $this->ScoutMultipleOccupanyUpdates($scout, $modified_zones);
 
         return response()->json([
             'scout_id'              =>  $scout->slug,
@@ -117,11 +113,7 @@ class ScoutController extends Controller
     {
         $modified_zones = $this->createBulkUpdate($scout, $request->validated('sightings'));
 
-        $points = $scout->points()->whereIn(
-            DB::raw("CONCAT(zone_id,'-',instance_number)"),
-            array_keys($modified_zones)
-        )->get();
-        broadcast(new ZoneMultipleOccupancyChanged($scout, array_keys($modified_zones)));
+        $this->ScoutMultipleOccupanyUpdates($scout, $modified_zones);
         return response()->json([
             'scout_id'              =>  $scout->slug,
             'collaborator_password' =>  $scout->collaborator_password,

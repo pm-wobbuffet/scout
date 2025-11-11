@@ -3,7 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use App\Models\ScoutCustomPoint;
+use App\Models\SpawnPoint;
 
 /**
  * Represents the status of a Point within a given scout request, including occupancy status.
@@ -51,11 +55,16 @@ class ScoutPoint extends Model
 
     /**
      * The underlying SpawnPoint or CustomSpawnPoint
-     * @return SpawnPoint|ScoutCustomPoint
+     * @return ScoutCustomPoint|SpawnPoint
      */
     public function point(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function mob(): BelongsTo
+    {
+        return $this->belongsTo(Mob::class);
     }
 
     /* Private methods */
