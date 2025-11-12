@@ -13,7 +13,7 @@ trait VerifiesScoutUpdateRequests
      * Verify that a given request is authorized to perform an update
      * Used in the authorize() method of a few Form Requests
      * @param \App\Models\Scout $scout
-     * @param \Request|FormRequest $request
+     * @param FormRequest $request
      * @return bool
      */
     public function verifyPermissions(Scout $scout, FormRequest $request): bool

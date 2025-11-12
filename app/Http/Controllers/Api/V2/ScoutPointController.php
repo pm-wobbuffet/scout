@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V2\DeleteScoutPointRequest;
 use App\Http\Resources\Api\V2\ScoutPointResource;
 use App\Models\Scout;
 use App\Models\ScoutPoint;
+use App\Traits\BroadcastsScoutingEvents;
 use Illuminate\Http\Request;
 
 class ScoutPointController extends Controller
 {
+    use BroadcastsScoutingEvents;
+
     /**
-     * Display a listing of the resource.
+     * Display all the Points mapped in this Scout Report
      */
     public function index(Scout $scout)
     {
@@ -20,26 +24,20 @@ class ScoutPointController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Save a Point for this Scout Report
      */
     public function store(Request $request, Scout $scout)
     {
-        //
-    }
-
-    /**
-     * Update a given ScoutPoint
-     */
-    public function update(Request $request, Scout $scout, ScoutPoint $scoutPoint)
-    {
-        //
+        //@todo build the request for this
     }
 
     /**
      * Remove a point from the ScoutPoint list
      */
-    public function destroy(Scout $scout, ScoutPoint $scoutPoint)
+    public function destroy(DeleteScoutPointRequest $request, Scout $scout, ScoutPoint $point)
     {
-        //
+        $point->delete();
+        // Returns the deleted point, just for reference
+        return new ScoutPointResource($point);
     }
 }

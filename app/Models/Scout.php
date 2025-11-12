@@ -11,7 +11,7 @@ use Sqids\Sqids;
 /**
  * @property int $id
  * @property string|null $slug
- * @property string|null $collaborator_password
+ * @property string|null $collaborator_password The password to authorize changes to this scouting report
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $finalized_at

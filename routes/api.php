@@ -26,5 +26,5 @@ Route::middleware(['throttle:api'])
         Route::resource('zones', 'ZoneController')->only(['index', 'show']);
         Route::resource('mobs', 'MobController')->only(['index', 'show']);
         Route::resource('scouts', 'ScoutController')->only(['show', 'store', 'update']);
-        Route::resource('scouts.points', 'ScoutPointController');
+        Route::resource('scouts.points', 'ScoutPointController')->only(['index', 'store', 'destroy']);
     });
