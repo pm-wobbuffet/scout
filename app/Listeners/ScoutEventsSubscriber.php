@@ -3,23 +3,34 @@
 namespace App\Listeners;
 
 use App\Events\ScoutAssignMob;
+use App\Events\ScoutReportModified;
+use App\Models\ScoutVersion;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Queue\InteractsWithQueue;
 
-class ScoutEventsSubscriber
+class ScoutEventsSubscriber implements ShouldQueue
 {
-
-    public function handleScoutAssignMobEvent(ScoutAssignMob $event): void
+    /**
+     * Create a versioned history entry for a scouting report when details or points have been updated
+     * @param \App\Events\ScoutReportModified $event
+     * @return void
+     */
+    public function handleScoutReportModifiedEvent(ScoutReportModified $event): void
     {
-
+        $scout = $event->scout->load(['points', 'scouts', 'dead_mobs', 'custom_points', 'instances']);
+        $details = $event->details;
+        $scout->versions()->create([
+            'scout_details' => $scout->toArray(),
+            'update_details' => $details,
+        ]);
     }
 
-    public function subscribe(Dispatcher $events):void 
+    public function subscribe(Dispatcher $events): void
     {
         $events->listen(
-            ScoutAssignMob::class,
-            [self::class, 'handleScoutAssignMobEvent']
+            ScoutReportModified::class,
+            [self::class, 'handleScoutReportModifiedEvent']
         );
     }
 }

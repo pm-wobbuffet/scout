@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\Scout\MetaUpdated;
 use App\Events\Scout\PointOccupancyChanged;
+use App\Events\ScoutReportModified;
 use App\Http\Requests\Scout\HandleImportedPointsRequest;
 use App\Http\Requests\Scout\StoreScoutRequest;
 use App\Http\Requests\Scout\UpdateMetaRequest;
@@ -43,8 +44,7 @@ class MainController extends Controller
 
     public function view(Request $request, Scout $scout, string $password = ''): \Inertia\Response|JsonResponse
     {
-        $scout->load(['updates', 'dead_mobs', 'instances', 'points', 'scouts', 'custom_points', 'custom_points.zone', 'custom_points.zone.mobs']);
-        $scout->loadMax('updates', 'id');
+        $scout->load(['dead_mobs', 'instances', 'points', 'scouts', 'custom_points', 'custom_points.zone', 'custom_points.zone.mobs']);
         if ($password && $password === $scout->collaborator_password) {
             $scout->makeVisible(['collaborator_password']);
         }
@@ -91,6 +91,9 @@ class MainController extends Controller
         if ($request->has('scouts') && $request->validated('scouts') !== null) {
             $scout->scouts()->createMany($request->validated('scouts'));
         }
+        event(new ScoutReportModified($scout, [
+            'name' => 'Initial Scout Submission'
+        ]));
         return redirect()->route('scout.view', [$scout->slug, $scout->collaborator_password])
             ->with(['newly_created' => true]);
     }
@@ -119,6 +122,9 @@ class MainController extends Controller
             $scout->title ?? '',
             $scout->scouts,
         ))->toOthers();
+        event(new ScoutReportModified($scout, [
+            'name' => 'Scout Details Updated'
+        ]));
         return response()->json(['success' => true]);
     }
 

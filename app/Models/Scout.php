@@ -92,11 +92,6 @@ class Scout extends Model
 
     /* Relations */
 
-    public function updates(): HasMany
-    {
-        return $this->hasMany(ScoutUpdate::class);
-    }
-
     public function dead_mobs(): HasMany
     {
         return $this->hasMany(ScoutDeadMob::class);
@@ -127,5 +122,10 @@ class Scout extends Model
     public function scouts(): HasMany
     {
         return $this->hasMany(ScoutScouter::class)->orderBy('id');
+    }
+
+    public function versions(): HasMany
+    {
+        return $this->hasMany(ScoutVersion::class);
     }
 }
