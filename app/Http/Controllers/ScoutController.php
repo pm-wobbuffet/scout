@@ -26,6 +26,7 @@ class ScoutController extends Controller
         //$scout->instances()->sync($counts);
         $scout->instances()->sync($request->validated('instance_data'));
         broadcast(new InstanceCountsUpdated($scout))->toOthers();
+        $this->sendReportModifiedEvent($scout, ['name' => "Instance Counts Updated"]);
         return response()->json($scout->instances);
     }
 

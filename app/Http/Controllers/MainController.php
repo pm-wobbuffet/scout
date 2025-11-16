@@ -12,6 +12,7 @@ use App\Http\Resources\ScoutCustomPointResource;
 use App\Http\Resources\ScoutResource;
 use App\Models\Expansion;
 use App\Models\Scout;
+use App\Models\Zone;
 use App\Traits\BroadcastsScoutingEvents;
 use App\Traits\UpdatesScoutReports;
 use Carbon\Carbon;
@@ -21,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use function count;
 
 class MainController extends Controller
 {
@@ -186,30 +188,32 @@ class MainController extends Controller
 
     /* Private methods */
 
+    /**
+     * Get the total number of mobs for each expansion in the scouting report
+     * Only counts expansions with found mobs
+     * Used mainly for the OpenGraph display in Discord embeds
+     * @param EloquentCollection<int, Expansion> $expansions
+     * @param Scout $scout
+     * @return string[]
+     */
     private function calculateExpTotals(EloquentCollection $expansions, Scout $scout): array
     {
-        $ret = [];
-        // dd($expansions->toArray(), $scout->toArray());
-        $instances = $scout->instance_data;
-        foreach ($expansions as $expac) {
+        $scout->load(['instances', 'points', 'points.zone' => function ($q) {
+            $q->select(['id', 'expansion_id', 'name']);
+        }]);
+        // Cycle through expansions and zones total up found mobs and expected totals
+        $ret = $expansions->reduce(function (?array $carry, Expansion $item) use ($scout) {
             $total_mobs = 0;
-            $seen_mobs = 0;
-            $expac->zones->each(function ($item) use (&$total_mobs, &$seen_mobs, $scout, $instances) {
-                // $total_mobs += $item->total_mobs;
-                $total_mobs += $item->mobs->count() * ($instances[$item->id] ?? 1);
-                // $seen_mobs += count($scout['point_data'][$item->id] ?? []) ?? 0;
-                if (isset($scout->point_data[$item->id])) {
-                    // There are scouted instances
-                    foreach ($scout->point_data[$item->id] as $instance => $moblist) {
-                        $seen_mobs += count($moblist);
-                    }
-                }
-            });
+            $seen_mobs = $scout->points->where('zone.expansion_id', $item->id)->count();
             if ($seen_mobs > 0) {
-                $ret[] = "{$expac->abbreviation}: {$seen_mobs}/{$total_mobs}";
+                $total_mobs = $item->zones->reduce(function (int $carry, Zone $zone) use ($scout) {
+                    $carry += ($scout->getZoneInstanceCount($zone->id) * $zone->mobs->count());
+                    return $carry;
+                }, 0);
+                $carry[] = "{$item->abbreviation}: {$seen_mobs}/{$total_mobs}";
             }
-        }
-
+            return $carry;
+        }, []);
         return $ret;
     }
 

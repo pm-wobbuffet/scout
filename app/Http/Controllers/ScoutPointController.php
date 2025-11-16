@@ -9,9 +9,11 @@ use App\Http\Requests\Scout\AssignMobRequest;
 use App\Http\Requests\Scout\ClearPointRequest;
 use App\Http\Requests\Scout\UpdateMobStatusRequest;
 use App\Http\Resources\ScoutCustomPointResource;
+use App\Models\Mob;
 use App\Models\Scout;
 use App\Models\ScoutDeadMob;
 use App\Models\ScoutPoint;
+use App\Models\Zone;
 use App\Traits\UpdatesScoutReports;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -53,16 +55,13 @@ class ScoutPointController extends Controller
             $this->addScouterToScoutReport($scout, $request->validated('reporter'));
         }
 
-        broadcast(
-            new ScoutAssignMob(
-                $scout,
-                $request->validated('zone_id'),
-                $request->validated('instance_number', 1),
-                $scout->points->where('zone_id', $request->validated('zone_id'))
-                    ->where('instance_number', $request->validated('instance_number'))->values()
-            )
-        )->toOthers();
-        return response()->json(['success' => true, 'custom_points' => collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray()]);
+        $this->sendScoutMobAssignedEvent($scout, $request->validated('zone_id'), $request->validated('instance_number', 1));
+        $this->sendReportModifiedEvent($scout, [
+            'name' => 'Mob Assigned',
+            'zone' => Zone::where('id', $request->validated('zone_id'))->first()->toArray(),
+            'mob' => Mob::where('id', $request->validated('mob_id'))->first()->toArray() ?? null,
+        ]);
+        return response()->json(['custom_points' => collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray()]);
     }
 
     public function clearPoint(ClearPointRequest $request, Scout $scout, string $password)
@@ -76,14 +75,11 @@ class ScoutPointController extends Controller
             ->where('instance_number', $request->validated('instance_number', 1))
             ->delete();
 
-        broadcast(
-            new ScoutClearPoint(
-                $scout,
-                $request->validated('id'),
-                $request->validated('point_type'),
-                $request->validated('instance_number', 1)
-            )
-        )->toOthers();
+        $this->sendPointClearedEvent($scout, $request->validated('point_type'), $request->validated('id'), $request->validated('instance_number', 1));
+        $this->sendReportModifiedEvent($scout, [
+            'name' => 'Point Cleared',
+            'zone' => Zone::where('id', $request->validated('zone_id'))->first()->toArray(),
+        ]);
         return response()->json(['success' => true]);
     }
 

@@ -67,6 +67,11 @@ class ScoutPoint extends Model
         return $this->belongsTo(Mob::class);
     }
 
+    public function zone(): BelongsTo
+    {
+        return $this->belongsTo(Zone::class);
+    }
+
     /* Private methods */
 
     /* Event methods */

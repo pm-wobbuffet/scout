@@ -128,4 +128,17 @@ class Scout extends Model
     {
         return $this->hasMany(ScoutVersion::class);
     }
+
+    public function getZoneInstanceCount($zone_id)
+    {
+        if (!$this->relationLoaded('instances')) {
+            $this->load('instances');
+        }
+        $f = $this->instances->where('id', $zone_id)->first();
+        if (!$f) {
+            // No override, was 1 at time of creation
+            return 1;
+        }
+        return $f->pivot->instance_count;
+    }
 }

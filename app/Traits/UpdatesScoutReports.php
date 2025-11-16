@@ -3,6 +3,8 @@
 namespace App\Traits;
 
 use App\Events\Scout\MetaUpdated;
+use App\Events\ScoutAssignMob;
+use App\Events\ScoutClearPoint;
 use App\Events\ScoutReportModified;
 use App\Models\Scout;
 use App\Models\ScoutCustomPoint;
@@ -100,5 +102,25 @@ trait UpdatesScoutReports
     public function sendReportModifiedEvent(Scout $scout, array $details)
     {
         event(new ScoutReportModified($scout, $details));
+    }
+
+    public function sendScoutMobAssignedEvent(Scout $scout, $zone_id, $instance_number)
+    {
+        broadcast(
+            new ScoutAssignMob(
+                $scout,
+                $zone_id,
+                $instance_number,
+                $scout->points->where('zone_id', $zone_id)
+                    ->where('instance_number', $instance_number)->values()
+            )
+        )->toOthers();
+    }
+
+    public function sendPointClearedEvent(Scout $scout, $point_type, $point_id, $instance_number)
+    {
+        broadcast(
+            new ScoutClearPoint($scout, $point_id, $point_type, $instance_number)
+        )->toOthers();
     }
 }

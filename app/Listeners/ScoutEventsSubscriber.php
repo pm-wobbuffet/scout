@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-use App\Events\ScoutAssignMob;
 use App\Events\ScoutReportModified;
 use App\Models\ScoutVersion;
 use Illuminate\Contracts\Queue\ShouldQueue;
