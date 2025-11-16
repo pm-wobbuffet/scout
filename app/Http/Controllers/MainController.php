@@ -91,9 +91,8 @@ class MainController extends Controller
         if ($request->has('scouts') && $request->validated('scouts') !== null) {
             $scout->scouts()->createMany($request->validated('scouts'));
         }
-        event(new ScoutReportModified($scout, [
-            'name' => 'Initial Scout Submission'
-        ]));
+        // Fire update
+        $this->updateReport($scout, ['name' => 'Initial Scout Submission']);
         return redirect()->route('scout.view', [$scout->slug, $scout->collaborator_password])
             ->with(['newly_created' => true]);
     }
@@ -122,6 +121,8 @@ class MainController extends Controller
             $scout->title ?? '',
             $scout->scouts,
         ))->toOthers();
+        // Fire update
+        $this->updateReport($scout, ['name' => 'Scout Details Updated']);
         event(new ScoutReportModified($scout, [
             'name' => 'Scout Details Updated'
         ]));

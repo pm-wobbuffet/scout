@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Events\Scout\MetaUpdated;
+use App\Events\ScoutReportModified;
 use App\Models\Scout;
 use App\Models\ScoutCustomPoint;
 use Illuminate\Support\Facades\Log;
@@ -113,5 +114,10 @@ trait UpdatesScoutReports
     public function removeExistingScoutPoints(Scout $scout, $details)
     {
         // TODO: stub to try and keep this in one place for multiple scripts
+    }
+
+    public function updateReport(Scout $scout, array $details)
+    {
+        event(new ScoutReportModified($scout, $details));
     }
 }
