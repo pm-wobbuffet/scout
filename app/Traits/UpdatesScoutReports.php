@@ -29,11 +29,13 @@ trait UpdatesScoutReports
         $scout->scouts()->upsert([
             'scout_name' => $reporter,
         ], 'scout_name');
-        broadcast(new MetaUpdated(
-            $scout,
-            $scout->title,
-            $scout->scouts,
-        ));
+
+        $this->metaUpdated($scout);
+    }
+
+    public function metaUpdated(Scout $scout)
+    {
+        broadcast(new MetaUpdated($scout, $scout->title, $scout->scouts));
     }
 
     public function handleCustomPoints(Scout $scout, $custom_points)
@@ -62,7 +64,6 @@ trait UpdatesScoutReports
         // Used to send a websocket message to clients that were listening
         $updated_zones = [];
         foreach ($sightings as $sighting) {
-            Log::info("Sighting loop", ['sighting' => $sighting]);
             // Clear any previous sightings on this point
             $scout->points()->where('point_id', $sighting['point_id'])
                 ->where('point_type', 'spawn_point')
@@ -87,28 +88,8 @@ trait UpdatesScoutReports
                 'zone_id'           => $sighting['zone_id'],
                 'mob_id'            => $sighting['mob_id'],
             ]);
-
-            /*
-            $this->createAtomicUpdateFromBulk($sighting, $scout);
-            */
         }
         return $updated_zones;
-    }
-
-    private function createAtomicUpdateFromBulk($sighting, Scout $scout)
-    {
-        /*
-        $up = new ScoutUpdate($sighting);
-        $up->previous_instance_data = $scout->instance_data;
-        $up->previous_point_data = $scout->point_data;
-        $up->previous_custom_points = $scout->custom_points;
-        $up->scout_id = $scout->id;
-        $up->x = $sighting['x'];
-        $up->y = $sighting['y'];
-        $up->mob_index = $sighting['mob']['mob_index'] ?? '';
-        $up->point_id = $sighting['point']['id'];
-        $up->save();
-        */
     }
 
     public function removeExistingScoutPoints(Scout $scout, $details)
@@ -116,7 +97,7 @@ trait UpdatesScoutReports
         // TODO: stub to try and keep this in one place for multiple scripts
     }
 
-    public function updateReport(Scout $scout, array $details)
+    public function sendReportModifiedEvent(Scout $scout, array $details)
     {
         event(new ScoutReportModified($scout, $details));
     }

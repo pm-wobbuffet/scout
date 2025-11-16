@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Events\Scout\PointOccupancyChanged;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\StoreScoutRequest;
 use App\Http\Requests\Api\V1\BulkUpdateScoutApiRequest;
@@ -166,13 +165,7 @@ class ScoutController extends Controller
         $points = $scout->points
             ->where('zone_id', $request->validated('zone_id'))
             ->where('instance_number', $request->validated('instance_number', 1));
-        broadcast(new PointOccupancyChanged(
-            $scout,
-            $points,
-            $request->validated('zone_id'),
-            $request->validated('instance_number', 1)
-        ))
-            ->toOthers();
+        $this->PointOccupacyUpdateEvent($scout, $points, $request->validated('zone_id'), $request->validated('instance_number', 1));
         return [
             'success'           =>  1,
             'occupied_points'   => $scout->points,

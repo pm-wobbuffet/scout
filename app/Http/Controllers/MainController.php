@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Events\Scout\MetaUpdated;
-use App\Events\Scout\PointOccupancyChanged;
-use App\Events\ScoutReportModified;
 use App\Http\Requests\Scout\HandleImportedPointsRequest;
 use App\Http\Requests\Scout\StoreScoutRequest;
 use App\Http\Requests\Scout\UpdateMetaRequest;
@@ -92,7 +90,7 @@ class MainController extends Controller
             $scout->scouts()->createMany($request->validated('scouts'));
         }
         // Fire update
-        $this->updateReport($scout, ['name' => 'Initial Scout Submission']);
+        $this->sendReportModifiedEvent($scout, ['name' => 'Initial Scout Submission']);
         return redirect()->route('scout.view', [$scout->slug, $scout->collaborator_password])
             ->with(['newly_created' => true]);
     }
@@ -116,16 +114,8 @@ class MainController extends Controller
             ]);
         }
         $scout->save();
-        broadcast(new MetaUpdated(
-            $scout,
-            $scout->title ?? '',
-            $scout->scouts,
-        ))->toOthers();
-        // Fire update
-        $this->updateReport($scout, ['name' => 'Scout Details Updated']);
-        event(new ScoutReportModified($scout, [
-            'name' => 'Scout Details Updated'
-        ]));
+        $this->metaUpdated($scout);
+        $this->sendReportModifiedEvent($scout, ['name' => 'Scout Details Updated']);
         return response()->json(['success' => true]);
     }
 
@@ -165,13 +155,7 @@ class MainController extends Controller
         $points = $scout->points
             ->where('zone_id', $request->validated('zone_id'))
             ->where('instance_number', $request->validated('instance_number', 1));
-        broadcast(new PointOccupancyChanged(
-            $scout,
-            $points,
-            $request->validated('zone_id'),
-            $request->validated('instance_number', 1)
-        ))
-            ->toOthers();
+        $this->PointOccupacyUpdateEvent($scout, $points, $request->validated('zone_id'), $request->validated('instance_number', 1));
 
         return response()->json($points);
     }
@@ -191,6 +175,7 @@ class MainController extends Controller
         $created_points = $scout->points()->createMany($request->validated('point_data'));
 
         $this->ScoutMultipleOccupanyUpdates($scout, $request->validated('zonelist'));
+        $this->sendReportModifiedEvent($scout, ['name' => "Multiple Points Imported ({$created_points->count()})"]);
 
         return response()->json([
             'zonelist'          => $request->validated('zonelist'),

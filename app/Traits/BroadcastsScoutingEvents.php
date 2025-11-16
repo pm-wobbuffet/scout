@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Events\Scout\PointOccupancyChanged;
 use App\Events\Scout\UpdateAllMobStatus;
 use App\Events\Scout\ZoneMultipleOccupancyChanged;
 use App\Models\Scout;
@@ -28,5 +29,15 @@ trait BroadcastsScoutingEvents
     public function ScoutMultipleOccupanyUpdates(Scout $scout, array $zone_list)
     {
         broadcast(new ZoneMultipleOccupancyChanged($scout, $zone_list));
+    }
+
+    public function PointOccupacyUpdateEvent(Scout $scout, $points, $zone_id, $instance_number)
+    {
+        broadcast(new PointOccupancyChanged(
+            $scout,
+            $points,
+            $zone_id,
+            $instance_number
+        ))->toOthers();
     }
 }
