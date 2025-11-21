@@ -39,6 +39,7 @@
         </Dialog>
         <ScoutDetailsDialog />
         <TomestoneDialog />
+        <ScoutHistoryDialog v-if="scout" />
     </div>
 </template>
 
@@ -61,6 +62,7 @@ import {
 import TomestoneDialog from '@/components/dialogs/TomestoneDialog.vue';
 import ColorIconButton from '@/components/inputs/ColorIconButton.vue';
 import ScoutReportButton from '@/components/inputs/ScoutReportButton.vue';
+import ScoutHistoryDialog from '@/components/dialogs/ScoutHistoryDialog.vue';
 
 const scout = inject('scout', null)
 const editmode = inject('editmode', false)

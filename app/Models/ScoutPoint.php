@@ -40,6 +40,8 @@ use App\Models\SpawnPoint;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ScoutPoint whereX($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ScoutPoint whereY($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ScoutPoint whereZoneId($value)
+ * @property-read \App\Models\Mob|null $mob
+ * @property-read \App\Models\Zone $zone
  * @mixin \Eloquent
  */
 class ScoutPoint extends Model

@@ -42,6 +42,8 @@ use Sqids\Sqids;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Scout whereVersion($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ScoutVersion> $versions
+ * @property-read int|null $versions_count
  * @mixin \Eloquent
  */
 class Scout extends Model

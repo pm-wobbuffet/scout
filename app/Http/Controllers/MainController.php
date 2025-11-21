@@ -10,8 +10,10 @@ use App\Http\Requests\Scout\UpdateOccupiedPointRequest;
 use App\Http\Resources\ExpansionResource;
 use App\Http\Resources\ScoutCustomPointResource;
 use App\Http\Resources\ScoutResource;
+use App\Http\Resources\ScoutVersionResource;
 use App\Models\Expansion;
 use App\Models\Scout;
+use App\Models\ScoutVersion;
 use App\Models\Zone;
 use App\Traits\BroadcastsScoutingEvents;
 use App\Traits\UpdatesScoutReports;
@@ -63,6 +65,10 @@ class MainController extends Controller
             'scout' => new ScoutResource($scout),
             'defaultId' => intval(env('DEFAULT_EXPANSION_ID', 7)),
             'ajaxRefreshInterval' => intval(env('APP_AJAX_REFRESH_INTERVAL_MS', 10000)),
+            'versions' => Inertia::defer(function () use ($scout) {
+                //
+                return ScoutVersionResource::collection($scout->versions()->orderBy('version', 'desc')->get());
+            }, 'versions')
         ]);
     }
 
