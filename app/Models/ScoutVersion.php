@@ -61,7 +61,11 @@ class ScoutVersion extends Model
             // Check to see if there's a version created in the previous 30 sec
             $d = DB::table('scout_versions')
                 ->where('scout_id', $scoutVersion->scout_id)
-                ->where('created_at', '>=', Carbon::now()->subSeconds(30))
+                ->where(
+                    'created_at',
+                    '>=',
+                    Carbon::now()->subSeconds(env('VERSION_HISTORY_LOCKOUT_SEC', 30))
+                )
                 ->orderBy('created_at', 'desc')
                 ->first();
             if ($d) {

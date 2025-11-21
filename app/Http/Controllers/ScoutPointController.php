@@ -58,8 +58,8 @@ class ScoutPointController extends Controller
         $this->sendScoutMobAssignedEvent($scout, $request->validated('zone_id'), $request->validated('instance_number', 1));
         $this->sendReportModifiedEvent($scout, [
             'name' => 'Mob Assigned',
-            'zone' => Zone::where('id', $request->validated('zone_id'))->first()->toArray(),
-            'mob' => Mob::where('id', $request->validated('mob_id'))->first()->toArray() ?? null,
+            'zone_id' => $request->validated('zone_id'),
+            'mob_id' => $request->validated('mob_id') ?? null,
         ]);
         return response()->json(['custom_points' => collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray()]);
     }
@@ -78,7 +78,7 @@ class ScoutPointController extends Controller
         $this->sendPointClearedEvent($scout, $request->validated('point_type'), $request->validated('id'), $request->validated('instance_number', 1));
         $this->sendReportModifiedEvent($scout, [
             'name' => 'Point Cleared',
-            'zone' => Zone::where('id', $request->validated('zone_id'))->first()->toArray(),
+            'zone_id' => $request->validated('zone_id'),
         ]);
         return response()->json(['success' => true]);
     }

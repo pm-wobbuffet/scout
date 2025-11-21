@@ -6,7 +6,7 @@
                 History
             </ScoutReportButton>
         </DialogTrigger>
-        <DialogContent class="min-w-[80%]">
+        <DialogContent class="min-w-[80%] max-h-[80%] overflow-auto">
             <DialogHeader>
                 <DialogTitle>Scouting Report History</DialogTitle>
                 <DialogDescription>This is the history of this scouting report. When changes are made, a new version of
@@ -16,7 +16,7 @@
                 </DialogDescription>
             </DialogHeader>
 
-            <div>
+            <div class="">
                 <Deferred data="versions">
                     <template #fallback>
                         <div>Loading...</div>
@@ -29,12 +29,18 @@
                                 <th>Created Time</th>
                                 <th>Details</th>
                                 <th>User</th>
+                                <th>Revert</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="version in page.props.versions" :key="`versions-row-${version.version}`">
+                            <tr v-for="(version, idx) in page.props.versions" :key="`versions-row-${version.version}`">
                                 <td>{{ version.version }}</td>
                                 <td>{{ formatVersionDate(version.created_at) }}</td>
+                                <td>{{ version.update_details.name ?? "" }}</td>
+                                <td>{{ version.user ?? "" }}</td>
+                                <td>
+                                    <Button variant="default" v-if="idx > 0">Revert</Button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -63,7 +69,7 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import Button from '@/components/ui/button/Button.vue';
-import { Deferred, usePage } from '@inertiajs/vue3';
+import { Deferred, router, usePage } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
@@ -73,13 +79,17 @@ const loaded_at = ref(dayjs())
 const page = usePage()
 let timerId = null
 
-const formatVersionDate = function (dateStr) {
+const formatVersionDate = (dateStr) => {
     const yesterday = dayjs().subtract(1, 'day')
     const d = dayjs(dateStr)
     if (d < yesterday) {
         return d.format('D MMM h:mm A')
     }
     return d.from(loaded_at.value)
+}
+
+const loadHistory = () => {
+    router.reload({ only: ['versions'] })
 }
 
 onMounted(() => {
@@ -99,5 +109,9 @@ onBeforeUnmount(() => {
 
 table>tbody>tr {
     @apply even:bg-slate-100 dark:even:bg-slate-600;
+
+    td {
+        @apply p-1 px-2 border;
+    }
 }
 </style>

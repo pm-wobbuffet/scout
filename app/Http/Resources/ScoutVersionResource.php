@@ -19,8 +19,10 @@ class ScoutVersionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'version' => $this->version,
-            'created_at' => $this->created_at,
+            'version'           => $this->version,
+            'user'              => $this->user,
+            'update_details'    => $this->update_details,
+            'created_at'        => $this->created_at,
         ];
     }
 }
