@@ -17,12 +17,15 @@
             </DialogHeader>
 
             <div class="">
+                <div v-if="form.errors" class="text-red-400">
+                    {{ form.errors.version_number }}
+                </div>
                 <Deferred data="versions">
                     <template #fallback>
                         <div>Loading...</div>
                     </template>
 
-                    <table class="mx-auto">
+                    <table class="mx-auto text-sm">
                         <thead>
                             <tr>
                                 <th>Version #</th>
@@ -33,17 +36,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(version, idx) in page.props.versions" :key="`versions-row-${version.version}`">
+                            <tr v-for="(version, idx) in page.props.versions.data"
+                                :key="`versions-row-${version.version}`">
                                 <td>{{ version.version }}</td>
                                 <td>{{ formatVersionDate(version.created_at) }}</td>
                                 <td>{{ version.update_details.name ?? "" }}</td>
                                 <td>{{ version.user ?? "" }}</td>
                                 <td>
-                                    <Button variant="default" v-if="idx > 0">Revert</Button>
+                                    <Button variant="default" class="px-1 py-1 h-auto" v-if="idx > 0"
+                                        @click="setVersion(version.version)">Revert</Button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    <ResourcePaginator :paginator="page.props.versions.meta" />
                 </Deferred>
             </div>
 
@@ -69,15 +75,21 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import Button from '@/components/ui/button/Button.vue';
-import { Deferred, router, usePage } from '@inertiajs/vue3';
+import { Deferred, router, useForm, usePage } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { inject, onBeforeUnmount, onMounted, ref } from 'vue';
+import ResourcePaginator from '@/components/ui/pagination/ResourcePaginator.vue';
 
 dayjs.extend(relativeTime);
 const loaded_at = ref(dayjs())
 const page = usePage()
+const scout = inject('scout')
 let timerId = null
+
+const form = useForm({
+    version_number: null,
+})
 
 const formatVersionDate = (dateStr) => {
     const yesterday = dayjs().subtract(1, 'day')
@@ -86,6 +98,13 @@ const formatVersionDate = (dateStr) => {
         return d.format('D MMM h:mm A')
     }
     return d.from(loaded_at.value)
+}
+
+const setVersion = (version_number) => {
+    form.version_number = version_number
+    form.post(route('scout.revert', { scout: scout, password: scout.collaborator_password }), {
+        onSuccess: () => router.reload()
+    })
 }
 
 const loadHistory = () => {

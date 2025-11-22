@@ -67,7 +67,8 @@ class MainController extends Controller
             'ajaxRefreshInterval' => intval(env('APP_AJAX_REFRESH_INTERVAL_MS', 10000)),
             'versions' => Inertia::defer(function () use ($scout) {
                 //
-                return ScoutVersionResource::collection($scout->versions()->orderBy('version', 'desc')->get());
+                return ScoutVersionResource::collection($scout->versions()->orderBy('version', 'desc')
+                    ->paginate(10, ['*'], 'historypage'));
             }, 'versions')
         ]);
     }
@@ -101,30 +102,6 @@ class MainController extends Controller
         $this->sendReportModifiedEvent($scout, ['name' => 'Initial Scout Submission']);
         return redirect()->route('scout.view', [$scout->slug, $scout->collaborator_password])
             ->with(['newly_created' => true]);
-    }
-
-    /**
-     * Updates the metadata for a scout request, including title and scouter list
-     * @param \App\Http\Requests\Scout\UpdateMetaRequest $request
-     * @param \App\Models\Scout $scout
-     * @param string $password
-     * @return JsonResponse
-     */
-    public function updateMeta(UpdateMetaRequest $request, Scout $scout, string $password): JsonResponse
-    {
-        $this->authorizeUpdate($scout, $password);
-
-        $scout->title = $request->validated('title', '');
-        $scout->scouts()->delete();
-        foreach ($request->validated('scouts') as $scouter) {
-            $scout->scouts()->updateOrCreate([
-                'scout_name' => $scouter['scout_name'],
-            ]);
-        }
-        $scout->save();
-        $this->metaUpdated($scout);
-        $this->sendReportModifiedEvent($scout, ['name' => 'Scout Details Updated']);
-        return response()->json(['success' => true]);
     }
 
     public function getUpdates(Request $request, Scout $scout, string $password = ''): ScoutResource

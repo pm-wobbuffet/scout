@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Events\Scout\Finalized;
 use App\Events\Scout\InstanceCountsUpdated;
 use App\Http\Requests\Scout\UpdateInstanceCountRequest;
+use App\Http\Requests\Scout\UpdateMetaRequest;
+use App\Http\Requests\Scout\VersionReversionRequest;
 use App\Models\Scout;
 use App\Traits\UpdatesScoutReports;
 use Carbon\Carbon;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ScoutController extends Controller
 {
@@ -28,6 +32,30 @@ class ScoutController extends Controller
         broadcast(new InstanceCountsUpdated($scout))->toOthers();
         $this->sendReportModifiedEvent($scout, ['name' => "Instance Counts Updated"]);
         return response()->json($scout->instances);
+    }
+
+    /**
+     * Updates the metadata for a scout request, including title and scouter list
+     * @param \App\Http\Requests\Scout\UpdateMetaRequest $request
+     * @param \App\Models\Scout $scout
+     * @param string $password
+     * @return JsonResponse
+     */
+    public function updateMeta(UpdateMetaRequest $request, Scout $scout, string $password): JsonResponse
+    {
+        $this->authorizeUpdate($scout, $password);
+
+        $scout->title = $request->validated('title', '');
+        $scout->scouts()->delete();
+        foreach ($request->validated('scouts') as $scouter) {
+            $scout->scouts()->updateOrCreate([
+                'scout_name' => $scouter['scout_name'],
+            ]);
+        }
+        $scout->save();
+        $this->metaUpdated($scout);
+        $this->sendReportModifiedEvent($scout, ['name' => 'Scout Details Updated']);
+        return response()->json(['success' => true]);
     }
 
     public function finalize(Scout $scout, string $password = ''): \Illuminate\Http\RedirectResponse
@@ -75,5 +103,20 @@ class ScoutController extends Controller
             return redirect()->route('scout.view', [$sc->slug, $sc->collaborator_password])
                 ->with(['newly_created' => true]);
         }
+    }
+
+    public function revert(VersionReversionRequest $request, Scout $scout, string $password = '')
+    {
+        $this->authorizeUpdate($scout, $password);
+        $target_version = $scout->versions()->where('version', $request->validated('version_number'))
+            ->firstOrFail();
+
+        DB::transaction(function () use ($scout, $target_version) {
+            // @todo: unwind all the previous values into their proper relations
+            if ($target_version->scout_details['scouts']) {
+                $scout->scouts()->delete();
+                $scout->scouts()->createMany($target_version->scout_details['scouts']);
+            }
+        });
     }
 }

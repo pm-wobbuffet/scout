@@ -18,12 +18,14 @@ class ScoutReportModified
 
     public Scout $scout;
     public array $details;
+    public ?string $user;
     /**
      * Create a new event instance.
      */
-    public function __construct(Scout $scout, array $details)
+    public function __construct(Scout $scout, array $details, ?string $user)
     {
         $this->scout = $scout;
         $this->details = $details;
+        $this->user = $user ?? '';
     }
 }

@@ -18,10 +18,10 @@ class ScoutEventsSubscriber implements ShouldQueue
     public function handleScoutReportModifiedEvent(ScoutReportModified $event): void
     {
         $scout = $event->scout->load(['points', 'scouts', 'dead_mobs', 'custom_points', 'instances']);
-        $details = $event->details;
         $scout->versions()->create([
             'scout_details' => $scout->toArray(),
-            'update_details' => $details,
+            'update_details' => $event->details,
+            'user'  => $event->user,
         ]);
     }
 

@@ -19,6 +19,7 @@ const scoutReport = inject('scoutReport')
 const newScoutName = ref('')
 const scoutInput = useTemplateRef('scoutref')
 const emitter = inject('emitter')
+const isDirty = ref(false)
 
 const form = useForm({
     title: scoutReport.value.title ?? '',
@@ -27,6 +28,7 @@ const form = useForm({
 
 const removeScout = (idx) => {
     scoutReport.value.scouts.splice(idx, 1)
+    isDirty.value = true
 }
 
 const addScout = () => {
@@ -34,16 +36,17 @@ const addScout = () => {
         'scout_name': newScoutName.value,
     })
     newScoutName.value = ''
-    // if (scoutInput.value) {
-    //     scoutInput.value.focus()
-    // }
+    isDirty.value = true
     document.getElementById('txtNewScout').focus()
 }
 
 const handleOpen = (isOpen) => {
     if (!isOpen) {
-        emitter.emit('meta:updated')
+        if (isDirty.value) {
+            emitter.emit('meta:updated')
+        }
     }
+    isDirty.value = false
 }
 
 </script>
@@ -65,7 +68,7 @@ const handleOpen = (isOpen) => {
                 <div class="grid grid-cols-2 items-center gap-2 w-full" style="grid-template-columns: auto 1fr;">
                     <div>Title</div>
                     <div>
-                        <Input maxlength="100" name="title" v-model="scoutReport.title"
+                        <Input maxlength="100" name="title" v-model="scoutReport.title" @update="isDirty = true"
                             title="You can optionally enter a descriptive title for the scouting report" />
                     </div>
 

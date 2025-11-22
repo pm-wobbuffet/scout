@@ -101,7 +101,10 @@ trait UpdatesScoutReports
 
     public function sendReportModifiedEvent(Scout $scout, array $details)
     {
-        event(new ScoutReportModified($scout, $details));
+        // Do a quick search for the keys we normally submit for user updates
+        // @todo: standardize this at some point in all the requests
+        $user = request('update_user', request('reporter', null));
+        event(new ScoutReportModified($scout, $details, $user));
     }
 
     public function sendScoutMobAssignedEvent(Scout $scout, $zone_id, $instance_number)
