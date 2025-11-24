@@ -49,7 +49,15 @@
                             </tr>
                         </tbody>
                     </table>
-                    <ResourcePaginator :paginator="page.props.versions.meta" />
+                    <div v-if="page.props.versions.meta && page.props.versions.meta.links.length > 3"
+                        class="flex mx-auto justify-center gap-1 mt-2">
+                        <template v-for="(link, itemkey) in page.props.versions.meta.links">
+                            <div v-if="link.url === null" :key="itemkey"
+                                class="mb-1 mr-1 px-4 py-3 text-gray-400 text-sm leading-4 border rounded"
+                                v-html="link.label" />
+                            <Button v-else v-html="link.label" @click="setHistoryPage(link.url)"></Button>
+                        </template>
+                    </div>
                 </Deferred>
             </div>
 
@@ -80,6 +88,8 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { inject, onBeforeUnmount, onMounted, ref } from 'vue';
 import ResourcePaginator from '@/components/ui/pagination/ResourcePaginator.vue';
+import { Link } from 'lucide-vue-next';
+import { useUserSettings } from '@/composables/useUserSettings';
 
 dayjs.extend(relativeTime);
 const loaded_at = ref(dayjs())
@@ -87,8 +97,11 @@ const page = usePage()
 const scout = inject('scout')
 let timerId = null
 
+const { settings } = useUserSettings()
+
 const form = useForm({
     version_number: null,
+    update_user: settings.value.displayName,
 })
 
 const formatVersionDate = (dateStr) => {
@@ -104,6 +117,13 @@ const setVersion = (version_number) => {
     form.version_number = version_number
     form.post(route('scout.revert', { scout: scout, password: scout.collaborator_password }), {
         onSuccess: () => router.reload()
+    })
+}
+
+const setHistoryPage = (url) => {
+    router.visit(url, {
+        preserveState: true,
+        only: ['versions']
     })
 }
 

@@ -42,6 +42,7 @@ class VersionReversionRequest extends FormRequest
                     }
                 }
             ],
+            'update_user' => 'string|nullable',
         ];
     }
 }

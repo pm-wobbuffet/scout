@@ -22,12 +22,6 @@ class ScoutController extends Controller
     public function updateInstances(UpdateInstanceCountRequest $request, Scout $scout, string $password)
     {
         $this->authorizeUpdate($scout, $password);
-        // $counts = [];
-        // foreach ($request->validated('instance_data') as $zone_id => $instance_count) {
-        //     $instance_count = ($instance_count < 1) ? 1 : $instance_count;
-        //     $counts[] = ['zone_id' => $zone_id, 'instance_count' => $instance_count];
-        // }
-        //$scout->instances()->sync($counts);
         $scout->instances()->sync($request->validated('instance_data'));
         broadcast(new InstanceCountsUpdated($scout))->toOthers();
         $this->sendReportModifiedEvent($scout, ['name' => "Instance Counts Updated"]);
@@ -118,5 +112,9 @@ class ScoutController extends Controller
                 $scout->scouts()->createMany($target_version->scout_details['scouts']);
             }
         });
+
+        $this->sendReportModifiedEvent($scout, [
+            'name' => "Reverted to Previous Version ({$request->validated('version_number')})",
+        ]);
     }
 }
