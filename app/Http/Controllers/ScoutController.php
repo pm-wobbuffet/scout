@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -43,21 +44,6 @@ class ScoutController extends Controller
         $scout->dead_mobs()->createMany($request->validated('dead_mobs', []));
         $scout->scouts()->createMany($request->validated('scouts', []));
 
-        // if ($request->has('custom_points')) {
-        //     $custom_points_mapping = $this->handleCustomPoints($scout, $request->validated('custom_points'));
-        // }
-        // if ($request->has('points')) {
-        //     $scout->points()->createMany($request->validated('points'));
-        // }
-        // if ($request->has('instance_data')) {
-        //     $scout->instances()->sync($request->validated('instance_data'));
-        // }
-        // if ($request->has('dead_mobs')) {
-        //     $scout->dead_mobs()->createMany($request->validated('dead_mobs'));
-        // }
-        // if ($request->has('scouts') && $request->validated('scouts') !== null) {
-        //     $scout->scouts()->createMany($request->validated('scouts'));
-        // }
         // Fire update
         $this->sendReportModifiedEvent($scout, ['name' => 'Initial Scout Submission']);
         return redirect()->route('scout.view', [$scout->slug, $scout->collaborator_password])
@@ -70,7 +56,6 @@ class ScoutController extends Controller
         if ($password && $password === $scout->collaborator_password) {
             $scout->makeVisible(['collaborator_password']);
         }
-        // dd($scout->instances);
 
         $expansions = $this->getExpansionsData();
         $exp_totals = $this->calculateExpTotals($expansions, $scout);
@@ -93,7 +78,15 @@ class ScoutController extends Controller
         ]);
     }
 
-    public function updateInstances(UpdateInstanceCountRequest $request, Scout $scout, string $password)
+    /**
+     * Update the number of instances assigned to each zone in the scouting report
+     *
+     * @param UpdateInstanceCountRequest $request
+     * @param Scout $scout
+     * @param string $password
+     * @return JsonResponse
+     */
+    public function updateInstances(UpdateInstanceCountRequest $request, Scout $scout, string $password): JsonResponse
     {
         $this->authorizeUpdate($scout, $password);
         $scout->instances()->sync($request->validated('instance_data'));
@@ -126,6 +119,13 @@ class ScoutController extends Controller
         return response()->json(['success' => true]);
     }
 
+    /**
+     * Finalize a scouting report, preventing any further updates (other than Meta information)
+     *
+     * @param Scout $scout
+     * @param string $password
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function finalize(Scout $scout, string $password = ''): \Illuminate\Http\RedirectResponse
     {
         $this->authorizeUpdate($scout, $password);
@@ -137,7 +137,14 @@ class ScoutController extends Controller
         return to_route('scout.view', [$scout]);
     }
 
-    public function clone(Request $request, Scout $scout)
+    /**
+     * Duplicate a scouting report to allow new edits or changes to a finalized report
+     *
+     * @param Request $request
+     * @param Scout $scout
+     * @return RedirectResponse
+     */
+    public function clone(Request $request, Scout $scout): RedirectResponse
     {
         $sc = $scout->replicate(['collaborator_password', 'slug', 'finalized_at']);
         $sc->collaborator_password = str(bin2hex(random_bytes(4)));
@@ -167,12 +174,21 @@ class ScoutController extends Controller
         foreach ($scout->dead_mobs as $d) {
             $sc->dead_mobs()->create($d->toArray());
         }
-        if ($sc) {
-            return redirect()->route('scout.view', [$sc->slug, $sc->collaborator_password])
-                ->with(['newly_created' => true]);
-        }
+        return redirect()->route('scout.view', [$sc->slug, $sc->collaborator_password])
+            ->with(['newly_created' => true]);
     }
 
+    /**
+     * Revert a scouting report to a previous numbered version.
+     * This creates a new version based on the existing version, rather than truly doing a rewind, i.e. a
+     * user at version 10 can revert to version "6", but this will just copy the contents of version 6 into
+     * a new version 11
+     *
+     * @param VersionReversionRequest $request
+     * @param Scout $scout
+     * @param string $password
+     * @return void
+     */
     public function revert(VersionReversionRequest $request, Scout $scout, string $password = '')
     {
         $this->authorizeUpdate($scout, $password);
@@ -180,16 +196,32 @@ class ScoutController extends Controller
             ->firstOrFail();
 
         DB::transaction(function () use ($scout, $target_version) {
-            // @todo: unwind all the previous values into their proper relations
-            if ($target_version->scout_details['scouts']) {
-                $scout->scouts()->delete();
-                $scout->scouts()->createMany($target_version->scout_details['scouts']);
-            }
+            // Reset all values to their previous versions
+            $scout->scouts()->delete();
+            $scout->scouts()->createMany($target_version->scout_details['scouts'] ?? []);
+
+            $scout->custom_points()->delete();
+            $scout->custom_points()->createMany($target_version->scout_details['custom_points'] ?? []);
+
+            $scout->points()->delete();
+            $scout->points()->createMany($target_version->scout_details['points'] ?? []);
+
+            // @todo fix me
+            $scout->instances()->sync([]);
+            $scout->instances()->createMany($target_version->scout_details['instances'] ?? []);
+
+            $scout->dead_mobs()->delete();
+            $scout->dead_mobs()->createMany($target_version->scout_details['dead_mobs'] ?? []);
+
+            $scout->title = $target_version->scout_details['title'] ?? '';
+            $scout->save();
         });
 
         $this->sendReportModifiedEvent($scout, [
             'name' => "Reverted to Previous Version ({$request->validated('version_number')})",
         ]);
+
+        return to_route('scout.view', [$scout, $password]);
     }
 
     /**

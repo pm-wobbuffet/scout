@@ -55,7 +55,8 @@
                             <div v-if="link.url === null" :key="itemkey"
                                 class="mb-1 mr-1 px-4 py-3 text-gray-400 text-sm leading-4 border rounded"
                                 v-html="link.label" />
-                            <Button v-else v-html="link.label" @click="setHistoryPage(link.url)"></Button>
+                            <Button v-else @click="setHistoryPage(link.url)" :key="`buttonfor-${itemkey}`"><span
+                                    v-html="link.label"></span></Button>
                         </template>
                     </div>
                 </Deferred>
@@ -87,14 +88,14 @@ import { Deferred, router, useForm, usePage } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { inject, onBeforeUnmount, onMounted, ref } from 'vue';
-import ResourcePaginator from '@/components/ui/pagination/ResourcePaginator.vue';
-import { Link } from 'lucide-vue-next';
 import { useUserSettings } from '@/composables/useUserSettings';
+import { useToast } from 'vue-toastification';
 
 dayjs.extend(relativeTime);
 const loaded_at = ref(dayjs())
 const page = usePage()
 const scout = inject('scout')
+const toast = useToast()
 let timerId = null
 
 const { settings } = useUserSettings()
@@ -116,7 +117,10 @@ const formatVersionDate = (dateStr) => {
 const setVersion = (version_number) => {
     form.version_number = version_number
     form.post(route('scout.revert', { scout: scout, password: scout.collaborator_password }), {
-        onSuccess: () => router.reload()
+        onFinish: () => {
+            toast.success("Scouting report successfully reverted. Refreshing.")
+            router.visit(route('scout.view', { scout: scout, password: scout.collaborator_password }))
+        }
     })
 }
 

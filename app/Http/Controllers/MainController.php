@@ -47,8 +47,8 @@ class MainController extends Controller
     public function getUpdates(Request $request, Scout $scout, string $password = ''): ScoutResource
     {
         $this->authorizeUpdate($scout, $password);
-        $scout->load(['updates', 'dead_mobs', 'instances', 'points']);
-        $scout->loadMax('updates', 'id');
+        $scout->load(['versions', 'dead_mobs', 'instances', 'points']);
+        $scout->loadMax('versions', 'version');
 
         return new ScoutResource($scout);
     }
