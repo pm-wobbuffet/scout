@@ -6,8 +6,11 @@ use App\Events\Scout\MetaUpdated;
 use App\Events\ScoutAssignMob;
 use App\Events\ScoutClearPoint;
 use App\Events\ScoutReportModified;
+use App\Models\Expansion;
 use App\Models\Scout;
 use App\Models\ScoutCustomPoint;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 trait UpdatesScoutReports
@@ -125,5 +128,29 @@ trait UpdatesScoutReports
         broadcast(
             new ScoutClearPoint($scout, $point_id, $point_type, $instance_number)
         )->toOthers();
+    }
+
+    /**
+     * Get a subset of expansion information for use on the main page
+     * @return array | Collection<int, Expansion>
+     */
+    public function getExpansionsData(): array | Collection
+    {
+        return Cache::remember('expansions-data', 10, function () {
+            return Expansion::query()
+                ->with([
+                    'zones',
+                    'zones.mobs' => function ($query) {
+                        $query->select(['id', 'name', 'rank', 'mob_index', 'zone_id', 'names', 'bNpcBase']);
+                    },
+                    'zones.aetherytes',
+                    'zones.spawn_points',
+                    'zones.spawn_points.valid_mobs' => function ($query) {
+                        $query->select(['mobs.id', 'name', 'mob_index', 'zone_id']);
+                    },
+                ])
+                ->orderBy('id')
+                ->get();
+        });
     }
 }

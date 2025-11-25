@@ -1,27 +1,29 @@
 <?php
 
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\ScoutController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::group(['namespace' => '\\App\\Http\\Controllers'], function () {
-    Route::get('/', 'MainController@index')->name('main');
-    Route::post('/', 'MainController@store')->name('scout.store');
+Route::namespace('\\App\\Http\\Controllers')
+    ->group(function () {
+        Route::get('/', [MainController::class, 'index'])->name('main');
+        Route::post('/', [ScoutController::class, 'store'])->name('scout.store');
+        Route::get('/scout/{scout:slug}/{password?}', [ScoutController::class, 'view'])->name('scout.view');
 
-    Route::get('/scout/{scout:slug}/{password?}', 'MainController@view')->name('scout.view');
+        Route::post('/scoutpoint/{scout:slug}/{password?}', 'ScoutPointController@assignMob')->name('scout.assignmob');
+        Route::post('/scoutpointclear/{scout:slug}/{password?}', 'ScoutPointController@clearPoint')->name('scout.clearpoint');
+        Route::post('/scoutupdatemob/{scout:slug}/{password?}', 'ScoutPointController@updateMobStatus')->name('scout.updatemobstatus');
+        Route::get('/scoutupdates/{scout:slug}/{password?}', 'MainController@getUpdates')->name('scout.updatelist');
+        Route::post('/scoutoccupied/{scout:slug}/{password?}', 'MainController@updateOccupiedPoint')->name('scout.updateOccupiedPoint');
+        Route::post('/scoutmeta/{scout:slug}/{password?}', 'ScoutController@updateMeta')->name('scout.updateMeta');
+        Route::patch('/scoutimport/{scout:slug}/{password?}', 'MainController@handleImportedPoints')->name('scout.importPoints');
+        Route::post('/scoutversion/{scout:slug}/{password?}', 'ScoutController@revert')->name('scout.revert');
 
-    Route::post('/scoutpoint/{scout:slug}/{password?}', 'ScoutPointController@assignMob')->name('scout.assignmob');
-    Route::post('/scoutpointclear/{scout:slug}/{password?}', 'ScoutPointController@clearPoint')->name('scout.clearpoint');
-    Route::post('/scoutupdatemob/{scout:slug}/{password?}', 'ScoutPointController@updateMobStatus')->name('scout.updatemobstatus');
-    Route::get('/scoutupdates/{scout:slug}/{password?}', 'MainController@getUpdates')->name('scout.updatelist');
-    Route::post('/scoutoccupied/{scout:slug}/{password?}', 'MainController@updateOccupiedPoint')->name('scout.updateOccupiedPoint');
-    Route::post('/scoutmeta/{scout:slug}/{password?}', 'ScoutController@updateMeta')->name('scout.updateMeta');
-    Route::patch('/scoutimport/{scout:slug}/{password?}', 'MainController@handleImportedPoints')->name('scout.importPoints');
-    Route::post('/scoutversion/{scout:slug}/{password?}', 'ScoutController@revert')->name('scout.revert');
-
-    Route::post('/scoutinstances/{scout:slug}/{password?}', 'ScoutController@updateInstances')->name('scout.updateinstances');
-    Route::post('/finalize/{scout:slug}/{password?}', 'ScoutController@finalize')->name('scout.finalize');
-    Route::post('/clone/{scout:slug}', 'ScoutController@clone')->name('scout.clone');
-});
+        Route::post('/scoutinstances/{scout:slug}/{password?}', 'ScoutController@updateInstances')->name('scout.updateinstances');
+        Route::post('/finalize/{scout:slug}/{password?}', 'ScoutController@finalize')->name('scout.finalize');
+        Route::post('/clone/{scout:slug}', 'ScoutController@clone')->name('scout.clone');
+    });
 
 Route::middleware(['auth', 'is_admin'])
     ->prefix('admin')

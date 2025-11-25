@@ -44,66 +44,6 @@ class MainController extends Controller
         ]);
     }
 
-    public function view(Request $request, Scout $scout, string $password = ''): \Inertia\Response|JsonResponse
-    {
-        $scout->load(['dead_mobs', 'instances', 'points', 'scouts', 'custom_points', 'custom_points.zone', 'custom_points.zone.mobs']);
-        if ($password && $password === $scout->collaborator_password) {
-            $scout->makeVisible(['collaborator_password']);
-        }
-        // dd($scout->instances);
-
-        $expansions = $this->getExpansionsData();
-        $exp_totals = $this->calculateExpTotals($expansions, $scout);
-        if ($request->wantsJson() || $request->has('json')) {
-            return response()->json($this->generateJson($scout, $password === $scout->collaborator_password));
-        }
-        // Set OpenGraph settings for discord display
-        $this->setOpenGraphDetails($scout, $exp_totals);
-
-        return Inertia::render('scout/View', [
-            'expac' => $expansions,
-            'scout' => new ScoutResource($scout),
-            'defaultId' => intval(env('DEFAULT_EXPANSION_ID', 7)),
-            'ajaxRefreshInterval' => intval(env('APP_AJAX_REFRESH_INTERVAL_MS', 10000)),
-            'versions' => Inertia::defer(function () use ($scout) {
-                //
-                return ScoutVersionResource::collection($scout->versions()->orderBy('version', 'desc')
-                    ->paginate(10, ['*'], 'historypage'));
-            }, 'versions')
-        ]);
-    }
-
-    /**
-     * Store a scouting report to the database
-     * Sends the user to the newly created report on success
-     * @param \App\Http\Requests\Scout\StoreScoutRequest $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(StoreScoutRequest $request)
-    {
-        $scout = Scout::create($request->validated());
-
-        if ($request->has('custom_points')) {
-            $custom_points_mapping = $this->handleCustomPoints($scout, $request->validated('custom_points'));
-        }
-        if ($request->has('points')) {
-            $scout->points()->createMany($request->validated('points'));
-        }
-        if ($request->has('instance_data')) {
-            $scout->instances()->sync($request->validated('instance_data'));
-        }
-        if ($request->has('dead_mobs')) {
-            $scout->dead_mobs()->createMany($request->validated('dead_mobs'));
-        }
-        if ($request->has('scouts') && $request->validated('scouts') !== null) {
-            $scout->scouts()->createMany($request->validated('scouts'));
-        }
-        // Fire update
-        $this->sendReportModifiedEvent($scout, ['name' => 'Initial Scout Submission']);
-        return redirect()->route('scout.view', [$scout->slug, $scout->collaborator_password])
-            ->with(['newly_created' => true]);
-    }
-
     public function getUpdates(Request $request, Scout $scout, string $password = ''): ScoutResource
     {
         $this->authorizeUpdate($scout, $password);
@@ -172,58 +112,6 @@ class MainController extends Controller
     /* Private methods */
 
     /**
-     * Get the total number of mobs for each expansion in the scouting report
-     * Only counts expansions with found mobs
-     * Used mainly for the OpenGraph display in Discord embeds
-     * @param EloquentCollection<int, Expansion> $expansions
-     * @param Scout $scout
-     * @return string[]
-     */
-    private function calculateExpTotals(EloquentCollection $expansions, Scout $scout): array
-    {
-        $scout->load(['instances', 'points', 'points.zone' => function ($q) {
-            $q->select(['id', 'expansion_id', 'name']);
-        }]);
-        // Cycle through expansions and zones total up found mobs and expected totals
-        $ret = $expansions->reduce(function (?array $carry, Expansion $item) use ($scout) {
-            $total_mobs = 0;
-            $seen_mobs = $scout->points->where('zone.expansion_id', $item->id)->count();
-            if ($seen_mobs > 0) {
-                $total_mobs = $item->zones->reduce(function (int $carry, Zone $zone) use ($scout) {
-                    $carry += ($scout->getZoneInstanceCount($zone->id) * $zone->mobs->count());
-                    return $carry;
-                }, 0);
-                $carry[] = "{$item->abbreviation}: {$seen_mobs}/{$total_mobs}";
-            }
-            return $carry;
-        }, []);
-        return $ret;
-    }
-
-    /**
-     * Get a subset of expansion information for use on the main page
-     */
-    private function getExpansionsData(): array|EloquentCollection
-    {
-        return Cache::remember('expansions-data', 10, function () {
-            return Expansion::query()
-                ->with([
-                    'zones',
-                    'zones.mobs' => function ($query) {
-                        $query->select(['id', 'name', 'rank', 'mob_index', 'zone_id', 'names', 'bNpcBase']);
-                    },
-                    'zones.aetherytes',
-                    'zones.spawn_points',
-                    'zones.spawn_points.valid_mobs' => function ($query) {
-                        $query->select(['mobs.id', 'name', 'mob_index', 'zone_id']);
-                    },
-                ])
-                ->orderBy('id')
-                ->get();
-        });
-    }
-
-    /**
      * Return an array of data about a scout for use in JSON responses, if requested in a non-API way
      *
      * @param  bool  $is_collaborator  - also return the collab password if true
@@ -240,24 +128,5 @@ class MainController extends Controller
         }
 
         return $r;
-    }
-
-    /**
-     * Add OpenGraph Meta details to the Meta package
-     * Calls functions in the parent Controller class
-     *
-     * @param  array  $exp_totals  - Array of expansion mob totals ["ARR: 10/17", "HW: 12/12"]
-     */
-    private function setOpenGraphDetails(Scout $scout, array $exp_totals): void
-    {
-        if ($scout->title) {
-            $this->setOGTitle($scout->title . ' ' . implode(', ', $exp_totals));
-        } else {
-            $this->setOGTitle(implode(', ', $exp_totals));
-        }
-
-        if ($scout->scouts && count($scout->scouts) > 0) {
-            $this->setOGDescription('Scouted by: ' . implode(', ', $scout->scouts->pluck('scout_name')->toArray() ?? []));
-        }
     }
 }
