@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ScoutReportModified;
+use App\Http\Resources\ScoutVersionCompactResource;
 use App\Models\ScoutVersion;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Events\Dispatcher;
@@ -19,7 +20,8 @@ class ScoutEventsSubscriber implements ShouldQueue
     {
         $scout = $event->scout->load(['points', 'scouts', 'dead_mobs', 'custom_points', 'instances']);
         $scout->versions()->create([
-            'scout_details' => $scout->toArray(),
+            //'scout_details' => $scout->toArray(),
+            'scout_details' => new ScoutVersionCompactResource($scout),
             'update_details' => $event->details,
             'user'  => $event->user,
         ]);

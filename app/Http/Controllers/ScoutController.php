@@ -207,8 +207,8 @@ class ScoutController extends Controller
             $scout->points()->createMany($target_version->scout_details['points'] ?? []);
 
             // @todo fix me
-            $scout->instances()->sync([]);
-            $scout->instances()->createMany($target_version->scout_details['instances'] ?? []);
+            $scout->instances()->sync($target_version->scout_details['instances'] ?? []);
+            //$scout->instances()->createMany($target_version->scout_details['instances'] ?? []);
 
             $scout->dead_mobs()->delete();
             $scout->dead_mobs()->createMany($target_version->scout_details['dead_mobs'] ?? []);

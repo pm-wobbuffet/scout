@@ -99,9 +99,18 @@ trait UpdatesScoutReports
 
     public function removeExistingScoutPoints(Scout $scout, $details)
     {
-        // TODO: stub to try and keep this in one place for multiple scripts
+        // @TODO: stub to try and keep this in one place for multiple scripts
     }
 
+    /**
+     * Send a ScoutReportModified event to trigger creation of a new version
+     * of this scouting report, if it is outside the lockout period of the 
+     * previous version
+     *
+     * @param Scout $scout
+     * @param array $details
+     * @return void
+     */
     public function sendReportModifiedEvent(Scout $scout, array $details)
     {
         // Do a quick search for the keys we normally submit for user updates
