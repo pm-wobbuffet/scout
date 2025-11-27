@@ -46,8 +46,8 @@ import Button from '@/components/ui/button/Button.vue';
 import Input from '@/components/ui/input/Input.vue';
 import InputError from '@/components/InputError.vue';
 import Label from '@/components/ui/label/Label.vue';
-import { useToast } from 'vue-toastification';
-import { onBeforeMount } from 'vue';
+// import { useToast } from 'vue-toastification';
+import { inject, onBeforeMount } from 'vue';
 
 const breadcrumbs = [
     {
@@ -60,7 +60,7 @@ const breadcrumbs = [
     }
 ];
 
-const toast = useToast()
+const toast = inject('Toast')
 
 const props = defineProps({
     zones: Array,

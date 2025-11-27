@@ -50,7 +50,7 @@
                                     :key="`fieldset-zone-${zone.id}-${i}`">
                                     <legend>{{ zone.name }}
                                         <span v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
-                                        }}</span>
+                                            }}</span>
                                     </legend>
                                     <div v-for="mobPoint in props.scoutReport.getFoundMobInfoForZone(zone.id, i)"
                                         :key="`moblist-${zone.id}-${i}-${mobPoint.id}`">
@@ -77,8 +77,8 @@ import SettingsPopover from '@/components/dialogs/SettingsDialog.vue';
 import SortOrderPopover from '@/components/popovers/SortOrderPopover.vue';
 import { SquareArrowRight, Files, Copy } from 'lucide-vue-next';
 import { Link } from '@inertiajs/vue3';
-import { inject, ref } from 'vue';
-import { useToast } from 'vue-toastification';
+import { inject, onMounted, ref } from 'vue';
+// import { useToast } from 'vue-toastification';
 import { useClipboard } from '@vueuse/core';
 import { intToInstanceMapping, formatCoordinate, getDisplayName } from '@/classes/helpers';
 
@@ -89,7 +89,8 @@ const props = defineProps({
     defaultId: Number,
 })
 const scout = inject('scout', null)
-const toast = useToast()
+let toast = inject('Toast')
+
 const showMarkOverlay = ref(false)
 
 const { copy, copied } = useClipboard()
@@ -114,7 +115,7 @@ const getClipboardText = () => {
         }[val] ?? ''
     }
     let ret = ''
-    props.scoutReport.scouter_instance.expansion_data.forEach((expac) => {
+    props.scoutReport.scouter_instance?.expansion_data?.forEach((expac) => {
         // Does the expansion have mobs found?
         if (props.scoutReport.getFoundMobCountForExpansion(expac.id) > 0) {
             expac.zones.forEach((zone) => {

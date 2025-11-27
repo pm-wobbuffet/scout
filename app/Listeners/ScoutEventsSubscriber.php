@@ -20,8 +20,7 @@ class ScoutEventsSubscriber implements ShouldQueue
     {
         $scout = $event->scout->load(['points', 'scouts', 'dead_mobs', 'custom_points', 'instances']);
         $scout->versions()->create([
-            //'scout_details' => $scout->toArray(),
-            'scout_details' => new ScoutVersionCompactResource($scout),
+            'scout_details' => $scout->toResource(ScoutVersionCompactResource::class),
             'update_details' => $event->details,
             'user'  => $event->user,
         ]);

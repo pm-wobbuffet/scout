@@ -16,7 +16,6 @@ use App\Models\Zone;
 use App\Traits\UpdatesScoutReports;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -206,9 +205,7 @@ class ScoutController extends Controller
             $scout->points()->delete();
             $scout->points()->createMany($target_version->scout_details['points'] ?? []);
 
-            // @todo fix me
             $scout->instances()->sync($target_version->scout_details['instances'] ?? []);
-            //$scout->instances()->createMany($target_version->scout_details['instances'] ?? []);
 
             $scout->dead_mobs()->delete();
             $scout->dead_mobs()->createMany($target_version->scout_details['dead_mobs'] ?? []);
@@ -217,6 +214,7 @@ class ScoutController extends Controller
             $scout->save();
         });
 
+        // @todo: add websocket event to let users know the reversion happened
         $this->sendReportModifiedEvent($scout, [
             'name' => "Reverted to Previous Version ({$request->validated('version_number')})",
         ]);

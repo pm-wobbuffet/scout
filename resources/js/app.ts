@@ -9,6 +9,7 @@ import { initializeTheme } from './composables/useAppearance';
 import emitter from './mitt';
 import axios from 'axios';
 import Toast from 'vue-toastification';
+import { useToast } from 'vue-toastification';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -35,11 +36,13 @@ createInertiaApp({
     },
     resolve: (name) => resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>('./pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
+        const toast = useToast()
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
             .use(Toast, {})
             .provide('emitter', emitter)
+            .provide('Toast', toast)
             .mount(el);
 
     },

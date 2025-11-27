@@ -18,7 +18,7 @@ import { inject } from 'vue'
 const scoutReport = inject('scoutReport')
 
 const getExpansions = () => {
-    return scoutReport.value.scouter_instance.expansion_data
+    return scoutReport?.value?.scouter_instance?.expansion_data
 }
 
 const getMappedMobsForExpac = expac => {

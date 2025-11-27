@@ -89,13 +89,13 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { inject, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useUserSettings } from '@/composables/useUserSettings';
-import { useToast } from 'vue-toastification';
+// import { useToast } from 'vue-toastification';
 
 dayjs.extend(relativeTime);
 const loaded_at = ref(dayjs())
 const page = usePage()
 const scout = inject('scout')
-const toast = useToast()
+const toast = inject('Toast')
 let timerId = null
 
 const { settings } = useUserSettings()

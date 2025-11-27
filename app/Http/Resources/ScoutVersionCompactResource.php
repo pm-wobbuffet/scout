@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 /**
  * A compact version of a scouting report and the details needed to bring it back
@@ -22,11 +24,13 @@ class ScoutVersionCompactResource extends JsonResource
     {
         return [
             'title' => $this->title,
-            'instances' => $this->whenLoaded('instances', function ($instances) {
-                return $instances->map(function ($instance) {
+            'instances' => $this->whenLoaded('instances', function (Collection $instances) {
+                // Use MapWithKeys to return it in a format that's already ready to use with ->sync() on the resource
+                return $instances->mapWithKeys(function ($instance) {
                     return [
-                        'zone_id' => $instance->pivot->zone_id,
-                        'instance_count' => $instance->pivot->instance_count,
+                        $instance->pivot->zone_id => [
+                            'instance_count' => $instance->pivot->instance_count,
+                        ],
                     ];
                 });
             }),
@@ -38,7 +42,7 @@ class ScoutVersionCompactResource extends JsonResource
                     ];
                 });
             }),
-            'dead_mobs' => $this->whenLoaded('dead_mobs', function ($dead_mobs) {
+            'dead_mobs' => $this->whenLoaded('dead_mobs', function (Collection $dead_mobs) {
                 return $dead_mobs->map(function ($mob) {
                     return [
                         'mob_id'            => $mob->mob_id,
