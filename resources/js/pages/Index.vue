@@ -50,8 +50,10 @@ const props = defineProps({
     defaultId: Number,
 })
 
-let scouter = null
+// let scouter = null
+const scouter = new Scouter(props.expac)
 const scout_report = ref(null)
+scout_report.value = new ScoutReport({}, scouter)
 const editmode = ref(true)
 const emitter = inject('emitter')
 const showingSavedDataDialogue = ref(false)
@@ -78,8 +80,8 @@ const discardSaved = () => {
 }
 
 onBeforeMount(() => {
-    scouter = new Scouter(props.expac)
-    scout_report.value = new ScoutReport({}, scouter)
+    // scouter = new Scouter(props.expac)
+    // scout_report.value = new ScoutReport({}, scouter)
 
 })
 onMounted(() => {

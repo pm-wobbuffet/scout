@@ -121,11 +121,12 @@ main.map-main-window {
     }
 
     .zone-name {
-        @apply text-slate-900 text-xl font-bold pr-4 pt-2 text-right absolute right-0;
+        @apply text-white text-lg font-bold text-right absolute right-[10px] top-[5px];
         text-shadow:
-            1px 1px 1px rgba(255, 255, 255, 1),
-            -1px 1px 1px rgba(255, 255, 255, 1),
-            1px -1px 1px rgba(255, 255, 255, 1);
+            2px 2px 2px rgba(0, 0, 0, 1),
+            -2px 2px 2px rgba(0, 0, 0, 1),
+            -2px -2px 2px rgba(0, 0, 0, 1),
+            2px -2px 2px rgba(0, 0, 0, 1);
     }
 
     .aetheryte {

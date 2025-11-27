@@ -24,8 +24,9 @@ const props = defineProps({
     ajaxRefreshInterval: Number,
 })
 
-let scouter = null;
-const scout_report = ref(null);
+
+const scouter = new Scouter(props.expac)
+const scout_report = ref(new ScoutReport(props.scout, scouter))
 const emitter = inject('emitter')
 const wsConnection = ref(null);
 // Hold a timeout reference for the fallback ajax polling mechanism.
@@ -51,43 +52,6 @@ if (props.scout.collaborator_password && props.scout.collaborator_password !== '
     channelName += `.${props.scout.collaborator_password}`
 }
 
-if (props.scout.finalized_at === null) {
-    const t = useEchoPublic(channelName, ['.ScoutAssignMob', '.UpdatePointOccupancy'], (e) => {
-        scout_report.value.updatePointDataForZone(e.zone_id, e.instance_number, e.points, e.custom_points)
-    })
-
-    t.channel().pusher.connection.bind('state_change', (states) => {
-        wsConnection.value = states.current
-    })
-
-    useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
-        scout_report.value.removeMobFromPoint(e, e.instance_number)
-    })
-    useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
-        if (e.is_dead) {
-            scout_report.value.addDeadMobToList(e.mob_id, e.instance_number)
-        } else {
-            scout_report.value.removeDeadMobFromList(e.mob_id, e.instance_number)
-        }
-    })
-    useEchoPublic(channelName, '.UpdateAllMobStatus', (e) => {
-        scout_report.value.setDeadMobList(e.dead_mobs)
-    })
-    useEchoPublic(channelName, '.UpdateMeta', (e) => {
-        scout_report.value.title = e.title ?? ''
-        scout_report.value.scouts = e.scouts ?? []
-    })
-    useEchoPublic(channelName, '.UpdateZonesOccupancy', (e) => {
-        scout_report.value.handleZoneOccupancyUpdate(e)
-    })
-    useEchoPublic(channelName, '.UpdateInstanceCounts', (e) => {
-        scout_report.value.instance_data = e.instance_data
-    })
-    useEchoPublic(channelName, '.FinalizeReport', (e) => {
-        router.get(route('scout.view', { scout: props.scout }))
-    })
-}
-
 const pollForUpdates = () => {
     // is the websocket connection active? if so, can ignore for now
     if (wsConnection.value === 'connected') {
@@ -108,10 +72,47 @@ const pollForUpdates = () => {
 }
 
 onBeforeMount(() => {
-    scouter = new Scouter(props.expac)
-    scout_report.value = new ScoutReport(props.scout, scouter)
+
 })
 onMounted(() => {
+
+    if (props.scout.finalized_at === null) {
+        const t = useEchoPublic(channelName, ['.ScoutAssignMob', '.UpdatePointOccupancy'], (e) => {
+            scout_report.value.updatePointDataForZone(e.zone_id, e.instance_number, e.points, e.custom_points)
+        })
+
+        t.channel().pusher.connection.bind('state_change', (states) => {
+            wsConnection.value = states.current
+        })
+
+        useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
+            scout_report.value.removeMobFromPoint(e, e.instance_number)
+        })
+        useEchoPublic(channelName, '.UpdateMobStatus', (e) => {
+            if (e.is_dead) {
+                scout_report.value.addDeadMobToList(e.mob_id, e.instance_number)
+            } else {
+                scout_report.value.removeDeadMobFromList(e.mob_id, e.instance_number)
+            }
+        })
+        useEchoPublic(channelName, '.UpdateAllMobStatus', (e) => {
+            scout_report.value.setDeadMobList(e.dead_mobs)
+        })
+        useEchoPublic(channelName, '.UpdateMeta', (e) => {
+            scout_report.value.title = e.title ?? ''
+            scout_report.value.scouts = e.scouts ?? []
+        })
+        useEchoPublic(channelName, '.UpdateZonesOccupancy', (e) => {
+            scout_report.value.handleZoneOccupancyUpdate(e)
+        })
+        useEchoPublic(channelName, '.UpdateInstanceCounts', (e) => {
+            scout_report.value.instance_data = e.instance_data
+        })
+        useEchoPublic(channelName, '.FinalizeReport', (e) => {
+            router.get(route('scout.view', { scout: props.scout }))
+        })
+    }
+
     emitter.on('mob:status', (obj) => {
         axios.post(route('scout.updatemobstatus', { scout: props.scout, password: props.scout.collaborator_password }), {
             slug: props.scout.slug,
@@ -179,7 +180,7 @@ onMounted(() => {
     // Was this a redirect from the log submission?
     if (props?.flash?.newly_created == true) {
         // Clear out any stored scout info, since they've made a successful submission
-        if (window && localStorage) {
+        if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
             localStorage.removeItem('scout-in-progress')
         }
         emitter.emit('show:share')

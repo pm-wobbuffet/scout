@@ -78,7 +78,7 @@ const mobCount = expac => {
 
 const scouter = ref(null)
 const activeExpansion = computed(() => {
-    return scouter.value.getExpacById(props.scoutReport.getSelectedExpansion())
+    return scouter.value?.getExpacById(props.scoutReport.getSelectedExpansion())
 })
 
 const connectionStatus = inject('connectionStatus', null)
@@ -97,14 +97,15 @@ const handleIntersectionObserve = function (elements) {
     })
 }
 
-const observer = new IntersectionObserver(handleIntersectionObserve, {
-    root: null,
-    rootMargin: "-10px"
-})
+let observer = null
 const visibleMaps = ref({})
 
 onBeforeMount(() => {
     scouter.value = props.scoutReport.scouter_instance
+    observer = new IntersectionObserver(handleIntersectionObserve, {
+        root: null,
+        rootMargin: "-10px"
+    })
 })
 
 onMounted(() => {

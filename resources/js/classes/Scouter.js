@@ -10,7 +10,11 @@ export default class Scouter {
 
     constructor(data) {
         // Initialize sort order array
-        const userSort = JSON.parse(localStorage.getItem('sortOrders') ?? '{}')
+        let userSort = {}
+        if (typeof localStorage !== "undefined") {
+            userSort = JSON.parse(localStorage.getItem('sortOrders') ?? '{}')
+        }
+
         this.expansion_data = data
         this.expansion_data.forEach((expansion) => {
             expansion.zones.forEach((zone) => {
