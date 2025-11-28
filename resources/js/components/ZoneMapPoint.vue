@@ -121,10 +121,10 @@ const getPointTitleDisplay = function (point) {
     let y = point.y
     /* Override x and y display for points that have override data */
     const a = props.scoutReport.getMobOnPoint(props.point, props.instance)
-    if (a && a.x !== null) {
+    if (a && a.x) {
         x = a.x
     }
-    if (a && a.y !== null) {
+    if (a && a.y) {
         y = a.y
     }
     if (isPointOccupied.value) {
