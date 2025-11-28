@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HelpController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ScoutController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,8 @@ Route::namespace('\\App\\Http\\Controllers')
         Route::post('/scoutinstances/{scout:slug}/{password?}', 'ScoutController@updateInstances')->name('scout.updateinstances');
         Route::post('/finalize/{scout:slug}/{password?}', 'ScoutController@finalize')->name('scout.finalize');
         Route::post('/clone/{scout:slug}', 'ScoutController@clone')->name('scout.clone');
+
+        Route::get('/help', [HelpController::class, 'index'])->name('help.index');
     });
 
 Route::middleware(['auth', 'is_admin'])
