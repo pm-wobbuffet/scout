@@ -132,7 +132,7 @@ const getPointTitleDisplay = function (point) {
     } else {
         ret = `${x}, ${y} PID: ${point.id}`
     }
-    if (a && a.reporter !== null) {
+    if (a && a.reporter) {
         ret += `(${a.reporter})`
     }
     return ret
