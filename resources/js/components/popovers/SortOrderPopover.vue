@@ -20,11 +20,11 @@
                             <button class="border disabled:opacity-25 disabled:border-0 mr-1"
                                 :disabled="index == scoutReport.getZonesByExpansion().length - 1"
                                 @click="changeZoneSort(index, index + 1)">
-                                <ArrowDownIcon />
+                                <ArrowDownIcon class="stroke-black dark:stroke-gray-200" />
                             </button>
                             <button class="border disabled:opacity-25 disabled:border-0" :disabled="index == 0"
                                 @click="changeZoneSort(index, index - 1)">
-                                <ArrowUpIcon />
+                                <ArrowUpIcon class="stroke-black dark:stroke-gray-200" />
                             </button>
                         </td>
                         <td>
