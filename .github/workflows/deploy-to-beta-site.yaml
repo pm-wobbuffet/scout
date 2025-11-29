@@ -1,0 +1,71 @@
+name: deploy-to-beta-site
+run-name: Deploying code to Staging Server
+on:
+    push:
+        branches:
+            - v2
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/v2'
+        steps:
+            - name: Deploying to OVH Server
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.STAGE_HOST }}
+                  username: ${{ secrets.STAGE_USER }}
+                  port: ${{ secrets.STAGE_PORT }}
+                  key: ${{ secrets.STAGE_KEY }}
+                  script: |
+                      cd ${{ secrets.STAGE_DIR }}
+                      php artisan down
+                      git reset --hard origin/v2
+                      git pull origin v2
+                      composer install -n --no-dev
+                      # Run migrations
+                      php artisan migrate --force
+                      npm ci
+                      npm run build
+
+                      # Clear application cache
+                      php artisan cache:clear
+
+                      # Clear and cache configuration
+                      php artisan config:clear
+                      php artisan config:cache
+
+                      # Clear and cache routes
+                      php artisan route:clear
+                      php artisan route:cache
+
+                      # Clear and cache views
+                      php artisan view:clear
+                      php artisan view:cache
+
+                      # Optimize application
+                      php artisan optimize:clear
+                      php artisan optimize
+
+                      # Clear and cache events (if available)
+                      php artisan event:clear || true
+                      php artisan event:cache || true
+
+                      # Restart queue workers (if using queues)
+                      php artisan queue:restart || true
+
+                      # Restart Horizon (if using Laravel Horizon)
+                      php artisan horizon:terminate || true
+
+                      # Clear OPcache (if available)
+                      php artisan opcache:clear || true
+
+                      php artisan up
+
+                      echo "✅ Deployment completed successfully!"
+
+                      # Show deployment info
+                      echo ""
+                      echo "📊 Deployment Information:"
+                      echo "   Branch: {{BRANCH}}"
+                      echo "   Commit: $(git rev-parse --short HEAD)"
+                      echo "   Date: $(date)"
