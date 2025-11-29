@@ -5,7 +5,9 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger
+    DialogTrigger,
+    DialogFooter,
+    DialogClose
 } from '@/components/ui/dialog';
 import { ClipboardListIcon } from 'lucide-vue-next';
 import { DialogPortal } from 'reka-ui';
@@ -86,6 +88,11 @@ const handleOpen = (isOpen) => {
                         </div>
                     </div>
                 </div>
+                <DialogFooter>
+                    <DialogClose as-child>
+                        <Button variant="secondary"> Close </Button>
+                    </DialogClose>
+                </DialogFooter>
             </DialogContent>
         </DialogPortal>
     </Dialog>

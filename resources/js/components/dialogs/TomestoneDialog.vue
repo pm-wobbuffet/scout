@@ -73,6 +73,11 @@
                     </fieldset>
                 </div>
             </div>
+            <DialogFooter>
+                <DialogClose as-child>
+                    <Button variant="secondary"> Close </Button>
+                </DialogClose>
+            </DialogFooter>
         </DialogContent>
     </Dialog>
 </template>
