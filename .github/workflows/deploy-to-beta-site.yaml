@@ -21,7 +21,7 @@ jobs:
                       php artisan down
                       git reset --hard origin/v2
                       git pull origin v2
-                      composer install -n --no-dev
+                      composer install
                       # Run migrations
                       php artisan migrate --force
                       npm ci
