@@ -115,9 +115,11 @@ class ScoutPointController extends Controller
         ))->toOthers();
 
         $this->sendReportModifiedEvent($scout, [
-            'name' => 'Mob Status Updated',
-            'instance_number' => $request->validated('instance_number'),
-            'mob_id' => $request->validated('mob_id'),
+            'name'              => 'Mob Status Updated',
+            'is_dead'           => $request->validated('is_dead'),
+            'instance_number'   => $request->validated('instance_number'),
+            'mob_id'            => $request->validated('mob_id'),
+            'zone_id'           => Mob::whereId($request->validated('mob_id'))->first()->zone_id,
         ]);
 
         return response()->json(['success' => true]);

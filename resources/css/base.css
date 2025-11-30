@@ -127,7 +127,7 @@ main.map-main-window {
     }
 
     .zone-name {
-        @apply text-black text-lg font-bold text-right absolute right-[10px] top-[5px] tracking-wider;
+        @apply text-black text-lg font-bold text-right absolute right-[10px] top-[5px] tracking-wider block;
         div.zone-name-text {
             @apply text-black text-lg font-extrabold text-right tracking-wider;
             -webkit-text-stroke: 3px white;
@@ -144,9 +144,10 @@ main.map-main-window {
         }
 
         .mapInstanceNumber {
-            @apply text-transparent bg-white px-2 text-sm inline-block py-0 scale-90 text-center font-bold relative z-1;
+            @apply text-transparent bg-white px-2 text-sm inline-block py-0 text-center font-bold relative z-1;
             aspect-ratio: 1 / cos(30deg);
             clip-path: polygon(50% -50%, 100% 50%, 50% 150%, 0 50%);
+            filter: drop-shadow(0 0 0 red);
         }
 
         /* .mapInstanceNumber::before {

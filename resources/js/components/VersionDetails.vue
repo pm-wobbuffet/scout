@@ -7,6 +7,10 @@
         </span>
         <div v-if="mob">
             {{ mob.name }}
+            <template v-if="props.logDetails.name == 'Mob Status Updated'">
+                <span v-if="is_dead">(Dead)</span>
+                <span v-if="!is_dead">(Alive)</span>
+            </template>
         </div>
     </div>
 </template>
@@ -22,6 +26,7 @@ interface VersionUpdateDetails {
     mob_id?: number,
     point_id?: number,
     point_type?: string
+    is_dead?: boolean
 }
 
 interface Props {

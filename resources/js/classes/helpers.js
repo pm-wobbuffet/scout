@@ -1,3 +1,4 @@
+import { useUserSettings } from '@/composables/useUserSettings'
 import dayjs from 'dayjs'
 
 export const languages = [
@@ -20,6 +21,10 @@ export const getDisplayName = function (obj, language) {
     return 'Unknown'
 }
 
+export const getDefaultDisplayName = (obj) => {
+    const { settings } = useUserSettings()
+}
+
 export const formatCoordinate = function (coord) {
     // Should probably only return 1 decimal place like the in-game format
     return (Math.round(coord * 10) / 10).toFixed(1)
@@ -35,6 +40,14 @@ export const getScouterName = function () {
     const settings = JSON.parse(localStorage.getItem('userSettings') || '{}')
     if (!settings) return null
     return settings?.displayName
+}
+
+export const debounce = (func, lockout) => {
+    let timer
+    return function (...args) {
+        clearTimeout(timer)
+        timer = setTimeout(() => func.apply(this, args), lockout)
+    }
 }
 
 export const formatDateTime = function (dateTimeString, formatString) {
