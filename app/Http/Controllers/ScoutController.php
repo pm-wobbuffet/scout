@@ -44,7 +44,7 @@ class ScoutController extends Controller
         $scout->scouts()->createMany($request->validated('scouts', []));
 
         // Fire update
-        $this->sendReportModifiedEvent($scout, ['name' => 'Initial Scout Submission']);
+        $this->sendReportModifiedEvent($scout, ['name' => 'Initial Report Submission']);
         return redirect()->route('scout.view', [$scout->slug, $scout->collaborator_password])
             ->with(['newly_created' => true]);
     }
@@ -114,7 +114,7 @@ class ScoutController extends Controller
         }
         $scout->save();
         $this->metaUpdated($scout);
-        $this->sendReportModifiedEvent($scout, ['name' => 'Scout Details Updated']);
+        $this->sendReportModifiedEvent($scout, ['name' => 'Report Details Updated']);
         return response()->json(['success' => true]);
     }
 

@@ -15,6 +15,7 @@ import ScoutReport from '@/classes/ScoutReport';
 import ScoutContainer from '@/components/ScoutContainer.vue';
 import { useEchoPublic, configureEcho } from '@laravel/echo-vue';
 import axios from 'axios';
+import { getScouterName } from '@/classes/helpers';
 
 const props = defineProps({
     expac: Array,
@@ -83,7 +84,7 @@ if (props.scout.finalized_at === null) {
     useEchoPublic(channelName, '.UpdateInstanceCounts', (e) => {
         scout_report.value.instance_data = e.instance_data
     })
-    useEchoPublic(channelName, '.FinalizeReport', (e) => {
+    useEchoPublic(channelName, '.FinalizeReport', () => {
         router.get(route('scout.view', { scout: props.scout }))
     })
 }
@@ -112,60 +113,54 @@ onBeforeMount(() => {
     scout_report.value = new ScoutReport(props.scout, scouter)
 })
 onMounted(() => {
+    // Set up default dictionaries to send for all routes/requests
+    const routeParams = { scout: props.scout, password: props.scout.collaborator_password }
+    const axInstance = axios.create({
+        transformRequest: [(data) => {
+            data['reporter'] = getScouterName()
+            data['slug'] = props.scout.slug
+            data['collaborator_password'] = props.scout.collaborator_password
+            return data
+        }, ...axios.defaults.transformRequest]
+    });
     emitter.on('mob:status', (obj) => {
-        axios.post(route('scout.updatemobstatus', { scout: props.scout, password: props.scout.collaborator_password }), {
-            slug: props.scout.slug,
-            collaborator_password: props.scout.collaborator_password,
-            ...obj
-        })
+        axInstance.post(route('scout.updatemobstatus', routeParams), { ...obj })
     })
     emitter.on('point:assign-mob', (obj) => {
-        axios.post(route('scout.assignmob', { scout: props.scout, password: props.scout.collaborator_password }), {
-            slug: props.scout.slug,
-            collaborator_password: props.scout.collaborator_password,
-            ...obj
-        }).then((data) => {
-            if ('custom_points' in data.data) {
-                // Need to update any of our custom points that have custom negative ID numbers to their newly assigned
-                // actual database ID numbers
-                scout_report.value.processCustomPointValues(data.data.custom_points)
-            }
-        })
-    })
-    emitter.on('point:clear', (obj) => {
-        axios.post(route('scout.clearpoint', { scout: props.scout, password: props.scout.collaborator_password }), {
-            slug: props.scout.slug,
-            collaborator_password: props.scout.collaborator_password,
-            ...obj
-        })
-    })
-    emitter.on('occupy:status', (obj) => {
-        axios.post(route('scout.updateOccupiedPoint', { scout: props.scout, password: props.scout.collaborator_password }), obj)
-            .catch((error) => {
-                console.error(error)
+        axInstance.post(route('scout.assignmob', routeParams), { ...obj })
+            .then((data) => {
+                if ('custom_points' in data.data) {
+                    scout_report.value.processCustomPointValues(data.data.custom_points)
+                }
             })
     })
+    emitter.on('point:clear', (obj) => {
+        axInstance.post(route('scout.clearpoint', routeParams), { ...obj })
+    })
+    emitter.on('occupy:status', (obj) => {
+        axInstance.post(route('scout.updateOccupiedPoint', routeParams), obj)
+    })
     emitter.on('meta:updated', () => {
-        axios.post(route('scout.updateMeta', { scout: props.scout, password: props.scout.collaborator_password }), {
+        axInstance.post(route('scout.updateMeta', routeParams), {
             title: scout_report.value.title,
             scouts: scout_report.value.scouts,
         })
     })
     emitter.on('import:zones-updated', (args) => {
         const zonePointData = scout_report.value.getAllPointDataForZones(args.zonelist)
-        axios.patch(route('scout.importPoints', { scout: props.scout, password: props.scout.collaborator_password }), {
+        axios.patch(route('scout.importPoints', routeParams), {
             zonelist: args.zonelist,
             point_data: zonePointData,
             custom_points: scout_report.value.custom_points
         });
     })
     emitter.on('instances:updated', (args) => {
-        axios.post(route('scout.updateinstances', { scout: props.scout, password: props.scout.collaborator_password }), {
+        axios.post(route('scout.updateinstances', routeParams), {
             ...args
         });
     })
-    emitter.on('scout:finalize', (args) => {
-        axios.post(route('scout.finalize', { scout: props.scout, password: props.scout.collaborator_password }))
+    emitter.on('scout:finalize', () => {
+        axios.post(route('scout.finalize', routeParams))
             .then(() => {
                 router.get(route('scout.view', { scout: props.scout }))
             })

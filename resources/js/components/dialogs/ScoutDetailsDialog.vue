@@ -9,24 +9,21 @@ import {
     DialogFooter,
     DialogClose
 } from '@/components/ui/dialog';
-import { ClipboardListIcon } from 'lucide-vue-next';
 import { DialogPortal } from 'reka-ui';
-import { inject, ref, useTemplateRef } from 'vue';
+import { inject, ref } from 'vue';
 import Input from '@/components/ui/input/Input.vue';
-import { useForm } from '@inertiajs/vue3';
 import Button from '@/components/ui/button/Button.vue';
 import ScoutReportButton from '@/components/inputs/ScoutReportButton.vue';
 
 const scoutReport = inject('scoutReport')
 const newScoutName = ref('')
-const scoutInput = useTemplateRef('scoutref')
 const emitter = inject('emitter')
 const isDirty = ref(false)
 
-const form = useForm({
-    title: scoutReport.value.title ?? '',
-    scouts: scoutReport.value.scouts ?? [],
-})
+// const form = useForm({
+//     title: scoutReport.value.title ?? '',
+//     scouts: scoutReport.value.scouts ?? [],
+// })
 
 const removeScout = (idx) => {
     scoutReport.value.scouts.splice(idx, 1)
@@ -70,7 +67,7 @@ const handleOpen = (isOpen) => {
                 <div class="grid grid-cols-2 items-center gap-2 w-full" style="grid-template-columns: auto 1fr;">
                     <div>Title</div>
                     <div>
-                        <Input maxlength="100" name="title" v-model="scoutReport.title" @update="isDirty = true"
+                        <Input maxlength="100" name="title" v-model="scoutReport.title" @input="() => isDirty = true"
                             title="You can optionally enter a descriptive title for the scouting report" />
                     </div>
 

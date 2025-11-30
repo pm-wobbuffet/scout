@@ -57,9 +57,12 @@ class ScoutPointController extends Controller
 
         $this->sendScoutMobAssignedEvent($scout, $request->validated('zone_id'), $request->validated('instance_number', 1));
         $this->sendReportModifiedEvent($scout, [
-            'name' => 'Mob Assigned',
-            'zone_id' => $request->validated('zone_id'),
-            'mob_id' => $request->validated('mob_id') ?? null,
+            'name'              => 'Mob Assigned',
+            'zone_id'           => $request->validated('zone_id'),
+            'mob_id'            => $request->validated('mob_id', null),
+            'point_id'          => $request->validated('point_id', null),
+            'point_type'        => $request->validated('point_type', null),
+            'instance_number'   => $request->validated('instance_number', null)
         ]);
         return response()->json(['custom_points' => collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray()]);
     }

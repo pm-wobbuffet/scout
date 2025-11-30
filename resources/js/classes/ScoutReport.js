@@ -146,7 +146,8 @@ export default class ScoutReport {
     sendClearPointSignal(point, instance_number) {
         this.emitter.emit('point:clear', {
             ...point,
-            instance_number: instance_number
+            instance_number: instance_number,
+            reporter: getScouterName()
         })
     }
 
@@ -414,7 +415,8 @@ export default class ScoutReport {
             })
         }
         this.emitter.emit('instances:updated', {
-            instance_data: this.instance_data
+            instance_data: this.instance_data,
+            reporter: getScouterName()
         })
     }
 
@@ -737,7 +739,9 @@ export default class ScoutReport {
             return el.scout_name === name
         })) {
             this.scouts.push({ 'scout_name': name })
-            emitter.emit('meta:updated')
+            emitter.emit('meta:updated', {
+                reporter: getScouterName()
+            })
         }
     }
 
@@ -751,7 +755,7 @@ export default class ScoutReport {
         if (this.isMobDead(mob_id, instance_number)) {
             // remove any line that matches this from the dead_mobs array
             this.removeDeadMobFromList(mob_id, instance_number)
-            emitter.emit('mob:status', { mob_id: mob_id, instance_number: instance_number, is_dead: 0 })
+            emitter.emit('mob:status', { mob_id: mob_id, instance_number: instance_number, is_dead: 0, reporter: getScouterName() })
 
         } else {
             // Add a new entry for the dead mob
@@ -761,7 +765,7 @@ export default class ScoutReport {
                 return false
             }
             this.addDeadMobToList(mob_id, instance_number)
-            emitter.emit('mob:status', { mob_id: mob_id, instance_number: instance_number, is_dead: 1 })
+            emitter.emit('mob:status', { mob_id: mob_id, instance_number: instance_number, is_dead: 1, reporter: getScouterName() })
         }
     }
 

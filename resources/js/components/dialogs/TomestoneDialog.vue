@@ -95,7 +95,8 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { computed, inject, onBeforeUpdate, onMounted, onUpdated, ref, watch } from 'vue';
+import Button from '@/components/ui/button/Button.vue';
+import { computed, inject, onMounted, ref, watch } from 'vue';
 import { getCurrencyEmoteMap, getCurrencyInfo, getRewardsForExpansion, getSortKey } from '@/classes/currency';
 import { UseClipboard } from '@vueuse/components';
 
@@ -123,7 +124,7 @@ const generateDiscordString = () => {
     if (selectedExpansions.value.length < 1) return ""
     let s = calculateFinalText.value
     const emotes = getCurrencyEmoteMap()
-    for (let replacement in emotes) {
+    for (const replacement in emotes) {
         s = s.replace(replacement, emotes[replacement])
     }
     return s

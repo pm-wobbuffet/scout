@@ -25,6 +25,7 @@ class UpdateMetaRequest extends FormRequest
             'title'                 => 'string|nullable',
             'scouts'                => 'array|nullable',
             'scouts.*.scout_name'   => 'string',
+            'reporter'              => 'string|nullable',
         ];
     }
 }

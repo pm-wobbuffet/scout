@@ -45,7 +45,7 @@ export default class Scouter {
      * @returns 
      */
     getExpacById(id) {
-        return this.expansion_data.find((val, idx) => {
+        return this.expansion_data.find((val) => {
             return val.id == id
         })
     }
@@ -66,15 +66,11 @@ export default class Scouter {
     getMobsForZone(zone_id) {
         let ret = []
         for (let [mob_id, mob_data] of Object.entries(this.mob_data)) {
-            if (mob_data.zone_id == zone_id) {
+            if (mob_id && mob_data.zone_id == zone_id) {
                 ret.push(mob_data)
             }
         }
         return ret
-    }
-
-    getValidMobsForPoint(point) {
-
     }
 
     /**
@@ -104,7 +100,7 @@ export default class Scouter {
     getZonesByExpansion(expansion_id) {
         let ret = []
         for (let [zone_id, zone_data] of Object.entries(this.zone_data)) {
-            if (zone_data.expansion_id == expansion_id) {
+            if (zone_id && zone_data.expansion_id == expansion_id) {
                 ret.push(zone_data)
             }
         }

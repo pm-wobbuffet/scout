@@ -37,7 +37,9 @@
         <div class="zone-name pointer-events-none">
             <div class="zone-name-text">
                 {{ getDisplayName(zone, 'en') }}
-                <span v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ instance }}</span>
+                <span class="mapInstanceNumber" v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{
+                    instance
+                    }}</span>
             </div>
             <div v-if="is_hovered" class="zone-coords">{{ x_hover }}, {{ y_hover }}</div>
         </div>
@@ -46,11 +48,10 @@
 
 <script setup>
 import { getDisplayName, convertCoordToPercent } from '@/classes/helpers';
-import ScoutReport from '@/classes/ScoutReport';
 import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
 import { SkullIcon, TriangleAlert } from 'lucide-vue-next';
-import { onMounted, ref, useTemplateRef } from "vue";
+import { ref, useTemplateRef } from "vue";
 
 const props = defineProps({
     zone: Object,
