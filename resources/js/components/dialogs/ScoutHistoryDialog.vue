@@ -30,6 +30,7 @@
                             <tr>
                                 <th>Version #</th>
                                 <th>Created Time</th>
+                                <th>Event</th>
                                 <th>Details</th>
                                 <th>User</th>
                                 <th>Revert</th>
@@ -41,6 +42,9 @@
                                 <td>{{ version.version }}</td>
                                 <td>{{ formatVersionDate(version.created_at) }}</td>
                                 <td>{{ version.update_details.name ?? "" }}</td>
+                                <td>
+                                    <VersionDetails :log-details="version.update_details" />
+                                </td>
                                 <td>{{ version.user ?? "" }}</td>
                                 <td>
                                     <Button variant="default" class="px-1 py-1 h-auto" v-if="idx > 0"
@@ -89,6 +93,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { inject, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useUserSettings } from '@/composables/useUserSettings';
+import VersionDetails from '@/components/VersionDetails.vue';
 // import { useToast } from 'vue-toastification';
 
 dayjs.extend(relativeTime);

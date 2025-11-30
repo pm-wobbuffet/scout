@@ -79,6 +79,9 @@ class ScoutPointController extends Controller
         $this->sendReportModifiedEvent($scout, [
             'name' => 'Point Cleared',
             'zone_id' => $request->validated('zone_id'),
+            'instance_number' => $request->validated('instance_number'),
+            'point_id' => $request->validated('id'),
+            'point_type' => $request->validated('point_type'),
         ]);
         return response()->json(['success' => true]);
     }
@@ -107,6 +110,12 @@ class ScoutPointController extends Controller
             $request->validated('instance_number'),
             $request->validated('is_dead')
         ))->toOthers();
+
+        $this->sendReportModifiedEvent($scout, [
+            'name' => 'Mob Status Updated',
+            'instance_number' => $request->validated('instance_number'),
+            'mob_id' => $request->validated('mob_id'),
+        ]);
 
         return response()->json(['success' => true]);
     }
