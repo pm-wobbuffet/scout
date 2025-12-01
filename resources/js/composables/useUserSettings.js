@@ -1,4 +1,4 @@
-import { reactive, ref, toRefs, watch } from "vue";
+import { ref, watch } from "vue";
 
 export function useUserSettings() {
 
@@ -9,6 +9,8 @@ export function useUserSettings() {
         mobTwoColor: '#2B7FFF',
         dayNightMode: null,
         displayName: null,
+        tomestone_fromcap_string: "Tome Check! Make sure to have less than $c to prevent overcapping!",
+        tomestone_totalamount_string: "This train will generate $c."
     }
     let storedSettings = {}
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -26,7 +28,7 @@ export function useUserSettings() {
     )
 
     const updateSetting = (key, value) => {
-        settings[key] = value
+        settings.value[key] = value
     }
 
     return { settings, updateSetting }

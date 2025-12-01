@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @import "tw-animate-css";
 @import "./base.css";
@@ -7,13 +7,12 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
     --font-sans:
-        Instrument Sans, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        Instrument Sans, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -125,7 +124,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
     *,
     ::after,
     ::before,
@@ -136,13 +134,11 @@
 }
 
 @layer utilities {
-
     body,
     html {
         --font-sans:
-            'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-            'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-            'Noto Color Emoji';
+            "Instrument Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+            "Segoe UI Symbol", "Noto Color Emoji";
     }
 }
 
@@ -223,8 +219,7 @@
     --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
     --sidebar-border: hsl(0 0% 15.9%);
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
-    --sidebar:
-        hsl(240 5.9% 10%);
+    --sidebar: hsl(240 5.9% 10%);
 }
 
 @layer base {

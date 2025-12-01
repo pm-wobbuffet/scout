@@ -36,7 +36,15 @@
                         <label><input type="radio" name="generationMode" v-model="generationMode" value="from_cap" />
                             Highest Amount Before Cap</label>
                     </div>
-                    <div>
+                    <div class="max-w-[400px] text-sm">
+                        <b>Macro String</b>
+                        <br />
+                        Use the placeholder $c in your text and the list of currencies will be inserted at that
+                        position.
+                        <textarea rows="3" id="txtTotalAmountPlaceholder" v-if="generationMode == 'total_amount'"
+                            v-model="userMacroString"></textarea>
+                        <textarea rows="3" id="txtFromCapPlaceholder" v-if="generationMode == 'from_cap'"
+                            v-model="userMacroString"></textarea>
 
                     </div>
                 </form>
@@ -46,7 +54,7 @@
                         <UseClipboard v-slot="{ copy, copied }" :source="() => generateShoutString()">
                             <textarea name="" id="" rows="3" v-text="generateShoutString()"></textarea>
                             <button type="button" @click="copy()"
-                                class="absolute bottom-1 right-0 bg-slate-800 text-white border p-1">{{ copied ?
+                                class="absolute -bottom-2 right-0 bg-slate-800 text-white border p-1">{{ copied ?
                                     'Copied!'
                                     : 'Copy' }}</button>
                         </UseClipboard>
@@ -56,7 +64,7 @@
                         <UseClipboard v-slot="{ copy, copied }" :source="() => generatePartyString()">
                             <textarea name="" id="" rows="3" v-text="generatePartyString()"></textarea>
                             <button type="button" @click="copy()"
-                                class="absolute bottom-1 right-0 bg-slate-800 text-white border p-1">{{ copied ?
+                                class="absolute -bottom-2 right-0 bg-slate-800 text-white border p-1">{{ copied ?
                                     'Copied!'
                                     : 'Copy' }}</button>
                         </UseClipboard>
@@ -66,7 +74,7 @@
                         <UseClipboard v-slot="{ copy, copied }" :source="() => generateDiscordString()">
                             <textarea name="" id="" rows="3" v-text="generateDiscordString()"></textarea>
                             <button type="button" @click="copy()"
-                                class="absolute bottom-1 right-0 bg-slate-800 text-white border p-1">{{ copied ?
+                                class="absolute -bottom-2 right-0 bg-slate-800 text-white border p-1">{{ copied ?
                                     'Copied!'
                                     : 'Copy' }}</button>
                         </UseClipboard>
@@ -82,7 +90,7 @@
     </Dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ScoutReportButton from '@/components/inputs/ScoutReportButton.vue';
 import {
     Dialog,
@@ -96,19 +104,46 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import Button from '@/components/ui/button/Button.vue';
+import type { Ref } from 'vue';
 import { computed, inject, onMounted, ref, watch } from 'vue';
 import { getCurrencyEmoteMap, getCurrencyInfo, getRewardsForExpansion, getSortKey } from '@/classes/currency';
 import { UseClipboard } from '@vueuse/components';
+import { useUserSettings } from '@/composables/useUserSettings';
+
 
 const scout = inject('scoutReport')
 const selectedExpansions = ref([])
 const mobCounts = ref({})
 // The currency display mode. total_amount = amount generated during the train
 // from_cap = lowest amount you can have on hand without hitting cap during the train
-const generationMode = ref('from_cap')
+const generationMode: Ref<'from_cap' | 'total_amount'> = ref('from_cap')
 // the user's overriden macro text string
-const userMacroString = ref('')
+//const userMacroString = ref('')
+const { settings, updateSetting } = useUserSettings()
 
+const userMacroString = computed({
+
+    get() {
+        if (generationMode.value == 'from_cap') {
+            return settings.value['tomestone_fromcap_string']
+        }
+        if (generationMode.value == 'total_amount') {
+            return settings.value['tomestone_totalamount_string']
+        }
+        return "This train will generate $c."
+    },
+
+    set(v) {
+        if (generationMode.value == 'from_cap') {
+            updateSetting('tomestone_fromcap_string', v)
+        }
+        if (generationMode.value == 'total_amount') {
+            updateSetting('tomestone_totalamount_string', v)
+        }
+    }
+
+
+})
 
 const generateShoutString = () => {
     if (selectedExpansions.value.length < 1) return ""
@@ -187,7 +222,7 @@ const getMacroString = () => {
         return userMacroString.value
     }
     if (generationMode.value == 'from_cap') {
-        return "Tome Check! Make sure to have less than $c to prevent overcapping!"
+        return settings['tomestone_fromcap_string'] ?? "Tome Check! Make sure to have less than $c to prevent overcapping!"
     }
     return "This train will generate $c."
 }
@@ -225,10 +260,10 @@ fieldset {
 }
 
 legend {
-    @apply border border-slate-900 border-b-0 px-2 rounded-t-md bg-slate-400 dark:bg-slate-800;
+    @apply border border-slate-900 border-b-0 px-2 rounded-t-md bg-slate-400 dark:bg-slate-800 font-bold;
 }
 
 textarea {
-    @apply border border-slate-900 w-full bg-slate-200 dark:bg-slate-700;
+    @apply border border-slate-900 w-full bg-slate-200 dark:bg-slate-700 text-sm p-2;
 }
 </style>
