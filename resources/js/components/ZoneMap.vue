@@ -27,7 +27,7 @@
         <ZoneMapPoint v-for="point in scoutReport.getSpawnPointsForZone(zone)"
             :key="`point-${point.id}-${props.instance}`" :point="point" :zone="props.zone" :instance="props.instance"
             :editmode="props.editmode" :scout-report="props.scoutReport"
-            @contextmenu.prevent.stop="handleContextMenu($event, point)" @dblclick.stop=""
+            @contextmenu.prevent.stop="handleContextMenu($event, point)" @dblclick.stop="" @click.prevent.stop=""
             @long-press.prevent="handleContextMenu($event, point)" />
         <div class="absolute flex items-center bottom-1 left-1 text-center text-xs bg-[rgba(0,0,0,0.5)] hover:bg-black font-bold px-2 py-1 text-white dark:text-slate-200"
             v-if="props.zone.allow_custom_points && props.editmode == true">
@@ -39,7 +39,7 @@
                 {{ getDisplayName(zone, 'en') }}
                 <span class="mapInstanceNumber" v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{
                     instance
-                    }}</span>
+                }}</span>
             </div>
             <div v-if="is_hovered" class="zone-coords">{{ x_hover }}, {{ y_hover }}</div>
         </div>
@@ -51,7 +51,7 @@ import { getDisplayName, convertCoordToPercent } from '@/classes/helpers';
 import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
 import { SkullIcon, TriangleAlert } from 'lucide-vue-next';
-import { ref, useTemplateRef } from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
     zone: Object,
@@ -65,7 +65,7 @@ const x_hover = ref(0)
 const y_hover = ref(0)
 
 // Variables used by the Occupied contextmenu
-const PointOccupiedDialogRef = useTemplateRef('occupied-dialog')
+// const PointOccupiedDialogRef = useTemplateRef('occupied-dialog')
 const showingContextMenu = ref(false)
 const selectedPoint = ref(null)
 const contextX = ref(0)

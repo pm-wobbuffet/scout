@@ -5,12 +5,14 @@ namespace App\Providers;
 use App\Http\Resources\ExpansionResource;
 use App\Http\Resources\ScoutResource;
 use App\Listeners\ReverbMessageListener;
+use App\Models\User;
 use Dedoc\Scramble\Scramble;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
@@ -83,10 +85,20 @@ class AppServiceProvider extends ServiceProvider
                 and data endpoints (Scout) that allow you to submit and manage scout reports.
                 EOD,
             ],
+            'ui' => [
+                'title' => 'Turtle Scout V2 API',
+                'theme' => 'system',
+                'hide_schemas' => false,
+            ]
         ])->expose(
             ui: '/docs/api/v2',
             document: '/docs/api/v2/openapi.json'
         );
+
+        // Allow all to view API docs in prod
+        Gate::define('viewApiDocs', function (?User $user) {
+            return true;
+        });
 
         // Add shorthand ways of referring to FQCNs for morphable relations
         Relation::enforceMorphMap([

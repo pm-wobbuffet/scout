@@ -2,7 +2,7 @@
     <button class="" :class="calculatePointDisplayClasses(props.point)"
         :style="{ 'left': convertCoordToPercent(props.point.x, zone), 'top': convertCoordToPercent(props.point.y, props.zone) }"
         ref="refHook" :data-coords="getPointTitleDisplay(props.point)" :data-title="getPointTitleDisplay(props.point)"
-        @click.stop.prevent="assignMob">{{
+        @click.stop.prevent="">{{
             mobOnPoint?.mob_index ?? '' }}</button>
 </template>
 
@@ -10,7 +10,7 @@
 import ScoutReport from '@/classes/ScoutReport';
 import { convertCoordToPercent } from '@/classes/helpers';
 import { onLongPress } from '@vueuse/core';
-import { computed, onMounted, useTemplateRef } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 
 const props = defineProps({
     zone: Object,
@@ -25,6 +25,16 @@ const emit = defineEmits(['longPress'])
 onLongPress(refHook,
     (e) => {
         emit("longPress", e, props.point)
+    },
+    {
+        onMouseUp: (dur, dist, isLongPress) => {
+            // If they didn't hold down for the intended duration,
+            // treat it like a normal click event
+            if (!isLongPress) {
+                assignMob()
+            }
+        },
+        delay: 300
     }
 )
 

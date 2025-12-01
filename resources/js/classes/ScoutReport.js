@@ -455,7 +455,7 @@ export default class ScoutReport {
      * @param {Number} instance_number 
      */
     removeMobFromPoint(point, instance_number) {
-        console.log("Received mob removal request", point, instance_number)
+        //console.log("Received mob removal request", point, instance_number)
         this.point_data = this.point_data.filter((pt) => {
             if (pt.point_type == (point.point_type ?? 'spawn_point')
                 && pt.point_id == point.id

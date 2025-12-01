@@ -15,7 +15,7 @@ import ScoutReport from '@/classes/ScoutReport';
 import ScoutContainer from '@/components/ScoutContainer.vue';
 import { useEchoPublic, configureEcho } from '@laravel/echo-vue';
 import axios from 'axios';
-import { debounce, getScouterName } from '@/classes/helpers';
+import { getScouterName } from '@/classes/helpers';
 
 const props = defineProps({
     expac: Array,
@@ -126,14 +126,22 @@ onMounted(() => {
     emitter.on('mob:status', (obj) => {
         axInstance.post(route('scout.updatemobstatus', routeParams), { ...obj })
     })
-    emitter.on('point:assign-mob', debounce((obj) => {
+    emitter.on('point:assign-mob', (obj) => {
         axInstance.post(route('scout.assignmob', routeParams), { ...obj })
             .then((data) => {
                 if ('custom_points' in data.data) {
                     scout_report.value.processCustomPointValues(data.data.custom_points)
                 }
             })
-    }, 800))
+    })
+    // emitter.on('point:assign-mob', debounce((obj) => {
+    //     axInstance.post(route('scout.assignmob', routeParams), { ...obj })
+    //         .then((data) => {
+    //             if ('custom_points' in data.data) {
+    //                 scout_report.value.processCustomPointValues(data.data.custom_points)
+    //             }
+    //         })
+    // }, 800))
 
     emitter.on('point:clear', (obj) => {
         axInstance.post(route('scout.clearpoint', routeParams), { ...obj })
