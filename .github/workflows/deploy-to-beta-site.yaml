@@ -29,10 +29,7 @@ jobs:
 
                       # Clear application cache
                       php artisan cache:clear
-
-                      # Clear and cache configuration
-                      php artisan config:clear
-                      php artisan config:cache
+                      # Do NOT cache config, as we use env() calls
 
                       # Clear and cache routes
                       php artisan route:clear
