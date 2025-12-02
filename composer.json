@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.4",
+        "php": ">=8.3",
         "butschster/meta-tags": "^3.2",
         "dedoc/scramble": "^0.13.2",
         "inertiajs/inertia-laravel": "^2.0",
