@@ -71,7 +71,7 @@ class Scout extends Model
 
         static::created(function (Scout $scout) {
             // Create an sqid ID to serve as a slug for the submission
-            $sqids = new Sqids(minLength: 10, alphabet: env('SQID_ALPHABET'));
+            $sqids = new Sqids(minLength: 10, alphabet: config('app.sqid.alphabet'));
             $scout->slug = $sqids->encode([$scout->id]);
             $scout->collaborator_password = str(bin2hex(random_bytes(4)));
             $scout->save();

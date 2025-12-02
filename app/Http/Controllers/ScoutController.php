@@ -67,8 +67,8 @@ class ScoutController extends Controller
         return Inertia::render('scout/View', [
             'expac' => $expansions,
             'scout' => new ScoutResource($scout),
-            'defaultId' => intval(env('DEFAULT_EXPANSION_ID', 7)),
-            'ajaxRefreshInterval' => intval(env('APP_AJAX_REFRESH_INTERVAL_MS', 10000)),
+            'defaultId' => intval(config('app.scout.default_expansion_id', 7)),
+            'ajaxRefreshInterval' => intval(config('app.scout.ajax_refresh_interval', 10000)),
             'versions' => Inertia::defer(function () use ($scout) {
                 //
                 return ScoutVersionResource::collection($scout->versions()->orderBy('version', 'desc')

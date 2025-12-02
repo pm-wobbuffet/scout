@@ -123,4 +123,24 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    | SQID alphabet
+    */
+    'sqid' => [
+        'alphabet' => env('SQID_ALPHABET', 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHJIJKLMNOPQRTSUVWXYZ')
+    ],
+
+    /*
+    | App specific settings
+    */
+
+    'scout' => [
+        // The default expansion showed on Index
+        'default_expansion_id'      => env('DEFAULT_EXPANSION_ID', 7),
+        // The time (in seconds) that users are locked out from creating new ScoutVersion entries
+        'version_history_lockout'   => env('VERSION_HISTORY_LOCKOUT_SEC', 30),
+        // The time (in milliseconds) that will be taken between AJAX fallback requests if websockets fail
+        'ajax_refresh_interval'     => env('APP_AJAX_REFRESH_INTERVAL_MS', 10_000),
+    ]
+
 ];

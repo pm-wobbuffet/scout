@@ -64,7 +64,7 @@ class ScoutVersion extends Model
             //     ->where(
             //         'created_at',
             //         '>=',
-            //         Carbon::now()->subSeconds(env('VERSION_HISTORY_LOCKOUT_SEC', 30))
+            //         Carbon::now()->subSeconds(config('app.scout.version_history_lockout', 30))
             //     )
             //     ->orderBy('created_at', 'desc')
             //     ->first();

@@ -39,8 +39,7 @@ class MainController extends Controller
 
         return Inertia::render('Index', [
             'expac' => ExpansionResource::collection($expansions),
-            // 'expac'     => $expansions,
-            'defaultId' => intval(env('DEFAULT_EXPANSION_ID', 7)),
+            'defaultId' => intval(config('app.scout.default_expansion_id', 7)),
         ]);
     }
 
