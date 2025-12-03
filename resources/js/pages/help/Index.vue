@@ -1,14 +1,14 @@
 <template>
 
     <Head title="Turtle Scout Help" />
-    <HelpLayout>
+    <ScoutLayout>
         <img src="@resources/images/help/overview.webp" class="max-w-[600px]" alt="Site Overview" />
-    </HelpLayout>
+    </ScoutLayout>
 </template>
 
 <script setup lang="ts">
+import ScoutLayout from '@/layouts/ScoutLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import HelpLayout from '@/layouts/HelpLayout.vue';
 
 </script>
 

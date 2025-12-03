@@ -33,7 +33,7 @@
                             }}</span>
                         <i class="text-sm ml-2 text-black dark:text-slate-200">{{
                             props.scoutReport.getFoundMobCountForZone(zone.id, i)
-                        }}/{{ zone.mobs.length }}
+                            }}/{{ zone.mobs.length }}
                         </i>
                     </li>
                 </template>
@@ -41,7 +41,7 @@
         </div>
         <ConnectionStatus :connection-status="connectionStatus" class="text-sm px-2" v-if="connectionStatus != null" />
         <div v-if="props.scoutReport.scouts.length > 0">
-            <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">Scouts</div>
+            <div class="font-bold text-sm bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">Scouts</div>
             <div>
                 <ul class="text-sm">
                     <li v-for="(scout, index) in props.scoutReport.scouts" :key="`scoutname-${index}`"

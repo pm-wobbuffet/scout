@@ -47,16 +47,11 @@ aside {
     @apply w-full sticky top-[120px] sm:top-[90px] sm:w-auto sm:min-w-(--sidebar-width);
     div.scout-report-options {
         @apply grid grid-cols-4 sm:grid-cols-2 gap-1 p-1 text-xs items-center;
-
-        /* a,
-        button {
-            @apply inline-flex gap-1 items-center rounded-md font-bold cursor-pointer text-white dark:text-neutral-200 hover:brightness-110 transition-all duration-150;
-        } */
     }
 }
 
 footer {
-    @apply bg-slate-800 text-slate-200 p-4 sm:sticky sm:bottom-0;
+    @apply bg-slate-800 text-slate-200 p-2 sm:sticky sm:bottom-0;
 
     a {
         @apply underline;
@@ -79,15 +74,6 @@ select {
     }
 }
 
-/* Zone List */
-/* .completed-zone {
-    @apply relative;
-}
-.completed-zone::after {
-    @apply absolute left-0 right-0 top-[50%] h-[1px] bg-white/40 pointer-events-none;
-    content: '';
-} */
-
 main.map-main-window {
     @apply flex flex-col md:flex-row md:flex-nowrap gap-8 md:gap-1 gap-x-1 py-1 items-center justify-between max-w-[100vw];
 }
@@ -102,22 +88,15 @@ main.map-main-window {
 
 .map-container-block {
     @apply border border-slate-200 relative bg-contain select-none min-w-[400px] md:min-w-[50%] aspect-square max-w-[100vw] dark:brightness-75;
-    /* background-image: var(--map-bg-image); */
 
     .mob-list {
         @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] text-lg font-bold rounded-br-lg;
 
         .mob-number-0 {
-            /*
-            @apply text-green-300;
-            */
             color: color-mix(in srgb, var(--mob-one-color) 50%, white 50%);
         }
 
         .mob-number-1 {
-            /*
-            @apply text-blue-300;
-            */
             color: color-mix(in srgb, var(--mob-two-color) 50%, white 50%);
         }
 
@@ -149,13 +128,6 @@ main.map-main-window {
             clip-path: polygon(50% -50%, 100% 50%, 50% 150%, 0 50%);
             filter: drop-shadow(0 0 0 red);
         }
-
-        /* .mapInstanceNumber::before {
-            @apply bg-black absolute top-0 left-0 w-full z-[-1] scale-110;
-            content: "";
-            aspect-ratio: 1 / cos(30deg);
-            clip-path: polygon(50% -50%, 100% 50%, 50% 150%, 0 50%);
-        } */
     }
 
     .aetheryte {
