@@ -1,7 +1,7 @@
 <template>
     <div class="map-container-block" @dblclick.prevent="handleDoubleClick">
         <div class="absolute top-0 left-0 size-full bg-cover"
-            :style="`background-image: url('/maps/${zone.map_id}.png');`" @mousemove.self="handleMouseOver"
+            :style="`background-image: url('/maps/${zone.map_id}.webp');`" @mousemove.self="handleMouseOver"
             @mouseout="handleMouseOut" />
         <PointOccupiedDialog :x="contextX" :y="contextY" :point="selectedPoint" v-show="showingContextMenu"
             ref="occupied-dialog" :instance="props.instance" :parent-width="parentWidth"
@@ -39,7 +39,7 @@
                 {{ getDisplayName(zone, 'en') }}
                 <span class="mapInstanceNumber" v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{
                     instance
-                }}</span>
+                    }}</span>
             </div>
             <div v-if="is_hovered" class="zone-coords">{{ x_hover }}, {{ y_hover }}</div>
         </div>
