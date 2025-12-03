@@ -2,7 +2,7 @@
     @apply stroke-[1.75px] text-white;
 }
 nav {
-    @apply z-10 flex flex-col md:flex-row flex-wrap gap-1 w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] flex-grow-1 max-w-[100%] sticky top-0 overflow-scroll sm:overflow-auto;
+    @apply z-10 flex flex-col md:flex-row flex-wrap gap-1 w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] flex-grow-1 max-w-[100%] sticky top-0 overflow-auto sm:overflow-auto;
     .expansion-list-container {
         .expac-list-item {
             @apply border-r-0 bg-[rgba(0,0,0,0.4)] hover:bg-[rgba(0,0,255,0.1)] cursor-pointer dark:border-slate-500 transition-colors duration-300;
@@ -89,7 +89,7 @@ select {
 } */
 
 main.map-main-window {
-    @apply flex flex-wrap md:flex-nowrap gap-x-1 py-1 items-center justify-between max-w-[100vw];
+    @apply flex flex-col md:flex-row md:flex-nowrap gap-8 md:gap-1 gap-x-1 py-1 items-center justify-between max-w-[100vw];
 }
 
 .map-image-list {
@@ -97,7 +97,7 @@ main.map-main-window {
 }
 
 .map-image-list-grid {
-    @apply grid grid-cols-[repeat(auto-fill,_minmax(500px,1fr))] flex-grow-[999] gap-2 max-w-[100vw] md:max-w-[calc(100vw_-_var(--sidebar-width))];
+    @apply grid grid-cols-[repeat(auto-fill,_minmax(500px,1fr))] flex-grow-[999] gap-1 max-w-[100vw] md:max-w-[calc(100vw_-_var(--sidebar-width))];
 }
 
 .map-container-block {
