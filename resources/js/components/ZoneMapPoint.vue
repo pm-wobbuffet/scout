@@ -2,7 +2,7 @@
     <button class="" :class="calculatePointDisplayClasses(props.point)"
         :style="{ 'left': convertCoordToPercent(props.point.x, zone), 'top': convertCoordToPercent(props.point.y, props.zone) }"
         ref="refHook" :data-coords="getPointTitleDisplay(props.point)" :data-title="getPointTitleDisplay(props.point)"
-        @click.stop.prevent="">{{
+        @mouseup.left="onClick" @contextmenu.prevent.stop="(ev) => emit('contextToggled', ev)">{{
             mobOnPoint?.mob_index ?? '' }}</button>
 </template>
 
@@ -10,7 +10,7 @@
 import ScoutReport from '@/classes/ScoutReport';
 import { convertCoordToPercent } from '@/classes/helpers';
 import { onLongPress } from '@vueuse/core';
-import { computed, useTemplateRef } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 
 const props = defineProps({
     zone: Object,
@@ -20,30 +20,53 @@ const props = defineProps({
     editmode: Boolean,
 })
 const refHook = useTemplateRef('refHook')
+const isLongPressed = ref(true)
 
-const emit = defineEmits(['longPress'])
+const emit = defineEmits(['longPress', 'contextToggled'])
 onLongPress(refHook,
     (e) => {
-        emit("longPress", e, props.point)
+        emit('longPress', e, props.point)
+        isLongPressed.value = false
     },
     {
+        delay: 300,
         onMouseUp: (dur, dist, isLongPress) => {
-            // If they didn't hold down for the intended duration,
-            // treat it like a normal click event
-            if (!isLongPress) {
-                assignMob()
-            }
+            console.log(dur, dist, isLongPress)
+            isLongPressed.value = isLongPress
         },
-        delay: 300
+        modifiers: {
+        },
     }
 )
+const onClick = () => {
+    if (isLongPressed.value !== true) {
+        assignMob()
+    }
+}
+// onLongPress(refHook,
+//     (e) => {
+//         emit("longPress", e, props.point)
+//     },
+//     {
+//         onMouseUp: (dur, dist, isLongPress) => {
+//             // If they didn't hold down for the intended duration,
+//             // treat it like a normal click event
+//             if (!isLongPress) {
+//                 assignMob()
+//             }
+//         },
+//         delay: 300
+//     }
+// )
 
 const assignMob = function () {
     // End early if we're not in edit mode
     if (!props.editmode) return
     if (isPointOccupied.value === true) return
+    if (isLongPressed.value === true) return
 
     props.scoutReport.cycleMobOnPoint(props.point, props.instance)
+    isLongPressed.value = false
 }
 
 const isPointDisabled = computed(() => {
