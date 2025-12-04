@@ -1,22 +1,23 @@
 <template>
     <div>
         <span v-if="zone">{{ zone?.name }}</span>
-        <span class="instanceNumber" v-if="hasInstances && instance_number">{{ instance_number }}</span>
+        <span class="instanceNumber" v-if="hasInstances && instance_number">{{ intToInstanceMapping[instance_number] ??
+            instance_number }}</span>
         <span v-if="point">
             ({{ formatCoordinate(point.x) }}, {{ formatCoordinate(point.y) }})
         </span>
         <div v-if="mob">
             {{ mob.name }}
             <template v-if="props.logDetails.name == 'Mob Status Updated'">
-                <span v-if="is_dead">(Dead)</span>
-                <span v-if="!is_dead">(Alive)</span>
+                <span v-if="props.logDetails.is_dead === 1">(Dead)</span>
+                <span v-if="props.logDetails.is_dead !== 1">(Alive)</span>
             </template>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { formatCoordinate } from '@/classes/helpers';
+import { formatCoordinate, intToInstanceMapping } from '@/classes/helpers';
 import { computed, inject } from 'vue';
 
 interface VersionUpdateDetails {
@@ -25,8 +26,8 @@ interface VersionUpdateDetails {
     zone_id?: number,
     mob_id?: number,
     point_id?: number,
-    point_type?: string
-    is_dead?: boolean
+    point_type?: string,
+    is_dead?: number
 }
 
 interface Props {

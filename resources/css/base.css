@@ -38,9 +38,9 @@ dialog::backdrop {
 }
 
 .instanceNumber {
-    @apply bg-gray-300 dark:bg-white dark:text-black px-2 text-sm inline-block py-0 scale-90 text-center font-bold;
-    aspect-ratio: 1 / cos(30deg);
-    clip-path: polygon(50% -50%, 100% 50%, 50% 150%, 0 50%);
+    @apply dark:text-black text-xs inline-block py-0 scale-90 text-center font-[FFXIV\_Lodestone\_SSF];
+    /* aspect-ratio: 1 / cos(30deg);
+    clip-path: polygon(50% -50%, 100% 50%, 50% 150%, 0 50%); */
 }
 
 aside {
