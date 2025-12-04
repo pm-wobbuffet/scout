@@ -38,7 +38,7 @@
             <div class="zone-name-text">
                 {{ getDisplayName(zone, 'en') }}
                 <span class="mapInstanceNumber" v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{
-                    instance
+                    intToInstanceMapping[instance]
                 }}</span>
             </div>
             <div v-if="is_hovered" class="zone-coords">{{ x_hover }}, {{ y_hover }}</div>
@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { getDisplayName, convertCoordToPercent } from '@/classes/helpers';
+import { getDisplayName, convertCoordToPercent, intToInstanceMapping } from '@/classes/helpers';
 import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
 import { SkullIcon, TriangleAlert } from 'lucide-vue-next';

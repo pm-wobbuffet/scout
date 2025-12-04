@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @import "tw-animate-css";
+@import "./ff_font.css";
 @import "./base.css";
 @import "vue-toastification/dist/index.css";
 

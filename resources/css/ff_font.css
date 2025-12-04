@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "FFXIV_Lodestone_SSF";
+    src:
+        url("@resources/fonts/FFXIV_Lodestone_SSF.woff") format("woff"),
+        url("@resources/fonts/FFXIV_Lodestone_SSF.ttf") format("truetype"),
+        url("@resources/fonts/FFXIV_Lodestone_SSF.svg#FFXIV Lodestone") format("svg");
+    font-weight: var(--font-weight-normal);
+    font-style: normal;
+}

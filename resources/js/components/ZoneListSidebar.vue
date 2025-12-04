@@ -28,12 +28,12 @@
                             :class="{ 'line-through': props.scoutReport.isZoneScoutingComplete(zone, i) }">{{
                                 getDisplayName(zone,
                                     'en') }}</a>
-                        <span class="ml-1 font-bold text-blue-800 dark:text-blue-400"
-                            v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
-                            }}</span>
+                        <span class="ml-1 text-blue-800 dark:text-blue-400 font-[FFXIV\_Lodestone\_SSF]"
+                            v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ intToInstanceMapping[i] ??
+                                i }}</span>
                         <i class="text-sm ml-2 text-black dark:text-slate-200">{{
                             props.scoutReport.getFoundMobCountForZone(zone.id, i)
-                            }}/{{ zone.mobs.length }}
+                        }}/{{ zone.mobs.length }}
                         </i>
                     </li>
                 </template>
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { getDisplayName } from '@/classes/helpers';
+import { getDisplayName, intToInstanceMapping } from '@/classes/helpers';
 import ScoutReportOptions from '@/components/ScoutReportOptions.vue';
 import ConnectionStatus from '@/components/ui/zonelist/ConnectionStatus.vue';
 import { onBeforeMount, ref, computed, onMounted, onUnmounted, onUpdated, inject } from 'vue';
