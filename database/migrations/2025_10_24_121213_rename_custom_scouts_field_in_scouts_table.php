@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    public function shouldRun(): bool
+    {
+        return boolval(config('app.scout.old_reports_migrated', false));
+    }
+
     /**
      * Run the migrations.
      */

@@ -9,7 +9,7 @@ return new class extends Migration
 
     public function shouldRun(): bool
     {
-        return boolval(env('APP_SCOUT_MIGRATED', false));
+        return boolval(config('app.scout.old_reports_migrated', false));
     }
 
     /**

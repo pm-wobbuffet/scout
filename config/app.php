@@ -141,6 +141,9 @@ return [
         'version_history_lockout'   => env('VERSION_HISTORY_LOCKOUT_SEC', 30),
         // The time (in milliseconds) that will be taken between AJAX fallback requests if websockets fail
         'ajax_refresh_interval'     => env('APP_AJAX_REFRESH_INTERVAL_MS', 10_000),
+        // Whether the old scouts database has been migrated to its new format
+        // This will keep destructive migrations from running until you're sure it's okay
+        'old_reports_migrated'      => env('APP_SCOUT_MIGRATED', false),
     ]
 
 ];
