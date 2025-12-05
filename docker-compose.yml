@@ -39,6 +39,7 @@ services:
     volumes:
       - 'sail-mysql:/var/lib/mysql'
       - './docker/mysql:/docker-entrypoint-initdb.d'
+      - './docker/conf/mysql/my.cnf:/etc/mysql/conf.d/my.cnf'
     networks:
       - sail
     healthcheck:
