@@ -24,3 +24,4 @@ yarn-error.log
 _ide_helper.php
 .phpstorm.meta.php
 docker/mysql/scout-sample.sql
+/.zed
