@@ -17,7 +17,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('scouts', function (Blueprint $table) {
-            //\DB::unprepared('ALTER TABLE scouts DROP CHECK scouts_chk_3');
+            \DB::unprepared('ALTER TABLE scouts DROP CHECK scouts_chk_3');
             $table->renameColumn('custom_points', 'old_custom_points');
         });
     }

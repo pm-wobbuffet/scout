@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Migration;
 
 use App\Models\Mob;
-use App\Models\Scout;
+use App\Models\OldScout;
 use App\Models\ScoutCustomPoint;
 use App\Models\SpawnPoint;
 use Carbon\Carbon;
@@ -33,16 +33,16 @@ class MigrateOldScoutsToNewFormat extends Command
     {
         //
         if ($this->argument('scout')) {
-            $scout = Scout::whereId($this->argument('scout'))->firstOrFail();
+            $scout = OldScout::whereId($this->argument('scout'))->firstOrFail();
             $this->processScout($scout);
             $this->info("Scout ID# {$scout->id} processed.");
         } else {
             if ($this->confirm("Do you really wish to process all scouts? This could take an extremely long time.")) {
                 $this->info("On your own head be it");
-                $count = DB::table('scouts')->where('version', 1)->count();
+                $count = DB::table('scouts')->where('version', '=', 1)->count();
                 $bar = $this->output->createProgressBar($count);
                 $start = 0;
-                Scout::where('version', 1)->orderBy('id')->chunk(50, function ($scouts) use ($bar) {
+                OldScout::where('version', '=', 1)->orderBy('id')->chunk(50, function ($scouts) use ($bar) {
                     foreach ($scouts as $scout) {
                         // Short circuit early if a malformed point_data object exists
                         if (!is_array($scout->point_data)) {
@@ -50,8 +50,9 @@ class MigrateOldScoutsToNewFormat extends Command
                             continue;
                         }
                         $this->processScout($scout);
-                        $scout->version = 2;
-                        $scout->save();
+                        DB::statement("UPDATE scouts SET version=2 WHERE id=? ", [$scout->id]);
+                        // $scout->version = 2;
+                        // $scout->save();
                         $bar->advance();
                     }
                 });
@@ -60,7 +61,7 @@ class MigrateOldScoutsToNewFormat extends Command
         }
     }
 
-    private function processScout(Scout $scout)
+    private function processScout(OldScout $scout)
     {
         if ($scout->instance_data) {
             foreach ($scout->instance_data as $zone_id => $instance_count) {
@@ -245,9 +246,16 @@ class MigrateOldScoutsToNewFormat extends Command
 
         // Were there scout names listed?
         foreach ($scout->scouts_old as $scout_name) {
-            $scout->scouts()->create(
-                ['scout_name' => $scout_name]
-            );
+            DB::table('scout_scouters')->upsert([
+                'scout_id' => $scout->id,
+                'scout_name' => mb_substr($scout_name, 0, 30),
+            ], [
+                'scout_id',
+                'scout_name'
+            ]);
+            // $scout->scouts()->create(
+            //     ['scout_name' => $scout_name]
+            // );
         }
     }
 }
