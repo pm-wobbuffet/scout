@@ -10,6 +10,7 @@
                             <th class="p-1">Zone</th>
                             <th class="p-1">Instance Count</th>
                             <th class="p-1">Options</th>
+                            <th class="p-1">Spawn Pts</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
@@ -25,6 +26,9 @@
                             </td>
                             <td class="p-1">
                                 <Link :href="route('admin.zones.edit', { 'zone': zone })">Edit</Link>
+                            </td>
+                            <td>
+
                             </td>
                         </tr>
                     </tbody>
