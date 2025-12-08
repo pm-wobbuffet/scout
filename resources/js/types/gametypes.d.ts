@@ -22,7 +22,8 @@ export type SpawnPoint {
     x: number,
     y: number,
     zone_id: number,
-    is_active?: boolean
+    is_active?: boolean,
+    valid_mobs?: Mob[]
 }
 export type Zone {
     id: number,

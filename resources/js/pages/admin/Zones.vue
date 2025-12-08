@@ -28,7 +28,7 @@
                                 <Link :href="route('admin.zones.edit', { 'zone': zone })">Edit</Link>
                             </td>
                             <td>
-
+                                <Link :href="route('admin.zones.spawn_points.index', { zone: zone })">Spawn Points</Link>
                             </td>
                         </tr>
                     </tbody>

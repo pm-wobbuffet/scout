@@ -30,7 +30,7 @@ const props = defineProps({
                     class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <PlaceholderPattern />
                     <div class="absolute size-full flex items-center justify-center flex-col">
-                        <h1 class="text-3xl">Scouting Reports</h1>
+                        <h1 class="text-xl xl:text-3xl">Scouting Reports</h1>
                         <div class="text-2xl font-bold">{{ props.total_scouts }}</div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@ const props = defineProps({
                     class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <PlaceholderPattern />
                     <div class="absolute size-full flex items-center justify-center flex-col">
-                        <h1 class="text-3xl">Multi-instanced Zones</h1>
+                        <h1 class="text-xl xl:text-3xl">Multi-instanced Zones</h1>
                         <div class="text-2xl font-bold">{{ props.multi_zones }}</div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@ const props = defineProps({
                     class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <PlaceholderPattern />
                     <div class="absolute size-full flex items-center justify-center flex-col">
-                        <h1 class="text-3xl">Reports in Past 24 Hours</h1>
+                        <h1 class="text-xl xl:text-3xl">Reports in Past 24 Hours</h1>
                         <div class="text-2xl font-bold">{{ props.last_day }}</div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@ const props = defineProps({
                 class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
                 <PlaceholderPattern />
                 <div class="p-2">
-                    <h1 class="text-xl font-bold">Latest Scouting Reports</h1>
+                    <h1 class="text-sm lg:text-xl font-bold">Latest Scouting Reports</h1>
                     <table class="table mx-auto">
                         <thead>
                             <tr>
@@ -75,12 +75,12 @@ const props = defineProps({
                                     <Link
                                         :href="route('scout.view', { scout: report.slug, password: report.collaborator_password })"
                                         class="inline-block p-1 border-gray-600 border rounded-sm cursor-pointer">
-                                    Collab</Link>
+                                        Collab</Link>
                                 </td>
                                 <td>
                                     <Link :href="route('scout.view', { scout: report.slug, password: null })"
                                         class="inline-block p-1 border-gray-600 border rounded-sm cursor-pointer">
-                                    Share</Link>
+                                        Share</Link>
                                 </td>
                             </tr>
                         </tbody>

@@ -1,7 +1,7 @@
 .lucide {
-    @apply stroke-[1.75px] text-white;
+    @apply stroke-[1.75px];
 }
-nav {
+nav.main-nav {
     @apply z-10 flex flex-col md:flex-row flex-wrap gap-1 w-full items-center justify-between bg-slate-500 dark:bg-slate-900 text-slate-100 dark:text-slate-400 p-2 min-h-[3rem] flex-grow-1 max-w-[100%] sticky top-0 overflow-auto sm:overflow-auto;
     .expansion-list-container {
         .expac-list-item {

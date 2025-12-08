@@ -61,12 +61,15 @@ class SpawnPointController extends Controller
     public function update(Request $request, Zone $zone, SpawnPoint $spawnPoint)
     {
         $request->validate([
-            'id' => 'required',
-            'x' => 'required|numeric',
-            'y' => 'required|numeric',
+            'id'            => 'required',
+            'x'             => 'required|numeric',
+            'y'             => 'required|numeric',
+            'valid_mobs'    => 'array',
+            'valid_mobs.*'  => 'numeric',
         ]);
         $spawnPoint->x = $request->input('x');
         $spawnPoint->y = $request->input('y');
+        $spawnPoint->valid_mobs()->sync($request->input('valid_mobs'));
         $spawnPoint->save();
 
         return to_route('admin.zones.spawn_points.index', [$spawnPoint->zone_id])
