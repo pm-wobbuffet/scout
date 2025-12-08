@@ -15,7 +15,7 @@ class SpawnPointController extends Controller
      */
     public function index(Zone $zone)
     {
-        $zone->load(['spawn_points']);
+        $zone->load(['spawn_points', 'spawn_points.valid_mobs', 'mobs']);
         $points = $zone->spawn_points;
 
         return Inertia::render('admin/SpawnPoints/Index', [
@@ -58,9 +58,19 @@ class SpawnPointController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SpawnPoint $spawnPoint)
+    public function update(Request $request, Zone $zone, SpawnPoint $spawnPoint)
     {
-        //
+        $request->validate([
+            'id' => 'required',
+            'x' => 'required|numeric',
+            'y' => 'required|numeric',
+        ]);
+        $spawnPoint->x = $request->input('x');
+        $spawnPoint->y = $request->input('y');
+        $spawnPoint->save();
+
+        return to_route('admin.zones.spawn_points.index', [$spawnPoint->zone_id])
+            ->with('message', "Point Data Updated");
     }
 
     /**

@@ -1,14 +1,26 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
 import type { BreadcrumbItemType } from '@/types';
+import { onMounted } from 'vue';
 
 interface Props {
     breadcrumbs?: BreadcrumbItemType[];
+    flash?: {
+        message?: string,
+    }
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
+    flash: () => { },
 });
+
+onMounted(() => {
+    if (props.flash?.message) {
+        const toast = inject('Toast')
+        toast.success(props.flash.message)
+    }
+})
 </script>
 
 <template>

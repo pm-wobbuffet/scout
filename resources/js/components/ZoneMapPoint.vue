@@ -1,6 +1,6 @@
 <template>
     <button class="" :class="calculatePointDisplayClasses(props.point)"
-        :style="{ 'left': convertCoordToPercent(props.point.x, zone), 'top': convertCoordToPercent(props.point.y, props.zone) }"
+        :style="{ 'left': convertCoordToPercent(props.point.x, props.zone), 'top': convertCoordToPercent(props.point.y, props.zone) }"
         ref="refHook" :data-coords="getPointTitleDisplay(props.point)" :data-title="getPointTitleDisplay(props.point)"
         @mouseup.left="onClick" @contextmenu.prevent.stop="(ev) => emit('contextToggled', ev)">{{
             mobOnPoint?.mob_index ?? '' }}</button>
