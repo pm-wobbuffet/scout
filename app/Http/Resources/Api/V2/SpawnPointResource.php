@@ -6,6 +6,10 @@ use App\Models\SpawnPoint;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * A Spawn Point
+ * @mixin App\Models\SpawnPoint
+ */
 class SpawnPointResource extends JsonResource
 {
     /**
@@ -37,6 +41,9 @@ class SpawnPointResource extends JsonResource
             'valid_mobs'    => $this->whenLoaded('valid_mobs', function ($mobs) {
                 return $mobs->pluck('mob_id');
             }),
+            'created_at'    => $this->created_at,
+            'updated_at'    => $this->updated_at,
+            'deleted_at'    => $this->deleted_at,
         ];
     }
 }

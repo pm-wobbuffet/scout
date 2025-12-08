@@ -3,12 +3,13 @@
     <vue-zoomable :initial-zoom="1" :min-zoom="1" :selector="`#zonemap${props.zone.id}`"
         class="w-full relative border select-none" v-model:pan="pan" v-model:zoom="zoom" :button-pan-step="50"
         :mouse-enabled="true" :enable-control-button="false" :dbl-click-enabled="false">
-        <div :id="`zonemap${props.zone.id}`" class="select-none"><img class="select-none" :src="mapImage"
-                draggable="false" alt="Map of the zone" />
+        <div :id="`zonemap${props.zone.id}`" class="select-none" @dblclick="mapDoubledClicked"><img class="select-none"
+                :src="mapImage" draggable="false" alt="Map of the zone" />
             <button v-for="point in props.zone.spawn_points" :key="`btnspawnpt-${point.id}`"
-                :aria-label="`Button to choose Spawn Point X=${point.x},Y=${point.Y}`"
-                class="rounded-full absolute bg-gray-400" :class="{
-                    selected: (point.id === selected_point)
+                :aria-label="`Button to choose Spawn Point X=${point.x},Y=${point.Y}`" class="rounded-full absolute"
+                :class="{
+                    selected: (point.id === selected_point),
+                    deletedPt: (point?.deleted_at && point.deleted_at !== null)
                 }" :style="{
                     top: convertCoordToPercent(point.y, props.zone),
                     left: convertCoordToPercent(point.x, props.zone),
@@ -20,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { convertCoordToPercent } from '@/classes/helpers';
+import { convertCoordToPercent, formatCoordinate } from '@/classes/helpers';
 import { Zone } from '@/types/gametypes';
 import { computed, ref } from 'vue';
 import VueZoomable from "vue-zoomable";
@@ -30,7 +31,10 @@ import "vue-zoomable/dist/style.css";
 interface Props {
     zone: Zone
 }
-const props = defineProps<Props>();
+const props = defineProps<Props>()
+const emit = defineEmits<{
+    dblclicked: [x: number, y: number]
+}>()
 const model = defineModel<number>('selected_point')
 const zoom = ref(1)
 const pan = ref({ x: 0, y: 0 })
@@ -42,6 +46,19 @@ const mapImage = computed(() => {
 const getButtonDimension = computed(() => {
     return (20 / Math.max(zoom.value, 1)).toString() + 'px'
 })
+
+const mapDoubledClicked = (ev: MouseEvent) => {
+    const bounds = ev.target.getBoundingClientRect()
+    const [cX, cY] = [ev.clientX - bounds.x, ev.clientY - bounds.y]
+    const [imgW, imgH] = [ev.target.offsetWidth, ev.target.offsetHeight]
+
+    emit('dblclicked',
+        (cX / imgW * props.zone.max_coord_size).toFixed(1),
+        (cY / imgH * props.zone.max_coord_size).toFixed(1)
+    )
+
+    console.log(cX / imgW * props.zone.max_coord_size, cY / imgH * props.zone.max_coord_size)
+}
 
 const selectPoint = (point_id: number) => {
     // if this point is already selected, clear out the value
@@ -67,7 +84,11 @@ button {
     @apply hover:ring-2 hover:ring-white;
 
     &.selected {
-        @apply ring-red-300 bg-red-500 ring-4;
+        @apply ring-red-300 ring-4;
+    }
+
+    &.deletedPt {
+        @apply bg-red-500/50;
     }
 }
 </style>

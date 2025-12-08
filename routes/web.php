@@ -37,7 +37,7 @@ Route::middleware(['auth', 'is_admin'])
         Route::get('/zones', 'ZoneController@index')->name('zones');
         Route::patch('/zones/instance_counts', 'ZoneController@instanceCounts')->name('zones.instances');
         Route::get('/zones/{zone}/edit', 'ZoneController@edit')->name('zones.edit');
-        Route::scopeBindings()->resource('zones.spawn_points', 'SpawnPointController');
+        Route::scopeBindings()->resource('zones.spawn_points', 'SpawnPointController')->withTrashed();
     });
 
 require __DIR__ . '/auth.php';

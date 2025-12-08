@@ -45,7 +45,7 @@ class SpawnPoint extends Model
 
     public $table = 'spawn_points';
 
-    protected $hidden = ['updated_at', 'deleted_at', 'created_at'];
+    protected $guarded = ['id'];
     protected $appends = ['point_type'];
 
     public function valid_mobs(): BelongsToMany
