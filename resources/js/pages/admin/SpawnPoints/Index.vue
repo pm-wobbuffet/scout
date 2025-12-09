@@ -5,7 +5,7 @@
         <div class="p-2 text-2xl font-bold">
             {{ props.zone.name }}
         </div>
-        <div class="flex w-full gap-4">
+        <div class="flex flex-row w-full gap-4">
             <ZoneMapPointSelector :zone="props.zone" v-model:selected_point="selectedPoint"
                 @update:selected_point="updateFormDetails" @dblclicked="addPointFromClick" />
             <Card class="rounded-xl w-full shrink">
@@ -50,13 +50,19 @@
                             Point</Button></div>
                 </CardContent>
                 <CardFooter class="mx-auto">
-                    Legend:
-                    <div class="w-4 h-4 inline-block rounded-full bg-black/50 ring-2 ring-black mx-2"></div>
-                    Active Point
-                    <div class="w-4 h-4 inline-block rounded-full bg-red-500/50 ring-2 ring-black mx-2"></div>
-                    Soft-Deleted Point
-                    <div class="w-4 h-4 inline-block rounded-full bg-transparent ring-4 ring-red-300 mx-2"></div>
-                    Point Selected to Edit
+                    <div>
+                        Legend:
+                        <hr class="mb-2" />
+                        <div class="w-[16px] h-[16px] inline-block rounded-full bg-black/50 ring-2 ring-black mx-2">
+                        </div>
+                        Active Point
+                        <br />
+                        <div class="w-4 h-4 inline-block rounded-full bg-red-500/50 ring-2 ring-black mx-2"></div>
+                        Soft-Deleted Point
+                        <br />
+                        <div class="w-4 h-4 inline-block rounded-full bg-transparent ring-4 ring-red-300 mx-2"></div>
+                        Point Selected to Edit
+                    </div>
                 </CardFooter>
             </Card>
         </div>

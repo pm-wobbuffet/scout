@@ -20,10 +20,10 @@
                     }" @click="selectPoint(point.id)" />
             </div>
             <template #buttons>
-                <div class="absolute bottom-4 right-4">
+                <div class="absolute bottom-2 right-2 scale-75 origin-bottom-right xl:bottom-4 xl:right-4 xl:scale-100">
                     <ul class="list-none">
                         <li class="btn-nav border-b-[#dee2e6] rounded-t-md">
-                            <a @pointerdown="ev => resetTransform(ev)">
+                            <a @pointerdown.left="ev => resetTransform(ev)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="feather feather-minimize-2">
@@ -35,7 +35,7 @@
                             </a>
                         </li>
                         <li class="btn-nav border-b-[#dee2e6]">
-                            <a @pointerdown="ev => zoomIn(ev)">
+                            <a @pointerdown.left="ev => zoomIn(ev)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="feather feather-zoom-in">
@@ -47,7 +47,7 @@
                             </a>
                         </li>
                         <li class="btn-nav rounded-b-md border-b-[#dee2e6]">
-                            <a @pointerdown="ev => zoomOut(ev)">
+                            <a @pointerdown.left="ev => zoomOut(ev)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="feather feather-zoom-out">
