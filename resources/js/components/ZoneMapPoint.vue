@@ -124,7 +124,9 @@ const mobOnPoint = computed(() => {
 })
 
 const calculatePointDisplayClasses = function (point) {
-    const ret = {}
+    const ret = {
+        'spawn-pt-btn': true
+    }
 
     if (props.scoutReport.isZoneScoutingComplete(
         props.scoutReport.scouter_instance.getZoneById(point.zone_id),

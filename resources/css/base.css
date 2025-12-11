@@ -79,124 +79,128 @@ main.map-main-window {
 }
 
 .map-image-list {
-    @apply flex-row flex-grow-[999] flex flex-wrap gap-2 items-center justify-center;
+    @apply flex-row grow-999 flex flex-wrap gap-2 items-center justify-center;
 }
 
 .map-image-list-grid {
-    @apply grid grid-cols-[repeat(auto-fill,_minmax(500px,1fr))] flex-grow-[999] gap-1 max-w-[100vw] md:max-w-[calc(100vw_-_var(--sidebar-width))];
+    @apply grid grid-cols-[repeat(auto-fill,minmax(500px,1fr))] grow-999 gap-1 max-w-[99vw] md:max-w-[calc(99vw-var(--sidebar-width))];
 }
 
 .map-container-block {
-    @apply border border-slate-200 relative bg-contain select-none min-w-[400px] md:min-w-[50%] aspect-square max-w-[100vw] dark:brightness-75;
+    @apply border border-slate-200 relative bg-contain select-none min-w-[400px] md:min-w-[50%] aspect-square max-w-[99vw] dark:brightness-75;
 
-    .mob-list {
-        @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] text-lg font-bold rounded-br-lg;
+    
+}
+button.spawn-pt-btn {
+    @apply rounded-full bg-black/50 absolute translate-x-[-50%] translate-y-[-50%] ring-2 ring-black flex items-center justify-center p-0 text-center font-mono cursor-pointer;
+    @apply hover:ring-2 hover:ring-white;
 
-        .mob-number-0 {
-            color: color-mix(in srgb, var(--mob-one-color) 50%, white 50%);
-        }
+    width: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
+    height: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
+    font-size: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+    line-height: 100%;
 
-        .mob-number-1 {
-            color: color-mix(in srgb, var(--mob-two-color) 50%, white 50%);
-        }
-
-        .dead-mob-1 {
-            @apply line-through;
-        }
+    &:disabled {
+        @apply bg-black/10 cursor-not-allowed ring-black/50;
     }
 
-    .zone-name {
-        @apply text-black text-lg font-bold text-right absolute right-[10px] top-[5px] tracking-wider block;
-        div.zone-name-text {
-            @apply text-black text-lg font-extrabold text-right tracking-wider;
-            -webkit-text-stroke: 3px white;
-            -webkit-text-fill-color: black;
-            paint-order: stroke fill;
-            text-shadow:
-                1px 1px 1px #ffffff,
-                -1px 1px 1px #ffffff,
-                -1px -1px 1px #ffffff,
-                1px -1px 1px #ffffff;
-        }
-        div.zone-coords {
-            @apply bg-[rgba(0,0,0,0.5)] hover:bg-[rgba(0,0,0,0.9)] text-white rounded-full px-2 text-sm inline-block;
-        }
-
-        .mapInstanceNumber {
-            @apply font-normal inline-block py-0 text-[0.95rem] text-center relative z-1 font-[FFXIV\_Lodestone\_SSF];
-            /* aspect-ratio: 1 / cos(30deg);
-            clip-path: polygon(50% -50%, 100% 50%, 50% 150%, 0 50%);
-            filter: drop-shadow(0 0 0 red); */
-        }
+    &.point-occupied {
+        @apply bg-red-400/45;
     }
 
-    .aetheryte {
-        @apply translate-x-[-50%] translate-y-[-50%] cursor-pointer h-[32px] w-[32px] text-white absolute;
-        background-image: url("../images/aetheryte.png");
+    &.point-disabled {
+        @apply bg-black/10 cursor-not-allowed ring-black/50;
     }
 
-    .aetheryte:hover::after {
-        content: attr(data-title);
-        @apply z-[1001] absolute top-[-0.5rem] left-1/2 translate-x-[-50%] text-xs font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+    &.point-occupied.point-disabled {
+        @apply bg-red-400/45;
     }
 
-    button {
-        @apply rounded-full bg-black/50 absolute translate-x-[-50%] translate-y-[-50%] ring-2 ring-black flex items-center justify-center p-0 text-center font-mono cursor-pointer;
-        @apply hover:ring-2 hover:ring-white;
-
-        width: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
-        height: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
-        font-size: clamp(var(--mob-button-min-width), var(--mob-button-width), var(--mob-button-max-width));
-        text-shadow:
-            -1px -1px 0 #000,
-            1px -1px 0 #000,
-            -1px 1px 0 #000,
-            1px 1px 0 #000;
-        line-height: 100%;
-
-        &:disabled {
-            @apply bg-black/10 cursor-not-allowed ring-black/50;
-        }
-
-        &.point-occupied {
-            @apply bg-red-400/45;
-        }
-
-        &.point-disabled {
-            @apply bg-black/10 cursor-not-allowed ring-black/50;
-        }
-
-        &.point-occupied.point-disabled {
-            @apply bg-red-400/45;
-        }
-
-        &.point-taken-by-1 {
-            @apply bg-[var(--mob-one-color)] text-white font-bold text-center;
-        }
-
-        &.point-taken-by-2 {
-            @apply bg-[var(--mob-two-color)] text-white font-bold text-center;
-        }
-
-        &.custom-point {
-            @apply bg-green-300 w-[30px] h-[30px] scale-50 hover:scale-150;
-            text-shadow: none;
-        }
+    &.point-taken-by-1 {
+        @apply bg-[var(--mob-one-color)] text-white font-bold text-center;
     }
 
-    .button-mob-marker {
-        @apply absolute h-[20px] w-[20px] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center text-white;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
-        line-height: 100%;
+    &.point-taken-by-2 {
+        @apply bg-[var(--mob-two-color)] text-white font-bold text-center;
     }
 
-    button:hover:after {
-        content: attr(data-coords);
-        @apply z-[1000] absolute top-[-1.5rem] text-xs font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none font-sans;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+    &.custom-point {
+        @apply bg-green-300 w-[30px] h-[30px] scale-50 hover:scale-150;
+        text-shadow: none;
     }
 }
+
+.button-mob-marker {
+    @apply absolute h-[20px] w-[20px] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center text-white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+    line-height: 100%;
+}
+
+button:hover:after {
+    content: attr(data-coords);
+    @apply z-[1000] absolute top-[-1.5rem] text-xs font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none font-sans;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+}
+.mob-list {
+    @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] text-lg font-bold rounded-br-lg;
+
+    li {
+        @apply bg-transparent;
+    }
+
+    .mob-number-0 {
+        color: color-mix(in srgb, var(--mob-one-color) 50%, white 50%);
+    }
+
+    .mob-number-1 {
+        color: color-mix(in srgb, var(--mob-two-color) 50%, white 50%);
+    }
+
+    .dead-mob-1 {
+        @apply line-through;
+    }
+}
+.zone-name {
+    @apply text-black text-lg font-bold text-right absolute right-[10px] top-[5px] tracking-wider block;
+    div.zone-name-text {
+        @apply text-black text-lg font-extrabold text-right tracking-wider;
+        -webkit-text-stroke: 3px white;
+        -webkit-text-fill-color: black;
+        paint-order: stroke fill;
+        text-shadow:
+            1px 1px 1px #ffffff,
+            -1px 1px 1px #ffffff,
+            -1px -1px 1px #ffffff,
+            1px -1px 1px #ffffff;
+    }
+    div.zone-coords {
+        @apply bg-[rgba(0,0,0,0.5)] hover:bg-[rgba(0,0,0,0.9)] text-white rounded-full px-2 text-sm inline-block;
+    }
+
+    .mapInstanceNumber {
+        @apply font-normal inline-block py-0 text-[0.95rem] text-center relative z-1 font-[FFXIV\_Lodestone\_SSF];
+        /* aspect-ratio: 1 / cos(30deg);
+        clip-path: polygon(50% -50%, 100% 50%, 50% 150%, 0 50%);
+        filter: drop-shadow(0 0 0 red); */
+    }
+}
+
+.aetheryte {
+    @apply translate-x-[-50%] translate-y-[-50%] cursor-pointer h-[32px] w-[32px] text-white absolute;
+    background-image: url("../images/aetheryte.png");
+}
+
+.aetheryte:hover::after {
+    content: attr(data-title);
+    @apply z-1001 absolute -top-2 left-1/2 translate-x-[-50%] text-xs font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+}
+
 .mark-summary-overlay {
     @apply fixed top-0 left-0 bg-black/75 w-full h-full overflow-hidden z-10;
     backdrop-filter: blur(1px);

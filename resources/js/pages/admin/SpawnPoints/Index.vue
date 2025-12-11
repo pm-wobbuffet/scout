@@ -53,7 +53,7 @@
                     <div>
                         Legend:
                         <hr class="mb-2" />
-                        <div class="w-[16px] h-[16px] inline-block rounded-full bg-black/50 ring-2 ring-black mx-2">
+                        <div class="w-4 h-4 inline-block rounded-full bg-black/50 ring-2 ring-black mx-2">
                         </div>
                         Active Point
                         <br />
