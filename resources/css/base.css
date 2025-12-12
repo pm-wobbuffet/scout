@@ -135,17 +135,19 @@ button.spawn-pt-btn {
     }
 }
 
+button.spawn-pt-btn:hover:after {
+    content: attr(data-coords);
+    @apply z-[1000] absolute top-[-1.5rem] text-xs font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none font-sans;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+}
+
 .button-mob-marker {
     @apply absolute h-[20px] w-[20px] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center text-white;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
     line-height: 100%;
 }
 
-button:hover:after {
-    content: attr(data-coords);
-    @apply z-[1000] absolute top-[-1.5rem] text-xs font-bold text-white text-nowrap bg-slate-400 border border-white px-2 rounded-full pointer-events-none font-sans;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
-}
+
 .mob-list {
     @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] text-lg font-bold rounded-br-lg;
 

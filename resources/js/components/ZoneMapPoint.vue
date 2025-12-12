@@ -31,10 +31,7 @@ onLongPress(refHook,
     {
         delay: 300,
         onMouseUp: (dur, dist, isLongPress) => {
-            console.log(dur, dist, isLongPress)
             isLongPressed.value = isLongPress
-        },
-        modifiers: {
         },
     }
 )
@@ -43,21 +40,6 @@ const onClick = () => {
         assignMob()
     }
 }
-// onLongPress(refHook,
-//     (e) => {
-//         emit("longPress", e, props.point)
-//     },
-//     {
-//         onMouseUp: (dur, dist, isLongPress) => {
-//             // If they didn't hold down for the intended duration,
-//             // treat it like a normal click event
-//             if (!isLongPress) {
-//                 assignMob()
-//             }
-//         },
-//         delay: 300
-//     }
-// )
 
 const assignMob = function () {
     // End early if we're not in edit mode

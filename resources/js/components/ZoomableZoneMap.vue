@@ -18,8 +18,12 @@
                         :key="`point-${point.id}-${props.instance}`" :point="point" :zone="props.zone"
                         :instance="props.instance" :editmode="props.editmode" :scout-report="props.scoutReport"
                         :style="{ zoom: (1 / zoom).toFixed(2) }" @click.stop.prevent=""
-                        @contextToggled.prevent.stop="handleContextMenu($event, point)"
-                        @long-press.prevent="handleContextMenu($event, point)" />
+                        @contextToggled.prevent.stop="showContextMenu($event, point)"
+                        @long-press.prevent="showContextMenu($event, point)" />
+                    <PointOccupiedDialog :x="contextX" :y="contextY" :point="selectedPoint" v-show="showingContextMenu"
+                        ref="occupied-dialog" :instance="props.instance" :parent-width="parentWidth" :style="{
+                            'zoom': (1 / zoom).toFixed(2)
+                        }" @dialogClosed="closeOccupyDialog" />
                 </slot>
             </div>
             <div>
@@ -105,6 +109,7 @@
 <script setup lang="ts">
 import { convertCoordToPercent, formatCoordinate, getDisplayName, intToInstanceMapping } from '@/classes/helpers';
 import ScoutReport from '@/classes/ScoutReport';
+import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
 import { Zone } from '@/types/gametypes';
 import { SkullIcon } from 'lucide-vue-next';
@@ -129,9 +134,19 @@ const props = withDefaults(defineProps<Props>(), {
     showAetherytes: true,
     showSpawnPoints: true,
 })
+
+// Variables to handle transforms of the map image
 const zoom = ref(1)
 const pan = ref({ x: 0, y: 0 })
 const is_hovered = ref(false)
+
+// Variables used by the Occupied contextmenu
+// const PointOccupiedDialogRef = useTemplateRef('occupied-dialog')
+const showingContextMenu = ref(false)
+const selectedPoint = ref(null)
+const contextX = ref(0)
+const contextY = ref(0)
+const parentWidth = ref(0)
 
 onMounted(() => {
     //console.log(props.zone.mobs)
@@ -140,6 +155,29 @@ onMounted(() => {
 const resetTransform = (ev) => {
     zoom.value = 1
     pan.value = { x: 0, y: 0 }
+}
+
+const showContextMenu = function (e: PointerEvent, point) {
+    const mob = props.scoutReport.getMobOnPoint(point, props.instance)
+    // Don't allow points that have mobs on them to be marked occupied
+    if (mob && mob.mob_id != null) {
+        return
+    }
+    selectedPoint.value = point
+    // contextX.value = e.srcElement.offsetLeft + 15
+    // contextY.value = e.srcElement.offsetTop + 10
+    contextX.value = e.pageX
+    contextY.value = e.pageY
+    parentWidth.value = e.srcElement.parentElement.offsetWidth
+    showingContextMenu.value = true
+}
+const closeOccupyDialog = () => {
+    showingContextMenu.value = false
+}
+
+const toggleMobStatus = function (mob) {
+    if (!props.editmode) return
+    props.scoutReport.toggleMobStatus(mob.id, props.instance)
 }
 
 const zoomIn = (ev) => {
