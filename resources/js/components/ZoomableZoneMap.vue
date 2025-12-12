@@ -1,9 +1,9 @@
 <template>
-    <scroll-overlay wheel-unlock-key="Shift" class="max-w-[99vw]" enable-touch-lock="true">
+    <scroll-overlay wheel-unlock-key="Shift" class="max-w-[99vw]">
         <vue-zoomable :initial-zoom="1" :min-zoom="1" :selector="`div.zone-map-container`"
             class="w-full relative border select-none" v-model:pan="pan" v-model:zoom="zoom" :mouse-enabled="true"
             :dbl-click-enabled="false">
-            <div draggable="false" class="zone-map-container">
+            <div draggable=" false" class="zone-map-container">
                 <img class="" :src="mapImage" draggable="false" alt="Map of the zone" width="1024" height="1024" />
                 <slot name="aetherytes" v-if="showAetherytes">
                     <div v-for="aetheryte in zone.aetherytes" class="aetheryte"
