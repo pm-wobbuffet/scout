@@ -6,7 +6,7 @@
 <template>
     <div ref="container" class="container" @wheel.capture="onWheel" @pointerdown="onPointerDown"
         @touchstart="onTouchStart">
-        <slot :disabled="visibility">
+        <slot :disableInteraction="visibility">
         </slot>
         <slot name="overlay" class="">
             <div :class="['overlay', { hidden: !visibility }]">
