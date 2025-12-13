@@ -1,6 +1,6 @@
 <template>
     <scroll-overlay wheel-unlock-key="Shift" class="max-w-[99vw]">
-        <vue-zoomable :initial-zoom="1" :min-zoom="1" :selector="`div.zone-map-container`"
+        <vue-zoomable :initial-zoom="1" :min-zoom="1" :selector="`div.zone-map-container`" :touch-enabled="false"
             class="w-full relative border select-none" v-model:pan="pan" v-model:zoom="zoom" :mouse-enabled="true"
             :dbl-click-enabled="false">
             <div draggable=" false" class="zone-map-container">
@@ -114,7 +114,8 @@ import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
 import { Zone } from '@/types/gametypes';
 import { SkullIcon } from 'lucide-vue-next';
 import { computed, onMounted, ref } from 'vue';
-import VueZoomable, { ScrollOverlay } from "vue-zoomable";
+import ScrollOverlay from '@/components/ScrollOverlay.vue';
+import VueZoomable from "vue-zoomable";
 import "vue-zoomable/dist/style.css";
 
 interface Props {
