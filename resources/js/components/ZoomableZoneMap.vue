@@ -21,8 +21,8 @@
                             :style="{ zoom: (1 / zoom).toFixed(2) }" @click.stop.prevent=""
                             @contextToggled.prevent.stop="showContextMenu($event, point)"
                             @long-press.prevent="showContextMenu($event, point)" />
-                        <PointOccupiedDialog :x="contextX" :y="contextY" :point="selectedPoint"
-                            v-show="showingContextMenu" ref="occupied-dialog" :instance="props.instance"
+                        <PointOccupiedDialog :x="contextX" :y="contextY" :point="selectedPoint" popover
+                            :id="`map_popover_${zone.id}`" v-show="showingContextMenu" :instance="props.instance"
                             :parent-width="parentWidth" :style="{
                                 'zoom': (1 / zoom).toFixed(2)
                             }" @dialogClosed="closeOccupyDialog" />
@@ -109,7 +109,7 @@
 </template>
 
 <script setup lang="ts">
-import { convertCoordToPercent, formatCoordinate, getDisplayName, intToInstanceMapping } from '@/classes/helpers';
+import { convertCoordToPercent, getDisplayName, intToInstanceMapping } from '@/classes/helpers';
 import ScoutReport from '@/classes/ScoutReport';
 import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
@@ -144,7 +144,7 @@ const pan = ref({ x: 0, y: 0 })
 const is_hovered = ref(false)
 
 // Variables used by the Occupied contextmenu
-// const PointOccupiedDialogRef = useTemplateRef('occupied-dialog')
+// const occupiedDialog = useTemplateRef('occupiedDialog')
 const showingContextMenu = ref(false)
 const selectedPoint = ref(null)
 const contextX = ref(0)
@@ -155,7 +155,7 @@ onMounted(() => {
     // console.log(props, disableInteraction)
 })
 
-const resetTransform = (ev) => {
+const resetTransform = () => {
     zoom.value = 1
     pan.value = { x: 0, y: 0 }
 }
@@ -166,13 +166,23 @@ const showContextMenu = function (e: PointerEvent, point) {
     if (mob && mob.mob_id != null) {
         return
     }
+    showingContextMenu.value = true
     selectedPoint.value = point
     // contextX.value = e.srcElement.offsetLeft + 15
     // contextY.value = e.srcElement.offsetTop + 10
     contextX.value = e.pageX
     contextY.value = e.pageY
     parentWidth.value = e.srcElement.parentElement.offsetWidth
-    showingContextMenu.value = true
+
+    const popOverDialog = document.getElementById(`map_popover_${point.zone_id}`)
+    console.log(popOverDialog)
+    popOverDialog.popover = "auto"
+    popOverDialog.showPopover()
+
+    const srcBtn = e.target
+    srcBtn.popoverTargetElement = popOverDialog
+    srcBtn.popoverTargetAction = "toggle"
+
 }
 const closeOccupyDialog = () => {
     showingContextMenu.value = false
@@ -183,12 +193,12 @@ const toggleMobStatus = function (mob) {
     props.scoutReport.toggleMobStatus(mob.id, props.instance)
 }
 
-const zoomIn = (ev) => {
+const zoomIn = () => {
     if (zoom.value >= 2.8) return
     zoom.value += 0.2
 }
 
-const zoomOut = (ev) => {
+const zoomOut = () => {
     if (zoom.value <= 1) return
     zoom.value -= 0.2
 }
@@ -200,6 +210,13 @@ const mapImage = computed(() => {
 
 <style scoped>
 @reference '@resources/css/app.css';
+
+:popover-open {
+    position: absolute;
+    inset: unset;
+    bottom: 5px;
+    right: 5px;
+}
 
 li.btn-nav {
     @apply hover:outline-4 hover:outline-[#32325d2d] bg-white;

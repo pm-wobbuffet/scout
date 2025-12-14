@@ -40,17 +40,21 @@ const computedStyle = computed(() => {
     if (!point) {
         return { top: '0px', left: '0px' }
     }
-    if (x + contextDiv.value.offsetWidth >= parentWidth) {
-        // Need to right align
-        return { top: `${y}px`, left: `${x - contextDiv.value.offsetWidth - 30}px` }
-    }
-    return { top: `${y}px`, left: `${x}px` }
-    // return {
-    //     'position-anchor': `--anchor-btn-${point.id}`,
-    //     'position-area': 'center right',
-    //     'position-try': `most-width --anchor-btn-${point.id}, flip inline, bottom left`,
-    //     // 'position-try-fallbacks': `--anchor-btn-${point.id}, --anchor-btn-${point.id} flip-inline, bottom left`,
+    // if (x + contextDiv.value.offsetWidth >= parentWidth) {
+    //     // Need to right align
+    //     return { top: `${y}px`, left: `${x - contextDiv.value.offsetWidth - 30}px` }
     // }
+    // return { top: `${y}px`, left: `${x}px` }
+    return {
+        top: 'calc(anchor(bottom) + 10px)',
+        left: 'calc(anchor(left) - 10px)',
+        inset: 'unset',
+        'position-anchor': `--anchor-btn-${point.id}`,
+        'position-area': 'center right',
+        'position-try': `most-width --anchor-btn-${point.id}, flip inline, bottom center`,
+        'position-try-fallbacks': `--anchor-btn-${point.id}, --anchor-btn-${point.id} flip-inline, bottom center`,
+        'justify-self': 'anchor-center',
+    }
 })
 
 const occupied = computed(() => {

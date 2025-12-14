@@ -10,7 +10,6 @@
 <script setup>
 import ScoutReport from '@/classes/ScoutReport';
 import { convertCoordToPercent } from '@/classes/helpers';
-import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import { onLongPress } from '@vueuse/core';
 import { computed, ref, useTemplateRef } from 'vue';
 
