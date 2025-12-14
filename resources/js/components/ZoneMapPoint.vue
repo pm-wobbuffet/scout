@@ -1,7 +1,8 @@
 <template>
-    <button class="" :class="calculatePointDisplayClasses(props.point)"
-        :style="{ 'left': convertCoordToPercent(props.point.x, props.zone), 'top': convertCoordToPercent(props.point.y, props.zone) }"
-        ref="refHook" :data-coords="getPointTitleDisplay(props.point)" :data-title="getPointTitleDisplay(props.point)"
+    <button v-bind="$attrs" :class="calculatePointDisplayClasses(props.point)" :style="{
+        'left': convertCoordToPercent(props.point.x, props.zone), 'top': convertCoordToPercent(props.point.y, props.zone),
+        'anchor-name': `--anchor-btn-${point.id}`
+    }" ref="refHook" :data-coords="getPointTitleDisplay(props.point)" :data-title="getPointTitleDisplay(props.point)"
         @mouseup.left="onClick" @contextmenu.prevent.stop="(ev) => emit('contextToggled', ev)">{{
             mobOnPoint?.mob_index ?? '' }}</button>
 </template>
@@ -9,6 +10,7 @@
 <script setup>
 import ScoutReport from '@/classes/ScoutReport';
 import { convertCoordToPercent } from '@/classes/helpers';
+import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import { onLongPress } from '@vueuse/core';
 import { computed, ref, useTemplateRef } from 'vue';
 
