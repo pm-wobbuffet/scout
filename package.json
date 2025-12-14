@@ -28,6 +28,7 @@
         "vue-types": "^6.0.0"
     },
     "dependencies": {
+        "@imengyu/vue3-context-menu": "^1.5.2",
         "@inertiajs/vue3": "^2.0.0",
         "@laravel/echo-vue": "^2.1.4",
         "@tailwindcss/postcss": "^4.1.6",

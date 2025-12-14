@@ -70,7 +70,7 @@ const occupied = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@reference '@resources/css/pp.css';
+@reference '@resources/css/app.css';
 
 .context-menu {
     background-color: var(--color-popover);

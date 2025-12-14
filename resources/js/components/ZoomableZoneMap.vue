@@ -21,11 +21,25 @@
                             :style="{ zoom: (1 / zoom).toFixed(2) }" @click.stop.prevent=""
                             @contextToggled.prevent.stop="showContextMenu($event, point)"
                             @long-press.prevent="showContextMenu($event, point)" />
-                        <PointOccupiedDialog :x="contextX" :y="contextY" :point="selectedPoint" popover
+                        <context-menu ref="cmRef" v-model:show="showingContextMenu" :options="optionsComponent">
+                            <template #itemRender="{ disabled, label, icon, showRightArrow, onClick, onMouseEnter }">
+                                <div :class="'mx-context-menu-item' + (disabled ? ' disabled' : '')" @click="onClick"
+                                    @mouseenter="onMouseEnter">
+                                    <span>{{ label }}</span>
+                                    <span v-if="showRightArrow" class="right-arraw">>></span>
+                                </div>
+                            </template>
+                            <context-menu-item label="Mark Occupied" v-if="!isOccupied(selectedPoint)"
+                                @click="emitOccupied(selectedPoint, 1)">
+                            </context-menu-item>
+                            <context-menu-item label="Mark Unoccupied" v-else
+                                @click="emitOccupied(selectedPoint, 0)"></context-menu-item>
+                        </context-menu>
+                        <!-- <PointOccupiedDialog :x="contextX" :y="contextY" :point="selectedPoint" popover
                             :id="`map_popover_${zone.id}`" v-show="showingContextMenu" :instance="props.instance"
                             :parent-width="parentWidth" :style="{
                                 'zoom': (1 / zoom).toFixed(2)
-                            }" @dialogClosed="closeOccupyDialog" />
+                            }" @dialogClosed="closeOccupyDialog" /> -->
                     </slot>
                 </div>
                 <div>
@@ -115,10 +129,12 @@ import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
 import { Zone } from '@/types/gametypes';
 import { SkullIcon } from 'lucide-vue-next';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 // import ScrollOverlay from '@/components/ScrollOverlay.vue';
 import VueZoomable, { ScrollOverlay } from "vue-zoomable";
 import "vue-zoomable/dist/style.css";
+import { type MenuOptions, ContextMenu, ContextMenuGroup, ContextMenuSeparator, ContextMenuItem } from '@imengyu/vue3-context-menu';
+// import ContextMenu from '@imengyu/vue3-context-menu';
 
 interface Props {
     zone: Zone,
@@ -151,9 +167,21 @@ const contextX = ref(0)
 const contextY = ref(0)
 const parentWidth = ref(0)
 
-onMounted(() => {
-    // console.log(props, disableInteraction)
-})
+const optionsComponent = reactive<MenuOptions>({
+    iconFontClass: 'iconfont',
+    customClass: "class-a",
+    zIndex: 3,
+    x: contextX,
+    y: contextY
+});
+
+const emitOccupied = function (point, isOccupied) {
+    if (isOccupied) {
+        props.scoutReport.setOccupiedStatus(point, props.instance, 1)
+        return
+    }
+    props.scoutReport.setOccupiedStatus(point, props.instance, 0)
+}
 
 const resetTransform = () => {
     zoom.value = 1
@@ -168,21 +196,16 @@ const showContextMenu = function (e: PointerEvent, point) {
     }
     showingContextMenu.value = true
     selectedPoint.value = point
-    // contextX.value = e.srcElement.offsetLeft + 15
-    // contextY.value = e.srcElement.offsetTop + 10
     contextX.value = e.pageX
     contextY.value = e.pageY
-    parentWidth.value = e.srcElement.parentElement.offsetWidth
-
-    const popOverDialog = document.getElementById(`map_popover_${point.zone_id}`)
-    console.log(popOverDialog)
-    popOverDialog.popover = "auto"
-    popOverDialog.showPopover()
-
-    const srcBtn = e.target
-    srcBtn.popoverTargetElement = popOverDialog
-    srcBtn.popoverTargetAction = "toggle"
-
+}
+const isOccupied = (point) => {
+    if (!point) return
+    const mob = props.scoutReport.getMobOnPoint(point, props.instance)
+    if (!mob) {
+        return false
+    }
+    return (mob.mob_id === null)
 }
 const closeOccupyDialog = () => {
     showingContextMenu.value = false
@@ -231,5 +254,17 @@ li.btn-nav {
             color: #555b61;
         }
     }
+}
+</style>
+<style>
+/* ContextMenu */
+@reference '@resources/css/app.css';
+
+.mx-context-menu {
+    @apply p-0 rounded-sm;
+}
+
+.mx-context-menu-item {
+    @apply p-1 px-2 text-sm rounded-md;
 }
 </style>

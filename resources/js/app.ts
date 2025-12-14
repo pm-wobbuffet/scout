@@ -10,6 +10,8 @@ import emitter from './mitt';
 import axios from 'axios';
 import Toast from 'vue-toastification';
 import { useToast } from 'vue-toastification';
+import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
+import ContextMenu from '@imengyu/vue3-context-menu'
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -41,6 +43,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(Toast, {})
+            .use(ContextMenu)
             .provide('emitter', emitter)
             .provide('Toast', toast)
             .mount(el);
