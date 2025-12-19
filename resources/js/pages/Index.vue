@@ -30,7 +30,7 @@
 import { Head, useForm } from '@inertiajs/vue3';
 import ScoutLayout from '@/layouts/ScoutLayout.vue';
 import Scouter from '@/classes/Scouter';
-import { onBeforeMount, onMounted, ref, watch, provide, inject, onBeforeUnmount } from 'vue';
+import { onMounted, ref, watch, provide, inject, onBeforeUnmount } from 'vue';
 import ScoutReport from '@/classes/ScoutReport';
 import ScoutContainer from '@/components/ScoutContainer.vue';
 import {
@@ -41,7 +41,6 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
@@ -53,7 +52,7 @@ const props = defineProps({
 // let scouter = null
 const scouter = new Scouter(props.expac)
 const scout_report = ref(null)
-scout_report.value = new ScoutReport({}, scouter)
+scout_report.value = new ScoutReport({ default_expac_id: props.defaultId }, scouter)
 const editmode = ref(true)
 const emitter = inject('emitter')
 const showingSavedDataDialogue = ref(false)
@@ -79,11 +78,6 @@ const discardSaved = () => {
     closeModal()
 }
 
-onBeforeMount(() => {
-    // scouter = new Scouter(props.expac)
-    // scout_report.value = new ScoutReport({}, scouter)
-
-})
 onMounted(() => {
     if (window && window.localStorage) {
         if (localStorage.getItem('scout-in-progress') != null

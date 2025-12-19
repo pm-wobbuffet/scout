@@ -3,9 +3,11 @@
         <template #default="{ disableInteraction }">
             <vue-zoomable :initial-zoom="1" :min-zoom="1" :selector="`div.zone-map-container`"
                 class="w-full relative border select-none" v-model:pan="pan" v-model:zoom="zoom" :mouse-enabled="true"
-                :dbl-click-enabled="false" v-bind:disabled="disableInteraction" @zoom="checkZoomConstraints">
+                :dbl-click-enabled="false" v-bind:disabled="disableInteraction" @zoom="checkZoomConstraints"
+                @dblclick.prevent="handleDoubleClick">
                 <div draggable="false" class="zone-map-container" @contextmenu.prevent="">
-                    <img class="" :src="mapImage" draggable="false" alt="Map of the zone" width="1024" height="1024" />
+                    <img class="" :src="mapImage" draggable="false" alt="Map of the zone" width="1024" height="1024"
+                        @mousemove.self="handleMouseOver" @mouseout="handleMouseOut" />
                     <slot name="aetherytes" v-if="showAetherytes">
                         <div v-for="aetheryte in zone.aetherytes" class="aetheryte"
                             :key="`aetheryte-${aetheryte.id}-${props.instance}`" :style="{
@@ -66,6 +68,12 @@
                             <div v-if="is_hovered" class="zone-coords">{{ x_hover }}, {{ y_hover }}</div>
                         </div>
                     </slot>
+                    <div class="absolute flex items-center bottom-1 left-1 text-center text-xs bg-[rgba(0,0,0,0.5)] hover:bg-black font-bold px-2 py-1 text-white dark:text-slate-200"
+                        v-if="props.zone.allow_custom_points && props.editmode == true">
+                        <TriangleAlert class="text-yellow-600 font-bold mr-1" :size="18" />
+                        <span class="text-xs">Spawn points unknown. Double click or use Import to add spawn
+                            points.</span>
+                    </div>
                 </div>
                 <template #buttons>
                     <div
@@ -123,7 +131,7 @@ import ScoutReport from '@/classes/ScoutReport';
 // import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
 import { Zone } from '@/types/gametypes';
-import { SkullIcon } from 'lucide-vue-next';
+import { SkullIcon, TriangleAlert } from 'lucide-vue-next';
 import { computed, reactive, ref } from 'vue';
 // import ScrollOverlay from '@/components/ScrollOverlay.vue';
 import VueZoomable, { ScrollOverlay, ZoomableEvent } from "vue-zoomable";
@@ -152,6 +160,8 @@ const props = withDefaults(defineProps<Props>(), {
 // Variables to handle transforms of the map image
 const zoom = ref(1)
 const pan = ref({ x: 0, y: 0 })
+const x_hover = ref(0)
+const y_hover = ref(0)
 const is_hovered = ref(false)
 
 // Variables used by the Occupied contextmenu
@@ -168,7 +178,42 @@ const optionsComponent = reactive<MenuOptions>({
     zIndex: 3,
     x: contextX,
     y: contextY
-});
+})
+
+const getXYForEvent = function (event) {
+    const x = Number(event.offsetX / event.srcElement.clientWidth * props.zone.max_coord_size + 1).toFixed(1)
+    const y = Number(event.offsetY / event.srcElement.clientHeight * props.zone.max_coord_size + 1).toFixed(1)
+    return { 'x': x, 'y': y }
+}
+
+const handleDoubleClick = function (e) {
+    // No need to handle this if we don't allow custom points
+    if (!props.zone.allow_custom_points) return
+    if (!props.editmode) return
+
+    const { x, y } = getXYForEvent(e)
+    let point = props.scoutReport.getClosestPoint(props.zone, x, y, 2)
+    // If they double click too closely to an existing point, ignore it
+    // Ideally I'd trigger it on the point, but let's leave that as a TODO
+    // TODO: Trigger point assignment
+
+    if (point.distance && point.distance < 2) return
+
+    // Create a new custom point for this
+    point = props.scoutReport.createCustomPoint(props.zone, x, y)
+    props.scoutReport.cycleMobOnPoint(point, props.instance)
+
+}
+
+const handleMouseOver = function (event) {
+    const { x, y } = getXYForEvent(event)
+    x_hover.value = x
+    y_hover.value = y
+    is_hovered.value = true
+}
+const handleMouseOut = function () {
+    is_hovered.value = false
+}
 
 const emitOccupied = function (point, isOccupied) {
     if (isOccupied) {

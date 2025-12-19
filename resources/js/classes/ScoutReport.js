@@ -11,7 +11,7 @@ export default class ScoutReport {
     instance_data = {}
     scouts = []
     dead_mobs = []
-    selected_expansion_id = 5
+    selected_expansion_id = 7
     emitter = null
     scouter_instance = null
 
@@ -31,12 +31,12 @@ export default class ScoutReport {
 
     handleDataFields(data) {
         if ('instance_data' in data) {
-            // data.instance_data.forEach((el) => {
-            //     this.instance_data[el.zone_id] = el.instance_count
-            // })
             this.instance_data = data.instance_data
         } else {
             this.instance_data = this.constructDefaultInstanceData()
+        }
+        if ('default_expac_id' in data) {
+            this.selected_expansion_id = data.default_expac_id
         }
         this.point_data = data.points ?? []
         this.dead_mobs = data.dead_mobs ?? []

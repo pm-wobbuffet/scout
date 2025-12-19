@@ -28,7 +28,7 @@
                 <Link as="button" method="post" :href="route('scout.clone', { scout: scout })" :preserve-state="false"
                     v-if="(scout?.id && !props.editmode)"
                     class="bg-blue-400 p-2 rounded-md text-slate-100 flex items-center gap-x-1">
-                <Copy class="inline-block" /> Duplicate
+                    <Copy class="inline-block" /> Duplicate
                 </Link>
             </div>
         </nav>
@@ -50,7 +50,7 @@
                                     :key="`fieldset-zone-${zone.id}-${i}`">
                                     <legend>{{ zone.name }}
                                         <span v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
-                                            }}</span>
+                                        }}</span>
                                     </legend>
                                     <div v-for="mobPoint in props.scoutReport.getFoundMobInfoForZone(zone.id, i)"
                                         :key="`moblist-${zone.id}-${i}-${mobPoint.id}`">
@@ -77,7 +77,7 @@ import SettingsPopover from '@/components/dialogs/SettingsDialog.vue';
 import SortOrderPopover from '@/components/popovers/SortOrderPopover.vue';
 import { SquareArrowRight, Files, Copy } from 'lucide-vue-next';
 import { Link } from '@inertiajs/vue3';
-import { inject, onMounted, ref } from 'vue';
+import { inject, ref } from 'vue';
 // import { useToast } from 'vue-toastification';
 import { useClipboard } from '@vueuse/core';
 import { intToInstanceMapping, formatCoordinate, getDisplayName } from '@/classes/helpers';
@@ -89,7 +89,6 @@ const props = defineProps({
     defaultId: Number,
 })
 const scout = inject('scout', null)
-let toast = inject('Toast')
 
 const showMarkOverlay = ref(false)
 
