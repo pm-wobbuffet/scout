@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\QueryException;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -17,7 +18,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('scouts', function (Blueprint $table) {
-            \DB::unprepared('ALTER TABLE scouts DROP CHECK scouts_chk_3');
+            try {
+                \DB::unprepared('ALTER TABLE scouts DROP CHECK scouts_chk_3');
+            } catch (QueryException $e) {
+                Log::debug('Skip constraint drop');
+            }
+
             $table->renameColumn('custom_points', 'old_custom_points');
         });
     }
