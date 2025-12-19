@@ -3,8 +3,8 @@
         <template #default="{ disableInteraction }">
             <vue-zoomable :initial-zoom="1" :min-zoom="1" :selector="`div.zone-map-container`"
                 class="w-full relative border select-none" v-model:pan="pan" v-model:zoom="zoom" :mouse-enabled="true"
-                :dbl-click-enabled="false" v-bind:disabled="disableInteraction">
-                <div draggable="false" class="zone-map-container">
+                :dbl-click-enabled="false" v-bind:disabled="disableInteraction" @zoom="checkZoomConstraints">
+                <div draggable="false" class="zone-map-container" @contextmenu.prevent="">
                     <img class="" :src="mapImage" draggable="false" alt="Map of the zone" width="1024" height="1024" />
                     <slot name="aetherytes" v-if="showAetherytes">
                         <div v-for="aetheryte in zone.aetherytes" class="aetheryte"
@@ -22,7 +22,7 @@
                             @contextToggled.prevent.stop="showContextMenu($event, point)"
                             @long-press.prevent="showContextMenu($event, point)" />
                         <context-menu ref="cmRef" v-model:show="showingContextMenu" :options="optionsComponent">
-                            <template #itemRender="{ disabled, label, icon, showRightArrow, onClick, onMouseEnter }">
+                            <template #itemRender="{ disabled, label, showRightArrow, onClick, onMouseEnter }">
                                 <div :class="'mx-context-menu-item' + (disabled ? ' disabled' : '')" @click="onClick"
                                     @mouseenter="onMouseEnter">
                                     <span>{{ label }}</span>
@@ -35,11 +35,6 @@
                             <context-menu-item label="Mark Unoccupied" v-else
                                 @click="emitOccupied(selectedPoint, 0)"></context-menu-item>
                         </context-menu>
-                        <!-- <PointOccupiedDialog :x="contextX" :y="contextY" :point="selectedPoint" popover
-                            :id="`map_popover_${zone.id}`" v-show="showingContextMenu" :instance="props.instance"
-                            :parent-width="parentWidth" :style="{
-                                'zoom': (1 / zoom).toFixed(2)
-                            }" @dialogClosed="closeOccupyDialog" /> -->
                     </slot>
                 </div>
                 <div>
@@ -125,15 +120,15 @@
 <script setup lang="ts">
 import { convertCoordToPercent, getDisplayName, intToInstanceMapping } from '@/classes/helpers';
 import ScoutReport from '@/classes/ScoutReport';
-import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
+// import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
 import { Zone } from '@/types/gametypes';
 import { SkullIcon } from 'lucide-vue-next';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 // import ScrollOverlay from '@/components/ScrollOverlay.vue';
-import VueZoomable, { ScrollOverlay } from "vue-zoomable";
+import VueZoomable, { ScrollOverlay, ZoomableEvent } from "vue-zoomable";
 import "vue-zoomable/dist/style.css";
-import { type MenuOptions, ContextMenu, ContextMenuGroup, ContextMenuSeparator, ContextMenuItem } from '@imengyu/vue3-context-menu';
+import { type MenuOptions, ContextMenu, ContextMenuItem } from '@imengyu/vue3-context-menu';
 // import ContextMenu from '@imengyu/vue3-context-menu';
 
 interface Props {
@@ -165,7 +160,7 @@ const showingContextMenu = ref(false)
 const selectedPoint = ref(null)
 const contextX = ref(0)
 const contextY = ref(0)
-const parentWidth = ref(0)
+// const parentWidth = ref(0)
 
 const optionsComponent = reactive<MenuOptions>({
     iconFontClass: 'iconfont',
@@ -194,10 +189,13 @@ const showContextMenu = function (e: PointerEvent, point) {
     if (mob && mob.mob_id != null) {
         return
     }
+
+    const bRect = e.target.getBoundingClientRect()
     showingContextMenu.value = true
     selectedPoint.value = point
-    contextX.value = e.pageX
-    contextY.value = e.pageY
+    // @todo when css anchor() is supported in Firefox, revisit all this to see about using anchor elements for popover UI stuff
+    contextX.value = bRect.left + 25
+    contextY.value = bRect.top
 }
 const isOccupied = (point) => {
     if (!point) return
@@ -207,22 +205,36 @@ const isOccupied = (point) => {
     }
     return (mob.mob_id === null)
 }
-const closeOccupyDialog = () => {
-    showingContextMenu.value = false
-}
+// const closeOccupyDialog = () => {
+//     showingContextMenu.value = false
+// }
 
 const toggleMobStatus = function (mob) {
     if (!props.editmode) return
     props.scoutReport.toggleMobStatus(mob.id, props.instance)
 }
 
+const checkZoomConstraints = (e: ZoomableEvent) => {
+    if (e.zoom <= 1) {
+        zoom.value = 1
+        pan.value = { x: 0, y: 0 }
+    }
+}
+
 const zoomIn = () => {
-    if (zoom.value >= 2.8) return
+    if (zoom.value >= 2.8) {
+        zoom.value = 2.8
+        return
+    }
     zoom.value += 0.2
 }
 
 const zoomOut = () => {
-    if (zoom.value <= 1) return
+    if (zoom.value <= 1) {
+        zoom.value = 1
+        pan.value = { x: 0, y: 0 }
+        return
+    }
     zoom.value -= 0.2
 }
 

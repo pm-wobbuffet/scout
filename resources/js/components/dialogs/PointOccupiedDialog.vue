@@ -31,20 +31,12 @@ onMounted(() => {
     useEventListener(document.body, 'click', (e) => {
         emit('dialog-closed')
     })
-    // document.body.addEventListener('click', (e) => {
-    //     emit('dialog-closed')
-    // })
 })
 
 const computedStyle = computed(() => {
     if (!point) {
         return { top: '0px', left: '0px' }
     }
-    // if (x + contextDiv.value.offsetWidth >= parentWidth) {
-    //     // Need to right align
-    //     return { top: `${y}px`, left: `${x - contextDiv.value.offsetWidth - 30}px` }
-    // }
-    // return { top: `${y}px`, left: `${x}px` }
     return {
         top: 'calc(anchor(bottom) + 10px)',
         left: 'calc(anchor(left) - 10px)',
