@@ -3,11 +3,11 @@
         <template #default="{ disableInteraction }">
             <vue-zoomable :initial-zoom="1" :min-zoom="1" :selector="`div.zone-map-container`"
                 class="w-full relative border select-none" v-model:pan="pan" v-model:zoom="zoom" :mouse-enabled="true"
-                :dbl-click-enabled="false" v-bind:disabled="disableInteraction" @zoom="checkZoomConstraints"
-                @dblclick.prevent="handleDoubleClick">
+                :dbl-click-enabled="false" v-bind:disabled="disableInteraction" @zoom="checkZoomConstraints">
                 <div draggable="false" class="zone-map-container" @contextmenu.prevent="">
                     <img class="" :src="mapImage" draggable="false" alt="Map of the zone" width="1024" height="1024"
-                        @mousemove.self="handleMouseOver" @mouseout="handleMouseOut" />
+                        @mousemove.self="handleMouseOver" @mouseout="handleMouseOut"
+                        @dblclick.prevent="handleDoubleClick" />
                     <slot name="aetherytes" v-if="showAetherytes">
                         <div v-for="aetheryte in zone.aetherytes" class="aetheryte"
                             :key="`aetheryte-${aetheryte.id}-${props.instance}`" :style="{

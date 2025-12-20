@@ -88,8 +88,6 @@ main.map-main-window {
 
 .map-container-block {
     @apply border border-slate-200 relative bg-contain select-none min-w-[400px] md:min-w-[50%] aspect-square max-w-[99vw] dark:brightness-75;
-
-    
 }
 button.spawn-pt-btn {
     @apply rounded-full bg-black/50 absolute translate-x-[-50%] translate-y-[-50%] ring-2 ring-black flex items-center justify-center p-0 text-center font-mono cursor-pointer;
@@ -147,9 +145,8 @@ button.spawn-pt-btn:hover:after {
     line-height: 100%;
 }
 
-
 .mob-list {
-    @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] text-lg font-bold rounded-br-lg;
+    @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] font-bold rounded-br-lg;
 
     li {
         @apply bg-transparent;
@@ -168,9 +165,10 @@ button.spawn-pt-btn:hover:after {
     }
 }
 .zone-name {
-    @apply text-black text-lg font-bold text-right absolute right-[10px] top-[5px] tracking-wider block;
+    @apply text-black text-lg font-bold text-right absolute right-1 top-1 tracking-wider block origin-top-right scale-90;
     div.zone-name-text {
-        @apply text-black text-lg font-extrabold text-right tracking-wider;
+        @apply bg-[rgba(0,0,0,0.5)] hover:bg-[rgba(0,0,0,0.9)] text-white rounded-md px-2 block;
+        /* @apply text-black text-lg font-extrabold text-right tracking-wider;
         -webkit-text-stroke: 3px white;
         -webkit-text-fill-color: black;
         paint-order: stroke fill;
@@ -178,7 +176,7 @@ button.spawn-pt-btn:hover:after {
             1px 1px 1px #ffffff,
             -1px 1px 1px #ffffff,
             -1px -1px 1px #ffffff,
-            1px -1px 1px #ffffff;
+            1px -1px 1px #ffffff; */
     }
     div.zone-coords {
         @apply bg-[rgba(0,0,0,0.5)] hover:bg-[rgba(0,0,0,0.9)] text-white rounded-full px-2 text-sm inline-block;
