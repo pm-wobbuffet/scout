@@ -229,6 +229,7 @@ const getMacroString = () => {
 
 const updateMobCounts = () => {
     //console.log(mobCounts.value, selectedExpansions.value)
+    mobCounts.value = {}
     scout.value.scouter_instance.expansion_data.forEach((expac) => {
         if (scout.value.getFoundMobCountForExpansion(expac.id) > 0) {
             if (!selectedExpansions.value.includes(expac.id)) {
@@ -245,10 +246,9 @@ onMounted(() => {
     selectedExpansions.value = []
     updateMobCounts()
 })
-// onUpdated(() => {
-//     updateMobCounts()
-// })
+
 watch(() => scout.value.point_data, () => updateMobCounts(), { deep: true })
+watch(() => scout.value.instance_data, () => updateMobCounts(), { deep: true })
 
 </script>
 
