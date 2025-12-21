@@ -80,7 +80,7 @@
                         class="absolute bottom-2 right-2 scale-75 origin-bottom-right xl:bottom-4 xl:right-4 xl:scale-75">
                         <ul class="list-none">
                             <li class="btn-nav border-b-[#dee2e6] rounded-t-md">
-                                <a @pointerdown.left="ev => resetTransform(ev)">
+                                <a @pointerdown.left="resetTransform">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round" class="feather feather-minimize-2">
@@ -92,7 +92,7 @@
                                 </a>
                             </li>
                             <li class="btn-nav border-b-[#dee2e6]">
-                                <a @pointerdown.left="ev => zoomIn(ev)">
+                                <a @pointerdown.left="zoomIn">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round" class="feather feather-zoom-in">
@@ -104,7 +104,7 @@
                                 </a>
                             </li>
                             <li class="btn-nav rounded-b-md border-b-[#dee2e6]">
-                                <a @pointerdown.left="ev => zoomOut(ev)">
+                                <a @pointerdown.left="zoomOut">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round" class="feather feather-zoom-out">
@@ -130,7 +130,7 @@ import { convertCoordToPercent, getDisplayName, intToInstanceMapping } from '@/c
 import ScoutReport from '@/classes/ScoutReport';
 // import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';
-import { Zone } from '@/types/gametypes';
+import { type Zone } from '@/types/gametypes';
 import { SkullIcon, TriangleAlert } from 'lucide-vue-next';
 import { computed, reactive, ref } from 'vue';
 // import ScrollOverlay from '@/components/ScrollOverlay.vue';
@@ -180,13 +180,13 @@ const optionsComponent = reactive<MenuOptions>({
     y: contextY
 })
 
-const getXYForEvent = function (event) {
-    const x = Number(event.offsetX / event.srcElement.clientWidth * props.zone.max_coord_size + 1).toFixed(1)
-    const y = Number(event.offsetY / event.srcElement.clientHeight * props.zone.max_coord_size + 1).toFixed(1)
+const getXYForEvent = function (event: PointerEvent) {
+    const x = (event.offsetX / (<HTMLElement>event.target).clientWidth * props.zone.max_coord_size + 1).toFixed(1)
+    const y = (event.offsetY / (<HTMLElement>event.target).clientHeight * props.zone.max_coord_size + 1).toFixed(1)
     return { 'x': x, 'y': y }
 }
 
-const handleDoubleClick = function (e) {
+const handleDoubleClick = function (e: PointerEvent) {
     // No need to handle this if we don't allow custom points
     if (!props.zone.allow_custom_points) return
     if (!props.editmode) return
