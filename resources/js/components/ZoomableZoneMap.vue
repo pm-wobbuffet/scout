@@ -207,10 +207,11 @@ const handleDoubleClick = function (e: PointerEvent) {
 
 const handleMouseOver = function (event) {
     const { x, y } = getXYForEvent(event)
-    x_hover.value = x
-    y_hover.value = y
+    x_hover.value = Number(x)
+    y_hover.value = Number(y)
     is_hovered.value = true
 }
+
 const handleMouseOut = function () {
     is_hovered.value = false
 }
@@ -242,6 +243,7 @@ const showContextMenu = function (e: PointerEvent, point) {
     contextX.value = bRect.left + 25
     contextY.value = bRect.top
 }
+
 const isOccupied = (point) => {
     if (!point) return
     const mob = props.scoutReport.getMobOnPoint(point, props.instance)
