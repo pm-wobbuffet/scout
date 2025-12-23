@@ -19,7 +19,7 @@
 
             <div class="text-red-600 font-mono" v-if="failLines">
                 <ul>
-                    <li v-for="line in failLines">
+                    <li v-for="line in failLines" :key="`line-${line}`">
                         {{ line.line }}: {{ line.reason }}
                     </li>
                 </ul>
@@ -52,7 +52,7 @@ import {
     DialogTitle,
     DialogTrigger
 } from '@/components/ui/dialog';
-import { ImportIcon } from 'lucide-vue-next';
+// import { ImportIcon } from 'lucide-vue-next';
 import { inject, ref } from 'vue';
 
 
@@ -63,15 +63,15 @@ const failLines = ref([])
 const linesImportedMessage = ref('')
 const txtChatInput = ref(``)
 
-const handlePaste = (event) => {
-    const pastedData = (event.clipboardData || window.clipboardData).getData('text')
+const handlePaste = () => {
+    // const pastedData = (event.clipboardData || window.clipboardData).getData('text')
     importCoordinates()
 }
 
 const importCoordinates = () => {
     //console.log(txtChatInput.value)
     failLines.value = []
-    let updatedZones = {}
+    const updatedZones = {}
     const { fail, success } = parseLog(txtChatInput.value, scoutReport)
 
     success.forEach((mobSighting) => {

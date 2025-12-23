@@ -2,7 +2,6 @@
  * Text functions related to coordinate import
  */
 
-import ScoutReport from "@/classes/ScoutReport"
 
 // mapping of Unicode characters used in-game for Instance markers
 const instanceToIntMapping = {
@@ -101,3 +100,37 @@ export const parseLog = (logLines, scoutReport) => {
     return assignments
 }
 
+export const parseChatCoordinates = (chatMessages, scoutReport, emitter) => {
+    const { fail, success } = parseLog(chatMessages, scoutReport)
+    const updatedZones = {}
+    const failLines = []
+
+    success.forEach((mobSighting) => {
+        const res = scoutReport.value.importMobFromClipboard(mobSighting.info)
+        if (res.status && res.status == 'failure') {
+            fail.push({
+                line: mobSighting.line,
+                reason: res.reason,
+            })
+        }
+        // Track the zones we updated as part of this import to send server-side
+        updatedZones[`${mobSighting.info.zone.id}-${mobSighting.info.instance}`] = 1
+    })
+
+    if (fail && fail.length > 0) {
+        fail.forEach((row) => {
+            failLines.push(row)
+        })
+    }
+
+    if (success.length - fail.length > 0) {
+        emitter.emit('import:zones-updated', {
+            zonelist: Object.keys(updatedZones)
+        })
+    }
+    return {
+        successful: success.length - fail.length,
+        failed: fail.length,
+        zones_affected: Object.keys(updatedZones)
+    }
+}
