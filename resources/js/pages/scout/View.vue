@@ -41,6 +41,7 @@ configureEcho({
 const editmode = computed(() => {
     return props.scout.collaborator_password && props.scout.finalized_at === null
 })
+const toast = inject('Toast')
 provide('connectionStatus', wsConnection)
 provide('scoutReport', scout_report)
 provide('scout', props.scout)
@@ -86,6 +87,10 @@ if (props.scout.finalized_at === null) {
     })
     useEchoPublic(channelName, '.FinalizeReport', () => {
         router.get(route('scout.view', { scout: props.scout }))
+    })
+    useEchoPublic(channelName, '.VersionReverted', () => {
+        router.visit(route('scout.view', { scout: props.scout, password: props.scout?.collaborator_password }))
+        toast.success("Version reverted by another user.")
     })
 }
 
@@ -134,14 +139,6 @@ onMounted(() => {
                 }
             })
     })
-    // emitter.on('point:assign-mob', debounce((obj) => {
-    //     axInstance.post(route('scout.assignmob', routeParams), { ...obj })
-    //         .then((data) => {
-    //             if ('custom_points' in data.data) {
-    //                 scout_report.value.processCustomPointValues(data.data.custom_points)
-    //             }
-    //         })
-    // }, 800))
 
     emitter.on('point:clear', (obj) => {
         axInstance.post(route('scout.clearpoint', routeParams), { ...obj })

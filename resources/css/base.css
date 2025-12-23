@@ -25,7 +25,7 @@ nav.main-nav {
 html,
 body,
 .map-main-window {
-    @apply bg-white dark:bg-slate-700;
+    @apply bg-(--background) dark:bg-slate-700;
 }
 
 dialog {

@@ -13,6 +13,7 @@ use App\Http\Resources\ScoutVersionResource;
 use App\Models\Expansion;
 use App\Models\Scout;
 use App\Models\Zone;
+use App\Traits\BroadcastsScoutingEvents;
 use App\Traits\UpdatesScoutReports;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -24,7 +25,7 @@ use Inertia\Inertia;
 
 class ScoutController extends Controller
 {
-    use UpdatesScoutReports;
+    use UpdatesScoutReports, BroadcastsScoutingEvents;
 
     /**
      * Store a scouting report to the database
@@ -215,6 +216,7 @@ class ScoutController extends Controller
         });
 
         // @todo: add websocket event to let users know the reversion happened
+        $this->VersionReverted($scout);
         $this->sendReportModifiedEvent($scout, [
             'name' => "Reverted to Previous Version ({$request->validated('version_number')})",
         ]);

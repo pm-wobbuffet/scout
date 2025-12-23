@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Events\Scout\PointOccupancyChanged;
 use App\Events\Scout\UpdateAllMobStatus;
+use App\Events\Scout\VersionReverted;
 use App\Events\Scout\ZoneMultipleOccupancyChanged;
 use App\Models\Scout;
 
@@ -39,5 +40,16 @@ trait BroadcastsScoutingEvents
             $zone_id,
             $instance_number
         ))->toOthers();
+    }
+
+    /**
+     * Indicate that a version reversion requested was successfully processed to other listening clients
+     *
+     * @param Scout $scout
+     * @return void
+     */
+    public function VersionReverted(Scout $scout): void
+    {
+        broadcast(new VersionReverted($scout))->toOthers();
     }
 }

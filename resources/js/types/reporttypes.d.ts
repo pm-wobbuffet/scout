@@ -1,4 +1,15 @@
-
+export interface ScoutReportData {
+    id?: number,
+    slug: string,
+    title?: string,
+    collaborator_password?: string,
+    dead_mobs?: Array,
+    instance_data?: Array,
+    points?: ScoutPoint[],
+    custom_points?: ScoutCustomPoint[],
+    scouts?: Array,
+    finalized_at?: Date,
+}
 export type ScoutReport = {
     id?: number,
     slug: string,
