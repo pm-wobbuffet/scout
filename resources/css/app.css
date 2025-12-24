@@ -147,6 +147,7 @@
     --background: hsl(0 0% 95%);
     --background-darker: hsl(0 0% 90%);
     --background-lighter: hsl(0 0% 98%);
+    --nav-background: hsl(0, 0%, 60%);
     --foreground: hsl(0 0% 3.9%);
     --card: hsl(0 0% 100%);
     --card-foreground: hsl(0 0% 3.9%);
@@ -181,8 +182,8 @@
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
     --sidebar: hsl(0 0% 98%);
     --mob-button-min-width: 8px;
-    --mob-button-width: 2rem;
-    --mob-button-max-width: 20px;
+    --mob-button-width: 1.5rem;
+    --mob-button-max-width: 18px;
     --sidebar-width: 200px;
     --sidebar-max-link-width: 150px;
     --mob-one-color: var(--color-green-500);

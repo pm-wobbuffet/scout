@@ -46,7 +46,6 @@ export const parseLog = (logLines, scoutReport) => {
             let x = parseFloat(found[3])
             let y = parseFloat(found[4])
             let zone = scouter.getZoneByName(zoneName)
-            let point = null
 
             if (found[2]) {
                 // Check for instance information

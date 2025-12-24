@@ -1,6 +1,6 @@
 <template>
     <div class="min-w-full min-h-[100vh]">
-        <nav class="main-nav">
+        <nav class="main-nav shadow-md">
             <div class="shrink hidden md:block">
                 <a href="/"><img src="/turtleknife.png" height="40" width="90" class="inline"
                         alt="Turtle Scout Logo, friendly turtle with a knife" /></a>
@@ -89,6 +89,7 @@ const props = defineProps({
     defaultId: Number,
 })
 const scout = inject('scout', null)
+const toast = inject('Toast')
 
 const showMarkOverlay = ref(false)
 
