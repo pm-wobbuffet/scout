@@ -35,7 +35,7 @@
                                     i }}</span>
                             <i class="text-sm ml-2 text-black dark:text-slate-200">{{
                                 props.scoutReport.getFoundMobCountForZone(zone.id, i)
-                                }}/{{ zone.mobs.length }}
+                            }}/{{ zone.mobs.length }}
                             </i>
                         </li>
                     </template>
@@ -109,13 +109,13 @@ const visibleMaps = ref({})
 
 onBeforeMount(() => {
     scouter.value = props.scoutReport.scouter_instance
+})
+
+onMounted(() => {
     observer = new IntersectionObserver(handleIntersectionObserve, {
         root: null,
         rootMargin: "-10px"
     })
-})
-
-onMounted(() => {
     document.querySelectorAll('.map-container-block').forEach((mapBlock) => {
         observer.observe(mapBlock)
     })
