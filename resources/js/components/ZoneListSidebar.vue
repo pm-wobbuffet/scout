@@ -1,11 +1,11 @@
 <template>
     <aside
         class="md:left-auto ml-1 self-start order-1 bg-(--background) dark:bg-slate-800 text-nowrap whitespace-nowrap">
-        <div class="border border-gray-400">
+        <div class="border border-gray-400 bg-(--background-lighter)">
             <div class="font-bold bg-slate-300 pl-1 hidden md:block dark:bg-slate-700 dark:text-slate-300"
                 v-if="props.scoutReport.title != ''">
                 <div class="text-sm max-w-[200px] overflow-hidden overflow-ellipsis" :title="props.scoutReport.title">{{
-                    props.scoutReport.title }}
+                    props.scoutReport.title ?? 'Untitled Scouting Report' }}
                 </div>
             </div>
             <ScoutReportOptions />
@@ -35,7 +35,7 @@
                                     i }}</span>
                             <i class="text-sm ml-2 text-black dark:text-slate-200">{{
                                 props.scoutReport.getFoundMobCountForZone(zone.id, i)
-                            }}/{{ zone.mobs.length }}
+                                }}/{{ zone.mobs.length }}
                             </i>
                         </li>
                     </template>

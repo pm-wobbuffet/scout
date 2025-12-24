@@ -1,10 +1,9 @@
 <template>
-    <div class="mt-2 border border-gray-400">
+    <div class="mt-2 border border-gray-400 bg-(--background-lighter)">
         <div class="font-bold bg-slate-300 pl-1 text-sm dark:bg-slate-700 dark:text-slate-300">Quick Paste</div>
         <div>
-            <form class="text-sm" @submit.prevent="">
-                <textarea placeholder="Paste chat log here" class="w-full border border-(--accent)" rows="1"
-                    @paste="pastedLine" />
+            <form class="text-sm p-1" @submit.prevent="">
+                <textarea placeholder="Paste chat log here" class="w-full resize-none" rows="1" @paste="pastedLine" />
             </form>
         </div>
     </div>
