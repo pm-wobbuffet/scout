@@ -25,7 +25,13 @@ const pastedLine = (ev: ClipboardEvent) => {
 
     // parseLog(pastedTxt, scoutReport)
     const results = parseChatCoordinates(pastedTxt, scoutReport, emitter)
-    if (results.successful > 0) toast.success('Lines Imported')
+    if (results.successful > 0 && results.failed > 0) {
+        toast.warning(`${results.successful} lines imported; ${results.failed} lines failed`)
+    } else if (results.successful > 0) {
+        toast.success(`${results.successful} lines imported`)
+    } else if (results.failed > 0) {
+        toast.error('No lines were imported')
+    }
 }
 
 </script>
