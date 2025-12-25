@@ -146,7 +146,7 @@ button.spawn-pt-btn:hover:after {
 }
 
 .mob-list {
-    @apply bg-[rgba(0,0,0,0.5)] py-2 px-3 hover:bg-[rgba(0,0,0,0.9)] font-bold rounded-br-lg;
+    @apply bg-[rgba(0,0,0,0.5)] px-4 py-1 hover:bg-[rgba(0,0,0,0.9)] font-bold rounded-br-lg;
 
     li {
         @apply bg-transparent;

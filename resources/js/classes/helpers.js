@@ -1,5 +1,5 @@
-import { useUserSettings } from '@/composables/useUserSettings'
 import dayjs from 'dayjs'
+import { inject } from 'vue'
 
 export const languages = [
     { 'abbrev': 'en', 'name': 'English' },
@@ -21,8 +21,16 @@ export const getDisplayName = function (obj, language) {
     return 'Unknown'
 }
 
-export const getDefaultDisplayName = (obj) => {
-    const { settings } = useUserSettings()
+export const getZoneDisplayName = (zone, language) => {
+    const settings = inject('settings')
+
+    if (zone.spoiler_until && zone.spoiler_until !== null) {
+        // Need to return a spoiler-fied zone name
+        if (dayjs(zone.spoiler_until) > dayjs() && settings.value?.hideZoneSpoilers === true) {
+            return `Zone ${zone.id}`
+        }
+    }
+    return getDisplayName(zone, language)
 }
 
 export const formatCoordinate = function (coord) {

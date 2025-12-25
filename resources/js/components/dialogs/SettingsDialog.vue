@@ -7,8 +7,7 @@
                 <SettingsIcon :size="18" />
             </button>
         </DialogTrigger>
-        <DialogContent class="min-w-[700px] max-w-[100%]" @escape-key-down="dialogOpen = false"
-            @pointer-down-outside="dialogOpen = false">
+        <DialogContent class="" @escape-key-down="dialogOpen = false" @pointer-down-outside="dialogOpen = false">
             <DialogHeader>
                 <DialogTitle>Settings</DialogTitle>
                 <DialogDescription>Edit the settings specified below to customize your Turtle Scout experience.
@@ -48,16 +47,20 @@
                     <div class="setting">
                         <h1>Mob 1 Background Color</h1>
                     </div>
-                    <div>
+                    <div class="flex gap-x-1">
                         <Input type="color" v-model="settings.mobOneColor" />
+                        <Button variant="default" class="text-[#86EFAC]"
+                            @click="settings.mobOneColor = '#86efac'">Default</Button>
                     </div>
                 </div>
                 <div class="settingRow">
                     <div class="setting">
                         <h1>Mob 2 Background Color</h1>
                     </div>
-                    <div>
+                    <div class="flex gap-x-1">
                         <Input type="color" v-model="settings.mobTwoColor" />
+                        <Button variant="default" @click="settings.mobTwoColor = '#93c5fd'"
+                            class="text-[#93C5FD]">Default</Button>
                     </div>
                 </div>
                 <div class="settingRow">
@@ -115,9 +118,8 @@ import Button from '@/components/ui/button/Button.vue';
 import Input from '@/components/ui/input/Input.vue';
 import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import { SettingsIcon } from 'lucide-vue-next';
-import { inject, onMounted, ref } from 'vue';
+import { inject, ref } from 'vue';
 import LanguageSelectorTabs from '@/components/inputs/LanguageSelectorTabs.vue';
-import { useUserSettings } from '@/composables/useUserSettings';
 
 const dialogOpen = ref(false)
 const settings = inject('settings')
@@ -131,7 +133,7 @@ const handleOpen = () => {
 @reference "tailwindcss";
 
 div.settingRow {
-    @apply grid grid-cols-[auto_250px] items-center border-b py-1;
+    @apply grid grid-cols-1 lg:grid-cols-[auto_250px] items-center border-b py-1;
 }
 
 div.setting {

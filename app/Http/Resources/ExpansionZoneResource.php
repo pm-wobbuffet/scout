@@ -5,6 +5,9 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin App\Models\Zone
+ */
 class ExpansionZoneResource extends JsonResource
 {
     /**
@@ -25,6 +28,7 @@ class ExpansionZoneResource extends JsonResource
             'sort_priority'         => $this->sort_priority,
             'allow_custom_points'   => $this->allow_custom_points,
             'default_instances'     => $this->default_instances,
+            'spoiler_until'         => $this->spoiler_until,
             'aetherytes'            => $this->whenLoaded('aetherytes'),
             'mobs'                  => $this->whenLoaded('mobs'),
             'spawn_points'          => $this->whenLoaded('spawn_points'),

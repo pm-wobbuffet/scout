@@ -42,7 +42,7 @@
                 <div>
                     <slot name="moblist" v-if="showMobList">
                         <div class="absolute mob-list top-0 left-0">
-                            <ol class="block list-decimal pl-4">
+                            <ol class="block list-decimal pl-2">
                                 <li v-for="(mob, index) in props.zone.mobs"
                                     :class="`group mob-number-${index} dead-mob-${props.scoutReport.isMobDead(mob.id, props.instance) ? 1 : 0}`"
                                     title="Toggle this mob as being dead/alive. Dead mobs will count toward scouting completion for this zone."
@@ -59,7 +59,7 @@
                     <slot name="zone-name" v-if="showZoneName">
                         <div class="zone-name pointer-events-none">
                             <div class="zone-name-text">
-                                {{ getDisplayName(zone, 'en') }}
+                                {{ getZoneDisplayName(zone, 'en') }}
                                 <span class="mapInstanceNumber"
                                     v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{
                                         intToInstanceMapping[props.instance]
@@ -126,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-import { convertCoordToPercent, getDisplayName, intToInstanceMapping } from '@/classes/helpers';
+import { convertCoordToPercent, getDisplayName, getZoneDisplayName, intToInstanceMapping } from '@/classes/helpers';
 import ScoutReport from '@/classes/ScoutReport';
 // import PointOccupiedDialog from '@/components/dialogs/PointOccupiedDialog.vue';
 import ZoneMapPoint from '@/components/ZoneMapPoint.vue';

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $expansion_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $spoiler_until
  * @property int $size_factor
  * @property string $max_coord_size
  * @property int $allow_custom_points
@@ -55,7 +56,8 @@ class Zone extends Model
     protected function casts(): array
     {
         return [
-            'names' =>  'array',
+            'names'         => 'array',
+            'spoiler_until' => 'datetime',
         ];
     }
 
@@ -64,8 +66,8 @@ class Zone extends Model
     public function totalMobs(): Attribute
     {
         return Attribute::make(
-            get: function(mixed $value) {
-                if($this->relationLoaded('mobs')) {
+            get: function (mixed $value) {
+                if ($this->relationLoaded('mobs')) {
                     return $this->default_instances * $this->mobs->count();
                 }
             }
