@@ -49,8 +49,8 @@
                     </div>
                     <div class="flex gap-x-1">
                         <Input type="color" v-model="settings.mobOneColor" />
-                        <Button variant="default" class="text-[#86EFAC]"
-                            @click="settings.mobOneColor = '#86efac'">Default</Button>
+                        <Button variant="default" class="text-[#00C951]"
+                            @click="settings.mobOneColor = '#00C951'">Default</Button>
                     </div>
                 </div>
                 <div class="settingRow">
@@ -59,8 +59,8 @@
                     </div>
                     <div class="flex gap-x-1">
                         <Input type="color" v-model="settings.mobTwoColor" />
-                        <Button variant="default" @click="settings.mobTwoColor = '#93c5fd'"
-                            class="text-[#93C5FD]">Default</Button>
+                        <Button variant="default" @click="settings.mobTwoColor = '#2B7FFF'"
+                            class="text-[#2B7FFF]">Default</Button>
                     </div>
                 </div>
                 <div class="settingRow">
