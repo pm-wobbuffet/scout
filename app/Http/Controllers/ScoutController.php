@@ -38,7 +38,7 @@ class ScoutController extends Controller
         $scout = Scout::create($request->validated());
 
         // Handle relations
-        $this->handleCustomPoints($scout, $request->validated('custom_points', []));
+        $this->handleCustomPoints($scout, $request->input('custom_points', []));
         $scout->points()->createMany($request->validated('points', []));
         $scout->instances()->sync($request->validated('instance_data', []));
         $scout->dead_mobs()->createMany($request->validated('dead_mobs', []));

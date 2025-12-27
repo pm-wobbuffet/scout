@@ -56,6 +56,7 @@ trait UpdatesScoutReports
                 $p->zone_id = $point['zone_id'];
                 $p->scout_id = $scout->id;
                 $p->internal_id = $point['id']; // Save the mapping
+                $p->assigned_by_import = $point['assigned_by_import'] ?? 0;
                 $p->save();
                 $pts[$point['id']] = $p->id;
             }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\ScoutController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -10,6 +11,9 @@ Route::namespace('\\App\\Http\\Controllers')
     ->group(function () {
         Route::get('/', [MainController::class, 'index'])->name('main');
         Route::post('/', [ScoutController::class, 'store'])->name('scout.store');
+        Route::get('help', [HelpController::class, 'index'])->name('help.index');
+        Route::get('mapping', 'MapController@index')->name('maps.index');
+
         Route::get('/scout/{scout:slug}/{password?}', [ScoutController::class, 'view'])->name('scout.view');
 
         Route::post('/scoutpoint/{scout:slug}/{password?}', 'ScoutPointController@assignMob')->name('scout.assignmob');
@@ -24,8 +28,6 @@ Route::namespace('\\App\\Http\\Controllers')
         Route::post('/scoutinstances/{scout:slug}/{password?}', 'ScoutController@updateInstances')->name('scout.updateinstances');
         Route::post('/finalize/{scout:slug}/{password?}', 'ScoutController@finalize')->name('scout.finalize');
         Route::post('/clone/{scout:slug}', 'ScoutController@clone')->name('scout.clone');
-
-        Route::get('/help', [HelpController::class, 'index'])->name('help.index');
     });
 
 Route::middleware(['auth', 'is_admin'])
