@@ -35,7 +35,17 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class ScoutCustomPoint extends Model
 {
-    protected $fillable = ['id', 'scout_id', 'zone_id', 'x', 'y', 'created_at', 'updated_at', 'internal_id'];
+    protected $fillable = [
+        'id',
+        'scout_id',
+        'zone_id',
+        'x',
+        'y',
+        'created_at',
+        'updated_at',
+        'internal_id',
+        'assigned_by_import'
+    ];
     protected $hidden = ['scout_id'];
     protected $appends = ['point_type'];
 

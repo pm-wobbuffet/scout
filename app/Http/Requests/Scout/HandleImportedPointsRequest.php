@@ -7,6 +7,7 @@ use App\Models\ScoutCustomPoint;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Validate and transform clipboard imported points
@@ -26,12 +27,13 @@ class HandleImportedPointsRequest extends FormRequest
                     // The point has only been created locally, we need to persist it to the DB and substitute in its
                     // valid > 0 value.
                     $pt = ScoutCustomPoint::firstOrCreate([
-                        'scout_id' => $this->scout->id,
-                        'zone_id' => $point['zone_id'],
-                        'x' => $point['x'],
-                        'y' => $point['y'],
+                        'scout_id'  => $this->scout->id,
+                        'zone_id'   => $point['zone_id'],
+                        'x'         => $point['x'],
+                        'y'         => $point['y'],
                     ], [
-                        'internal_id' => $point['point_id'],
+                        'internal_id'           => $point['point_id'],
+                        'assigned_by_import'    => $point['assigned_by_import'],
                     ]);
                     $point['point_id'] = $pt->id;
                 }
@@ -49,17 +51,18 @@ class HandleImportedPointsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'zonelist'                      => 'array',
-            'zonelist.*'                    => 'string',
-            'point_data'                    => 'array',
-            'point_data.*.point_type'       => 'string|in:spawn_point,custom_spawn_point',
-            'point_data.*.zone_id'          => 'integer|required',
-            'point_data.*.mob_id'           => 'integer|nullable',
-            'point_data.*.instance_number'  => 'integer|nullable',
-            'point_data.*.point_id'         => 'required|integer',
-            'point_data.*.x'                => 'numeric|nullable',
-            'point_data.*.y'                => 'numeric|nullable',
-            'custom_points'                 => 'array',
+            'zonelist'                          => 'array',
+            'zonelist.*'                        => 'string',
+            'point_data'                        => 'array',
+            'point_data.*.point_type'           => 'string|in:spawn_point,custom_spawn_point',
+            'point_data.*.zone_id'              => 'integer|required',
+            'point_data.*.mob_id'               => 'integer|nullable',
+            'point_data.*.instance_number'      => 'integer|nullable',
+            'point_data.*.point_id'             => 'required|integer',
+            'point_data.*.x'                    => 'numeric|nullable',
+            'point_data.*.y'                    => 'numeric|nullable',
+            'point_data.*.assigned_by_import'   => 'boolean|nullable',
+            'custom_points'                     => 'array',
         ];
     }
 }

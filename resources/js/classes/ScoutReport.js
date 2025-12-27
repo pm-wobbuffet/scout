@@ -271,7 +271,7 @@ export default class ScoutReport {
                     zone_id: mobInfo.zone.id,
                     x: mobInfo.x,
                     y: mobInfo.y,
-                    assigned_by_import: true,
+                    assigned_by_import: 1,
                 }
                 this.point_data.push(pData)
                 return {
