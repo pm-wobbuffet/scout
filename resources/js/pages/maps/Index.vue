@@ -29,6 +29,7 @@
                         </div>
                     </div>
                 </aside>
+                <MapDetails class="order-2 self-start" :zone="selectedZone" />
             </main>
         </div>
     </ScoutLayout>
@@ -38,6 +39,8 @@
 import ScoutLayout from '@/layouts/ScoutLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import type { Zone } from '@/types/gametypes';
+import MapDetails from './MapDetails.vue';
+import { onMounted, ref } from 'vue';
 
 interface Props {
     expac: {
@@ -49,7 +52,15 @@ interface Props {
     selected_zone?: number
 }
 
+const selectedZone = ref(null)
+
 const props = defineProps<Props>()
+
+onMounted(() => {
+    selectedZone.value = props.expac.zones.find((el) => {
+        return el.id === props.selected_zone
+    })
+})
 
 </script>
 
