@@ -12,7 +12,7 @@
                     <div>Mapping</div>
                 </div>
             </nav>
-            <main class="map-main-window bg-(--background-darker)">
+            <main class="map-main-window bg-(--background-darker) min-h-[80vh]">
                 <aside
                     class="md:left-auto ml-1 self-start order-1 bg-(--background) dark:bg-slate-800 text-nowrap whitespace-nowrap">
                     <div class="border border-gray-400 bg-(--background-lighter) shadow-sm">

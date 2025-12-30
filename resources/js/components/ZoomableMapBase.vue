@@ -1,8 +1,8 @@
 <template>
     <scroll-overlay>
-        <VueZoomable :initial-zoom="1" :selector="`div.zone-map-container`">
+        <VueZoomable :initial-zoom="1" :selector="`div.zone-map-container`" class="h-full">
             <div class="relative zone-map-container w-full h-full">
-                <img :src="mapImage" class="absolute top-0 left-0 w-full aspect-square" />
+                <img :src="mapImage" class="" />
 
                 <slot name="aetherytes" v-if="showAetherytes">
                     <div v-for="aetheryte in zone.aetherytes" class="aetheryte absolute z-10"

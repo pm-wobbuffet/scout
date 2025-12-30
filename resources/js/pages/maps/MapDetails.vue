@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-2 w-full gap-4">
+    <div class="flex w-full gap-2">
         <ZoomableMapBase :zone="props.zone" />
         <Card class="rounded-xl w-full">
             <CardHeader class="px-2 pb-0 text-center">
