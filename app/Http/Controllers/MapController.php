@@ -12,7 +12,7 @@ class MapController extends Controller
     {
         // Get latest expansion in the DB for display
         $expac = Expansion::orderBy('id', 'DESC')
-            ->with(['zones'])
+            ->with(['zones', 'zones.aetherytes'])
             ->first();
 
         $selected_zone = $expac->zones->first()->id;
