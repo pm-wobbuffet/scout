@@ -47,6 +47,7 @@ class ScoutPointController extends Controller
             'instance_number'   => $request->validated('instance_number'),
             'mob_id'            => $request->validated('mob_id'),
             'reporter'          => $request->validated('reporter'),
+            'assigned_by_import' => $request->input('assigned_by_import', false),
             'created_at'        => Carbon::now(),
             'updated_at'        => Carbon::now(),
         ]);

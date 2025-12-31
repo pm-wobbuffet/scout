@@ -23,7 +23,7 @@
                             <ul>
                                 <li v-for="zone in props.expac.zones" :key="`zone-${zone.id}`" class="p-1"
                                     :class="{ 'selected-zone': zone.id == props.selected_zone }">
-                                    {{ zone.name }}
+                                    <Link :href="route('maps.index', { zone: zone.id })">{{ zone.name }}</Link>
                                 </li>
                             </ul>
                         </div>
@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import ScoutLayout from '@/layouts/ScoutLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import type { Zone } from '@/types/gametypes';
 import MapDetails from './MapDetails.vue';
 import { onBeforeMount, onMounted, ref } from 'vue';

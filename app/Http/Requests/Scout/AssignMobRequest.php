@@ -60,6 +60,7 @@ class AssignMobRequest extends FormRequest
             'zone_id'               => 'numeric',
             'reporter'              => 'string|nullable',
             'point'                 => 'array|nullable',
+            'assigned_by_import'    => 'boolean|nullable',
         ];
     }
 }

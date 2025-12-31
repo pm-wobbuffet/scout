@@ -15,6 +15,11 @@ return new class extends Migration
             $table->boolean('assigned_by_import')->default(false);
             $table->index('assigned_by_import');
         });
+
+        Schema::table('scout_points', function (Blueprint $table) {
+            $table->boolean('assigned_by_import')->default(false);
+            $table->index('assigned_by_import');
+        });
     }
 
     /**
@@ -23,6 +28,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('scout_custom_points', function (Blueprint $table) {
+            $table->dropColumn('assigned_by_import');
+        });
+
+        Schema::table('scout_points', function (Blueprint $table) {
             $table->dropColumn('assigned_by_import');
         });
     }

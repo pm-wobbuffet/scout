@@ -12,7 +12,7 @@ Route::namespace('\\App\\Http\\Controllers')
         Route::get('/', [MainController::class, 'index'])->name('main');
         Route::post('/', [ScoutController::class, 'store'])->name('scout.store');
         Route::get('help', [HelpController::class, 'index'])->name('help.index');
-        Route::get('mapping', 'MapController@index')->name('maps.index');
+        Route::get('mapping/{zone?}', 'MapController@index')->name('maps.index');
 
         Route::get('/scout/{scout:slug}/{password?}', [ScoutController::class, 'view'])->name('scout.view');
 
