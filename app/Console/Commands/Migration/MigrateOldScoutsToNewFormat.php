@@ -42,7 +42,7 @@ class MigrateOldScoutsToNewFormat extends Command
                 $count = DB::table('scouts')->where('version', '=', 1)->count();
                 $bar = $this->output->createProgressBar($count);
                 $start = 0;
-                OldScout::where('version', '=', 1)->orderBy('id')->chunk(50, function ($scouts) use ($bar) {
+                OldScout::where('version', '=', 1)->orderBy('id')->chunkById(50, function ($scouts) use ($bar) {
                     foreach ($scouts as $scout) {
                         // Short circuit early if a malformed point_data object exists
                         if (!is_array($scout->point_data)) {

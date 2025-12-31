@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import ScoutLayout from '@/layouts/ScoutLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import type { Zone } from '@/types/gametypes';
 import MapDetails from './MapDetails.vue';
 import { onBeforeMount, onMounted, ref } from 'vue';
@@ -55,6 +55,7 @@ interface Props {
 const selectedZone = ref(null)
 
 const props = defineProps<Props>()
+const page = usePage()
 
 onBeforeMount(() => {
     selectedZone.value = props.expac.zones.find((el) => {

@@ -3,7 +3,6 @@
         <VueZoomable :initial-zoom="1" :selector="`div.zone-map-container`" class="h-full">
             <div class="relative zone-map-container w-full h-full">
                 <img :src="mapImage" class="" />
-
                 <slot name="aetherytes" v-if="showAetherytes">
                     <div v-for="aetheryte in zone.aetherytes" class="aetheryte absolute z-10"
                         :key="`aetheryte-${aetheryte.id}`" :style="{
@@ -12,9 +11,7 @@
                         }" :data-title="getDisplayName(aetheryte, 'en')">
                     </div>
                 </slot>
-                <div>
-
-                </div>
+                <slot name="points"></slot>
             </div>
             <template #buttons>
                 <div></div>
