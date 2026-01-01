@@ -11,7 +11,7 @@
             <ScoutReportOptions />
             <div>
                 <div class="font-bold bg-slate-300 pl-1 text-sm dark:bg-slate-700 dark:text-slate-300">
-                    {{ getDisplayName(activeExpansion, 'en') }}
+                    {{ getDisplayName(activeExpansion) }}
                     <span class="text-xs italic">
                         {{ getMappedMobsForExpac(activeExpansion) }} /
                         {{ mobCount(activeExpansion) }}
@@ -27,8 +27,7 @@
                                 class="block text-blue-500 max-w-(--sidebar-max-link-width) overflow-hidden text-ellipsis wrap-normal"
                                 :href="`#zonemap-${zone.id}-${i}`"
                                 :class="{ 'line-through': props.scoutReport.isZoneScoutingComplete(zone, i) }">{{
-                                    getDisplayName(zone,
-                                        'en') }}</a>
+                                    getZoneDisplayName(zone) }}</a>
                             <span class="ml-1 text-blue-800 dark:text-blue-400 font-[FFXIV\_Lodestone\_SSF]"
                                 v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ intToInstanceMapping[i]
                                     ??
@@ -61,7 +60,7 @@
 </template>
 
 <script setup>
-import { getDisplayName, intToInstanceMapping } from '@/classes/helpers';
+import { getDisplayName, getZoneDisplayName, intToInstanceMapping } from '@/classes/helpers';
 import ScoutReportOptions from '@/components/ScoutReportOptions.vue';
 import ConnectionStatus from '@/components/ui/zonelist/ConnectionStatus.vue';
 import { onBeforeMount, ref, computed, onMounted, onUnmounted, onUpdated, inject } from 'vue';

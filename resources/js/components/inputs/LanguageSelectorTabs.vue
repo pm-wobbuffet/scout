@@ -17,7 +17,7 @@ const languages = [
     { value: 'en', label: 'EN', title: 'English' },
     { value: 'de', label: 'DE', title: 'German' },
     { value: 'fr', label: 'FR', title: 'French' },
-    { value: 'jp', label: 'JP', title: 'Japanese' },
+    { value: 'ja', label: 'JP', title: 'Japanese' },
 ];
 
 const update = (value) => {

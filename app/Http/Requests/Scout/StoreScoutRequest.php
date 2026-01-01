@@ -11,7 +11,7 @@ class StoreScoutRequest extends FormRequest
         // Note points that were imported via chat logs for usage in map displays
         $by_import = [];
         foreach ($this->points as $point) {
-            if ($point['assigned_by_import'] && $point['point_id'] < 0) {
+            if (array_key_exists('assigned_by_import', $point) && $point['point_id'] < 0) {
                 $by_import[] = $point['point_id'];
             }
         }

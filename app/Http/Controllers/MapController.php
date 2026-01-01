@@ -15,7 +15,7 @@ class MapController extends Controller
     {
         // Get latest expansion in the DB for display
         $expac = Expansion::orderBy('id', 'DESC')
-            ->with(['zones', 'zones.aetherytes'])
+            ->with(['zones', 'zones.aetherytes', 'zones.mobs'])
             ->first();
 
         $selected_zone = $zone->id ?? $expac->zones->first()->id;
@@ -28,35 +28,37 @@ class MapController extends Controller
         return Inertia::render('maps/Index', [
             'expac'         => $expac,
             'selected_zone' => $selected_zone,
+            'rounding'      => $request->validated('rounding', 0.1),
+            'mobid'         => $request->validated('mobid'),
             'point_data'    => function () use ($zone, $request) {
-                return $this->getPointsForZone($zone, $request->validated('rounding'));
+                return $this->getPointsForZone(
+                    $zone,
+                    $request->validated('rounding'),
+                    $request->validated('mobid')
+                );
             }
         ]);
     }
 
-    private function getPointsForZone(Zone $zone, $round_factor = 0.1)
+    private function getPointsForZone(Zone $zone, float $round_factor = 0.1, ?int $mobid = null)
     {
-        if ($round_factor == 0.1) {
-            $query = DB::select("
-            SELECT zone_id, x as agg_x, y as agg_y,
-            COUNT(*) as num_points
-            FROM scout_points sp 
-            WHERE zone_id = ? AND sp.point_type ='custom_spawn_point'
-            GROUP by zone_id, agg_x, agg_y
-            ORDER BY num_points DESC
-        ", [$zone->id]);
-        } else {
-            $query = DB::select("
-            SELECT zone_id,
-            ROUND(x / $round_factor) * $round_factor as agg_x,
-            ROUND(y / $round_factor) * $round_factor as agg_y,
-            COUNT(*) as num_points
-            FROM scout_points sp
-            WHERE zone_id = ? AND sp.point_type='custom_spawn_point'
-            GROUP BY zone_id, agg_x, agg_y
-            ", [$zone->id]);
-        }
+        $query = DB::table('scout_points')
+            ->selectRaw('zone_id, COUNT(*) as num_points,
+            ROUND(x / ?) * ? as agg_x,
+            ROUND(y / ?) * ? as agg_y', [
+                $round_factor,
+                $round_factor,
+                $round_factor,
+                $round_factor
+            ])
+            ->where('zone_id', $zone->id)
+            ->where('point_type', '=', 'custom_spawn_point')
+            ->when($mobid !== null, function ($query) use ($mobid) {
+                $query->where('mob_id', '=', $mobid);
+            })
+            ->groupBy('zone_id', 'agg_x', 'agg_y')
+            ->orderBy('num_points', 'DESC');
 
-        return $query;
+        return $query->get();
     }
 }

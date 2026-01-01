@@ -8,8 +8,9 @@
                     <a href="/"><img src="/turtleknife.png" height="40" width="90" class="inline"
                             alt="Turtle Scout Logo, friendly turtle with a knife" /></a>
                 </div>
-                <div class="flex flex-row items-center justify-center gap-0 grow">
-                    <div>Mapping</div>
+                <div class="flex flex-col items-center justify-center gap-0 grow">
+                    <h1 class="text-xl font-bold block">Spawn Point Tracking</h1>
+                    <div>Check the status of mapping out spawn points for new mobs!</div>
                 </div>
             </nav>
             <main class="map-main-window bg-(--background-darker) min-h-[80vh]">
@@ -23,7 +24,8 @@
                             <ul>
                                 <li v-for="zone in props.expac.zones" :key="`zone-${zone.id}`" class="p-1"
                                     :class="{ 'selected-zone': zone.id == props.selected_zone }">
-                                    <Link :href="route('maps.index', { zone: zone.id })">{{ zone.name }}</Link>
+                                    <Link :href="route('maps.index', { zone: zone.id })">{{
+                                        getZoneDisplayName(zone) }}</Link>
                                 </li>
                             </ul>
                         </div>
@@ -40,7 +42,9 @@ import ScoutLayout from '@/layouts/ScoutLayout.vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import type { Zone } from '@/types/gametypes';
 import MapDetails from './MapDetails.vue';
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, provide, ref } from 'vue';
+import { getZoneDisplayName } from '@/classes/helpers';
+import { useUserSettings } from '@/composables/useUserSettings';
 
 interface Props {
     expac: {
@@ -53,6 +57,9 @@ interface Props {
 }
 
 const selectedZone = ref(null)
+const { settings, setSetting } = useUserSettings()
+
+provide('settings', settings)
 
 const props = defineProps<Props>()
 const page = usePage()

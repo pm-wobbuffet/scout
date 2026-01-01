@@ -1,3 +1,4 @@
+import { useUserSettings } from '@/composables/useUserSettings'
 import dayjs from 'dayjs'
 import { inject } from 'vue'
 
@@ -9,6 +10,10 @@ export const languages = [
 ]
 
 export const getDisplayName = function (obj, language) {
+    const { settings } = useUserSettings()
+    if (language === '' || language === null || language === undefined) {
+        language = settings.value.lang
+    }
     if (obj && 'names' in obj) {
         if (language in obj['names']) {
             return obj['names'][language]
@@ -22,7 +27,6 @@ export const getDisplayName = function (obj, language) {
 }
 
 export const getZoneDisplayName = (zone, language) => {
-    const settings = inject('settings')
 
     if (zone.spoiler_until && zone.spoiler_until !== null) {
         // Need to return a spoiler-fied zone name

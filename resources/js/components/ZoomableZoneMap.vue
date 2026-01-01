@@ -13,7 +13,7 @@
                             :key="`aetheryte-${aetheryte.id}-${props.instance}`" :style="{
                                 'left': convertCoordToPercent(aetheryte.x, props.zone), 'top': convertCoordToPercent(aetheryte.y, props.zone),
                                 'zoom': (1 / zoom).toFixed(2)
-                            }" :data-title="getDisplayName(aetheryte, 'en')">
+                            }" :data-title="getDisplayName(aetheryte)">
                         </div>
                     </slot>
                     <slot name="spawnpoints" v-if="showSpawnPoints">
@@ -48,7 +48,7 @@
                                     title="Toggle this mob as being dead/alive. Dead mobs will count toward scouting completion for this zone."
                                     :key="`moblist-mob-${mob.id}-${props.instance}`" @click="toggleMobStatus(mob)">
                                     <div class="flex items-center">
-                                        <span>{{ getDisplayName(mob, props.language ?? 'en') }}</span>
+                                        <span>{{ getDisplayName(mob) }}</span>
                                         <SkullIcon class="inline-block p-0 m-0 pl-2 group-hover:visible"
                                             :class="{ 'visible': props.scoutReport.isMobDead(mob.id, props.instance), 'invisible': !props.scoutReport.isMobDead(mob.id, props.instance) }" />
                                     </div>
@@ -59,7 +59,7 @@
                     <slot name="zone-name" v-if="showZoneName">
                         <div class="zone-name pointer-events-none">
                             <div class="zone-name-text">
-                                {{ getZoneDisplayName(zone, 'en') }}
+                                {{ getZoneDisplayName(zone) }}
                                 <span class="mapInstanceNumber"
                                     v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{
                                         intToInstanceMapping[props.instance]
