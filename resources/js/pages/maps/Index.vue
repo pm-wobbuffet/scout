@@ -22,9 +22,10 @@
                         </div>
                         <div>
                             <ul>
-                                <li v-for="zone in props.expac.zones" :key="`zone-${zone.id}`" class="p-1"
+                                <li v-for="zone in props.expac.zones" :key="`zone-${zone.id}`"
+                                    class="transition-all duration-300 hover:bg-(--background)"
                                     :class="{ 'selected-zone': zone.id == props.selected_zone }">
-                                    <Link :href="route('maps.index', { zone: zone.id })">{{
+                                    <Link :href="route('maps.index', { zone: zone.id })" class="block p-1">{{
                                         getZoneDisplayName(zone) }}</Link>
                                 </li>
                             </ul>

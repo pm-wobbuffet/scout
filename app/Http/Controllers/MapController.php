@@ -53,6 +53,8 @@ class MapController extends Controller
             ])
             ->where('zone_id', $zone->id)
             ->where('point_type', '=', 'custom_spawn_point')
+            ->whereNotNull('x')
+            ->whereNotNull('y')
             ->when($mobid !== null, function ($query) use ($mobid) {
                 $query->where('mob_id', '=', $mobid);
             })

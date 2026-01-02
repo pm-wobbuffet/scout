@@ -1,15 +1,10 @@
 <template>
     <main class="map-main-window">
         <!-- Main map area -->
-         <ZoneList
-         :scout-report="props.scoutReport"
-         :editmode="props.editmode"
-         />
+        <ZoneList :scout-report="props.scoutReport" :editmode="props.editmode" />
         <!-- Control buttons -->
         <!-- List of current expac zones and status -->
-         <ZoneListSidebar
-         :scout-report="props.scoutReport"
-         />
+        <ZoneListSidebar :scout-report="props.scoutReport" />
     </main>
 </template>
 
@@ -23,6 +18,4 @@ const props = defineProps({
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
