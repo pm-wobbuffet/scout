@@ -19,7 +19,7 @@ class MapController extends Controller
             ->first();
 
         $selected_zone = $zone->id ?? $expac->zones->first()->id;
-        if ($zone === null) {
+        if ($zone->id === null) {
             $zone = Zone::whereId($selected_zone)->first();
         }
 
