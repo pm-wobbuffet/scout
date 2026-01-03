@@ -97,7 +97,7 @@ class ScoutController extends Controller
         }
         $scout->save();
 
-        $this->ScoutMultipleOccupanyUpdates($scout, $modified_zones);
+        $this->ScoutMultipleOccupanyUpdates($scout, array_keys($modified_zones));
 
         return response()->json([
             'scout_id'              =>  $scout->slug,
@@ -112,7 +112,7 @@ class ScoutController extends Controller
     {
         $modified_zones = $this->createBulkUpdate($scout, $request->validated('sightings'));
 
-        $this->ScoutMultipleOccupanyUpdates($scout, $modified_zones);
+        $this->ScoutMultipleOccupanyUpdates($scout, array_keys($modified_zones));
         return response()->json([
             'scout_id'              =>  $scout->slug,
             'collaborator_password' =>  $scout->collaborator_password,
