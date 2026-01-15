@@ -2,11 +2,11 @@ import AlliedSealImage from '@images/currency/allied_seal.png';
 import CenturioSealImage from '@images/currency/centurio_seal.png';
 import SackOfNutsImage from '@images/currency/nuts.png';
 import PoeticsImage from '@images/currency/poetics.png';
-import UncappedTomeImage from '@images/currency/heliometry.png';
-import CappedTomeImage from '@images/currency/mathematics.png';
+import UncappedTomeImage from '@images/currency/mathematics.png';
+import CappedTomeImage from '@images/currency/mnemonics.png';
 
-const UNCAPPED_ENDGAME_TOME = 47
-const CAPPED_ENDGAME_TOME = 48
+const UNCAPPED_ENDGAME_TOME = 48
+const CAPPED_ENDGAME_TOME = 49
 
 const currencyList = {
     27: {
@@ -35,30 +35,43 @@ const currencyList = {
             "fr": "詩学",
         },
     },
-    47: {
-        "name": "Heliometry",
-        "max_stack": 2000,
-        "emote": "<:heliometry:1268127432158875691>",
-        "image": UncappedTomeImage,
-        "sort": 50,
-        "names": {
-            "en": "Heliometry",
-            "jp": "天道",
-            "de": "Heliometrie",
-            "fr": "héliologique",
-        },
-    },
+    // 47: {
+    //     "name": "Heliometry",
+    //     "max_stack": 2000,
+    //     "emote": "<:heliometry:1268127432158875691>",
+    //     "image": UncappedTomeImage,
+    //     "sort": 50,
+    //     "names": {
+    //         "en": "Heliometry",
+    //         "jp": "天道",
+    //         "de": "Heliometrie",
+    //         "fr": "héliologique",
+    //     },
+    // },
     48: {
         "name": "Mathematics",
         "max_stack": 2000,
         "emote": "<:mathematics:1355013812230553712>",
-        "image": CappedTomeImage,
+        "image": UncappedTomeImage,
         "sort": 60,
         "names": {
             "en": "Mathematics",
             "jp": "数理",
             "de": "Mathematik",
             "fr": "mathématique",
+        },
+    },
+    49: {
+        "name": "Mnemonics",
+        "max_stack": 2000,
+        "emote": "<:mnemonics:1450577101840187503>",
+        "image": CappedTomeImage,
+        "sort": 60,
+        "names": {
+            "en": "Mnemonics",
+            "jp": "記憶",
+            "de": "Mnemonik",
+            "fr": "mnémonique",
         },
     },
     10307: {
