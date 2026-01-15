@@ -44,13 +44,13 @@
                     :key="`summary-expansion-container-${expansion.id}`">
                     <template v-if="props.scoutReport.getFoundMobCountForExpansion(expansion.id) > 0">
                         <h2>{{ expansion.name }}</h2>
-                        <template v-for="zone in expansion.zones">
+                        <template v-for="zone in props.scoutReport.getZonesByExpansion(expansion.id)">
                             <template v-for="i in props.scoutReport.getInstanceCountForZone(zone.id)">
                                 <fieldset v-if="props.scoutReport.getFoundMobCountForZone(zone.id, i)"
                                     :key="`fieldset-zone-${zone.id}-${i}`">
                                     <legend>{{ zone.name }}
                                         <span v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
-                                            }}</span>
+                                        }}</span>
                                     </legend>
                                     <div v-for="mobPoint in props.scoutReport.getFoundMobInfoForZone(zone.id, i)"
                                         :key="`moblist-${zone.id}-${i}-${mobPoint.id}`">
@@ -118,7 +118,8 @@ const getClipboardText = () => {
     props.scoutReport.scouter_instance?.expansion_data?.slice().reverse().forEach((expac) => {
         // Does the expansion have mobs found?
         if (props.scoutReport.getFoundMobCountForExpansion(expac.id) > 0) {
-            expac.zones.forEach((zone) => {
+            props.scoutReport.getZonesByExpansion(expac.id).forEach((zone) => {
+                //expac.zones.forEach((zone) => {
                 const instance_count = props.scoutReport.getInstanceCountForZone(zone.id)
                 for (let i = 1; i <= instance_count; i++) {
                     // Were there mobs in this zone?
