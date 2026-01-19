@@ -1,24 +1,26 @@
 <template>
-    <div :style="mobStyles">
-        <slot />
+    <div class="min-h-[100vh] flex flex-col">
+        <div class="grow" :style="mobStyles">
+            <slot />
+        </div>
+        <footer class="text-xs flex">
+            <div>
+                FINAL FANTASY XIV © 2010 - 2026 SQUARE ENIX CO., LTD. All Rights Reserved.
+                Created by Kaiden Alenko of Adamantoise.
+                Source on <a href="https://github.com/pm-wobbuffet/scout">Github</a>.
+            </div>
+            <div class="ml-auto">
+                <ul class="flex gap-x-2 items-center justify-center">
+                    <li class="border-r">
+                        <Link :href="route('help.index')" class="px-2">Help</Link>
+                    </li>
+                    <li>
+                        <Link :href="route('maps.index')" class="px-2">Spawn Point Tracking</Link>
+                    </li>
+                </ul>
+            </div>
+        </footer>
     </div>
-    <footer class="text-xs flex">
-        <div>
-            FINAL FANTASY XIV © 2010 - 2026 SQUARE ENIX CO., LTD. All Rights Reserved.
-            Created by Kaiden Alenko of Adamantoise.
-            Source on <a href="https://github.com/pm-wobbuffet/scout">Github</a>.
-        </div>
-        <div class="ml-auto">
-            <ul class="flex gap-x-2 items-center justify-center">
-                <li class="border-r">
-                    <Link :href="route('help.index')" class="px-2">Help</Link>
-                </li>
-                <li>
-                    <Link :href="route('maps.index')" class="px-2">Spawn Point Tracking</Link>
-                </li>
-            </ul>
-        </div>
-    </footer>
 </template>
 
 <script setup>
