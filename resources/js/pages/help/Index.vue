@@ -27,6 +27,12 @@
                                 <li class="transition-all duration-300 hover:bg-(--background)">
                                     Overview
                                 </li>
+                                <li class="transition-all duration-300 hover:bg-(--background)">
+                                    Using The Map
+                                </li>
+                                <li class="transition-all duration-300 hover:bg-(--background)">
+                                    Sharing Reports
+                                </li>
                             </ul>
                         </div>
                     </div>
