@@ -33,6 +33,9 @@
                                 <li class="transition-all duration-300 hover:bg-(--background)">
                                     Sharing Reports
                                 </li>
+                                <li class="transition-all duration-300 hover:bg-(--background)">
+                                    etc
+                                </li>
                             </ul>
                         </div>
                     </div>
