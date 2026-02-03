@@ -80,8 +80,8 @@ class ScoutController extends Controller
     public function bulkUpdate(BulkUpdateScoutAPIRequest $request, Scout $scout)
     {
         DB::transaction(function () use ($request, $scout) {
-            $scout = Scout::where('id', $scout->id)->lockForUpdate()->first();
-            $this->createBulkUpdate($scout, $request->validated('sightings'));
+            $pscout = Scout::where('id', $scout->id)->lockForUpdate()->first();
+            $this->createBulkUpdate($pscout, $request->validated('sightings'));
         });
         return response()->json([
             'scout_id'              =>  $scout->slug,
