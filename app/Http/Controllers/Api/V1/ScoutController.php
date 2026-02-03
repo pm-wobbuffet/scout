@@ -80,11 +80,7 @@ class ScoutController extends Controller
     public function bulkUpdate(BulkUpdateScoutAPIRequest $request, Scout $scout)
     {
         DB::transaction(function () use ($request, $scout) {
-            DB::table('scouts')
-                ->where('id', $scout->id)
-                ->lockForUpdate()
-                ->first();
-
+            $scout = Scout::where('id', $scout->id)->lockForUpdate()->first();
             $this->createBulkUpdate($scout, $request->validated('sightings'));
         });
         return response()->json([
@@ -100,10 +96,7 @@ class ScoutController extends Controller
     {
         DB::transaction(function () use ($request, $scout) {
             //
-            DB::table('scouts')
-                ->where('id', $scout->id)
-                ->lockForUpdate()
-                ->first();
+            $scout = Scout::where('id', $scout->id)->lockForUpdate()->first();
             // Get details from the request
             $point_id = $request->validated('point_id');
             $instance = $request->validated('instance_number');
