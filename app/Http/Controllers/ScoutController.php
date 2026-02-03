@@ -240,7 +240,7 @@ class ScoutController extends Controller
         // Cycle through expansions and zones total up found mobs and expected totals
         $ret = $expansions->reduce(function (?array $carry, Expansion $item) use ($scout) {
             $total_mobs = 0;
-            $seen_mobs = $scout->points->where('zone.expansion_id', $item->id)->count();
+            $seen_mobs = $scout->points->where('zone.expansion_id', $item->id)->whereNotNull('mob_id')->count();
             if ($seen_mobs > 0) {
                 $total_mobs = $item->zones->reduce(function (int $carry, Zone $zone) use ($scout) {
                     $carry += ($scout->getZoneInstanceCount($zone->id) * $zone->mobs->count());
