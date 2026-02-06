@@ -26,7 +26,7 @@ trait CalculatesNearestPoint
 
     private function findClosestSpawnPoint($point_list, float $x, float $y): array
     {
-        Log::info($point_list);
+        //Log::info($point_list);
         $closest = null;
         $min_found = PHP_FLOAT_MAX;
         foreach ($point_list as $spawn_point) {
