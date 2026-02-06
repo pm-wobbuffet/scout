@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\StoreScoutRequest;
 use App\Http\Requests\Api\V1\BulkUpdateScoutApiRequest;
 use App\Http\Requests\Api\V1\UpdateOccupiedPointRequest;
+use App\Http\Resources\Api\V2\ScoutResource;
 use App\Http\Resources\ScoutCustomPointResource;
 use App\Models\Scout;
 use App\Traits\BroadcastsScoutingEvents;
 use App\Traits\UpdatesScoutReports;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
@@ -77,9 +79,13 @@ class ScoutController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Scout $scout, Request $request)
     {
-        //
+        $scout->load(['points', 'points.point', 'custom_points', 'scouts', 'dead_mobs']);
+        if (!$request->has('collaborator_password')) {
+            $scout->makeHidden('collaborator_password');
+        }
+        return new ScoutResource($scout);
     }
 
     /**

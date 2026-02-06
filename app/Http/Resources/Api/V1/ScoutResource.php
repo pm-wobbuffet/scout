@@ -2,22 +2,11 @@
 
 namespace App\Http\Resources\Api\V2;
 
-use App\Models\Expansion;
-use App\Models\Scout;
-use App\Models\Zone;
-use App\Traits\UpdatesScoutReports;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Log;
 
-/**
- * ScoutResource displays the primary details of a scouting report in an API request
- * @mixin \App\Models\Scout
- */
 class ScoutResource extends JsonResource
 {
-    use UpdatesScoutReports;
-
     /**
      * Transform the resource into an array.
      * @return array<string, mixed>
@@ -70,30 +59,6 @@ class ScoutResource extends JsonResource
                     ];
                 });
             }),
-            'mob_counts' => $this->when($this->relationLoaded('points'), $this->generateExpansionTotals($this), []),
-        ];
-    }
-
-    private function generateExpansionTotals(ScoutResource $r)
-    {
-        $expansions = $this->getExpansionsData();
-
-        $ret = $expansions->reduce(function (?array $carry, Expansion $item) use ($r) {
-            $total_mobs = 0;
-            $seen_mobs = $r->points->where('zone.expansion_id', $item->id)->whereNotNull('mob_id')->count();
-            if ($seen_mobs > 0) {
-                $total_mobs = $item->zones->reduce(function (int $carry, Zone $zone) use ($r) {
-                    $carry += ($r->getZoneInstanceCount($zone->id) * $zone->mobs->count());
-                    return $carry;
-                }, 0);
-                $carry[$item->abbreviation] = $seen_mobs;
-            }
-            return $carry;
-        }, []);
-
-        return [
-            'total_mobs'        => $r->points->whereNotNull('mob_id')->count(),
-            'by_expansion'      => $ret,
         ];
     }
 }

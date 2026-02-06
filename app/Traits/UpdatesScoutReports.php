@@ -146,7 +146,7 @@ trait UpdatesScoutReports
      */
     public function getExpansionsData(): array | Collection
     {
-        return Cache::remember('expansions-data', 10, function () {
+        return Cache::remember('expansions-data', 30, function () {
             return Expansion::query()
                 ->with([
                     'zones',
