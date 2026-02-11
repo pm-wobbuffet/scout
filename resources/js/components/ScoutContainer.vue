@@ -50,7 +50,7 @@
                                     :key="`fieldset-zone-${zone.id}-${i}`">
                                     <legend>{{ zone.name }}
                                         <span v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
-                                        }}</span>
+                                            }}</span>
                                     </legend>
                                     <div v-for="mobPoint in props.scoutReport.getFoundMobInfoForZone(zone.id, i)"
                                         :key="`moblist-${zone.id}-${i}-${mobPoint.id}`">
@@ -115,10 +115,10 @@ const getClipboardText = () => {
         }[val] ?? ''
     }
     let ret = ''
-    props.scoutReport.scouter_instance?.expansion_data?.slice().reverse().forEach((expac) => {
+    props.scoutReport.scouter_instance?.expansion_data.slice().toReversed().forEach((expac) => {
         // Does the expansion have mobs found?
         if (props.scoutReport.getFoundMobCountForExpansion(expac.id) > 0) {
-            props.scoutReport.getZonesByExpansion(expac.id).forEach((zone) => {
+            props.scoutReport.scouter_instance.getZonesByExpansion(expac.id).forEach((zone) => {
                 //expac.zones.forEach((zone) => {
                 const instance_count = props.scoutReport.getInstanceCountForZone(zone.id)
                 for (let i = 1; i <= instance_count; i++) {
