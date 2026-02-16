@@ -17,6 +17,7 @@
         "laravel/horizon": "^5.32",
         "laravel/reverb": "^1.0",
         "laravel/tinker": "^2.10.1",
+        "monicahq/laravel-cloudflare": "^4.0",
         "predis/predis": "^3.0",
         "sqids/sqids": "^0.5.0",
         "tightenco/ziggy": "^2.4"

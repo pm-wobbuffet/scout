@@ -29,7 +29,7 @@ jobs:
 
                       # Clear application cache
                       php artisan cache:clear
-                      
+
                       # Clear and cache configuration
                       php artisan config:clear
                       php artisan config:cache
@@ -57,7 +57,10 @@ jobs:
                       php artisan horizon:terminate || true
 
                       # Clear OPcache (if available)
-                      php artisan opcache:clear || true
+                      #php artisan opcache:clear || true
+
+                      # Reload cloudflare IPs for proxy passthrough
+                      php artisan cloudflare:reload
 
                       php artisan up
 
@@ -66,6 +69,5 @@ jobs:
                       # Show deployment info
                       echo ""
                       echo "📊 Deployment Information:"
-                      echo "   Branch: {{BRANCH}}"
                       echo "   Commit: $(git rev-parse --short HEAD)"
                       echo "   Date: $(date)"
