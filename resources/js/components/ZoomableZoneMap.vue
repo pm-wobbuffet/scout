@@ -69,9 +69,10 @@
                         </div>
                     </slot>
                     <div class="absolute flex items-center bottom-1 left-1 text-center text-xs bg-[rgba(0,0,0,0.5)] hover:bg-black font-bold px-2 py-1 text-white dark:text-slate-200"
-                        v-if="props.zone.allow_custom_points && props.editmode == true">
+                        v-if="props.zone.allow_custom_points && props.editmode == true"
+                        title="Spawn points unknown. Double click or use Import to add spawn points">
                         <TriangleAlert class="text-yellow-600 font-bold mr-1" :size="18" />
-                        <span class="text-xs">Spawn points unknown. Double click or use Import to add spawn
+                        <span class="sr-only">Spawn points unknown. Double click or use Import to add spawn
                             points.</span>
                     </div>
                 </div>
