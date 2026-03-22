@@ -18,7 +18,8 @@
                     </span>
                 </div>
                 <ul class="text-sm">
-                    <template v-for="zone in activeExpansion.zones">
+                    <!-- <template v-for="zone in activeExpansion.zones"> -->
+                    <template v-for="zone in scoutReport.getZonesByExpansion()">
                         <li v-for="i in props.scoutReport.getInstanceCountForZone(zone.id)"
                             :id="`zonelink-${zone.id}-${i}`" :key="`zonelink-${zone.id}-${i}`"
                             class="flex items-center hover:bg-slate-200 dark:hover:bg-slate-700 ml-2 pr-2" :class="{
@@ -34,7 +35,7 @@
                                     i }}</span>
                             <i class="text-sm ml-2 text-black dark:text-slate-200">{{
                                 props.scoutReport.getFoundMobCountForZone(zone.id, i)
-                                }}/{{ zone.mobs.length }}
+                            }}/{{ zone.mobs.length }}
                             </i>
                         </li>
                     </template>
