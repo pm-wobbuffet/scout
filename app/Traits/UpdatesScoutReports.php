@@ -95,6 +95,9 @@ trait UpdatesScoutReports
                 'mob_id'            => $sighting['mob_id'],
             ]);
         }
+        $this->sendReportModifiedEvent($scout, [
+            'name' => "Mulitple Points Imported (" . sizeof($sightings) . ")"
+        ]);
         return $updated_zones;
     }
 

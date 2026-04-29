@@ -58,6 +58,7 @@ class StoreScoutRequest extends FormRequest
             'instance_data.*.instance_count' => 'numeric|min:1',
             'scouts'                        => 'array|nullable',
             'scouts.*.scout_name'           => 'string',
+            'title'                         => 'nullable|string',
         ];
     }
 }

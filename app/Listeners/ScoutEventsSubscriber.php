@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 
 class ScoutEventsSubscriber implements ShouldQueue
 {
@@ -21,16 +22,22 @@ class ScoutEventsSubscriber implements ShouldQueue
     {
         $lv = $event->scout->versions()->orderBy('id', 'DESC')->first();
         // Throttle creation of report version rows to prevent excessive hits on that table
-        if ($lv !== null && $lv->created_at >= Carbon::now()->subSeconds(config('app.scout.version_history_lockout', 10))) {
+        if (
+            $lv !== null &&
+            $lv->created_at >= Carbon::now()->subSeconds(intval(config('app.scout.version_history_lockout', 10)))
+        ) {
             return;
         }
 
-        $scout = $event->scout->load(['points', 'scouts', 'dead_mobs', 'custom_points', 'instances']);
-        $scout->versions()->create([
-            'scout_details' => $scout->toResource(ScoutVersionCompactResource::class),
-            'update_details' => $event->details,
-            'user'  => $event->user,
-        ]);
+        DB::transaction(function () use ($event) {
+            $scout = $event->scout->load(['points', 'scouts', 'dead_mobs', 'custom_points', 'instances']);
+            $scout->versions()->lockForUpdate();
+            $scout->versions()->create([
+                'scout_details' => $scout->toResource(ScoutVersionCompactResource::class),
+                'update_details' => $event->details,
+                'user'  => $event->user,
+            ]);
+        }, 5);
     }
 
     public function subscribe(Dispatcher $events): void
