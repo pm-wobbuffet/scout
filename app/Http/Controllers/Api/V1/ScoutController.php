@@ -143,6 +143,7 @@ class ScoutController extends Controller
             ]); // Send a success status code, since that was prior API behavior, but include error details
         }
         $p = $scout->points()->where('point_type', $request->point->point_type)
+            ->where('instance_number', $instance)
             ->where('point_id', $request->point->id)->first();
         if ($p && $p->mob_id !== null) {
             // There was a mark on this spot, don't let them do any occupied update
