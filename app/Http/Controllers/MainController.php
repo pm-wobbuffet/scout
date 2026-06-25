@@ -107,25 +107,4 @@ class MainController extends Controller
             'custom_points'     => $scout->custom_points,
         ]);
     }
-
-    /* Private methods */
-
-    /**
-     * Return an array of data about a scout for use in JSON responses, if requested in a non-API way
-     *
-     * @param  bool  $is_collaborator  - also return the collab password if true
-     */
-    private function generateJson(Scout $scout, bool $is_collaborator = false): array
-    {
-        $r = [
-            'scout_id' => $scout->id,
-            'instance_counts' => $scout->instance_data,
-            'mob_list' => $scout->point_data,
-        ];
-        if ($is_collaborator) {
-            $r['collaborator_password'] = $scout->collaborator_password;
-        }
-
-        return $r;
-    }
 }
