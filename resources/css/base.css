@@ -76,7 +76,7 @@ select {
 }
 
 main.map-main-window {
-    @apply flex flex-col md:flex-row md:flex-nowrap gap-8 md:gap-1 gap-x-1 py-1 items-center justify-between max-w-[100vw];
+    @apply flex flex-col md:flex-row md:flex-nowrap gap-8 md:gap-1 gap-x-1 py-1 items-center justify-between max-w-[99vw];
 }
 
 .map-image-list {

@@ -114,7 +114,7 @@ onBeforeMount(() => {
 onMounted(() => {
     observer = new IntersectionObserver(handleIntersectionObserve, {
         root: null,
-        rootMargin: "-10px"
+        rootMargin: "-30px"
     })
     document.querySelectorAll('.map-container-block').forEach((mapBlock) => {
         observer.observe(mapBlock)
