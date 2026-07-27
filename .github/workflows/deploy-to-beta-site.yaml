@@ -1,9 +1,8 @@
 name: deploy-to-beta-site
 run-name: Deploying code to Staging Server
 on:
-    push:
-        branches:
-            - v2
+    workflow_dispatch:
+
 jobs:
     deploy:
         runs-on: ubuntu-latest
