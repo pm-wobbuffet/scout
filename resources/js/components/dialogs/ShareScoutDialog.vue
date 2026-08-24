@@ -40,12 +40,12 @@
                         <UseClipboard v-slot="{ copy, copied }" legacy="true"
                             :source="`${route('scout.view', { scout: scout.slug, password: scout.collaborator_password })}?${cacheBusterAppend}`">
                             <button type="button"
-                                class="block w-full text-left bg-(--secondary) text-(--secondary-foreground) p-4 mb-4 relative cursor-pointer"
+                                class="block w-full text-left bg-secondary text-secondary-foreground p-4 mb-4 relative cursor-pointer"
                                 @click="copy()">
                                 <span>{{ route('scout.view', {
                                     scout: scout.slug, password: scout.collaborator_password
                                 })
-                                    }}?{{ cacheBusterAppend }}</span>
+                                    }}</span>
                                 <div class="absolute bottom-0 right-0.5 flex gap-1">
                                     <div v-if="copied">Copied to clipboard!</div>
                                     <CopyIcon />
