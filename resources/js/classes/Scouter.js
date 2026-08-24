@@ -4,6 +4,7 @@
 export default class Scouter {
 
     mob_data = {}
+    other_mob_data = {}
     expansion_data = []
     zone_data = {}
     spawn_points = {}
@@ -24,6 +25,9 @@ export default class Scouter {
                 this.zone_data[zone.id] = zone
                 zone.mobs.forEach((mob) => {
                     this.mob_data[mob.id] = mob
+                })
+                zone.othermobs.forEach((mob) => {
+                    this.other_mob_data[mob.id] = mob
                 })
                 zone.spawn_points.forEach((spawn_point) => {
                     spawn_point['expansion_id'] = expansion.id

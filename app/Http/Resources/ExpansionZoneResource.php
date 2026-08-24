@@ -31,6 +31,7 @@ class ExpansionZoneResource extends JsonResource
             'spoiler_until'         => $this->spoiler_until,
             'aetherytes'            => $this->whenLoaded('aetherytes'),
             'mobs'                  => $this->whenLoaded('mobs'),
+            'othermobs'             => $this->whenLoaded('othermobs'),
             'spawn_points'          => $this->whenLoaded('spawn_points'),
         ];
     }
