@@ -70,11 +70,8 @@ class ScoutController extends Controller
             'scout' => new ScoutResource($scout),
             'defaultId' => intval(config('app.scout.default_expansion_id', 7)),
             'ajaxRefreshInterval' => intval(config('app.scout.ajax_refresh_interval', 10000)),
-            'versions' => Inertia::defer(function () use ($scout) {
-                //
-                return ScoutVersionResource::collection($scout->versions()->orderBy('version', 'desc')
-                    ->paginate(10, ['*'], 'historypage'));
-            }, 'versions')
+            'versions' => ScoutVersionResource::collection($scout->versions()->orderBy('version', 'desc')
+                ->paginate(10, ['*'], 'historypage')),
         ]);
     }
 

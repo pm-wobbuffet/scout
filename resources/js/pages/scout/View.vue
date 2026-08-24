@@ -33,6 +33,15 @@ const wsConnection = ref(null);
 const ajaxTimeout = ref(null);
 // Time between AJAX polls in ms
 // Only used when WS connection fails
+const pendingRequests = new Map();
+
+const clearPendingRequest = (pointId, instanceNumber) => {
+    const timerId = pendingRequests.get(pointId + '-' + instanceNumber)
+    if (timerId !== undefined) {
+        clearTimeout(timerId);
+        pendingRequests.delete(pointId + '-' + instanceNumber);
+    }
+}
 
 configureEcho({
     broadcaster: "reverb",
@@ -132,16 +141,25 @@ onMounted(() => {
         axInstance.post(route('scout.updatemobstatus', routeParams), { ...obj })
     })
     emitter.on('point:assign-mob', (obj) => {
-        axInstance.post(route('scout.assignmob', routeParams), { ...obj })
-            .then((data) => {
-                if ('custom_points' in data.data) {
-                    scout_report.value.processCustomPointValues(data.data.custom_points)
-                }
-            })
+        clearPendingRequest(obj.point_id, obj.instance_number)
+        const timerId = setTimeout(() => {
+            axInstance.post(route('scout.assignmob', routeParams), { ...obj })
+                .then((data) => {
+                    if ('custom_points' in data.data) {
+                        scout_report.value.processCustomPointValues(data.data.custom_points)
+                    }
+                })
+        }, 600);
+        pendingRequests.set(`${obj.point_id}-${obj.instance_number}`, timerId);
     })
 
     emitter.on('point:clear', (obj) => {
-        axInstance.post(route('scout.clearpoint', routeParams), { ...obj })
+        clearPendingRequest(obj.point_id, obj.instance_number)
+        const timerId = setTimeout(() => {
+            axInstance.post(route('scout.clearpoint', routeParams), { ...obj })
+        }, 600);
+        pendingRequests.set(`${obj.point_id}-${obj.instance_number}`, timerId);
+
     })
     emitter.on('occupy:status', (obj) => {
         axInstance.post(route('scout.updateOccupiedPoint', routeParams), obj)
@@ -190,6 +208,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     clearTimeout(ajaxTimeout.value)
+    pendingRequests.forEach((timerId) => clearTimeout(timerId));
+    pendingRequests.clear();
     emitter.off('*')
 })
 </script>
