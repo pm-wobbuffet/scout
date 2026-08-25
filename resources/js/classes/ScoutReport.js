@@ -189,6 +189,11 @@ export default class ScoutReport {
                 }
             }
         }
+        // Did they pass a B/S rank in the field?
+        if (mobInfo.mob && mobInfo.mob.rank !== 2) {
+            this.setOccupiedStatus(closestPoint.point, mobInfo.instance, true)
+            return { status: 'success' }
+        }
         //console.log(`Getting mobs assigned for ${mobInfo.zone.id} instance ${mobInfo.instance}`)
         let mobsAssigned = this.getFoundMobIDsForZone(mobInfo.zone.id, mobInfo.instance)
         let mobOnPoint = this.getMobOnPoint(closestPoint.point, mobInfo.instance)
