@@ -9,7 +9,7 @@
                         'width': getSize(point.num_points),
                         'height': getSize(point.num_points)
                     }" v-text="point.num_points"
-                    :data-coords="`(${formatCoordinate(point.agg_x)}, ${formatCoordinate(point.agg_y)})`"></button>
+                    :data-coords="`(${formatCoordinate(point.agg_x)}, ${formatCoordinate(point.agg_y)}) - ${point.num_points} sightings`"></button>
             </template>
         </ZoomableMapBase>
         <Card class="rounded-xl w-full">
@@ -20,7 +20,7 @@
                 <form @submit.prevent="">
                     <fieldset class="border rounded-md p-2 text-lg">
                         <legend class="font-bold">Coordinate Rounding</legend>
-                        <div class="flex gap-x-2">
+                        <div class="flex gap-x-2 flex-col xl:flex-row">
                             <label><input type="radio" value="0.1" class="mr-2" v-model="form.rounding" />0.1</label>
                             <label><input type="radio" value="0.5" class="mr-2" v-model="form.rounding" />0.5</label>
                             <label><input type="radio" value="1" class="mr-2" v-model="form.rounding" />1</label>
@@ -29,12 +29,15 @@
                     </fieldset>
                     <fieldset class="border rounded-md p-2 text-lg">
                         <legend class="font-bold">Mob Seen</legend>
-                        <label class="mr-2"><input type="radio" :value="null" class="mr-2" v-model="form.mobid" />Any A
+                        <label class="mr-2"><input type="radio" :value="null" class="mr-2" v-model="form.mobid" /> Any A
                             Rank</label>
-                        <template v-for="mob in props.zone.mobs" :key="`mobs-${mob.id}`">
-                            <label class="mr-2"><input type="radio" :value="mob.id" class="mr-2" v-model="form.mobid" />
-                                {{ getDisplayName(mob) }}</label>
-                        </template>
+                        <div class="flex flex-wrap flex-col xl:flex-row">
+                            <template v-for="mob in props.zone.mobs" :key="`mobs-${mob.id}`">
+                                <label class="mr-2"><input type="radio" :value="mob.id" class="mr-2"
+                                        v-model="form.mobid" />
+                                    {{ getDisplayName(mob) }}</label>
+                            </template>
+                        </div>
                     </fieldset>
                     <Button variant="default" class="mt-2 flex w-full" @click="submitForm">Update View</Button>
                 </form>
@@ -51,7 +54,7 @@ import ZoomableMapBase from '@/components/ZoomableMapBase.vue';
 import ZoomableZoneMap from '@/components/ZoomableZoneMap.vue';
 import { Zone } from '@/types/gametypes';
 import { useForm, usePage } from '@inertiajs/vue3';
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, ref, watch } from 'vue';
 import { formatCoordinate } from '@/classes/helpers';
 
 interface Props {
@@ -78,7 +81,7 @@ const page = usePage()
 const max_count = ref(1)
 
 const getSize = (num_pts) => {
-    return 20 + (10 * (num_pts / max_count.value)) + 'px'
+    return 16 + (10 * (num_pts / max_count.value)) + 'px'
 }
 
 const submitForm = () => {
@@ -95,7 +98,16 @@ onBeforeMount(() => {
 
     form.rounding = page.props.rounding ?? 0.1
     form.mobid = page.props.mobid ?? null
+
+    watch(() => form.rounding, () => {
+        form.get(route('maps.index', { zone: props.zone.id }))
+    }, { deep: false })
+    watch(() => form.mobid, () => {
+        form.get(route('maps.index', { zone: props.zone.id }))
+    }, { deep: false })
 })
+
+
 
 
 </script>

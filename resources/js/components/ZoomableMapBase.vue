@@ -1,23 +1,23 @@
 <template>
-    <scroll-overlay>
-        <VueZoomable :initial-zoom="1" :selector="`div.zone-map-container`" class="h-full">
-            <div class="relative zone-map-container w-full h-full">
-                <img :src="mapImage" class="" />
-                <slot name="aetherytes" v-if="showAetherytes">
-                    <div v-for="aetheryte in zone.aetherytes" class="aetheryte absolute z-10"
-                        :key="`aetheryte-${aetheryte.id}`" :style="{
-                            'left': convertCoordToPercent(aetheryte.x, props.zone), 'top': convertCoordToPercent(aetheryte.y, props.zone),
-                            'zoom': (1 / zoom).toFixed(2)
-                        }" :data-title="getDisplayName(aetheryte, 'en')">
-                    </div>
-                </slot>
-                <slot name="points"></slot>
-            </div>
-            <template #buttons>
-                <div></div>
-            </template>
-        </VueZoomable>
-    </scroll-overlay>
+    <!-- <scroll-overlay :enable-wheel-lock="false" :enable-touch-lock="false"> -->
+    <VueZoomable :initial-zoom="1" :selector="`div.zone-map-container`" :zoom-enabled="false">
+        <div class="relative zone-map-container w-full h-full">
+            <img :src="mapImage" class="" />
+            <slot name="aetherytes" v-if="showAetherytes">
+                <div v-for="aetheryte in zone.aetherytes" class="aetheryte absolute z-10"
+                    :key="`aetheryte-${aetheryte.id}`" :style="{
+                        'left': convertCoordToPercent(aetheryte.x, props.zone), 'top': convertCoordToPercent(aetheryte.y, props.zone),
+                        'zoom': (1 / zoom).toFixed(2)
+                    }" :data-title="getDisplayName(aetheryte, 'en')">
+                </div>
+            </slot>
+            <slot name="points"></slot>
+        </div>
+        <template #buttons>
+            <div></div>
+        </template>
+    </VueZoomable>
+    <!-- </scroll-overlay> -->
 </template>
 
 <script setup lang="ts">
