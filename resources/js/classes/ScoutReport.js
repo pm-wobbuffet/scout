@@ -608,14 +608,18 @@ export default class ScoutReport {
      * underlying mob or spawn point info for display
      * @param {Number} zone_id
      * @param {Number} instance_number
+     * @param {Boolean} include_occupied - include B rank data
      * @returns array
      */
-    getFoundMobInfoForZone(zone_id, instance_number) {
+    getFoundMobInfoForZone(zone_id, instance_number, include_occupied = false) {
         return this.point_data.filter((point) => {
             return (
                 point.zone_id == zone_id &&
                 point.instance_number == instance_number &&
-                point.mob_id !== null
+                (point.mob_id !== null
+                    ||
+                    include_occupied && point.mob_id === null
+                )
             )
         }).map((point) => {
             // Tack on the mob info so it's easier to get names for display, etc.

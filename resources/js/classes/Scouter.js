@@ -64,6 +64,9 @@ export default class Scouter {
         if (id in this.mob_data) {
             return this.mob_data[id]
         }
+        if (id in this.other_mob_data) {
+            return this.other_mob_data[id]
+        }
         return null
     }
 
