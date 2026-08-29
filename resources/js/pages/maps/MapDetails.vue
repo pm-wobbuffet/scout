@@ -1,6 +1,6 @@
 <template>
-    <div class="flex w-full gap-2">
-        <ZoomableMapBase :zone="props.zone">
+    <div class="flex flex-wrap w-full gap-0 max-h-2/3">
+        <ZoomableMapBase :zone="props.zone" class="max-w-1/2">
             <template #points>
                 <button v-for="point in page.props.point_data" :key="`point-${point.agg_x}-${point.agg_y}`"
                     class="point_data" :style="{
@@ -12,7 +12,7 @@
                     :data-coords="`(${formatCoordinate(point.agg_x)}, ${formatCoordinate(point.agg_y)}) - ${point.num_points} sightings`"></button>
             </template>
         </ZoomableMapBase>
-        <Card class="rounded-xl w-full">
+        <Card class="rounded-xl w-full max-w-1/2">
             <CardHeader class="px-2 pb-0 text-center">
                 <CardTitle class="text-xl">Filters and Options</CardTitle>
             </CardHeader>
@@ -29,9 +29,11 @@
                     </fieldset>
                     <fieldset class="border rounded-md p-2 text-lg">
                         <legend class="font-bold">Mob Seen</legend>
-                        <label class="mr-2"><input type="radio" :value="null" class="mr-2" v-model="form.mobid" /> Any A
-                            Rank</label>
+
                         <div class="flex flex-wrap flex-col xl:flex-row">
+                            <label class="mr-2"><input type="radio" :value="null" class="mr-2" v-model="form.mobid" />
+                                Any A
+                                Rank</label>
                             <template v-for="mob in props.zone.mobs" :key="`mobs-${mob.id}`">
                                 <label class="mr-2"><input type="radio" :value="mob.id" class="mr-2"
                                         v-model="form.mobid" />

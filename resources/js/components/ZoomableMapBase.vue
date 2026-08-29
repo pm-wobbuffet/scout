@@ -2,7 +2,7 @@
     <!-- <scroll-overlay :enable-wheel-lock="false" :enable-touch-lock="false"> -->
     <VueZoomable :initial-zoom="1" :selector="`div.zone-map-container`" :zoom-enabled="false">
         <div class="relative zone-map-container w-full h-full">
-            <img :src="mapImage" class="" />
+            <img :src="mapImage" class="w-[1024px]" />
             <slot name="aetherytes" v-if="showAetherytes">
                 <div v-for="aetheryte in zone.aetherytes" class="aetheryte absolute z-10"
                     :key="`aetheryte-${aetheryte.id}`" :style="{
