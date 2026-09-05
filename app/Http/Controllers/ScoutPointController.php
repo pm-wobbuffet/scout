@@ -27,6 +27,24 @@ class ScoutPointController extends Controller
     {
         $this->authorizeUpdate($scout, $password);
 
+        // Handle meta update
+        if ($request->has('reporter')) {
+            $this->addScouterToScoutReport($scout, $request->validated('reporter'));
+        }
+
+        // Has this point/mob been submitted already? If so, ignore this submission
+        // so the original reporter retains credit
+        $existing = ScoutPoint::where('scout_id', $scout->id)
+            ->where('point_type', $request->validated('point_type'))
+            ->where('point_id', $request->validated('point_id'))
+            ->where('instance_number', $request->validated('instance_number'))
+            ->where('mob_id', $request->validated('mob_id'))
+            ->first();
+        if ($existing && $existing->count() > 0) {
+            // This mob on this point/instance combo was already logged
+            return response()->json(['custom_points' => collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray()]);
+        }
+
         // Delete any existing entries for this mob+instance
         ScoutPoint::where('scout_id', $scout->id)
             ->where('point_type', $request->validated('point_type'))
@@ -51,10 +69,7 @@ class ScoutPointController extends Controller
             'created_at'        => Carbon::now(),
             'updated_at'        => Carbon::now(),
         ]);
-        // Handle meta update
-        if ($request->has('reporter')) {
-            $this->addScouterToScoutReport($scout, $request->validated('reporter'));
-        }
+
 
         $this->sendScoutMobAssignedEvent($scout, $request->validated('zone_id'), $request->validated('instance_number', 1));
         $this->sendReportModifiedEvent($scout, [
