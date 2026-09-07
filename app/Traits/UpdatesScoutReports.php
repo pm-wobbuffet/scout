@@ -9,6 +9,7 @@ use App\Events\ScoutReportModified;
 use App\Models\Expansion;
 use App\Models\Scout;
 use App\Models\ScoutCustomPoint;
+use App\Models\ScoutPoint;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -69,36 +70,52 @@ trait UpdatesScoutReports
         // Key-based hash of zones that were updated as part of this report
         // Used to send a websocket message to clients that were listening
         $updated_zones = [];
+        $points = [];
         foreach ($sightings as $sighting) {
-            // Clear any previous sightings on this point
-            $scout->points()->where('point_id', $sighting['point_id'])
+            // Check to see if the point was already assigned by someone else.
+            // If so, we can bail so we don't accidentally overwrite the original reporter
+            $point = $scout->points()->where('point_id', $sighting['point_id'])
                 ->where('point_type', 'spawn_point')
                 ->where('instance_number', $sighting['instance_number'])
-                ->delete();
-            // Clear any previous assignments for the mob on this zone
-            $scout->points()->where('mob_id', $sighting['mob_id'])
-                ->where('instance_number', $sighting['instance_number'])
-                ->delete();
-            // Remove the mob from any dead mob lists
-            $scout->dead_mobs()->where('mob_id', $sighting['mob_id'])
-                ->where('instance_number', $sighting['instance_number'])
-                ->delete();
+                ->where('mob_id', $sighting['mob_id'])
+                ->first();
+            if ($point && $point->count() > 0) {
+                // This point was already assigned
+                $points[] = $point;
+            } else {
+                // Clear any previous sightings on this point
+                $scout->points()->where('point_id', $sighting['point_id'])
+                    ->where('point_type', 'spawn_point')
+                    ->where('instance_number', $sighting['instance_number'])
+                    ->delete();
+                // Clear any previous assignments for the mob on this zone
+                $scout->points()->where('mob_id', $sighting['mob_id'])
+                    ->where('instance_number', $sighting['instance_number'])
+                    ->delete();
+                // Remove the mob from any dead mob lists
+                $scout->dead_mobs()->where('mob_id', $sighting['mob_id'])
+                    ->where('instance_number', $sighting['instance_number'])
+                    ->delete();
+                $updated_zones[$sighting['zone_id'] . '-' . $sighting['instance_number']] = 1;
 
-            $updated_zones[$sighting['zone_id'] . '-' . $sighting['instance_number']] = 1;
-            $scout->points()->create([
-                'point_type'        => 'spawn_point',
-                'point_id'          => $sighting['point_id'],
-                'instance_number'   => $sighting['instance_number'],
-                'x'                 => $sighting['x'] ?? null,
-                'y'                 => $sighting['y'] ?? null,
-                'zone_id'           => $sighting['zone_id'],
-                'mob_id'            => $sighting['mob_id'],
-            ]);
+                $points[] = $scout->points()->create([
+                    'point_type'        => 'spawn_point',
+                    'point_id'          => $sighting['point_id'],
+                    'instance_number'   => $sighting['instance_number'],
+                    'x'                 => $sighting['x'] ?? null,
+                    'y'                 => $sighting['y'] ?? null,
+                    'zone_id'           => $sighting['zone_id'],
+                    'mob_id'            => $sighting['mob_id'],
+                ]);
+            }
         }
         $this->sendReportModifiedEvent($scout, [
             'name' => "Mulitple Points Imported (" . sizeof($sightings) . ")"
         ]);
-        return $updated_zones;
+        return [
+            'zones' => $updated_zones,
+            'points' => $points
+        ];
     }
 
     public function removeExistingScoutPoints(Scout $scout, $details)
@@ -123,15 +140,16 @@ trait UpdatesScoutReports
         event(new ScoutReportModified($scout, $details, $user));
     }
 
-    public function sendScoutMobAssignedEvent(Scout $scout, $zone_id, $instance_number)
+    public function sendScoutMobAssignedEvent(Scout $scout, int $zone_id, int $instance_number, ScoutPoint $point)
     {
         broadcast(
             new ScoutAssignMob(
                 $scout,
                 $zone_id,
                 $instance_number,
-                $scout->points->where('zone_id', $zone_id)
-                    ->where('instance_number', $instance_number)->values()
+                [$point],
+                // $scout->points->where('zone_id', $zone_id)
+                //     ->where('instance_number', $instance_number)->values()
             )
         )->toOthers();
     }

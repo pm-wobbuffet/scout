@@ -107,16 +107,27 @@ export default class ScoutReport {
         return true
     }
 
+    /**
+     * 
+     * @param {number} zone_id 
+     * @param {number} instance_number 
+     * @param {Array} new_points 
+     * @param {array} custom_points 
+     */
     updatePointDataForZone(zone_id, instance_number, new_points, custom_points) {
         if (custom_points) {
             this.custom_points.splice(0, this.custom_points.length, ...custom_points)
         }
         // Remove any previous points for this zone
-        this.point_data = this.point_data.filter((el) => {
-            return (el.zone_id != zone_id || (el.zone_id == zone_id && (el.instance_number != instance_number)))
-        })
+        // this.point_data = this.point_data.filter((el) => {
+        //     return (el.zone_id != zone_id || (el.zone_id == zone_id && (el.instance_number != instance_number)))
+        // })
 
         if (new_points && new_points.length) {
+            const pointsToFilter = new_points.map((el) => `${el.point_id}-${el.instance_number}`)
+            this.point_data = this.point_data.filter((pt) => {
+                return !pointsToFilter.includes(`${pt.point_id}-${pt.instance_number}`)
+            })
             this.point_data = [...this.point_data, ...new_points]
             // new_points.forEach((el) => {
             //     this.point_data.push(el)

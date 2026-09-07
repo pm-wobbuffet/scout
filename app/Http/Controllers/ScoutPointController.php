@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ScoutAssignMob;
-use App\Events\ScoutClearPoint;
 use App\Events\ScoutUpdateMobStatus;
 use App\Http\Requests\Scout\AssignMobRequest;
 use App\Http\Requests\Scout\ClearPointRequest;
@@ -13,11 +11,9 @@ use App\Models\Mob;
 use App\Models\Scout;
 use App\Models\ScoutDeadMob;
 use App\Models\ScoutPoint;
-use App\Models\Zone;
 use App\Traits\UpdatesScoutReports;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ScoutPointController extends Controller
 {
@@ -32,6 +28,7 @@ class ScoutPointController extends Controller
             $this->addScouterToScoutReport($scout, $request->validated('reporter'));
         }
 
+        $point = null;  // modified point to send in response
         // Has this point/mob been submitted already? If so, ignore this submission
         // so the original reporter retains credit
         $existing = ScoutPoint::where('scout_id', $scout->id)
@@ -42,36 +39,39 @@ class ScoutPointController extends Controller
             ->first();
         if ($existing && $existing->count() > 0) {
             // This mob on this point/instance combo was already logged
+            $point = $existing;
             return response()->json(['custom_points' => collect(ScoutCustomPointResource::collection($scout->custom_points))->toArray()]);
+        } else {
+            // Delete any existing entries for this mob+instance
+            ScoutPoint::where('scout_id', $scout->id)
+                ->where('point_type', $request->validated('point_type'))
+                ->where('point_id', $request->validated('point_id'))
+                ->where('instance_number', $request->validated('instance_number'))
+                ->delete();
+            ScoutPoint::where('scout_id', $scout->id)
+                ->where('mob_id', $request->validated('mob_id'))
+                ->where('instance_number', $request->validated('instance_number'))
+                ->delete();
+            // Add new mob onto this point
+            $point = $scout->points()->create([
+                'point_type'        => $request->validated('point_type'),
+                'point_id'          => $request->validated('point_id'),
+                'zone_id'           => $request->validated('zone_id'),
+                'instance_number'   => $request->validated('instance_number'),
+                'mob_id'            => $request->validated('mob_id'),
+                'reporter'          => $request->validated('reporter'),
+                'assigned_by_import' => $request->input('assigned_by_import', false),
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now(),
+            ]);
         }
 
-        // Delete any existing entries for this mob+instance
-        ScoutPoint::where('scout_id', $scout->id)
-            ->where('point_type', $request->validated('point_type'))
-            ->where('point_id', $request->validated('point_id'))
-            ->where('instance_number', $request->validated('instance_number'))
-            ->delete();
-        ScoutPoint::where('scout_id', $scout->id)
-            ->where('mob_id', $request->validated('mob_id'))
-            ->where('instance_number', $request->validated('instance_number'))
-            ->delete();
-
-
-        // Add new mob onto this point
-        $point = $scout->points()->create([
-            'point_type'        => $request->validated('point_type'),
-            'point_id'          => $request->validated('point_id'),
-            'zone_id'           => $request->validated('zone_id'),
-            'instance_number'   => $request->validated('instance_number'),
-            'mob_id'            => $request->validated('mob_id'),
-            'reporter'          => $request->validated('reporter'),
-            'assigned_by_import' => $request->input('assigned_by_import', false),
-            'created_at'        => Carbon::now(),
-            'updated_at'        => Carbon::now(),
-        ]);
-
-
-        $this->sendScoutMobAssignedEvent($scout, $request->validated('zone_id'), $request->validated('instance_number', 1));
+        $this->sendScoutMobAssignedEvent(
+            $scout,
+            $request->validated('zone_id'),
+            $request->validated('instance_number', 1),
+            $point
+        );
         $this->sendReportModifiedEvent($scout, [
             'name'              => 'Mob Assigned',
             'zone_id'           => $request->validated('zone_id'),

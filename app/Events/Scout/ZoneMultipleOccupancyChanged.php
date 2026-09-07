@@ -27,13 +27,14 @@ class ZoneMultipleOccupancyChanged implements ShouldDispatchAfterCommit, ShouldB
     /**
      * Create a new event instance.
      */
-    public function __construct(Scout $scout, array $zonelist)
+    public function __construct(Scout $scout, array $zonelist, array $points)
     {
         $this->scout = $scout;
-        $this->points = $scout->points()->whereIn(
-            DB::raw("CONCAT(zone_id,'-',instance_number)"),
-            $zonelist
-        )->get()->toArray();
+        // $this->points = $scout->points()->whereIn(
+        //     DB::raw("CONCAT(zone_id,'-',instance_number)"),
+        //     $zonelist
+        // )->get()->toArray();
+        $this->points = $points;
         $this->custom_points = $scout->custom_points->toArray();
         $this->zonelist = $zonelist;
     }

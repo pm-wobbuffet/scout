@@ -91,34 +91,35 @@ class ScoutController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(BulkUpdateScoutApiRequest $request, Scout $scout)
-    {
-        $modified_zones = $this->createBulkUpdate($scout, $request->validated('sightings'));
-        // Make sure to credit the user if a username was supplied
-        if ($request->has('update_user') && $request->input('update_user') !== 'Anonymous') {
-            // $scout->scouts()->upsert([
-            //     'scout_name' => $request->validated('update_user'),
-            // ], 'scout_name');
-            $this->addScouterToScoutReport($scout, $request->input('update_user'));
-        }
-        $scout->save();
+    // public function update(BulkUpdateScoutApiRequest $request, Scout $scout)
+    // {
+    //     $modified_zones = $this->createBulkUpdate($scout, $request->validated('sightings'));
+    //     // Make sure to credit the user if a username was supplied
+    //     if ($request->has('update_user') && $request->input('update_user') !== 'Anonymous') {
+    //         $this->addScouterToScoutReport($scout, $request->input('update_user'));
+    //     }
+    //     $scout->save();
 
-        $this->ScoutMultipleOccupanyUpdates($scout, array_keys($modified_zones));
+    //     $this->ScoutMultipleOccupanyUpdates($scout, array_keys($modified_zones));
 
-        return response()->json([
-            'scout_id'              =>  $scout->slug,
-            'collaborator_password' =>  $scout->collaborator_password,
-            'readonly_url'          =>  route('scout.view', $scout),
-            'collaborate_url'       =>  route('scout.view', [$scout, $scout->collaborator_password]),
-            'processed_sightings'   =>  $request->validated('sightings'),
-        ]);
-    }
+    //     return response()->json([
+    //         'scout_id'              =>  $scout->slug,
+    //         'collaborator_password' =>  $scout->collaborator_password,
+    //         'readonly_url'          =>  route('scout.view', $scout),
+    //         'collaborate_url'       =>  route('scout.view', [$scout, $scout->collaborator_password]),
+    //         'processed_sightings'   =>  $request->validated('sightings'),
+    //     ]);
+    // }
 
     public function bulkUpdate(BulkUpdateScoutApiRequest $request, Scout $scout)
     {
-        $modified_zones = $this->createBulkUpdate($scout, $request->validated('sightings'));
+        $update = $this->createBulkUpdate($scout, $request->validated('sightings'));
 
-        $this->ScoutMultipleOccupanyUpdates($scout, array_keys($modified_zones));
+        if ($request->has('update_user') && $request->input('update_user') !== 'Anonymous') {
+            $this->addScouterToScoutReport($scout, $request->input('update_user'));
+        }
+
+        $this->ScoutMultipleOccupanyUpdates($scout, array_keys($update['zones']), $update['points']);
         return response()->json([
             'scout_id'              =>  $scout->slug,
             'collaborator_password' =>  $scout->collaborator_password,
