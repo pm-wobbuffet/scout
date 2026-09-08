@@ -1,5 +1,5 @@
-name: deploy-to-beta-site
-run-name: Deploying code to Staging Server
+name: deploy-to-turtle-scout
+run-name: Deploying code to Live Server
 on: workflow_dispatch
 jobs:
     deploy:
@@ -14,10 +14,10 @@ jobs:
                   port: ${{ secrets.STAGE_PORT }}
                   key: ${{ secrets.STAGE_KEY }}
                   script: |
-                      cd ${{ secrets.STAGE_DIR }}
+                      cd ${{ secrets.PROD_DIR }}
                       php artisan down
-                      git reset --hard origin/v2-dev
-                      git pull origin v2-dev
+                      git reset --hard origin/v2
+                      git pull origin v2
                       composer install
                       # Run migrations
                       php artisan migrate --force
