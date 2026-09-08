@@ -77,5 +77,8 @@ export const instanceToIntMapping = {
     "": 4,
     "": 5,
     "": 6,
+    "": 7,
+    "": 8,
+    "": 9
 }
 export const intToInstanceMapping = Object.fromEntries(Object.entries(instanceToIntMapping).map(([key, value]) => [value, key]))
