@@ -31,10 +31,14 @@ trait UpdatesScoutReports
     {
         if ($reporter === null || !$reporter || $reporter === '') return;
         // If they already exist in the scout list, can return early
-        //if ($scout->scouts()->where('scout_name', '=', $reporter)->count() > 0) return;
-        $scout->scouts()->upsert([
-            'scout_name' => $reporter,
-        ], 'scout_name');
+        if ($scout->scouts()->where('scout_name', '=', $reporter)->count() > 0) return;
+        $scout->scouts()->insert([
+            'scout_id'      => $scout->id,
+            'scout_name'    => $reporter,
+        ]);
+        // $scout->scouts()->upsert([
+        //     'scout_name' => $reporter,
+        // ], 'scout_name');
 
         $this->metaUpdated($scout);
     }
@@ -106,6 +110,7 @@ trait UpdatesScoutReports
                     'y'                 => $sighting['y'] ?? null,
                     'zone_id'           => $sighting['zone_id'],
                     'mob_id'            => $sighting['mob_id'],
+                    'reporter'          => $sighting['reporter'] ?? null,
                 ]);
             }
         }

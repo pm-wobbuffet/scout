@@ -237,7 +237,7 @@ class UpdateScoutRequest extends FormRequest
 
     private function removeDuplicateSightings()
     {
-        $this->replace([
+        $this->merge([
             'sightings' => array_filter($this->input('sightings', []), function ($sighting) {
                 // Is this sighting already documented? If so, don't add this to the sighting index
                 if ($this->mobSightingIsDuplicate($sighting)) {
@@ -246,7 +246,9 @@ class UpdateScoutRequest extends FormRequest
 
                 $mob_point = $this->mobAlreadyAssigned($sighting);
                 // Is the mob already on a different point?
-                $mob_point->delete();
+                if ($mob_point !== null) {
+                    $mob_point->delete();
+                }
 
                 return true;
             })
