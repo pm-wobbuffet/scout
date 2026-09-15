@@ -1,20 +1,20 @@
-import '../css/app.css';
+import "../css/app.css";
 
-import { createInertiaApp } from '@inertiajs/vue3';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import type { DefineComponent } from 'vue';
-import { createApp, h } from 'vue';
-import { ZiggyVue } from 'ziggy-js';
-import { initializeTheme } from './composables/useAppearance';
-import emitter from './mitt';
-import axios from 'axios';
-import Toast from 'vue-toastification';
-import { useToast } from 'vue-toastification';
-import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
-import ContextMenu from '@imengyu/vue3-context-menu'
+import { createInertiaApp } from "@inertiajs/vue3";
+import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
+import type { DefineComponent } from "vue";
+import { createApp, h } from "vue";
+import { ZiggyVue } from "ziggy-js";
+import { initializeTheme } from "./composables/useAppearance";
+import emitter from "./mitt";
+import axios from "axios";
+import Toast from "vue-toastification";
+import { useToast } from "vue-toastification";
+import "@imengyu/vue3-context-menu/lib/vue3-context-menu.css";
+import ContextMenu from "@imengyu/vue3-context-menu";
 
 // Extend ImportMeta interface for Vite...
-declare module 'vite/client' {
+declare module "vite/client" {
     interface ImportMetaEnv {
         readonly VITE_APP_NAME: string;
         [key: string]: string | boolean | undefined;
@@ -26,40 +26,37 @@ declare module 'vite/client' {
     }
 }
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-
+const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 createInertiaApp({
     title: (title) => {
-        if (title !== '' && title !== null) {
-            return `${title} - ${appName}`
+        if (title !== "" && title !== null) {
+            return `${title} - ${appName}`;
         }
-        return `${appName}`
+        return `${appName}`;
     },
-    resolve: (name) => resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>('./pages/**/*.vue')),
+    resolve: (name) =>
+        resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>("./pages/**/*.vue")),
     setup({ el, App, props, plugin }) {
-        const toast = useToast()
+        const toast = useToast();
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
             .use(Toast, {})
             .use(ContextMenu)
-            .provide('emitter', emitter)
-            .provide('Toast', toast)
+            .provide("emitter", emitter)
+            .provide("Toast", toast)
             .mount(el);
-
     },
     progress: {
-        color: '#4B5563',
+        color: "#4B5563",
     },
 });
-
 
 if (window) {
     window.axios = axios;
     window.emitter = emitter;
 }
-
 
 // This will set light / dark mode on page load...
 initializeTheme();

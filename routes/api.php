@@ -10,7 +10,7 @@ Route::middleware(['throttle:api'])
         Route::get('/spawnpoints', 'SpawnPointsController@index');
         Route::get('/zones', 'ZoneController@index');
         Route::get('/expansions', 'ExpansionController@index');
-        Route::match(['PUT', 'PATCH'], '/scout/{scout:slug}/bulkupdate', 'ScoutController@bulkUpdate');
+        Route::match(['PUT', 'PATCH'], '/scout/{scout:slug}/bulkupdate', 'ScoutController@update');
         Route::match(['POST', 'PATCH'], '/scout/{scout:slug}/occupypoint', 'ScoutController@updateOccupiedPoint');
         Route::apiResource('scout', 'ScoutController');
     });

@@ -666,7 +666,13 @@ export default class ScoutReport {
     }
 
     handleZoneOccupancyUpdate(e) {
-        this.deleteAllPointDataForZone(e.zonelist)
+        // this.deleteAllPointDataForZone(e.zonelist)
+        const pts = e.points.map((pt) => `${pt.point_type}-${pt.point_id}-${pt.instance_number}`)
+        const mobs = e.points.map((pt) => `${pt.mob_id}-${pt.instance_number}`)
+        this.point_data = this.point_data.filter((pt) => {
+            return !pts.includes(`${pt.point_type}-${pt.point_id}-${pt.instance_number}`)
+                && !mobs.includes(`${pt.mob_id}-${pt.instance_number}`)
+        })
         this.point_data = [...this.point_data, ...e.points]
         this.custom_points = e.custom_points
     }

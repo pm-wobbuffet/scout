@@ -111,7 +111,7 @@ class ScoutController extends Controller
     //     ]);
     // }
 
-    public function bulkUpdate(BulkUpdateScoutApiRequest $request, Scout $scout)
+    public function update(BulkUpdateScoutApiRequest $request, Scout $scout)
     {
         $update = $this->createBulkUpdate($scout, $request->validated('sightings'));
 

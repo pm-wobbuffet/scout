@@ -98,7 +98,7 @@ class MainController extends Controller
 
         $created_points = $scout->points()->createMany($request->validated('point_data'));
 
-        $this->ScoutMultipleOccupanyUpdates($scout, $request->validated('zonelist'));
+        $this->ScoutMultipleOccupanyUpdates($scout, $request->validated('zonelist'), $created_points->toArray());
         $this->sendReportModifiedEvent($scout, ['name' => "Multiple Points Imported ({$created_points->count()})"]);
 
         return response()->json([
