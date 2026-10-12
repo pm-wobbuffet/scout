@@ -19,36 +19,38 @@
                 </div>
                 <div class="flex">
                     <Popover class="self-center mr-auto basis-0 shrink ml-2 relative">
-                    <PopoverButton
-                        class="border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 dark:border-slate-500 rounded-sm"
-                        title="Change the sort order and instance count of zones">
-                        <SortIcon />
-                    </PopoverButton>
-                    <PopoverPanel
-                        class="absolute min-w-max mt-1 z-50 text-sm left-1/2 -translate-x-1/2 bg-white dark:bg-slate-700 dark:text-slate-300 border border-black p-4 text-black">
-                        <div class="text-center border-b font-bold text-xl mb-2">Sort Order/Instances</div>
-                        <div class="grid gap-2 items-center" style="grid-template-columns: 1fr auto auto;">
-                            <template v-for="expac in getActiveExpac()">
-                                <template v-for="(zone, index) in expac.zones" :key="`zone-sort-row-${zone.id}`">
-                                    <div class="text-md font-bold">{{ getDisplayName(zone, defaultLanguage) }}</div>
-                                    <div class="zone-sort-buttons">
-                                        <button :disabled="index == expac.zones.length - 1"
-                                            @click="changeZoneSort(expac.id, index, index + 1)">
-                                            <ArrowDownIcon />
-                                        </button>
-                                        <button @click="changeZoneSort(expac.id, index, index - 1)"
-                                            :disabled="index == 0">
-                                            <ArrowUpIcon />
-                                        </button>
-                                    </div>
-                                    <input type="number" v-model="zone.default_instances" class="w-[4ch] p-0 text-center dark:bg-slate-800 dark:text-white disabled:opacity-20" min="1"
-                                    title="Update the instance counts (can only be done on a fresh scout report)"
-                                    :disabled="props?.scout">
+                        <PopoverButton
+                            class="border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 dark:border-slate-500 rounded-sm"
+                            title="Change the sort order and instance count of zones">
+                            <SortIcon />
+                        </PopoverButton>
+                        <PopoverPanel
+                            class="absolute min-w-max mt-1 z-50 text-sm left-1/2 -translate-x-1/2 bg-white dark:bg-slate-700 dark:text-slate-300 border border-black p-4 text-black">
+                            <div class="text-center border-b font-bold text-xl mb-2">Sort Order/Instances</div>
+                            <div class="grid gap-2 items-center" style="grid-template-columns: 1fr auto auto;">
+                                <template v-for="expac in getActiveExpac()">
+                                    <template v-for="(zone, index) in expac.zones" :key="`zone-sort-row-${zone.id}`">
+                                        <div class="text-md font-bold">{{ getDisplayName(zone, defaultLanguage) }}</div>
+                                        <div class="zone-sort-buttons">
+                                            <button :disabled="index == expac.zones.length - 1"
+                                                @click="changeZoneSort(expac.id, index, index + 1)">
+                                                <ArrowDownIcon />
+                                            </button>
+                                            <button @click="changeZoneSort(expac.id, index, index - 1)"
+                                                :disabled="index == 0">
+                                                <ArrowUpIcon />
+                                            </button>
+                                        </div>
+                                        <input type="number" v-model="zone.default_instances"
+                                            class="w-[4ch] p-0 text-center dark:bg-slate-800 dark:text-white disabled:opacity-20"
+                                            min="1"
+                                            title="Update the instance counts (can only be done on a fresh scout report)"
+                                            :disabled="props?.scout">
+                                    </template>
                                 </template>
-                            </template>
-                        </div>
-                    </PopoverPanel>
-                </Popover>
+                            </div>
+                        </PopoverPanel>
+                    </Popover>
                     <button
                         class="self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center text-2xl bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
                         title="Toggle display mode between dark/light">
@@ -63,20 +65,14 @@
 
                     <button
                         class="self-center whitespace-nowrap mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
-                        title="Enter a display name to submit with your scout report (optional)"
-                        v-if="!editingUsername"
-                        @click.prevent="toggleUsernameEditor()"
-                        >{{ getUserDisplayName() }}</button>
-                    <div class="flex self-center justify-center items-center basis-0 shrink"
-                    v-if="editingUsername">
-                        <input class="p-0  border-white self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
-                        id="txtDisplayUserName"
-                        maxlength="30"
-                        @keypress.enter="setUserDisplayName()"
-                        :value="getUserDisplayName()">
-                        <button
-                        @click="setUserDisplayName()"
-                        >
+                        title="Enter a display name to submit with your scout report (optional)" v-if="!editingUsername"
+                        @click.prevent="toggleUsernameEditor()">{{ getUserDisplayName() }}</button>
+                    <div class="flex self-center justify-center items-center basis-0 shrink" v-if="editingUsername">
+                        <input
+                            class="p-0  border-white self-center mr-auto basis-0 shrink ml-2 relative border flex items-center justify-center bg-slate-400 dark:bg-slate-700 rounded-sm dark:border-slate-500"
+                            id="txtDisplayUserName" maxlength="30" @keypress.enter="setUserDisplayName()"
+                            :value="getUserDisplayName()">
+                        <button @click="setUserDisplayName()">
                             <CheckBold />
                         </button>
                     </div>
@@ -86,9 +82,8 @@
             </div>
             <div class="flex shrink">
                 <button
-                class="mr-2 flex items-center gap-x-2 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300"
-                title="Export marks as text"
-                @click.prevent="copyMarksAsText">
+                    class="mr-2 flex items-center gap-x-2 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300"
+                    title="Export marks as text" @click.prevent="copyMarksAsText">
                     <ExportIcon title="Export marks as text" /> Export
                 </button>
                 <button
@@ -100,27 +95,26 @@
                 <Link as="button" method="post" :href="route('scout.clone', scout)" :preserve-state="false"
                     v-if="scout?.id && !props.editmode"
                     class="bg-blue-400 p-2 rounded-md text-slate-100 flex items-center gap-x-1">
-                <ContentCopyIcon class="inline-block" /> Duplicate
+                    <ContentCopyIcon class="inline-block" /> Duplicate
                 </Link>
             </div>
         </nav>
         <main class="map-main-window">
-            <textarea name="txtExport" id="txtExport" :value="getExportTextValue"
-            class="hidden"></textarea>
+            <textarea name="txtExport" id="txtExport" :value="getExportTextValue" class="hidden"></textarea>
             <div class="map-image-list order-2">
                 <template v-for="zone in getMapsForExpansion()">
                     <ZoneMap v-for="i in zone.default_instances" :id="`zonemap-${zone.id}-${i}`"
                         :key="`zonemap-${zone.id}-${i}`" :zone="zone" :instance="i" :editmode="props.editmode"
                         :language="defaultLanguage" :ref="el => { zoneMaps[zone.id + '-' + i] = el }" v-model="form"
-                        @pointUpdated="handlePointUpdated"
-                        @mobStatusUpdated="handleMobStatusUpdate"
-                        @point-occupied-updated="handleOccupiedUpdate"
-                         />
+                        @pointUpdated="handlePointUpdated" @mobStatusUpdated="handleMobStatusUpdate"
+                        @point-occupied-updated="handleOccupiedUpdate" />
                 </template>
             </div>
             <aside class="sticky top-0 border border-gray-400 ml-1 self-start order-1 bg-white dark:bg-slate-800">
                 <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300" v-if="form.title != ''">
-                    <div class="text-sm max-w-[200px] overflow-hidden overflow-ellipsis" :title="form.title">{{ form.title }}</div>
+                    <div class="text-sm max-w-[200px] overflow-hidden overflow-ellipsis" :title="form.title">{{
+                        form.title }}
+                    </div>
                 </div>
                 <div class="grid grid-cols-2 gap-1 p-1 scale-90">
                     <a href="#"
@@ -140,10 +134,10 @@
                         title="Save the scout report to the database and share with others if desired">
                         <ExportIcon /> Share
                     </a>
-                    <button class="inline-flex rounded-md bg-slate-500 dark:bg-yellow-800 py-1 px-3 font-bold text-white dark:text-slate-300 mr-1"
+                    <button
+                        class="inline-flex rounded-md bg-slate-500 dark:bg-yellow-800 py-1 px-3 font-bold text-white dark:text-slate-300 mr-1"
                         v-if="props.editmode && !props.scout?.finalized_at"
-                        title="Import mob coordinates by pasting in chat logs"
-                        @click.prevent="showImportDialog">
+                        title="Import mob coordinates by pasting in chat logs" @click.prevent="showImportDialog">
                         <ClipboardTextMultipleOutlineIcon />Import
                     </button>
                     <a href="#"
@@ -155,12 +149,12 @@
                         Finish
                     </a>
                     <a href="#"
-                    class="inline-flex rounded-md bg-green-700 dark:bg-green-800 py-1 font-bold px-3 text-white dark:text-slate-300"
-                    title="Enter details about the scouting report, including names of scouts"
-                    @click.prevent="showDetailsDialog()"
-                    >
-                    <ClipboardTextOutline />
-                    Details</a>
+                        class="inline-flex rounded-md bg-green-700 dark:bg-green-800 py-1 font-bold px-3 text-white dark:text-slate-300"
+                        title="Enter details about the scouting report, including names of scouts"
+                        @click.prevent="showDetailsDialog()">
+                        <ClipboardTextOutline />
+                        Details
+                    </a>
                 </div>
                 <div v-for="expac in getActiveExpac()">
                     <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
@@ -170,11 +164,13 @@
                     </div>
                     <ul class="text-sm">
                         <template v-for="zone in expac.zones">
-                            <li v-for="i in zone.default_instances" class="hover:bg-slate-200 dark:hover:bg-slate-700 ml-2 pr-2"
-                                :class="{ 'line-through': isZoneScoutingComplete(zone, i) }"><a
-                                    class="text-blue-500" :href="`#zonemap-${zone.id}-${i}`">{{ getDisplayName(zone,
+                            <li v-for="i in zone.default_instances"
+                                class="hover:bg-slate-200 dark:hover:bg-slate-700 ml-2 pr-2"
+                                :class="{ 'line-through': isZoneScoutingComplete(zone, i) }"><a class="text-blue-500"
+                                    :href="`#zonemap-${zone.id}-${i}`">{{ getDisplayName(zone,
                                         defaultLanguage) }}</a>
-                                <span class="ml-1 font-bold text-blue-800 dark:text-blue-400" v-if="zone.default_instances > 1">{{ i
+                                <span class="ml-1 font-bold text-blue-800 dark:text-blue-400"
+                                    v-if="zone.default_instances > 1">{{ i
                                     }}</span>
                                 <i class="text-sm ml-2 text-black dark:text-slate-200">{{ getFoundMobCount(zone.id, i)
                                     }}/{{ zone.mobs.length }}
@@ -188,39 +184,52 @@
                     <div>
                         <ul class="text-sm">
                             <li v-for="(scout, index) in form.scouts" :key="`scoutname-${index}`"
-                            class="ml-2 pr-2 text-blue-800 dark:text-blue-400 overflow-ellipsis"
-                            :title="scout"
-                            >{{ scout }}</li>
+                                class="ml-2 pr-2 text-blue-800 dark:text-blue-400 overflow-ellipsis" :title="scout">{{
+                                    scout }}
+                            </li>
                         </ul>
                     </div>
                 </div>
+                <div class="font-bold bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">
+                    <div class="text-sm max-w-[200px] overflow-hidden overflow-ellipsis">
+                        New Site Available
+                    </div>
+                </div>
+                <div class="p-1 text-black dark:text-slate-200">
+                    <a href="https://scout.turtlehunts.app" class="underline">Version 2 is
+                        Live!</a>
+                    <br />
+                    <div class="text-sm word-wrap max-w-40">Don't worry, this version will remain live through
+                        Evercold.</div>
+                </div>
             </aside>
         </main>
-        <dialog id="scoutDetails" class="relative min-w-[400px]"
-        @close="handleDetailsUpdated">
+        <dialog id="scoutDetails" class="relative min-w-[400px]" @close="handleDetailsUpdated">
             <h1 class="font-bold text-2xl mb-4">Scout Report Details</h1>
             <div class="grid grid-cols-2 items-center gap-2 w-full" style="grid-template-columns: auto 1fr;">
                 <div>Title</div>
                 <div>
-                    <input type="text" name="scouttitle" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black w-full" v-model="form.title"
-                    maxlength="100"
-                    title="You can optionally enter a descriptive title for the scout report, i.e. Adam 30 July AM Train">
+                    <input type="text" name="scouttitle"
+                        class="rounded-md text-sm bg-white dark:bg-gray-300 text-black w-full" v-model="form.title"
+                        maxlength="100"
+                        title="You can optionally enter a descriptive title for the scout report, i.e. Adam 30 July AM Train">
                 </div>
                 <div>Scouts:</div>
                 <div>
                     <div v-for="(scout, index) in form.scouts" class="flex gap-1 mb-1">
-                        <input v-model="form.scouts[index]" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black p-1">
+                        <input v-model="form.scouts[index]"
+                            class="rounded-md text-sm bg-white dark:bg-gray-300 text-black p-1">
                         <button class="rounded-md p-1 bg-gray-400 dark:bg-slate-400 text-black text-xs"
-                        @click.prevent="removeScout(index)"
-                        title="Remove this scout from the scouting report"
-                        >Remove</button>
+                            @click.prevent="removeScout(index)"
+                            title="Remove this scout from the scouting report">Remove</button>
                     </div>
                     <div class="flex gap-1 mb-1">
-                        <input id="txtNewScout" name="newscout" class="rounded-md text-sm bg-white dark:bg-gray-300 text-black p-1"
-                        @keypress.enter.prevent="handleAddScout">
+                        <input id="txtNewScout" name="newscout"
+                            class="rounded-md text-sm bg-white dark:bg-gray-300 text-black p-1"
+                            @keypress.enter.prevent="handleAddScout">
                         <button class="rounded-md p-1 bg-gray-400 dark:bg-slate-400 text-black text-xs"
-                        title="Add a credit to the scouting report"
-                        @click.prevent.stop="handleAddScout">Add</button>
+                            title="Add a credit to the scouting report"
+                            @click.prevent.stop="handleAddScout">Add</button>
                     </div>
                 </div>
             </div>
@@ -241,8 +250,10 @@
                 <h1 class="font-bold text-2xl mb-4">Share Editable Map</h1>
                 <p class="text-sm">This link will allow users to edit/add points to the map, so only give it to trusted
                     users. <br>
-                    <b>Important:</b> This is still a work in progress! It has worked in limited testing, but if you want to be extra safe
-                <br> only have one person using a report at the same time.</p>
+                    <b>Important:</b> This is still a work in progress! It has worked in limited testing, but if you
+                    want to be extra safe
+                    <br> only have one person using a report at the same time.
+                </p>
                 <div class="bg-blue-500 text-white p-4 mb-4 relative cursor-pointer"
                     @click="copyLink(route('scout.view', { scout: props.scout.slug, password: props.scout.collaborator_password }))">
                     <span>{{ route('scout.view', {
@@ -275,7 +286,7 @@
                                     </legend>
                                     <div v-for="mob in form.point_data[zone.id][i]">
                                         <div>
-                                            {{ zone.mobs.find((el) => el.id == mob.mob_id).name }}
+                                            {{zone.mobs.find((el) => el.id == mob.mob_id).name}}
                                             ({{ formatCoordinate(mob.x ?? getPointById(zone, mob.point_id)?.['x']) }},
                                             {{ formatCoordinate(mob.y ?? getPointById(zone, mob.point_id)?.['y']) }})
                                         </div>
@@ -302,16 +313,15 @@
                 Example: <b>Nariphon Lakeland ( 35.5 , 27.2 ) Z: 0.3 INSTANCE 3</b> would be parsed as being in instance
                 3
                 <br>
-                <b>Be cautious if you paste in a line without a mob name - make sure it's not an accidental B rank coordinate
+                <b>Be cautious if you paste in a line without a mob name - make sure it's not an accidental B rank
+                    coordinate
                     <br>
                     If the coordinates do not include mob name, it will assign them in order of the zone mob list<br>
                 </b>
             </p>
             <div>
                 <textarea name="pastedLog" id="pastedLog" class="w-full" rows="6"></textarea>
-                <button type="button"
-                    @click.prevent="parsePastedLog()"
-                    :disabled="processingImport"
+                <button type="button" @click.prevent="parsePastedLog()" :disabled="processingImport"
                     class="bg-blue-300 dark:bg-slate-800 p-2 border-black rounded-md font-bold">Import</button>
                 <div class="text-sm font-mono" v-if="outputTextFromImport != ''">
                     <div v-html="outputTextFromImport"></div>
@@ -400,7 +410,7 @@ const form = useForm({
     scouts: [],
 })
 
-const toggleUsernameEditor = function() {
+const toggleUsernameEditor = function () {
     editingUsername.value = true
     nextTick(() => {
         const txtUname = document.getElementById('txtDisplayUserName')
@@ -409,17 +419,17 @@ const toggleUsernameEditor = function() {
     })
 }
 
-const getUserDisplayName = function() {
-    if('username' in localStorage) {
+const getUserDisplayName = function () {
+    if ('username' in localStorage) {
         return localStorage.getItem('username')
     }
     return 'Anonymous'
 }
 
-const setUserDisplayName = function() {
+const setUserDisplayName = function () {
     const txtUname = document.getElementById('txtDisplayUserName')
-    if(txtUname.value.length > 0) {
-        if(txtUname.value.length > 30) {
+    if (txtUname.value.length > 0) {
+        if (txtUname.value.length > 30) {
             txtUname.value = txtUname.value.substring(0, 30)
         }
         localStorage.setItem('username', txtUname.value)
@@ -429,16 +439,16 @@ const setUserDisplayName = function() {
     editingUsername.value = false
 }
 
-const removeScout = function(index) {
-    if(index >= 0 && index < form.scouts.length) {
+const removeScout = function (index) {
+    if (index >= 0 && index < form.scouts.length) {
         form.scouts.splice(index, 1)
     }
 }
 
-const handleAddScout = function(event) {
+const handleAddScout = function (event) {
     const txtScoutName = document.getElementById('txtNewScout')
-    if(txtScoutName.value != '') {
-        if(!form.scouts.includes(txtScoutName.value)) {
+    if (txtScoutName.value != '') {
+        if (!form.scouts.includes(txtScoutName.value)) {
             // Make sure they can't add duplicates
             form.scouts.push(txtScoutName.value)
         }
@@ -446,7 +456,7 @@ const handleAddScout = function(event) {
     }
 }
 
-const handleDetailsUpdated = function(event) {
+const handleDetailsUpdated = function (event) {
     emit('metaDetailsUpdated', form.title, form.scouts)
 }
 
@@ -464,12 +474,12 @@ const showImportDialog = function (event) {
     window.scrollTo(0, curScrollY)
 }
 
-const showDetailsDialog = function(event) {
+const showDetailsDialog = function (event) {
     emit('pauseUpdates')
     document.getElementById('scoutDetails').showModal()
 }
 
-const copyMarksAsText = async function() {
+const copyMarksAsText = async function () {
     try {
         let linkText = document.getElementById('txtExport').value
         await navigator.clipboard.writeText(linkText)
@@ -481,7 +491,7 @@ const copyMarksAsText = async function() {
 }
 
 const getExportTextValue = computed(() => {
-    const intToName = function(val) {
+    const intToName = function (val) {
         return {
             1: 'ONE',
             2: 'TWO',
@@ -493,18 +503,18 @@ const getExportTextValue = computed(() => {
     }
     let ret = ''
     props.expac.forEach((expansion) => {
-        if(getMappedMobsForExpac(expansion) > 0) {
+        if (getMappedMobsForExpac(expansion) > 0) {
             expansion.zones.forEach((zone) => {
-                for(let i = 1; i <= zone.default_instances; i++) {
-                    if(getFoundMobCount(zone.id, i) > 0) {
+                for (let i = 1; i <= zone.default_instances; i++) {
+                    if (getFoundMobCount(zone.id, i) > 0) {
                         form.point_data[zone.id][i].forEach((mob) => {
                             ret += zone.mobs.find((el) => el.id == mob.mob_id).name
                             ret += ` @ \uE0BB${zone.name}`
-                            if(zone.default_instances > 1) {
+                            if (zone.default_instances > 1) {
                                 ret += intToInstanceMapping[i]
                             }
                             ret += ` ( ${formatCoordinate(mob.x ?? getPointById(zone, mob.point_id)?.['x'])} , ${formatCoordinate(mob.y ?? getPointById(zone, mob.point_id)?.['y'])} ) `
-                            if(zone.default_instances > 1) {
+                            if (zone.default_instances > 1) {
                                 ret += `Instance ${intToName(i)}`
                             }
                             ret += "\n"
@@ -577,22 +587,22 @@ const handlePointUpdated = function (point, mob, zone_id, instance_number) {
     emit('pointUpdated', point, mob, form.point_data, getInstanceCounts(), zone_id, instance_number, form.custom_points, getUserDisplayName())
 }
 
-const handleMobStatusUpdate = function(mob, instance, status) {
+const handleMobStatusUpdate = function (mob, instance, status) {
     emit('mobStatusUpdated', mob, instance, status)
 }
 
-const handleOccupiedUpdate = function(point, instance, newValue) {
+const handleOccupiedUpdate = function (point, instance, newValue) {
     emit('point-occupied-updated', point, instance, newValue)
 }
 
-const getAllZoneSpawnPoints = function(zone) {
+const getAllZoneSpawnPoints = function (zone) {
     return zone.spawn_points.concat(getCustomSpawnPoints(zone.id))
 }
 
-const isZoneScoutingComplete = function(zone, instance_number) {
+const isZoneScoutingComplete = function (zone, instance_number) {
     // Get the remaining valid mobs for a particular zone
     let remainingMobs = zone.mobs.filter((mob) => {
-        if(form.mob_status && mob.id in form?.mob_status && form?.mob_status?.[mob.id]?.[instance_number]) {
+        if (form.mob_status && mob.id in form?.mob_status && form?.mob_status?.[mob.id]?.[instance_number]) {
             return false
         }
         return true
@@ -601,7 +611,7 @@ const isZoneScoutingComplete = function(zone, instance_number) {
     return getFoundMobCount(zone.id, instance_number) == remainingMobs.length
 }
 
-const getClosestSpawnPoint = function(zone, x, y) {
+const getClosestSpawnPoint = function (zone, x, y) {
     function d(point) {
         return Math.pow(point.x - x, 2) + Math.pow(point.y - y, 2)
     }
@@ -624,7 +634,7 @@ const getClosestSpawnPoint = function(zone, x, y) {
     return false
 }
 
-const createCustomSpawnPoint = function(zone, x, y) {
+const createCustomSpawnPoint = function (zone, x, y) {
     let lastEl = form.custom_points.push({
         'x': x,
         'y': y,
@@ -667,7 +677,7 @@ const manualAssignMob = function (zone, instance, point, mob, line) {
     })
 }
 
-const getAlreadyFoundMobIds = function(zone, instance) {
+const getAlreadyFoundMobIds = function (zone, instance) {
     let mobList = form.point_data?.[zone.id]?.[instance] ?? []
     let ret = []
     mobList.forEach((el) => {
@@ -676,53 +686,53 @@ const getAlreadyFoundMobIds = function(zone, instance) {
     return ret
 }
 
-const getMobOnPoint = function(zone, instance, point) {
+const getMobOnPoint = function (zone, instance, point) {
     let mobList = form.point_data?.[zone.id]?.[instance] ?? []
     return mobList.find((el) => {
         return el.point_id == point.id
     })
 }
 
-const logImportFail = function(assignments, line, errorMessage) {
+const logImportFail = function (assignments, line, errorMessage) {
     assignments.fail.push({
         line: line,
         reason: errorMessage
     })
 }
 
-const isMobValidForPoint = function(mob, point) {
+const isMobValidForPoint = function (mob, point) {
     //console.log(point.valid_mobs)
     let ret = false
     //console.log(`Testing if ${mob.name} is valid for ${point.id}`, point.valid_mobs)
     point.valid_mobs.forEach((el) => {
         //console.log(el)
-        if(el.id == mob.id) {
+        if (el.id == mob.id) {
             ret = true
         }
     })
     return ret
 }
 
-const getPointTakenByMob = function(zone, instance, mob) {
+const getPointTakenByMob = function (zone, instance, mob) {
     let mobList = form.point_data?.[zone.id]?.[instance] ?? []
     return mobList.find((el) => {
         return el.mob_id == mob.id
     })
 }
 
-const getPointById = function(zone, point_id) {
+const getPointById = function (zone, point_id) {
     return getAllZoneSpawnPoints(zone).find((pt) => {
         return pt.id == point_id
     })
 }
 
 const instanceToIntMapping = {
-        "": 1,
-        "": 2,
-        "": 3,
-        "": 4,
-        "": 5,
-        "": 6,
+    "": 1,
+    "": 2,
+    "": 3,
+    "": 4,
+    "": 5,
+    "": 6,
 }
 const intToInstanceMapping = Object.fromEntries(Object.entries(instanceToIntMapping).map(([key, value]) => [value, key]))
 
@@ -752,7 +762,7 @@ const parsePastedLog = function () {
             let point = null
             let closestPoint = getClosestSpawnPoint(zone, x, y)
 
-            if(!closestPoint && zone.allow_custom_points) {
+            if (!closestPoint && zone.allow_custom_points) {
                 // There was no point found close to this mob, so create one
                 point = createCustomSpawnPoint(zone, x, y)
             } else if (closestPoint && closestPoint.distance > 1.5 && zone.allow_custom_points) {
@@ -772,14 +782,14 @@ const parsePastedLog = function () {
             // If the zone expects instances, but we don't get an instance marker in the line
             // it's safer to *not* assume instance 1 so we don't break any existing points
             // on accident
-            if(!found[2] && !instOverride && zone.default_instances > 1) {
+            if (!found[2] && !instOverride && zone.default_instances > 1) {
                 assignments.fail.push({
                     'line': line,
                     'reason': 'No instance number found - cannot determine correct instance'
                 })
                 return false
             }
-            if(instance > zone.default_instances) {
+            if (instance > zone.default_instances) {
                 assignments.fail.push({
                     'line': line,
                     'reason': 'Invalid instance number detected.'
@@ -799,11 +809,11 @@ const parsePastedLog = function () {
                 }
                 return false
             })
-            if(!mob && allowBlankMobImport.value == true) {
+            if (!mob && allowBlankMobImport.value == true) {
                 // Are there already mobs assigned for this zone?
                 let mobsAssigned = getAlreadyFoundMobIds(zone, instance)
                 let mobOnPoint = getMobOnPoint(zone, instance, point)
-                if(mobOnPoint?.mob_id > 0) {
+                if (mobOnPoint?.mob_id > 0) {
                     logImportFail(assignments, line, 'This point already contains a mob')
                     return
                 }
@@ -815,7 +825,7 @@ const parsePastedLog = function () {
                 let otherMob = zone.mobs.find((m) => m.id == mobsAssigned[0])
 
                 // If the other mob in this zone exists already, see if we can place it on this spot
-                if(validMobs.length < 1 && otherMob && isMobValidForPoint(otherMob, point)) {
+                if (validMobs.length < 1 && otherMob && isMobValidForPoint(otherMob, point)) {
                     // Take the other assigned mob and stick him onto this point
                     let oldPt = getPointTakenByMob(zone, instance, otherMob)
                     oldPt = getPointById(zone, oldPt.point_id)
@@ -831,7 +841,7 @@ const parsePastedLog = function () {
                     point = oldPt
                 }
 
-                if(validMobs.length < 1) {
+                if (validMobs.length < 1) {
                     assignments.fail.push({
                         'line': line,
                         'reason': 'List of available mobs to place is already exhausted'
@@ -864,9 +874,9 @@ const parsePastedLog = function () {
     })
     //console.log(form.point_data)
     //txtArea.value = ''
-    if(assignments) {
+    if (assignments) {
         outputTextFromImport.value = `Imported ${assignments.success.length ?? 0} lines successfully.`
-        if(assignments.fail.length > 0) {
+        if (assignments.fail.length > 0) {
             outputTextFromImport.value += '<br>Failures:<br>'
             assignments.fail.forEach((fail) => {
                 outputTextFromImport.value += `<b>${fail.line}</b> - ${fail.reason}<br>`
@@ -874,7 +884,7 @@ const parsePastedLog = function () {
         }
     }
     emit('clipboardImport', assignments, form.point_data, form.custom_points, getInstanceCounts())
-    if(!props.scout) {
+    if (!props.scout) {
         processingImport.value = false
     }
     txtArea.value = ''
@@ -998,10 +1008,10 @@ const getZoneByName = function (zoneName) {
         for (let j = 0; j < props.expac[i].zones.length; j++) {
             let z = props.expac[i].zones[j]
             if (z.name == zoneName
-            || z.names['en'] == zoneName
-            || z.names['de'] == zoneName
-            || z.names['ja'] == zoneName
-            || z.names['fr'] == zoneName
+                || z.names['en'] == zoneName
+                || z.names['de'] == zoneName
+                || z.names['ja'] == zoneName
+                || z.names['fr'] == zoneName
             ) {
                 return z
             }
