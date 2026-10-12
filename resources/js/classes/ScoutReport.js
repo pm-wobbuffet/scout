@@ -107,16 +107,27 @@ export default class ScoutReport {
         return true
     }
 
+    /**
+     * 
+     * @param {number} zone_id 
+     * @param {number} instance_number 
+     * @param {Array} new_points 
+     * @param {array} custom_points 
+     */
     updatePointDataForZone(zone_id, instance_number, new_points, custom_points) {
         if (custom_points) {
             this.custom_points.splice(0, this.custom_points.length, ...custom_points)
         }
         // Remove any previous points for this zone
-        this.point_data = this.point_data.filter((el) => {
-            return (el.zone_id != zone_id || (el.zone_id == zone_id && (el.instance_number != instance_number)))
-        })
+        // this.point_data = this.point_data.filter((el) => {
+        //     return (el.zone_id != zone_id || (el.zone_id == zone_id && (el.instance_number != instance_number)))
+        // })
 
         if (new_points && new_points.length) {
+            const pointsToFilter = new_points.map((el) => `${el.point_id}-${el.instance_number}`)
+            this.point_data = this.point_data.filter((pt) => {
+                return !pointsToFilter.includes(`${pt.point_id}-${pt.instance_number}`)
+            })
             this.point_data = [...this.point_data, ...new_points]
             // new_points.forEach((el) => {
             //     this.point_data.push(el)
@@ -188,6 +199,11 @@ export default class ScoutReport {
                     mobInfo: mobInfo,
                 }
             }
+        }
+        // Did they pass a B/S rank in the field?
+        if (mobInfo.mob && mobInfo.mob.rank !== 2) {
+            this.setOccupiedStatus(closestPoint.point, mobInfo.instance, true)
+            return { status: 'success' }
         }
         //console.log(`Getting mobs assigned for ${mobInfo.zone.id} instance ${mobInfo.instance}`)
         let mobsAssigned = this.getFoundMobIDsForZone(mobInfo.zone.id, mobInfo.instance)
@@ -603,14 +619,18 @@ export default class ScoutReport {
      * underlying mob or spawn point info for display
      * @param {Number} zone_id
      * @param {Number} instance_number
+     * @param {Boolean} include_occupied - include B rank data
      * @returns array
      */
-    getFoundMobInfoForZone(zone_id, instance_number) {
+    getFoundMobInfoForZone(zone_id, instance_number, include_occupied = false) {
         return this.point_data.filter((point) => {
             return (
                 point.zone_id == zone_id &&
                 point.instance_number == instance_number &&
-                point.mob_id !== null
+                (point.mob_id !== null
+                    ||
+                    include_occupied && point.mob_id === null
+                )
             )
         }).map((point) => {
             // Tack on the mob info so it's easier to get names for display, etc.
@@ -646,7 +666,13 @@ export default class ScoutReport {
     }
 
     handleZoneOccupancyUpdate(e) {
-        this.deleteAllPointDataForZone(e.zonelist)
+        // this.deleteAllPointDataForZone(e.zonelist)
+        const pts = e.points.map((pt) => `${pt.point_type}-${pt.point_id}-${pt.instance_number}`)
+        const mobs = e.points.map((pt) => `${pt.mob_id}-${pt.instance_number}`)
+        this.point_data = this.point_data.filter((pt) => {
+            return !pts.includes(`${pt.point_type}-${pt.point_id}-${pt.instance_number}`)
+                && !mobs.includes(`${pt.mob_id}-${pt.instance_number}`)
+        })
         this.point_data = [...this.point_data, ...e.points]
         this.custom_points = e.custom_points
     }

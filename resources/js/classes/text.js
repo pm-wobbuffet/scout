@@ -71,7 +71,9 @@ export const parseLog = (logLines, scoutReport) => {
                 })
                 return false
             }
-            let mob = zone.mobs.find((el) => {
+            // Combine A and B/S rank arrays for searching
+            const allmobs = [...zone.mobs, ...zone.othermobs]
+            let mob = allmobs.find((el) => {
                 let lc = line.toLowerCase()
                 if (lc.includes(el.name.toLowerCase())) {
                     return true
@@ -83,6 +85,7 @@ export const parseLog = (logLines, scoutReport) => {
                 }
                 return false
             })
+            //console.log(allmobs, mob)
             assignments.success.push({
                 line: line,
                 info: {

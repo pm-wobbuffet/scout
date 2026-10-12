@@ -27,12 +27,12 @@ trait BroadcastsScoutingEvents
      * @param string[] $zone_list - list of areas updated in format {zone_id}-{instance_number}
      * @return void
      */
-    public function ScoutMultipleOccupanyUpdates(Scout $scout, array $zone_list)
+    public function ScoutMultipleOccupanyUpdates(Scout $scout, array $zone_list, array $points)
     {
-        broadcast(new ZoneMultipleOccupancyChanged($scout, $zone_list));
+        broadcast(new ZoneMultipleOccupancyChanged($scout, $zone_list, $points));
     }
 
-    public function PointOccupacyUpdateEvent(Scout $scout, $points, $zone_id, $instance_number)
+    public function PointOccupacyUpdateEvent(Scout $scout, $points, int $zone_id, int $instance_number)
     {
         broadcast(new PointOccupancyChanged(
             $scout,

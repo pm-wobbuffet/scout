@@ -15,8 +15,8 @@
             <div class="flex flex-row gap-0 shrink text-sm">
                 <button
                     class="mr-2 flex items-center gap-x-1 bg-slate-600 p-2 rounded-md text-slate-100 dark:text-slate-300"
-                    title="Export marks as text" @click="doCopy()">
-                    <SquareArrowRight title="Export marks as text" />
+                    title="Export marks as text" @click.exact="doCopy(false)" @click.ctrl="doCopy(true)">
+                    <SquareArrowRight title="Export marks as text. (Hold Ctrl to also export occupied points)" />
                     <span>Export</span>
                 </button>
                 <button
@@ -50,11 +50,11 @@
                                     :key="`fieldset-zone-${zone.id}-${i}`">
                                     <legend>{{ zone.name }}
                                         <span v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
-                                            }}</span>
+                                        }}</span>
                                     </legend>
                                     <div v-for="mobPoint in props.scoutReport.getFoundMobInfoForZone(zone.id, i)"
                                         :key="`moblist-${zone.id}-${i}-${mobPoint.id}`">
-                                        {{ getDisplayName(mobPoint.mob) }}
+                                        {{ getDisplayName(mobPoint.mob ?? getBRankForZone(zone)) }}
                                         (
                                         {{ formatCoordinate(mobPoint.x ?? mobPoint.spawn_point.x) }},
                                         {{ formatCoordinate(mobPoint.y ?? mobPoint.spawn_point.y) }}
@@ -95,15 +95,22 @@ const showMarkOverlay = ref(false)
 
 const { copy, copied } = useClipboard()
 
-const doCopy = () => {
-    copy(getClipboardText())
+const doCopy = (includeOccupied = false) => {
+    copy(getClipboardText(includeOccupied))
     if (copied) {
         toast.success('Copied to clipboard!')
     }
 
 }
 
-const getClipboardText = () => {
+const getBRankForZone = (zone) => {
+    // const zone_id = zone.id
+    // console.log(zone, props.scoutReport.scouter_instance.getMobsForZone(zone_id))
+    // return props.scoutReport.scouter_instance.getMobsForZone(zone_id).find((mob) => mob.rank === 1)
+    return zone.othermobs.find((mob) => mob.rank === 1)
+}
+
+const getClipboardText = (includeOccupied = false) => {
     const intToName = (val) => {
         return {
             1: 'ONE',
@@ -124,8 +131,8 @@ const getClipboardText = () => {
                 for (let i = 1; i <= instance_count; i++) {
                     // Were there mobs in this zone?
                     if (props.scoutReport.getFoundMobCountForZone(zone.id, i) < 1) continue
-                    props.scoutReport.getFoundMobInfoForZone(zone.id, i).forEach((mobPoint) => {
-                        ret += getDisplayName(mobPoint.mob)
+                    props.scoutReport.getFoundMobInfoForZone(zone.id, i, includeOccupied).forEach((mobPoint) => {
+                        ret += getDisplayName(mobPoint.mob ?? getBRankForZone(zone))
                         ret += ` @ \uE0BB${zone.name}`
                         if (instance_count > 1) ret += intToInstanceMapping[i]
                         ret += ` ( ${formatCoordinate(mobPoint.x ?? mobPoint.spawn_point.x)} , ${formatCoordinate(mobPoint.y ?? mobPoint.spawn_point.y)} )`

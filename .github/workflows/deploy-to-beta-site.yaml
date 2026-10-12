@@ -1,9 +1,6 @@
 name: deploy-to-beta-site
 run-name: Deploying code to Staging Server
-on:
-    push:
-        branches:
-            - v2
+on: workflow_dispatch
 jobs:
     deploy:
         runs-on: ubuntu-latest
@@ -19,8 +16,8 @@ jobs:
                   script: |
                       cd ${{ secrets.STAGE_DIR }}
                       php artisan down
-                      git reset --hard origin/v2
-                      git pull origin v2
+                      git reset --hard origin/v2-dev
+                      git pull origin v2-dev
                       composer install
                       # Run migrations
                       php artisan migrate --force

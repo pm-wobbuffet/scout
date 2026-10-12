@@ -78,7 +78,14 @@ class Zone extends Model
 
     public function mobs(): HasMany
     {
-        return $this->hasMany(Mob::class);
+        return $this->hasMany(Mob::class)
+            ->where('rank', 2);
+    }
+
+    public function othermobs(): HasMany
+    {
+        return $this->hasMany(Mob::class)
+            ->where('rank', '<>', 2);
     }
 
     public function aetherytes(): HasMany

@@ -11,6 +11,7 @@ use App\Traits\BroadcastsScoutingEvents;
 use App\Traits\UpdatesScoutReports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ScoutController extends Controller
 {
@@ -63,6 +64,7 @@ class ScoutController extends Controller
     {
         $this->addScouterToScoutReport($scout, $request->validated('update_user'));
         if ($request->has('dead_mobs')) {
+            Log::debug("Dead Mob Loop", ['dead_mobs' => $request->validated('dead_mobs')]);
             // Remove any mobs marked as "living" from the database of dead mobs
             $coll = collect($request->validated('dead_mobs'));
             $living_mobs = $coll->where('is_dead', '=', 0)->map(function ($value) {
@@ -83,8 +85,8 @@ class ScoutController extends Controller
         }
         if ($request->has('sightings')) {
             //dd($request->validated('sightings'));
-            $scout->points()->createMany($request->validated('sightings'));
-            $this->ScoutMultipleOccupanyUpdates($scout, $request->modified_zone_instances);
+            $points = $scout->points()->createMany($request->validated('sightings'));
+            $this->ScoutMultipleOccupanyUpdates($scout, $request->modified_zone_instances, $points->toArray());
         }
         $scout->update($request->validated());
         $scout->save();

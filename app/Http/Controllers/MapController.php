@@ -6,12 +6,14 @@ use App\Http\Requests\CustomPointViewRequest;
 use App\Models\Expansion;
 use App\Models\Zone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class MapController extends Controller
 {
-    public function index(CustomPointViewRequest $request, ?Zone $zone)
+    public function index(CustomPointViewRequest $request, ?Zone $zone): Response
     {
         // Get latest expansion in the DB for display
         $expac = Expansion::orderBy('id', 'DESC')
@@ -40,26 +42,31 @@ class MapController extends Controller
         ]);
     }
 
-    private function getPointsForZone(Zone $zone, float $round_factor = 0.1, ?int $mobid = null)
+    private function getPointsForZone(Zone $zone, float $round_factor = 0.1, ?int $mobid = null): Collection
     {
-        $query = DB::table('scout_points')
-            ->selectRaw('zone_id, COUNT(*) as num_points,
-            ROUND(x / ?) * ? as agg_x,
-            ROUND(y / ?) * ? as agg_y', [
+
+        $query = DB::table('scout_custom_points', 'scp')
+            ->join('scout_points as sp', 'scp.scout_id', '=', 'sp.scout_id')
+            ->selectRaw('scp.zone_id, COUNT(*) as num_points,
+            ROUND(scp.x / ?) * ? as agg_x,
+            ROUND(scp.y / ?) * ? as agg_y', [
                 $round_factor,
                 $round_factor,
                 $round_factor,
                 $round_factor
             ])
-            ->where('zone_id', $zone->id)
-            ->where('point_type', '=', 'custom_spawn_point')
-            ->whereNotNull('x')
-            ->whereNotNull('y')
+            ->where('scp.zone_id', '=', $zone->id)
+            ->where('sp.point_type', '=', 'custom_spawn_point')
+            ->whereRaw('scp.id = sp.point_id')
+            ->whereNotNull('scp.x')
+            ->whereNotNull('scp.y')
             ->when($mobid !== null, function ($query) use ($mobid) {
                 $query->where('mob_id', '=', $mobid);
             })
-            ->groupBy('zone_id', 'agg_x', 'agg_y')
+            ->groupBy('scp.zone_id', 'agg_x', 'agg_y')
             ->orderBy('num_points', 'DESC');
+
+
 
         return $query->get();
     }

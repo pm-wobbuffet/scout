@@ -72,6 +72,9 @@ class BulkUpdateScoutApiRequest extends FormRequest
             if (!is_null($sighting['mob_id'])) {
                 $sighting['mob'] = Mob::where('id', $sighting['mob_id'])->first()->toArray();
             }
+            if ($this->has('update_user')) {
+                $sighting['reporter'] = $this->input('update_user', null);
+            }
 
             $mod_sightings[$i] = $sighting;
         }
@@ -99,6 +102,7 @@ class BulkUpdateScoutApiRequest extends FormRequest
             'sightings.*.mob_id'                =>  'numeric|nullable',
             'sightings.*.mob'                   =>  'array',
             'sightings.*.distance'              =>  'nullable|numeric',
+            'sightings.*.reporter'              =>  'nullable|string',
             'update_user'                       =>  'string|nullable',
         ];
     }

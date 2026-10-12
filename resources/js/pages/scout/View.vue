@@ -51,6 +51,8 @@ const editmode = computed(() => {
     return props.scout.collaborator_password && props.scout.finalized_at === null
 })
 const toast = inject('Toast')
+const socketId = ref(null)
+
 provide('connectionStatus', wsConnection)
 provide('scoutReport', scout_report)
 provide('scout', props.scout)
@@ -66,9 +68,10 @@ if (props.scout.finalized_at === null) {
     const t = useEchoPublic(channelName, ['.ScoutAssignMob', '.UpdatePointOccupancy'], (e) => {
         scout_report.value.updatePointDataForZone(e.zone_id, e.instance_number, e.points, e.custom_points)
     })
-
     t.channel().pusher.connection.bind('state_change', (states) => {
         wsConnection.value = states.current
+        // Grab the socket ID after connected so we can set it in axios headers
+        socketId.value = t.channel().pusher.connection.socket_id
     })
 
     useEchoPublic(channelName, '.ScoutClearPoint', (e) => {
@@ -129,13 +132,23 @@ onBeforeMount(() => {
 onMounted(() => {
     // Set up default dictionaries to send for all routes/requests
     const routeParams = { scout: props.scout, password: props.scout.collaborator_password }
+
     const axInstance = axios.create({
         transformRequest: [(data) => {
             data['reporter'] = getScouterName()
             data['slug'] = props.scout.slug
             data['collaborator_password'] = props.scout.collaborator_password
             return data
-        }, ...axios.defaults.transformRequest]
+        }, ...axios.defaults.transformRequest],
+        headers: {
+            "X-Socket-Id": socketId.value
+        }
+    });
+    axInstance.interceptors.request.use((config) => {
+        // Make sure the current socket ID is included so laravel can ignore sending responses
+        // back to the same client that sent them
+        config.headers["X-Socket-Id"] = socketId.value;
+        return config;
     });
     emitter.on('mob:status', (obj) => {
         axInstance.post(route('scout.updatemobstatus', routeParams), { ...obj })
@@ -203,7 +216,6 @@ onMounted(() => {
         }
         emitter.emit('show:share')
     }
-
 })
 
 onBeforeUnmount(() => {
