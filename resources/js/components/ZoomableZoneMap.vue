@@ -1,7 +1,7 @@
 <template>
     <scroll-overlay wheel-unlock-key="Shift" class="max-w-[99vw]">
         <template #default="{ disableInteraction }">
-            <vue-zoomable :initial-zoom="1" :min-zoom="1" :selector="`div.zone-map-container`"
+            <vue-zoomable :initial-zoom="1" :min-zoom="1" :selector="`div.zone-map-container`" :pan-enabled="panEnabled"
                 class="w-full relative border select-none" v-model:pan="pan" v-model:zoom="zoom" :mouse-enabled="true"
                 :dbl-click-enabled="false" v-bind:disabled="disableInteraction" @zoom="checkZoomConstraints">
                 <div draggable="false" class="zone-map-container" @contextmenu.prevent="">
@@ -172,6 +172,9 @@ const selectedPoint = ref(null)
 const contextX = ref(0)
 const contextY = ref(0)
 // const parentWidth = ref(0)
+const panEnabled = computed(() => {
+    return zoom.value > 1 || zoom.value < 1
+})
 
 const optionsComponent = reactive<MenuOptions>({
     iconFontClass: 'iconfont',
