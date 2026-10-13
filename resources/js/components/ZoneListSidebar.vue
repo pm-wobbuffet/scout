@@ -10,21 +10,24 @@
             </div>
             <ScoutReportOptions />
             <div>
-                <div class="font-bold bg-slate-300 pl-1 text-sm dark:bg-slate-700 dark:text-slate-300">
-                    {{ getDisplayName(activeExpansion) }}
+                <div
+                    class="font-bold bg-slate-300 pl-1 text-sm dark:bg-slate-700 dark:text-slate-300 flex gap-1 items-center">
+                    <span>{{ getDisplayName(activeExpansion) }}</span>
                     <span class="text-xs italic">
                         {{ getMappedMobsForExpac(activeExpansion) }} /
                         {{ mobCount(activeExpansion) }}
                     </span>
+                    <div class="ml-auto pr-1 text-xs">
+                        <a href="" v-if="!showingZones" @click.prevent="showingZones = !showingZones">Show</a>
+                        <a href="" v-if="showingZones" @click.prevent="showingZones = !showingZones">Hide</a>
+                    </div>
                 </div>
-                <ul class="text-sm">
+                <ul class="text-sm" v-show="showingZones">
                     <!-- <template v-for="zone in activeExpansion.zones"> -->
                     <template v-for="zone in scoutReport.getZonesByExpansion()">
                         <li v-for="i in props.scoutReport.getInstanceCountForZone(zone.id)"
                             :id="`zonelink-${zone.id}-${i}`" :key="`zonelink-${zone.id}-${i}`"
-                            class="flex items-center hover:bg-slate-200 dark:hover:bg-slate-700 ml-2 pr-2" :class="{
-                                'hidden md:flex': !(`${zone.id}-${i}` in visibleMaps)
-                            }"><a
+                            class="flex items-center hover:bg-slate-200 dark:hover:bg-slate-700 ml-2 pr-2"><a
                                 class="block text-blue-500 max-w-(--sidebar-max-link-width) overflow-hidden text-ellipsis wrap-normal"
                                 :href="`#zonemap-${zone.id}-${i}`"
                                 :class="{ 'line-through': props.scoutReport.isZoneScoutingComplete(zone, i) }">{{
@@ -43,7 +46,7 @@
             </div>
             <ConnectionStatus :connection-status="connectionStatus" class="text-sm px-2"
                 v-if="connectionStatus != null" />
-            <div v-if="props.scoutReport.scouts.length > 0">
+            <div v-if="props.scoutReport.scouts.length > 0" class="hidden md:block">
                 <div class="font-bold text-sm bg-slate-300 p-1 dark:bg-slate-700 dark:text-slate-300">Scouts</div>
                 <div>
                     <ul class="text-sm">
@@ -71,6 +74,8 @@ import QuickPasteArea from './QuickPasteArea.vue';
 const props = defineProps({
     scoutReport: Object,
 })
+
+const showingZones = ref(true)
 
 const getMappedMobsForExpac = expac => {
     return props.scoutReport.getFoundMobCountForExpansion(expac.id)
