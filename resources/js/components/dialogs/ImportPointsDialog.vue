@@ -30,9 +30,8 @@
 
             <DialogFooter class="gap-2">
                 <Button variant="default" @click="importCoordinates">Import</Button>
-                <DialogClose as-child>
-                    <Button variant="secondary" @click="linesImportedMessage = ''; dialogOpen = false">Close</Button>
-                </DialogClose>
+                <Button type="button" variant="secondary"
+                    @click="linesImportedMessage = ''; dialogOpen = false">Close</Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>
