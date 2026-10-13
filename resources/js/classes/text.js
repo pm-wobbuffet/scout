@@ -37,7 +37,8 @@ export const parseLog = (logLines, scoutReport) => {
     //\uE0B1 = Instance 1 , \uE0B2 = 2 , \uE0B3 = 3  \uE0BB = start of flag marker
     const re = /[\uE0BB]([^\uE0B1-\uE0B6]*)([\uE0B1-\uE0B6]?) \( ([0-9\.]+)\W+,\W+([0-9\.]+)\W+\).*/
     const instanceCheck = /(instance.|i)([0-6])/i
-    const linesArr = logLines.split(/\r?\n/);
+    const instanceUnicode = /([\uE0B1-\uE0B6])/i
+    const linesArr = logLines.split(/[\r\n]+/)
     linesArr.forEach((line) => {
         let found = line.match(re)
         let instance = 1
@@ -56,6 +57,13 @@ export const parseLog = (logLines, scoutReport) => {
             let instOverride = line.match(instanceCheck)
             if (instOverride) {
                 instance = Number(instOverride[2])
+            }
+            // fallback and check for any match for instance markers in the whole string
+            if (!instOverride) {
+                instOverride = line.match(instanceUnicode)
+                if (instOverride) {
+                    instance = instanceToIntMapping[instOverride[1]]
+                }
             }
             if (!found[2] && !instOverride && scoutReport.value.getInstanceCountForZone(zone.id) > 1) {
                 assignments.fail.push({
