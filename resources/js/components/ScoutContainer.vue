@@ -40,11 +40,10 @@
                     <button class="border rounded-md px-2 bg-slate-400 font-bold text-sm"
                         @click.prevent="showMarkOverlay = false">Close</button>
                 </div>
-                <div v-for="expansion in props.scoutReport.scouter_instance.expansion_data.toReversed()"
-                    :key="`summary-expansion-container-${expansion.id}`">
+                <div v-for="expansion in reversedExpac" :key="`summary-expansion-container-${expansion.id}`">
                     <template v-if="props.scoutReport.getFoundMobCountForExpansion(expansion.id) > 0">
                         <h2>{{ expansion.name }}</h2>
-                        <template v-for="zone in props.scoutReport.getZonesByExpansion(expansion.id)">
+                        <template v-for="zone in expansion.zones">
                             <template v-for="i in props.scoutReport.getInstanceCountForZone(zone.id)">
                                 <fieldset v-if="props.scoutReport.getFoundMobCountForZone(zone.id, i)"
                                     :key="`fieldset-zone-${zone.id}-${i}`">
@@ -55,10 +54,8 @@
                                     <div v-for="mobPoint in props.scoutReport.getFoundMobInfoForZone(zone.id, i)"
                                         :key="`moblist-${zone.id}-${i}-${mobPoint.id}`">
                                         {{ getDisplayName(mobPoint.mob ?? getBRankForZone(zone)) }}
-                                        (
-                                        {{ formatCoordinate(mobPoint.x ?? mobPoint.spawn_point.x) }},
-                                        {{ formatCoordinate(mobPoint.y ?? mobPoint.spawn_point.y) }}
-                                        )
+                                        ({{ formatCoordinate(mobPoint.x ?? mobPoint.spawn_point.x) }}, {{
+                                            formatCoordinate(mobPoint.y ?? mobPoint.spawn_point.y) }})
                                     </div>
                                 </fieldset>
                             </template>
@@ -77,7 +74,7 @@ import SettingsPopover from '@/components/dialogs/SettingsDialog.vue';
 import SortOrderPopover from '@/components/popovers/SortOrderPopover.vue';
 import { SquareArrowRight, Files, Copy } from 'lucide-vue-next';
 import { Link } from '@inertiajs/vue3';
-import { inject, ref } from 'vue';
+import { computed, inject, ref } from 'vue';
 // import { useToast } from 'vue-toastification';
 import { useClipboard } from '@vueuse/core';
 import { intToInstanceMapping, formatCoordinate, getDisplayName } from '@/classes/helpers';
@@ -90,6 +87,11 @@ const props = defineProps({
 })
 const scout = inject('scout', null)
 const toast = inject('Toast')
+
+const reversedExpac = computed(() => {
+    console.log(props.scoutReport.scouter_instance.expansion_data)
+    return props.scoutReport.scouter_instance.expansion_data.toReversed()
+})
 
 const showMarkOverlay = ref(false)
 
