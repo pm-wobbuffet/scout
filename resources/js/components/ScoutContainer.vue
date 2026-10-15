@@ -43,7 +43,7 @@
                 <div v-for="expansion in reversedExpac" :key="`summary-expansion-container-${expansion.id}`">
                     <template v-if="props.scoutReport.getFoundMobCountForExpansion(expansion.id) > 0">
                         <h2>{{ expansion.name }}</h2>
-                        <template v-for="zone in expansion.zones">
+                        <template v-for="zone in props.scoutReport.scouter_instance.getZonesByExpansion(expansion.id)">
                             <template v-for="i in props.scoutReport.getInstanceCountForZone(zone.id)">
                                 <fieldset v-if="props.scoutReport.getFoundMobCountForZone(zone.id, i)"
                                     :key="`fieldset-zone-${zone.id}-${i}`">
@@ -89,8 +89,7 @@ const scout = inject('scout', null)
 const toast = inject('Toast')
 
 const reversedExpac = computed(() => {
-    console.log(props.scoutReport.scouter_instance.expansion_data)
-    return props.scoutReport.scouter_instance.expansion_data.toReversed()
+    return props.scoutReport.scouter_instance.expansion_data.slice().toReversed()
 })
 
 const showMarkOverlay = ref(false)
