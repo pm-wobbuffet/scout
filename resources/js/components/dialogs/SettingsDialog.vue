@@ -7,7 +7,8 @@
                 <SettingsIcon :size="18" />
             </button>
         </DialogTrigger>
-        <DialogContent class="" @escape-key-down="dialogOpen = false" @pointer-down-outside="dialogOpen = false">
+        <DialogContent class="min-w-[50%] max-w-[90%]" @escape-key-down="dialogOpen = false"
+            @pointer-down-outside="dialogOpen = false">
             <DialogHeader>
                 <DialogTitle>Settings</DialogTitle>
                 <DialogDescription>Edit the settings specified below to customize your Turtle Scout experience.
@@ -80,16 +81,21 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="settingRow">
+                <div class="settingRow">
                     <div class="setting">
-                        <h1>Show Quick Paste Bar</h1>
-                        <span>Always show the quick paste bar at the bottom of the screen to quickly paste in
-                            coordinates from chat.</span>
+                        <h1>Map Grid Layout</h1>
+                        <span>Use "fixed" if you want the old V1 style, 600px-max 2 maps per row.
+                            <br>
+                            Use "fluid" for the V2, fill-all-space grid layout.
+                        </span>
                     </div>
-                    <div>
-
+                    <div class="flex items-center justify-center gap-1">
+                        <Button type="button" :variant="(settings.mapLayout === 'fixed') ? 'default' : 'secondary'"
+                            size="sm" @click="settings.mapLayout = 'fixed'">Fixed</Button>
+                        <Button type="button" :variant="(settings.mapLayout === 'fluid') ? 'default' : 'secondary'"
+                            size="sm" @click="settings.mapLayout = 'fluid'">Fluid</Button>
                     </div>
-                </div> -->
+                </div>
             </form>
 
             <DialogFooter>
@@ -120,9 +126,11 @@ import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import { SettingsIcon } from 'lucide-vue-next';
 import { inject, ref } from 'vue';
 import LanguageSelectorTabs from '@/components/inputs/LanguageSelectorTabs.vue';
+import { useUserSettings } from '@/composables/useUserSettings';
 
 const dialogOpen = ref(false)
 const settings = inject('settings')
+const { updateSetting } = useUserSettings()
 
 const handleOpen = () => {
     dialogOpen.value = true
@@ -133,7 +141,7 @@ const handleOpen = () => {
 @reference "tailwindcss";
 
 div.settingRow {
-    @apply grid grid-cols-1 lg:grid-cols-[auto_250px] items-center border-b py-1;
+    @apply grid grid-cols-1 lg:grid-cols-[auto_250px] items-center border-b-2 border-gray-400 py-1;
 }
 
 div.setting {
