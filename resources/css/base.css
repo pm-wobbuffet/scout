@@ -76,20 +76,27 @@ select {
 }
 
 main.map-main-window {
-    @apply flex flex-col md:flex-row md:flex-nowrap gap-8 md:gap-1 gap-x-1 py-1 items-center justify-between max-w-[99vw];
+    @apply flex flex-col md:flex-row md:flex-nowrap gap-8 md:gap-1 gap-x-1 py-1 items-center max-w-[99vw];
 }
 
 .map-image-list {
     @apply flex-row grow-999 flex flex-wrap gap-2 items-center justify-center;
 }
 
-.map-image-list-grid {
-    @apply grid grid-cols-[repeat(auto-fill,minmax(500px,1fr))] grow-999 gap-1 max-w-[99vw] md:max-w-[calc(99vw-var(--sidebar-width))];
-}
-
 .map-container-block {
     @apply border border-slate-200 relative bg-contain select-none min-w-[400px] md:min-w-[50%] aspect-square max-w-[99vw] dark:brightness-75;
 }
+
+.map-image-list-grid {
+    @apply grid grid-cols-[repeat(auto-fill,minmax(500px,1fr))] grow-999 gap-1 max-w-[99vw] md:max-w-[calc(99vw-var(--sidebar-width))];
+}
+.map-image-list-two-col {
+    @apply flex flex-wrap gap-1 max-w-[99vw] md:max-w-[calc(99vw-var(--sidebar-width))];
+    .map-container-block {
+        @apply max-w-[99%] md:max-w-[30%] aspect-square md:min-w-[600px];
+    }
+}
+
 button.spawn-pt-btn {
     @apply rounded-full bg-black/50 absolute translate-x-[-50%] translate-y-[-50%] ring-2 ring-black flex items-center justify-center p-0 text-center font-mono cursor-pointer;
     @apply hover:ring-2 hover:ring-white;

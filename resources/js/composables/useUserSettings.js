@@ -11,7 +11,8 @@ export function useUserSettings() {
         displayName: null,
         tomestone_fromcap_string: "Tome Check! Make sure to have less than $c to prevent overcapping!",
         tomestone_totalamount_string: "This train will generate $c.",
-        hideZoneSpoilers: true
+        hideZoneSpoilers: true,
+        mapLayout: 'fluid'
     }
     let storedSettings = {}
     if (typeof window !== 'undefined' && window.localStorage) {

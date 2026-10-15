@@ -3,7 +3,7 @@
         <button v-for="{ value, title, label } in languages" :key="value" :title="title" @click="update(value)" :class="[
             'flex items-center justify-center rounded-md px-2 py-1.5 transition-colors',
             model === value
-                ? 'bg-blue-200/25 shadow-xs dark:bg-blue-200/25 dark:text-neutral-100'
+                ? 'bg-blue-200/50 shadow-xs dark:bg-blue-200/25 dark:text-neutral-100'
                 : 'bg-[rgba(0,0,0,0.4)] hover:bg-[rgba(0,0,255,0.1)] cursor-pointer dark:border-slate-500 transition-colors duration-300',
         ]">{{ label }}</button>
     </div>
