@@ -26,8 +26,7 @@
                     Summary
                 </button>
                 <Link as="button" method="post" :href="route('scout.clone', { scout: scout })" :preserve-state="false"
-                    v-if="(scout?.id && !props.editmode)"
-                    class="bg-blue-400 p-2 rounded-md text-slate-100 flex items-center gap-x-1">
+                    v-if="(scout?.id)" class="bg-blue-400 p-2 rounded-md text-slate-100 flex items-center gap-x-1">
                     <Copy class="inline-block" /> Duplicate
                 </Link>
             </div>
@@ -49,7 +48,7 @@
                                     :key="`fieldset-zone-${zone.id}-${i}`">
                                     <legend>{{ zone.name }}
                                         <span v-if="props.scoutReport.getInstanceCountForZone(zone.id) > 1">{{ i
-                                        }}</span>
+                                            }}</span>
                                     </legend>
                                     <div v-for="mobPoint in props.scoutReport.getFoundMobInfoForZone(zone.id, i)"
                                         :key="`moblist-${zone.id}-${i}-${mobPoint.id}`">
